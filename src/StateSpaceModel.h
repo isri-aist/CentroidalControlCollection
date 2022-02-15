@@ -132,14 +132,14 @@ public:
   //! Matrix B of continuous state equation
   Eigen::Matrix<double, StateDim, InputDim> B_ = Eigen::Matrix<double, StateDim, InputDim>::Zero();
 
-  //! Offset vector of continuous state equation
-  StateDimVector E_ = StateDimVector::Zero();
-
   //! Matrix C of observation equation
-  Eigen::Matrix<double, OutputDim, StateDim> C_ = Eigen::Matrix<double, OutputDim, StateDim>::Zero;
+  Eigen::Matrix<double, OutputDim, StateDim> C_ = Eigen::Matrix<double, OutputDim, StateDim>::Zero();
 
   //! Matrix D of observation equation
   Eigen::Matrix<double, OutputDim, InputDim> D_ = Eigen::Matrix<double, OutputDim, InputDim>::Zero();
+
+  //! Offset vector of continuous state equation
+  StateDimVector E_ = StateDimVector::Zero();
 
   //! Timestep for discretization (-1 if discretization coefficients are not initialized)
   double dt_ = -1;
