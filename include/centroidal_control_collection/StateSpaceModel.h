@@ -63,7 +63,7 @@ public:
    */
   StateDimVector stateEq(const StateDimVector & x, const InputDimVector & u) const
   {
-    return A_ * x + B_ * u; // dx
+    return A_ * x + B_ * u + E_; // dx
   }
 
   /*! \brief Calculate the result of the discrete state equation.
@@ -74,7 +74,7 @@ public:
    */
   StateDimVector stateEqDisc(const StateDimVector & x, const InputDimVector & u) const
   {
-    return Ad_ * x + Bd_ * u; // next_x
+    return Ad_ * x + Bd_ * u + Ed_; // next_x
   }
 
   /*! \brief Calculate the result of the observation equation.
@@ -106,33 +106,49 @@ public:
 
     // Zero-order hold discretization
     // See https://en.wikipedia.org/wiki/Discretization
-    Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZero;
-    ABZero << dt_ * A_, dt_ * B_, Eigen::Matrix<double, InputDim, StateDim + InputDim>::Zero();
-    Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZeroExp = ABZero.exp();
-    Ad_ = ABZeroExp.block(0, 0, A_.rows(), A_.cols());
-    Bd_ = ABZeroExp.block(0, A_.cols(), B_.rows(), B_.cols());
+    if (E_.norm() == 0) {
+      Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZero;
+      ABZero << dt_ * A_, dt_ * B_, Eigen::Matrix<double, InputDim, StateDim + InputDim>::Zero();
+      Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZeroExp = ABZero.exp();
+      Ad_ = ABZeroExp.block(0, 0, A_.rows(), A_.cols());
+      Bd_ = ABZeroExp.block(0, A_.cols(), B_.rows(), B_.cols());
+    } else {
+      // I have no proof that this is correct.
+      Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZero;
+      ABZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::Matrix<double, InputDim + 1, StateDim + InputDim + 1>::Zero();
+      Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZeroExp = ABEZero.exp();
+      Ad_ = ABEZeroExp.block(0, 0, A_.rows(), A_.cols());
+      Bd_ = ABEZeroExp.block(0, A_.cols(), B_.rows(), B_.cols());
+      Ed_ = ABEZeroExp.block(0, A_.cols() + B_.cols(), E_.rows(), E_.cols());
+    }
   }
 
 public:
   //! Matrix A of continuous state equation
-  Eigen::Matrix<double, StateDim, StateDim> A_;
+  Eigen::Matrix<double, StateDim, StateDim> A_ = Eigen::Matrix<double, StateDim, StateDim>::Zero();
 
   //! Matrix B of continuous state equation
-  Eigen::Matrix<double, StateDim, InputDim> B_;
+  Eigen::Matrix<double, StateDim, InputDim> B_ = Eigen::Matrix<double, StateDim, InputDim>::Zero();
+
+  //! Offset vector of continuous state equation
+  StateDimVector E_ = StateDimVector::Zero();
 
   //! Matrix C of observation equation
-  Eigen::Matrix<double, OutputDim, StateDim> C_;
+  Eigen::Matrix<double, OutputDim, StateDim> C_ = Eigen::Matrix<double, OutputDim, StateDim>::Zero;
 
   //! Matrix D of observation equation
-  Eigen::Matrix<double, OutputDim, InputDim> D_;
+  Eigen::Matrix<double, OutputDim, InputDim> D_ = Eigen::Matrix<double, OutputDim, InputDim>::Zero();
 
   //! Timestep for discretization
   double dt_ = -1;
 
   //! Matrix A of discrete state equation
-  Eigen::Matrix<double, StateDim, StateDim> Ad_;
+  Eigen::Matrix<double, StateDim, StateDim> Ad_ = Eigen::Matrix<double, StateDim, StateDim>::Zero();
 
   //! Matrix B of discrete state equation
-  Eigen::Matrix<double, StateDim, InputDim> Bd_;
+  Eigen::Matrix<double, StateDim, InputDim> Bd_ = Eigen::Matrix<double, StateDim, InputDim>::Zero();
+
+  //! Offset vector of discrete state equation
+  StateDimVector Ed_ = StateDimVector::Zero();
 };
 } // namespace Motion6DoF
