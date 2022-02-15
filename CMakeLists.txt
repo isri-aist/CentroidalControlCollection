@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   visualization_msgs
   sensor_msgs
+  optmotiongen
   )
 
 catkin_package(
@@ -30,8 +31,9 @@ catkin_package(
   geometry_msgs
   visualization_msgs
   sensor_msgs
+  optmotiongen
   DEPENDS EIGEN3
-  LIBRARIES CentroidalControlCollection
+  LIBRARIES CCC
   )
 
 include_directories(include ${catkin_INCLUDE_DIRS})
