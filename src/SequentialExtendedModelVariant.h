@@ -18,23 +18,19 @@ template<int StateDim>
 class SequentialExtendedModelVariant
 {
 public:
+  /*! \brief Type of state-space model with fixed state dimension. */
+  using _StateSpaceModel = StateSpaceModel<StateDim, Eigen::Dynamic, Eigen::Dynamic>;
+
+public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /*! \brief Constructor.
    *
    *  \param model_list list of state-space model
    */
-  SequentialExtendedModelVariant(const std::vector<std::shared_ptr<StateSpaceModelDynamicShape>>& model_list):
+  SequentialExtendedModelVariant(const std::vector<std::shared_ptr<_StateSpaceModel>>& model_list):
       model_list_(model_list)
   {
-    // Check that state dimension is consistent
-    for (const auto& model : model_list_) {
-      if (model->stateDim() != StateDim) {
-        throw std::runtime_error("state_dim is not consistent: " + std::to_string(model->stateDim()) +
-                                 " != " + std::to_string(StateDim));
-      }
-    }
-
     setup();
   }
 
@@ -89,7 +85,7 @@ public:
 
  public:
   //! State-space model
-  std::vector<std::shared_ptr<StateSpaceModelDynamicShape>> model_list_;
+  std::vector<std::shared_ptr<_StateSpaceModel>> model_list_;
 
   //! Sequential extended matrix of A in discrete system
   Eigen::Matrix<double, Eigen::Dynamic, StateDim> A_seq_;

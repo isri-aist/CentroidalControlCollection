@@ -42,19 +42,31 @@ public:
   /*! \brief Gets the state dimension. */
   int stateDim() const
   {
-    return StateDim;
+    if constexpr (StateDim == Eigen::Dynamic) {
+        return A_.rows();
+      } else {
+      return StateDim;
+    }
   }
 
   /*! \brief Gets the input dimension. */
   int inputDim() const
   {
-    return InputDim;
+    if constexpr (InputDim == Eigen::Dynamic) {
+        return B_.cols();
+      } else {
+      return InputDim;
+    }
   }
 
   /*! \brief Gets the output dimension. */
   int outputDim() const
   {
-    return OutputDim;
+    if constexpr (OutputDim == Eigen::Dynamic) {
+        return C_.rows();
+      } else {
+      return OutputDim;
+    }
   }
 
   /*! \brief Calculate the result of the continuous state equation.
@@ -153,24 +165,4 @@ public:
   //! Offset vector of discrete state equation
   StateDimVector Ed_ = StateDimVector::Zero();
 };
-
-template <>
-inline int StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>::stateDim() const
-{
-  return A_.rows();
-}
-
-template <>
-inline int StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>::inputDim() const
-{
-  return B_.cols();
-}
-
-template <>
-inline int StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>::outputDim() const
-{
-  return C_.rows();
-}
-
-using StateSpaceModelDynamicShape = StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>;
 }
