@@ -120,49 +120,67 @@ public:
 
     // Zero-order hold discretization
     // See https://en.wikipedia.org/wiki/Discretization
-    if (E_.norm() == 0) {
-      Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZero;
-      ABZero << dt_ * A_, dt_ * B_, Eigen::Matrix<double, InputDim, StateDim + InputDim>::Zero();
-      Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZeroExp = ABZero.exp();
-      Ad_ = ABZeroExp.block(0, 0, A_.rows(), A_.cols());
-      Bd_ = ABZeroExp.block(0, A_.cols(), B_.rows(), B_.cols());
-    } else {
-      // There is no proof that this is correct.
-      Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZero;
-      ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::Matrix<double, InputDim + 1, StateDim + InputDim + 1>::Zero();
-      Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZeroExp = ABEZero.exp();
-      Ad_ = ABEZeroExp.block(0, 0, A_.rows(), A_.cols());
-      Bd_ = ABEZeroExp.block(0, A_.cols(), B_.rows(), B_.cols());
-      Ed_ = ABEZeroExp.block(0, A_.cols() + B_.cols(), E_.rows(), E_.cols());
+    if constexpr (StateDim == Eigen::Dynamic || InputDim == Eigen::Dynamic) {
+      if (E_.norm() == 0) {
+        Eigen::MatrixXd ABZero(stateDim() + inputDim(), stateDim() + inputDim());
+        ABZero << dt_ * A_, dt_ * B_, Eigen::MatrixXd::Zero(inputDim(), stateDim() + inputDim());
+        Eigen::MatrixXd ABZeroExp = ABZero.exp();
+        Ad_ = ABZeroExp.template block(0, 0, stateDim(), stateDim());
+        Bd_ = ABZeroExp.template block(0, stateDim(), stateDim(), inputDim());
+      } else {
+        // There is no proof that this is correct.
+        Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZero;
+        ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::Matrix<double, InputDim + 1, StateDim + InputDim + 1>::Zero();
+        Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZeroExp = ABEZero.exp();
+        Ad_ = ABEZeroExp.template block(0, 0, stateDim(), stateDim());
+        Bd_ = ABEZeroExp.template block(0, stateDim(), stateDim(), inputDim());
+        Ed_ = ABEZeroExp.template block(0, stateDim() + inputDim(), stateDim(), 1);
+      }
+      } else {
+      if (E_.norm() == 0) {
+        Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZero;
+        ABZero << dt_ * A_, dt_ * B_, Eigen::Matrix<double, InputDim, StateDim + InputDim>::Zero();
+        Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZeroExp = ABZero.exp();
+        Ad_ = ABZeroExp.template block<StateDim, StateDim>(0, 0);
+        Bd_ = ABZeroExp.template block<StateDim, InputDim>(0, StateDim);
+      } else {
+        // There is no proof that this is correct.
+        Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZero;
+        ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::Matrix<double, InputDim + 1, StateDim + InputDim + 1>::Zero();
+        Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZeroExp = ABEZero.exp();
+        Ad_ = ABEZeroExp.template block<StateDim, StateDim>(0, 0);
+        Bd_ = ABEZeroExp.template block<StateDim, InputDim>(0, StateDim);
+        Ed_ = ABEZeroExp.template block<StateDim, 1>(0, StateDim + InputDim);
+      }
     }
   }
 
 public:
   //! Matrix A of continuous state equation
-  Eigen::Matrix<double, StateDim, StateDim> A_ = Eigen::Matrix<double, StateDim, StateDim>::Zero();
+  Eigen::Matrix<double, StateDim, StateDim> A_;
 
   //! Matrix B of continuous state equation
-  Eigen::Matrix<double, StateDim, InputDim> B_ = Eigen::Matrix<double, StateDim, InputDim>::Zero();
+  Eigen::Matrix<double, StateDim, InputDim> B_;
 
   //! Matrix C of observation equation
-  Eigen::Matrix<double, OutputDim, StateDim> C_ = Eigen::Matrix<double, OutputDim, StateDim>::Zero();
+  Eigen::Matrix<double, OutputDim, StateDim> C_;
 
   //! Matrix D of observation equation
-  Eigen::Matrix<double, OutputDim, InputDim> D_ = Eigen::Matrix<double, OutputDim, InputDim>::Zero();
+  Eigen::Matrix<double, OutputDim, InputDim> D_;
 
   //! Offset vector of continuous state equation
-  StateDimVector E_ = StateDimVector::Zero();
+  StateDimVector E_;
 
   //! Timestep for discretization (-1 if discretization coefficients are not initialized)
   double dt_ = -1;
 
   //! Matrix A of discrete state equation
-  Eigen::Matrix<double, StateDim, StateDim> Ad_ = Eigen::Matrix<double, StateDim, StateDim>::Zero();
+  Eigen::Matrix<double, StateDim, StateDim> Ad_;
 
   //! Matrix B of discrete state equation
-  Eigen::Matrix<double, StateDim, InputDim> Bd_ = Eigen::Matrix<double, StateDim, InputDim>::Zero();
+  Eigen::Matrix<double, StateDim, InputDim> Bd_;
 
   //! Offset vector of discrete state equation
-  StateDimVector Ed_ = StateDimVector::Zero();
+  StateDimVector Ed_;
 };
 }
