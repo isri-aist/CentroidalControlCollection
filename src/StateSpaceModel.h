@@ -1,3 +1,5 @@
+/* Author: Masaki Murooka */
+
 #pragma once
 
 #include <Eigen/Dense>
@@ -38,19 +40,19 @@ public:
   virtual ~StateSpaceModel() = default;
 
   /*! \brief Gets the state dimension. */
-  constexpr int stateDim() const
+  int stateDim() const
   {
     return StateDim;
   }
 
   /*! \brief Gets the input dimension. */
-  constexpr int inputDim() const
+  int inputDim() const
   {
     return InputDim;
   }
 
   /*! \brief Gets the output dimension. */
-  constexpr int outputDim() const
+  int outputDim() const
   {
     return OutputDim;
   }
@@ -113,9 +115,9 @@ public:
       Ad_ = ABZeroExp.block(0, 0, A_.rows(), A_.cols());
       Bd_ = ABZeroExp.block(0, A_.cols(), B_.rows(), B_.cols());
     } else {
-      // I have no proof that this is correct.
+      // There is no proof that this is correct.
       Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZero;
-      ABZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::Matrix<double, InputDim + 1, StateDim + InputDim + 1>::Zero();
+      ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::Matrix<double, InputDim + 1, StateDim + InputDim + 1>::Zero();
       Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZeroExp = ABEZero.exp();
       Ad_ = ABEZeroExp.block(0, 0, A_.rows(), A_.cols());
       Bd_ = ABEZeroExp.block(0, A_.cols(), B_.rows(), B_.cols());
@@ -139,7 +141,7 @@ public:
   //! Matrix D of observation equation
   Eigen::Matrix<double, OutputDim, InputDim> D_ = Eigen::Matrix<double, OutputDim, InputDim>::Zero();
 
-  //! Timestep for discretization
+  //! Timestep for discretization (-1 if discretization coefficients are not initialized)
   double dt_ = -1;
 
   //! Matrix A of discrete state equation
@@ -151,4 +153,24 @@ public:
   //! Offset vector of discrete state equation
   StateDimVector Ed_ = StateDimVector::Zero();
 };
-} // namespace Motion6DoF
+
+template <>
+inline int StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>::stateDim() const
+{
+  return A_.rows();
+}
+
+template <>
+inline int StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>::inputDim() const
+{
+  return B_.cols();
+}
+
+template <>
+inline int StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>::outputDim() const
+{
+  return C_.rows();
+}
+
+using StateSpaceModelDynamicShape = StateSpaceModel<Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic>;
+}
