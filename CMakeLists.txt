@@ -40,3 +40,5 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
 
 add_subdirectory(src)
+
+add_subdirectory(tests)
