@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   visualization_msgs
   sensor_msgs
-  optmotiongen
+  optmotiongen_core
   )
 
 catkin_package(
@@ -31,7 +31,7 @@ catkin_package(
   geometry_msgs
   visualization_msgs
   sensor_msgs
-  optmotiongen
+  optmotiongen_core
   DEPENDS EIGEN3
   INCLUDE_DIRS src
   LIBRARIES CCC
