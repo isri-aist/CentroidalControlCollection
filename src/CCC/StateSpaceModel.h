@@ -19,7 +19,7 @@ namespace CCC
 template<int StateDim, int InputDim, int OutputDim>
 class StateSpaceModel
 {
- public:
+public:
   /** \brief Type of state vector. */
   using StateDimVector = Eigen::Matrix<double, StateDim, 1>;
 
@@ -29,7 +29,7 @@ class StateSpaceModel
   /** \brief Type of output vector. */
   using OutputDimVector = Eigen::Matrix<double, OutputDim, 1>;
 
- public:
+public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** \brief Constructor.
@@ -40,43 +40,48 @@ class StateSpaceModel
 
       \note dimensions in parameter can be omitted if a fixed value is given in the template value.
   */
-  StateSpaceModel(int state_dim = StateDim,
-                  int input_dim = InputDim,
-                  int output_dim = OutputDim):
-      state_dim_(state_dim),
-      input_dim_(input_dim),
-      output_dim_(output_dim)
+  StateSpaceModel(int state_dim = StateDim, int input_dim = InputDim, int output_dim = OutputDim)
+  : state_dim_(state_dim), input_dim_(input_dim), output_dim_(output_dim)
   {
     // Check dimension is positive
-    if (state_dim_ <= 0) {
+    if(state_dim_ <= 0)
+    {
       throw std::runtime_error("state_dim should be positive: " + std::to_string(state_dim_) + " <= 0");
     }
-    if (input_dim_ <= 0) {
+    if(input_dim_ <= 0)
+    {
       throw std::runtime_error("input_dim should be positive: " + std::to_string(input_dim_) + " <= 0");
     }
-    if (output_dim_ <= 0) {
+    if(output_dim_ <= 0)
+    {
       throw std::runtime_error("output_dim should be positive: " + std::to_string(output_dim_) + " <= 0");
     }
 
     // Check dimension consistency
-    if constexpr (StateDim != Eigen::Dynamic) {
-        if (state_dim_ != StateDim) {
-          throw std::runtime_error("state_dim is inconsistent with template parameter: " +
-                                   std::to_string(state_dim_) + " != " + std::to_string(StateDim));
-        }
+    if constexpr(StateDim != Eigen::Dynamic)
+    {
+      if(state_dim_ != StateDim)
+      {
+        throw std::runtime_error("state_dim is inconsistent with template parameter: " + std::to_string(state_dim_)
+                                 + " != " + std::to_string(StateDim));
       }
-    if constexpr (InputDim != Eigen::Dynamic) {
-        if (input_dim_ != InputDim) {
-          throw std::runtime_error("input_dim is inconsistent with template parameter: " +
-                                   std::to_string(input_dim_) + " != " + std::to_string(InputDim));
-        }
+    }
+    if constexpr(InputDim != Eigen::Dynamic)
+    {
+      if(input_dim_ != InputDim)
+      {
+        throw std::runtime_error("input_dim is inconsistent with template parameter: " + std::to_string(input_dim_)
+                                 + " != " + std::to_string(InputDim));
       }
-    if constexpr (OutputDim != Eigen::Dynamic) {
-        if (output_dim_ != OutputDim) {
-          throw std::runtime_error("output_dim is inconsistent with template parameter: " +
-                                   std::to_string(output_dim_) + " != " + std::to_string(OutputDim));
-        }
+    }
+    if constexpr(OutputDim != Eigen::Dynamic)
+    {
+      if(output_dim_ != OutputDim)
+      {
+        throw std::runtime_error("output_dim is inconsistent with template parameter: " + std::to_string(output_dim_)
+                                 + " != " + std::to_string(OutputDim));
       }
+    }
 
     // Initialize with zero matrix if size is fixed
     A_.setZero(state_dim_, state_dim_);
@@ -162,34 +167,43 @@ class StateSpaceModel
 
     // Zero-order hold discretization
     // See https://en.wikipedia.org/wiki/Discretization
-    if constexpr (StateDim == Eigen::Dynamic || InputDim == Eigen::Dynamic) {
-        // If dimension is dynamic
-        if (E_.norm() == 0) {
-          Eigen::MatrixXd ABZero(state_dim_ + input_dim_, state_dim_ + input_dim_);
-          ABZero << dt_ * A_, dt_ * B_, Eigen::MatrixXd::Zero(input_dim_, state_dim_ + input_dim_);
-          Eigen::MatrixXd ABZeroExp = ABZero.exp();
-          Ad_ = ABZeroExp.template block(0, 0, state_dim_, state_dim_);
-          Bd_ = ABZeroExp.template block(0, state_dim_, state_dim_, input_dim_);
-          Ed_.setZero(state_dim_);
-        } else {
-          // There is no proof that this is correct.
-          Eigen::MatrixXd ABEZero(state_dim_ + input_dim_ + 1, state_dim_ + input_dim_ + 1);
-          ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::MatrixXd::Zero(input_dim_ + 1, state_dim_ + input_dim_ + 1);
-          Eigen::MatrixXd ABEZeroExp = ABEZero.exp();
-          Ad_ = ABEZeroExp.template block(0, 0, state_dim_, state_dim_);
-          Bd_ = ABEZeroExp.template block(0, state_dim_, state_dim_, input_dim_);
-          Ed_ = ABEZeroExp.template block(0, state_dim_ + input_dim_, state_dim_, 1);
-        }
-      } else {
+    if constexpr(StateDim == Eigen::Dynamic || InputDim == Eigen::Dynamic)
+    {
+      // If dimension is dynamic
+      if(E_.norm() == 0)
+      {
+        Eigen::MatrixXd ABZero(state_dim_ + input_dim_, state_dim_ + input_dim_);
+        ABZero << dt_ * A_, dt_ * B_, Eigen::MatrixXd::Zero(input_dim_, state_dim_ + input_dim_);
+        Eigen::MatrixXd ABZeroExp = ABZero.exp();
+        Ad_ = ABZeroExp.template block(0, 0, state_dim_, state_dim_);
+        Bd_ = ABZeroExp.template block(0, state_dim_, state_dim_, input_dim_);
+        Ed_.setZero(state_dim_);
+      }
+      else
+      {
+        // There is no proof that this is correct.
+        Eigen::MatrixXd ABEZero(state_dim_ + input_dim_ + 1, state_dim_ + input_dim_ + 1);
+        ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::MatrixXd::Zero(input_dim_ + 1, state_dim_ + input_dim_ + 1);
+        Eigen::MatrixXd ABEZeroExp = ABEZero.exp();
+        Ad_ = ABEZeroExp.template block(0, 0, state_dim_, state_dim_);
+        Bd_ = ABEZeroExp.template block(0, state_dim_, state_dim_, input_dim_);
+        Ed_ = ABEZeroExp.template block(0, state_dim_ + input_dim_, state_dim_, 1);
+      }
+    }
+    else
+    {
       // If dimension is fixed
-      if (E_.norm() == 0) {
+      if(E_.norm() == 0)
+      {
         Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZero;
         ABZero << dt_ * A_, dt_ * B_, Eigen::Matrix<double, InputDim, StateDim + InputDim>::Zero();
         Eigen::Matrix<double, StateDim + InputDim, StateDim + InputDim> ABZeroExp = ABZero.exp();
         Ad_ = ABZeroExp.template block<StateDim, StateDim>(0, 0);
         Bd_ = ABZeroExp.template block<StateDim, InputDim>(0, StateDim);
         Ed_.setZero();
-      } else {
+      }
+      else
+      {
         // There is no proof that this is correct.
         Eigen::Matrix<double, StateDim + InputDim + 1, StateDim + InputDim + 1> ABEZero;
         ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::Matrix<double, InputDim + 1, StateDim + InputDim + 1>::Zero();
@@ -201,7 +215,7 @@ class StateSpaceModel
     }
   }
 
- public:
+public:
   //! State dimension
   const int state_dim_ = 0;
 
@@ -238,4 +252,4 @@ class StateSpaceModel
   //! Offset vector E of discrete state equation
   StateDimVector Ed_;
 };
-}
+} // namespace CCC

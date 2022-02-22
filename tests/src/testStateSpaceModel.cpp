@@ -9,7 +9,7 @@
 
 class TestModelFixed1 : public CCC::StateSpaceModel<3, 1, 1>
 {
- public:
+public:
   TestModelFixed1()
   {
     A_(0, 1) = 1;
@@ -23,7 +23,7 @@ class TestModelFixed1 : public CCC::StateSpaceModel<3, 1, 1>
 
 class TestModelFixed2 : public TestModelFixed1
 {
- public:
+public:
   TestModelFixed2()
   {
     D_ << 5.0;
@@ -34,9 +34,8 @@ class TestModelFixed2 : public TestModelFixed1
 
 class TestModelDynamic1 : public CCC::StateSpaceModel<3, Eigen::Dynamic, Eigen::Dynamic>
 {
- public:
-  TestModelDynamic1():
-      StateSpaceModel(3, 1, 1)
+public:
+  TestModelDynamic1() : StateSpaceModel(3, 1, 1)
   {
     A_(0, 1) = 1;
     A_(1, 2) = 1;
@@ -49,7 +48,7 @@ class TestModelDynamic1 : public CCC::StateSpaceModel<3, Eigen::Dynamic, Eigen::
 
 class TestModelDynamic2 : public TestModelDynamic1
 {
- public:
+public:
   TestModelDynamic2()
   {
     D_ << 5.0;
@@ -58,7 +57,7 @@ class TestModelDynamic2 : public TestModelDynamic1
   }
 };
 
-template <class ModelType>
+template<class ModelType>
 void testStateSpaceModel(bool debug = false)
 {
   ModelType model;
@@ -78,7 +77,8 @@ void testStateSpaceModel(bool debug = false)
   Eigen::Vector3d nextXDisc = model.stateEqDisc(x, u);
 
   // Check results
-  if (debug) {
+  if(debug)
+  {
     std::cout << "x: " << x.transpose() << std::endl;
     std::cout << "dx: " << dx.transpose() << std::endl;
     std::cout << "y: " << y.transpose() << std::endl;
@@ -86,23 +86,27 @@ void testStateSpaceModel(bool debug = false)
     std::cout << "A:\n" << model.A_ << std::endl;
     std::cout << "B:\n" << model.B_ << std::endl;
     std::cout << "C:\n" << model.C_ << std::endl;
-    if (model.D_.norm() > 0) {
+    if(model.D_.norm() > 0)
+    {
       std::cout << "D:\n" << model.D_ << std::endl;
     }
-    if (model.E_.norm() > 0) {
+    if(model.E_.norm() > 0)
+    {
       std::cout << "E: " << model.E_.transpose() << std::endl;
     }
 
     std::cout << "dt: " << model.dt_ << std::endl;
     std::cout << "Ad:\n" << model.Ad_ << std::endl;
     std::cout << "Bd:\n" << model.Bd_ << std::endl;
-    if (model.E_.norm() > 0) {
+    if(model.E_.norm() > 0)
+    {
       std::cout << "Ed: " << model.Ed_.transpose() << std::endl;
     }
   }
 
   Eigen::Vector3d nextXCont = x + dt * dx;
-  if (debug) {
+  if(debug)
+  {
     std::cout << "continuous result:\n" << nextXCont.transpose() << std::endl;
     std::cout << "discrete result:\n" << nextXDisc.transpose() << std::endl;
   }
@@ -110,10 +114,22 @@ void testStateSpaceModel(bool debug = false)
   EXPECT_TRUE(nextXCont.isApprox(nextXDisc, 1e-3));
 }
 
-TEST(TestStateSpaceModel, Fixed1) { testStateSpaceModel<TestModelFixed1>(); }
-TEST(TestStateSpaceModel, Fixed2) { testStateSpaceModel<TestModelFixed2>(); }
-TEST(TestStateSpaceModel, Dynamic1) { testStateSpaceModel<TestModelDynamic1>(); }
-TEST(TestStateSpaceModel, Dynamic2) { testStateSpaceModel<TestModelDynamic2>(); }
+TEST(TestStateSpaceModel, Fixed1)
+{
+  testStateSpaceModel<TestModelFixed1>();
+}
+TEST(TestStateSpaceModel, Fixed2)
+{
+  testStateSpaceModel<TestModelFixed2>();
+}
+TEST(TestStateSpaceModel, Dynamic1)
+{
+  testStateSpaceModel<TestModelDynamic1>();
+}
+TEST(TestStateSpaceModel, Dynamic2)
+{
+  testStateSpaceModel<TestModelDynamic2>();
+}
 
 int main(int argc, char ** argv)
 {
