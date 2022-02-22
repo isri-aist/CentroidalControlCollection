@@ -35,14 +35,14 @@ public:
 class Model3 : public CCC::StateSpaceModel<3, Eigen::Dynamic, Eigen::Dynamic>
 {
 public:
-  Model3() : StateSpaceModel(3, 0, 1)
+  Model3(int idx) : StateSpaceModel(3, 0, 1)
   {
-    A_(0, 1) = 1;
-    A_(1, 2) = 1;
+    A_(0, 1) = 0.1 * idx;
+    A_(1, 2) = 0.2 * idx * idx;
 
     C_(0) = 1;
 
-    E_ << -1.0, 2.0, -3.0;
+    E_ << -0.1 * idx, 0.2 * idx * idx, -0.3;
   }
 };
 
@@ -128,7 +128,7 @@ TEST(TestVariantSequentialExtension, VariantInput)
   {
     if(no_input_steps.count(i))
     {
-      model_list[i] = std::make_shared<Model3>();
+      model_list[i] = std::make_shared<Model3>(i);
     }
     else
     {
