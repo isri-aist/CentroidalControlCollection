@@ -3,36 +3,27 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-#include <EigenTypes.h>
-#include <StateSpaceModel.h>
+#include <CCC/EigenTypes.h>
+#include <CCC/StateSpaceModel.h>
 
-/*! \brief Test state-space model of fixed size. */
-class TestModel1 : public CCC::StateSpaceModel<3, 1, 1>
+class TestModelFixed1 : public CCC::StateSpaceModel<3, 1, 1>
 {
-public:
-  TestModel1()
+ public:
+  TestModelFixed1()
   {
-    A_.setZero();
     A_(0, 1) = 1;
     A_(1, 2) = 1;
 
-    B_.setZero();
     B_(2) = 1;
 
-    C_.setZero();
     C_(0) = 1;
-
-    D_.setZero();
-
-    E_.setZero();
   }
 };
 
-/*! \brief Test state-space model of fixed size with non-zero D and E coefficients. */
-class TestModel2 : public TestModel1
+class TestModelFixed2 : public TestModelFixed1
 {
-public:
-  TestModel2()
+ public:
+  TestModelFixed2()
   {
     D_ << 5.0;
 
@@ -40,21 +31,29 @@ public:
   }
 };
 
-/*! \brief Test state-space model of dynamic size. */
-class TestModel3 : public CCC::StateSpaceModel<3, Eigen::Dynamic, Eigen::Dynamic>
+class TestModelDynamic1 : public CCC::StateSpaceModel<3, Eigen::Dynamic, Eigen::Dynamic>
 {
-public:
-  TestModel3()
+ public:
+  TestModelDynamic1():
+      StateSpaceModel(3, 1, 1)
   {
-    A_.setZero(3, 3);
     A_(0, 1) = 1;
     A_(1, 2) = 1;
 
-    B_.setZero(3, 1);
     B_(2) = 1;
 
-    C_.setZero(1, 3);
     C_(0) = 1;
+  }
+};
+
+class TestModelDynamic2 : public TestModelDynamic1
+{
+ public:
+  TestModelDynamic2()
+  {
+    D_ << 5.0;
+
+    E_ << -1.0, 2.0, -3.0;
   }
 };
 
@@ -110,6 +109,7 @@ void testStateSpaceModel(bool debug = false)
   BOOST_CHECK(nextXCont.isApprox(nextXDisc, 1e-3));
 }
 
-BOOST_AUTO_TEST_CASE(TestStateSpaceModel1) { testStateSpaceModel<TestModel1>(); }
-BOOST_AUTO_TEST_CASE(TestStateSpaceModel2) { testStateSpaceModel<TestModel2>(); }
-BOOST_AUTO_TEST_CASE(TestStateSpaceModel3) { testStateSpaceModel<TestModel3>(); }
+BOOST_AUTO_TEST_CASE(TestStateSpaceModelFixed1) { testStateSpaceModel<TestModelFixed1>(); }
+BOOST_AUTO_TEST_CASE(TestStateSpaceModelFixed2) { testStateSpaceModel<TestModelFixed2>(); }
+BOOST_AUTO_TEST_CASE(TestStateSpaceModelDynamic1) { testStateSpaceModel<TestModelDynamic1>(); }
+BOOST_AUTO_TEST_CASE(TestStateSpaceModelDynamic2) { testStateSpaceModel<TestModelDynamic2>(); }
