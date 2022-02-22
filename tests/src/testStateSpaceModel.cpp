@@ -7,10 +7,10 @@
 #include <CCC/EigenTypes.h>
 #include <CCC/StateSpaceModel.h>
 
-class TestModelFixed1 : public CCC::StateSpaceModel<3, 1, 1>
+class ModelFixed1 : public CCC::StateSpaceModel<3, 1, 1>
 {
 public:
-  TestModelFixed1()
+  ModelFixed1()
   {
     A_(0, 1) = 1;
     A_(1, 2) = 1;
@@ -21,10 +21,10 @@ public:
   }
 };
 
-class TestModelFixed2 : public TestModelFixed1
+class ModelFixed2 : public ModelFixed1
 {
 public:
-  TestModelFixed2()
+  ModelFixed2()
   {
     D_ << 5.0;
 
@@ -32,10 +32,10 @@ public:
   }
 };
 
-class TestModelDynamic1 : public CCC::StateSpaceModel<3, Eigen::Dynamic, Eigen::Dynamic>
+class ModelDynamic1 : public CCC::StateSpaceModel<3, Eigen::Dynamic, Eigen::Dynamic>
 {
 public:
-  TestModelDynamic1() : StateSpaceModel(3, 1, 1)
+  ModelDynamic1() : StateSpaceModel(3, 1, 1)
   {
     A_(0, 1) = 1;
     A_(1, 2) = 1;
@@ -46,10 +46,10 @@ public:
   }
 };
 
-class TestModelDynamic2 : public TestModelDynamic1
+class ModelDynamic2 : public ModelDynamic1
 {
 public:
-  TestModelDynamic2()
+  ModelDynamic2()
   {
     D_ << 5.0;
 
@@ -116,19 +116,19 @@ void testStateSpaceModel(bool debug = false)
 
 TEST(TestStateSpaceModel, Fixed1)
 {
-  testStateSpaceModel<TestModelFixed1>();
+  testStateSpaceModel<ModelFixed1>();
 }
 TEST(TestStateSpaceModel, Fixed2)
 {
-  testStateSpaceModel<TestModelFixed2>();
+  testStateSpaceModel<ModelFixed2>();
 }
 TEST(TestStateSpaceModel, Dynamic1)
 {
-  testStateSpaceModel<TestModelDynamic1>();
+  testStateSpaceModel<ModelDynamic1>();
 }
 TEST(TestStateSpaceModel, Dynamic2)
 {
-  testStateSpaceModel<TestModelDynamic2>();
+  testStateSpaceModel<ModelDynamic2>();
 }
 
 int main(int argc, char ** argv)

@@ -46,15 +46,15 @@ public:
     // Check dimension is positive
     if(state_dim_ <= 0)
     {
-      throw std::runtime_error("state_dim should be positive: " + std::to_string(state_dim_) + " <= 0");
+      throw std::runtime_error("state_dim must be positive: " + std::to_string(state_dim_) + " <= 0");
     }
-    if(input_dim_ <= 0)
+    if(input_dim_ < 0)
     {
-      throw std::runtime_error("input_dim should be positive: " + std::to_string(input_dim_) + " <= 0");
+      throw std::runtime_error("input_dim must be non-negative: " + std::to_string(input_dim_) + " < 0");
     }
-    if(output_dim_ <= 0)
+    if(output_dim_ < 0)
     {
-      throw std::runtime_error("output_dim should be positive: " + std::to_string(output_dim_) + " <= 0");
+      throw std::runtime_error("output_dim must be non-negative: " + std::to_string(output_dim_) + " < 0");
     }
 
     // Check dimension consistency

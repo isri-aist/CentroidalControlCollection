@@ -50,7 +50,7 @@ protected:
     B_seq_.setZero(seq_len * StateDim, total_input_dim);
     E_seq_.setZero(seq_len * StateDim);
 
-    int current_total_input_dim = 0;
+    int accum_input_dim = 0;
     for(size_t i = 0; i < seq_len; i++)
     {
       int current_input_dim = model_list_[i]->inputDim();
@@ -71,13 +71,12 @@ protected:
       {
         if(j == i)
         {
-          B_seq_.block(j * StateDim, current_total_input_dim, StateDim, current_input_dim) = model_list_[i]->Bd_;
+          B_seq_.block(j * StateDim, accum_input_dim, StateDim, current_input_dim) = model_list_[i]->Bd_;
         }
         else
         {
-          (B_seq_.block(j * StateDim, current_total_input_dim, StateDim, current_input_dim)).noalias() =
-              model_list_[j]->Ad_
-              * B_seq_.block((j - 1) * StateDim, current_total_input_dim, StateDim, current_input_dim);
+          (B_seq_.block(j * StateDim, accum_input_dim, StateDim, current_input_dim)).noalias() =
+              model_list_[j]->Ad_ * B_seq_.block((j - 1) * StateDim, accum_input_dim, StateDim, current_input_dim);
         }
       }
 
@@ -92,7 +91,7 @@ protected:
             model_list_[i]->Ad_ * E_seq_.segment<StateDim>((i - 1) * StateDim) + model_list_[i]->Ed_;
       }
 
-      current_total_input_dim += model_list_[i]->inputDim();
+      accum_input_dim += current_input_dim;
     }
   }
 
