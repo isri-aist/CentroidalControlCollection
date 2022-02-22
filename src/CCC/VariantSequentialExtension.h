@@ -8,34 +8,34 @@
 
 namespace CCC
 {
-/*! \brief Sequential extended model for time-variant system.
- *
- *  \tparam StateDim state dimension
- *
- *  \note State dimension must be the same for all models in the sequence.
+/** \brief Sequential extension for time-variant system.
+
+   \tparam StateDim state dimension
+
+   \note State dimension must be the same for all models in the sequence.
  */
 template<int StateDim>
-class SequentialExtendedModelVariant
+class VariantSequentialExtension
 {
 public:
-  /*! \brief Type of state-space model with fixed state dimension. */
+  /** \brief Type of state-space model with fixed state dimension. */
   using _StateSpaceModel = StateSpaceModel<StateDim, Eigen::Dynamic, Eigen::Dynamic>;
 
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  /*! \brief Constructor.
-   *
-   *  \param model_list list of state-space model
+  /** \brief Constructor.
+
+     \param model_list list of state-space model
    */
-  SequentialExtendedModelVariant(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list)
+  VariantSequentialExtension(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list)
   : model_list_(model_list)
   {
     setup();
   }
 
 protected:
-  /*! \brief Setup coefficients. */
+  /** \brief Setup coefficients. */
   void setup()
   {
     size_t seq_len = model_list_.size();
@@ -100,13 +100,13 @@ public:
   //! State-space model
   std::vector<std::shared_ptr<_StateSpaceModel>> model_list_;
 
-  //! Sequential extended matrix of A in discrete system
+  //! Sequential extension matrix of A in discrete system
   Eigen::Matrix<double, Eigen::Dynamic, StateDim> A_seq_;
 
-  //! Sequential extended matrix of B in discrete system
+  //! Sequential extension matrix of B in discrete system
   Eigen::MatrixXd B_seq_;
 
-  //! Sequential extended vector of E (i.e., offset vector) in discrete system
+  //! Sequential extension vector of E (i.e., offset vector) in discrete system
   Eigen::VectorXd E_seq_;
 };
 } // namespace CCC
