@@ -6,5 +6,3 @@ target_include_directories(CCC PUBLIC
 target_link_libraries(CCC PUBLIC
   ${catkin_LIBRARIES}
   )
-# target_compile_options(CCC PUBLIC -march=native)
-# target_link_options(CCC PUBLIC -march=native)

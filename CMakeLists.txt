@@ -33,12 +33,13 @@ catkin_package(
   sensor_msgs
   optmotiongen
   DEPENDS EIGEN3
+  INCLUDE_DIRS src
   LIBRARIES CCC
   )
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(src ${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
 
-add_subdirectory(src)
+add_subdirectory(src/CCC)
 
 add_subdirectory(tests)

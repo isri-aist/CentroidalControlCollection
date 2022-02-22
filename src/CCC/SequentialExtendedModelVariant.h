@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include <StateSpaceModel.h>
+#include <CCC/StateSpaceModel.h>
 
 namespace CCC
 {
@@ -45,9 +45,9 @@ public:
     }
 
     // Resize matrix
-    A_seq_.resize(seq_len * StateDim, StateDim);
-    B_seq_.resize(seq_len * StateDim, total_input_dim);
-    E_seq_.resize(seq_len * StateDim);
+    A_seq_.setZero(seq_len * StateDim, StateDim);
+    B_seq_.setZero(seq_len * StateDim, total_input_dim);
+    E_seq_.setZero(seq_len * StateDim);
 
     int current_total_input_dim = 0;
     for (size_t i = 0; i < seq_len; i++) {
