@@ -1,6 +1,7 @@
 /* Author: Masaki Murooka */
 
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
+
 #include <iostream>
 
 #include <CCC/EigenTypes.h>
@@ -106,10 +107,16 @@ void testStateSpaceModel(bool debug = false)
     std::cout << "discrete result:\n" << nextXDisc.transpose() << std::endl;
   }
 
-  BOOST_CHECK(nextXCont.isApprox(nextXDisc, 1e-3));
+  EXPECT_TRUE(nextXCont.isApprox(nextXDisc, 1e-3));
 }
 
-BOOST_AUTO_TEST_CASE(TestStateSpaceModelFixed1) { testStateSpaceModel<TestModelFixed1>(); }
-BOOST_AUTO_TEST_CASE(TestStateSpaceModelFixed2) { testStateSpaceModel<TestModelFixed2>(); }
-BOOST_AUTO_TEST_CASE(TestStateSpaceModelDynamic1) { testStateSpaceModel<TestModelDynamic1>(); }
-BOOST_AUTO_TEST_CASE(TestStateSpaceModelDynamic2) { testStateSpaceModel<TestModelDynamic2>(); }
+TEST(TestStateSpaceModel, Fixed1) { testStateSpaceModel<TestModelFixed1>(); }
+TEST(TestStateSpaceModel, Fixed2) { testStateSpaceModel<TestModelFixed2>(); }
+TEST(TestStateSpaceModel, Dynamic1) { testStateSpaceModel<TestModelDynamic1>(); }
+TEST(TestStateSpaceModel, Dynamic2) { testStateSpaceModel<TestModelDynamic2>(); }
+
+int main(int argc, char ** argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

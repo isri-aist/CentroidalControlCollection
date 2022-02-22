@@ -42,4 +42,6 @@ link_directories(${catkin_LIBRARY_DIRS})
 
 add_subdirectory(src/CCC)
 
-add_subdirectory(tests)
+if(CATKIN_ENABLE_TESTING)
+  add_subdirectory(tests)
+endif()
