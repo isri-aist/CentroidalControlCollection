@@ -10,9 +10,10 @@ namespace CCC
 {
 /** \brief Sequential extension for time-variant system.
     \tparam StateDim state dimension
+    \tparam ListType type of state-space model list
     \note State dimension must be the same for all models in the sequence.
 */
-template<int StateDim>
+template<int StateDim, template<class> class ListType = std::vector>
 class VariantSequentialExtension
 {
 public:
@@ -25,7 +26,7 @@ public:
   /** \brief Constructor.
      \param model_list list of state-space model
    */
-  VariantSequentialExtension(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list)
+  VariantSequentialExtension(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list)
   : model_list_(model_list)
   {
     setup();
@@ -93,8 +94,8 @@ protected:
   }
 
 public:
-  //! State-space model
-  std::vector<std::shared_ptr<_StateSpaceModel>> model_list_;
+  //! State-space model list
+  ListType<std::shared_ptr<_StateSpaceModel>> model_list_;
 
   //! Sequential extension matrix of A in discrete system
   Eigen::Matrix<double, Eigen::Dynamic, StateDim> A_seq_;

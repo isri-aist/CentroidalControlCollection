@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <deque>
 #include <iostream>
 
 #include <CCC/EigenTypes.h>
@@ -123,16 +124,16 @@ TEST(TestVariantSequentialExtension, VariantInput)
   std::set<size_t> no_input_steps = {4, 5, 6, 8};
 
   // Setup model
-  std::vector<std::shared_ptr<CCC::StateSpaceModel<state_dim, Eigen::Dynamic, Eigen::Dynamic>>> model_list(seq_len);
+  std::deque<std::shared_ptr<CCC::StateSpaceModel<state_dim, Eigen::Dynamic, Eigen::Dynamic>>> model_list;
   for(size_t i = 0; i < seq_len; i++)
   {
     if(no_input_steps.count(i))
     {
-      model_list[i] = std::make_shared<Model3>(i);
+      model_list.push_back(std::make_shared<Model3>(i));
     }
     else
     {
-      model_list[i] = std::make_shared<Model1>();
+      model_list.push_back(std::make_shared<Model1>());
     }
   }
   double dt = 1e-2;
@@ -142,7 +143,7 @@ TEST(TestVariantSequentialExtension, VariantInput)
   }
 
   // Calculate sequential extension
-  CCC::VariantSequentialExtension<state_dim> seq_ext(model_list);
+  CCC::VariantSequentialExtension<state_dim, std::deque> seq_ext(model_list);
   if(debug)
   {
     std::cout << "A_seq:\n" << seq_ext.A_seq_ << std::endl;
