@@ -22,7 +22,7 @@
   <depend>geometry_msgs</depend>
   <depend>visualization_msgs</depend>
   <depend>sensor_msgs</depend>
-  <depend>optmotiongen_core</depend>
+  <depend>qp_solver_collection</depend>
 
   <build_depend>message_generation</build_depend>
   <build_depend>eigen</build_depend>
