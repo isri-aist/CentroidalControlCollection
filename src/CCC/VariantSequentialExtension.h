@@ -9,11 +9,9 @@
 namespace CCC
 {
 /** \brief Sequential extension for time-variant system.
-
-   \tparam StateDim state dimension
-
-   \note State dimension must be the same for all models in the sequence.
- */
+    \tparam StateDim state dimension
+    \note State dimension must be the same for all models in the sequence.
+*/
 template<int StateDim>
 class VariantSequentialExtension
 {
@@ -25,7 +23,6 @@ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** \brief Constructor.
-
      \param model_list list of state-space model
    */
   VariantSequentialExtension(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list)

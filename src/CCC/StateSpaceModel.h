@@ -33,11 +33,9 @@ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** \brief Constructor.
-
       \param state_dim state dimension
       \param input_dim input dimension
       \param output_dim output dimension
-
       \note dimensions in parameter can be omitted if a fixed value is given in the template value.
   */
   StateSpaceModel(int state_dim = StateDim, int input_dim = InputDim, int output_dim = OutputDim)
@@ -92,7 +90,6 @@ public:
   }
 
   /** \brief Destructor.
-
       \note Need to make class polymorphic.
       See https://stackoverflow.com/a/15114118
   */
@@ -117,7 +114,6 @@ public:
   }
 
   /** \brief Calculate the result of the continuous state equation.
-
       \param x state
       \param u input
       \returns time derivative of x (\dot{x})
@@ -128,7 +124,6 @@ public:
   }
 
   /** \brief Calculate the result of the discrete state equation.
-
       \param x current state (x[k])
       \param u current input (u[k])
       \returns next state (x[k+1])
@@ -139,7 +134,6 @@ public:
   }
 
   /** \brief Calculate the result of the observation equation.
-
       \param x state
   */
   OutputDimVector observEq(const StateDimVector & x) const
@@ -148,7 +142,6 @@ public:
   }
 
   /** \brief Calculate the result of the observation equation.
-
       \param x state
       \param u input
   */
@@ -158,7 +151,6 @@ public:
   }
 
   /** \brief Calculate the discrete system matrices.
-
       \param dt discretization timestep
   */
   void calcDiscMatrix(double dt)
