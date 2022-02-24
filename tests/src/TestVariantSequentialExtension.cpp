@@ -62,12 +62,12 @@ void testVariantSequentialExtension(bool debug = false)
   }
 
   // Calculate sequential extension
-  CCC::VariantSequentialExtension<state_dim> seq_ext_model(model_list);
+  CCC::VariantSequentialExtension<state_dim> seq_ext(model_list);
   if(debug)
   {
-    std::cout << "A_seq:\n" << seq_ext_model.A_seq_ << std::endl;
-    std::cout << "B_seq:\n" << seq_ext_model.B_seq_ << std::endl;
-    std::cout << "E_seq:\n" << seq_ext_model.E_seq_ << std::endl;
+    std::cout << "A_seq:\n" << seq_ext.A_seq_ << std::endl;
+    std::cout << "B_seq:\n" << seq_ext.B_seq_ << std::endl;
+    std::cout << "E_seq:\n" << seq_ext.E_seq_ << std::endl;
   }
 
   Eigen::Vector3d x_initial;
@@ -75,7 +75,7 @@ void testVariantSequentialExtension(bool debug = false)
   Eigen::VectorXd u_seq(seq_len);
   u_seq << 5.0, 2.5, 0.0, -1.0, -2.0;
 
-  Eigen::VectorXd x_seq_ext = seq_ext_model.A_seq_ * x_initial + seq_ext_model.B_seq_ * u_seq + seq_ext_model.E_seq_;
+  Eigen::VectorXd x_seq_ext = seq_ext.A_seq_ * x_initial + seq_ext.B_seq_ * u_seq + seq_ext.E_seq_;
 
   // Compare results from extension and iteration
   Eigen::VectorXd x_seq_iter(state_dim * seq_len);
@@ -142,12 +142,12 @@ TEST(TestVariantSequentialExtension, VariantInput)
   }
 
   // Calculate sequential extension
-  CCC::VariantSequentialExtension<state_dim> seq_ext_model(model_list);
+  CCC::VariantSequentialExtension<state_dim> seq_ext(model_list);
   if(debug)
   {
-    std::cout << "A_seq:\n" << seq_ext_model.A_seq_ << std::endl;
-    std::cout << "B_seq:\n" << seq_ext_model.B_seq_ << std::endl;
-    std::cout << "E_seq:\n" << seq_ext_model.E_seq_ << std::endl;
+    std::cout << "A_seq:\n" << seq_ext.A_seq_ << std::endl;
+    std::cout << "B_seq:\n" << seq_ext.B_seq_ << std::endl;
+    std::cout << "E_seq:\n" << seq_ext.E_seq_ << std::endl;
   }
 
   Eigen::Vector3d x_initial;
@@ -155,7 +155,7 @@ TEST(TestVariantSequentialExtension, VariantInput)
   Eigen::VectorXd u_seq(seq_len - no_input_steps.size());
   u_seq << 0.5, 1.0, 0.5, 1.0, -1.0, -2.0;
 
-  Eigen::VectorXd x_seq_ext = seq_ext_model.A_seq_ * x_initial + seq_ext_model.B_seq_ * u_seq + seq_ext_model.E_seq_;
+  Eigen::VectorXd x_seq_ext = seq_ext.A_seq_ * x_initial + seq_ext.B_seq_ * u_seq + seq_ext.E_seq_;
 
   // Compare results from extension and iteration
   Eigen::VectorXd x_seq_iter(state_dim * seq_len);
