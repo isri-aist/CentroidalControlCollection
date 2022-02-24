@@ -1,6 +1,6 @@
 set(CCC_gtest_list
-  testStateSpaceModel
-  testVariantSequentialExtension
+  TestStateSpaceModel
+  TestVariantSequentialExtension
   )
 
 foreach(NAME IN LISTS CCC_gtest_list)
