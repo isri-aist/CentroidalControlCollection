@@ -5,7 +5,6 @@
 #include <deque>
 #include <iostream>
 
-#include <CCC/EigenTypes.h>
 #include <CCC/VariantSequentialExtension.h>
 
 constexpr int state_dim = 3;
@@ -157,7 +156,7 @@ void testVariantSequentialExtension(bool extend_for_output, bool debug = false)
   Eigen::VectorXd x_seq_iter = calcStateSeq(seq_ext, u_seq, x_initial, extend_for_output);
 
   // Compare results from extension and iteration
-  EXPECT_TRUE((x_seq_ext - x_seq_iter).norm() < 1e-10);
+  EXPECT_LT((x_seq_ext - x_seq_iter).norm(), 1e-10);
   if(debug)
   {
     printStateSeq(seq_ext, x_seq_ext, x_seq_iter, extend_for_output);
@@ -217,7 +216,7 @@ void testVariantSequentialExtensionVariantInput(bool extend_for_output, bool deb
   Eigen::VectorXd x_seq_iter = calcStateSeq(seq_ext, u_seq, x_initial, extend_for_output);
 
   // Compare results from extension and iteration
-  EXPECT_TRUE((x_seq_ext - x_seq_iter).norm() < 1e-10);
+  EXPECT_LT((x_seq_ext - x_seq_iter).norm(), 1e-10);
   if(debug)
   {
     printStateSeq(seq_ext, x_seq_ext, x_seq_iter, extend_for_output);

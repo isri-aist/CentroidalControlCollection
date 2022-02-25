@@ -111,7 +111,7 @@ void testStateSpaceModel(bool debug = false)
     std::cout << "discrete result:\n" << nextXDisc.transpose() << std::endl;
   }
 
-  EXPECT_TRUE(nextXCont.isApprox(nextXDisc, 1e-3));
+  EXPECT_LT((nextXCont - nextXDisc).norm(), 1e-3);
 }
 
 TEST(TestStateSpaceModel, Fixed1)

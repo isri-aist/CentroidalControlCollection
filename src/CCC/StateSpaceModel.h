@@ -151,7 +151,7 @@ public:
   }
 
   /** \brief Calculate the discrete system matrices.
-      \param dt discretization timestep
+      \param dt discretization timestep [sec]
   */
   void calcDiscMatrix(double dt)
   {
@@ -232,8 +232,8 @@ public:
   //! Offset vector E of continuous state equation
   StateDimVector E_;
 
-  //! Timestep for discretization (-1 if discretization coefficients are not initialized)
-  double dt_ = -1;
+  //! Discretization timestep [sec] (zero if discrete coefficients are not initialized)
+  double dt_ = 0;
 
   //! Matrix A of discrete state equation
   Eigen::Matrix<double, StateDim, StateDim> Ad_;
