@@ -53,7 +53,7 @@ public:
   */
   LinearMpcTZ(double mass,
               double dt,
-              QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::JRLQP);
+              QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::QLD);
 
   /** \brief Plan one step.
       \param contact_seq sequence of contact/non-contact phases (true for contact phase)
