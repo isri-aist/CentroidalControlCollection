@@ -10,7 +10,7 @@ namespace CCC
 /** \brief State-space model.
 
     dx = A x + B u + E
-    y = C x + D u
+    y = C x + D u + F
 
     \tparam StateDim state dimension
     \tparam InputDim input dimension
@@ -83,10 +83,11 @@ public:
 
     // Initialize with zero matrix if size is fixed
     A_.setZero(state_dim_, state_dim_);
-    E_.setZero(state_dim_);
     B_.setZero(state_dim_, input_dim_);
     C_.setZero(output_dim_, state_dim_);
     D_.setZero(output_dim_, input_dim_);
+    E_.setZero(state_dim_);
+    F_.setZero(output_dim_);
   }
 
   /** \brief Destructor.
@@ -116,11 +117,11 @@ public:
   /** \brief Calculate the continuous state equation.
       \param x state
       \param u input
-      \returns time derivative of x (\dot{x})
+      \returns time derivative of state (\dot{x})
   */
   StateDimVector stateEq(const StateDimVector & x, const InputDimVector & u) const
   {
-    return A_ * x + B_ * u + E_; // dx
+    return A_ * x + B_ * u + E_;
   }
 
   /** \brief Calculate the discrete state equation.
@@ -130,24 +131,26 @@ public:
   */
   StateDimVector stateEqDisc(const StateDimVector & x, const InputDimVector & u) const
   {
-    return Ad_ * x + Bd_ * u + Ed_; // next_x
+    return Ad_ * x + Bd_ * u + Ed_;
   }
 
   /** \brief Calculate the observation equation.
       \param x state
+      \returns observation
   */
   OutputDimVector observEq(const StateDimVector & x) const
   {
-    return C_ * x; // y
+    return C_ * x + F_;
   }
 
   /** \brief Calculate the observation equation.
       \param x state
       \param u input
+      \returns observation
   */
   OutputDimVector observEq(const StateDimVector & x, const InputDimVector & u) const
   {
-    return C_ * x + D_ * u; // y
+    return C_ * x + D_ * u + F_;
   }
 
   /** \brief Calculate the discrete system matrices.
@@ -231,6 +234,9 @@ public:
 
   //! Offset vector E of continuous state equation
   StateDimVector E_;
+
+  //! Offset vector F of observation equation
+  OutputDimVector F_;
 
   //! Discretization timestep [s] (zero if discrete coefficients are not initialized)
   double dt_ = 0;

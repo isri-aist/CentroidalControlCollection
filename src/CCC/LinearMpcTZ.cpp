@@ -27,12 +27,27 @@ LinearMpcTZ::ModelNoncontactPhase::ModelNoncontactPhase(double mass) : StateSpac
   E_ << 0, -1 * mass * constants::g;
 }
 
+LinearMpcTZ::SimModel::SimModel(double mass)
+{
+  A_ << 0, 1, 0, 0;
+
+  B_ << 0, 1;
+
+  C_ << 1 / mass, 0, 0, 1 / mass, 0, 0;
+
+  D_ << 0, 0, 1 / mass;
+
+  E_ << 0, -1 * mass * constants::g;
+
+  F_ << 0, 0, -1 * constants::g;
+}
+
 LinearMpcTZ::LinearMpcTZ(double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type)
 : mass_(mass), horizon_dt_(horizon_dt), force_range_(10.0, 10.0 * mass * constants::g)
 {
   model_contact_ = std::make_shared<ModelContactPhase>(mass_);
   model_noncontact_ = std::make_shared<ModelNoncontactPhase>(mass_);
-  sim_model_ = std::make_shared<ModelContactPhase>(mass_);
+  sim_model_ = std::make_shared<SimModel>(mass_);
 
   model_contact_->calcDiscMatrix(horizon_dt_);
   model_noncontact_->calcDiscMatrix(horizon_dt_);
@@ -97,17 +112,19 @@ void LinearMpcTZ::planLoop(const std::function<bool(double)> & contact_func,
     Eigen::VectorXd opt_force_seq = procOnce(model_list, current_x, ref_pos_seq, pos_weight, force_weight);
 
     // Save current data
+    Eigen::Vector1d current_u;
+    current_u << (current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0);
+    Eigen::Vector3d current_pos_vel_acc = sim_model_->observEq(current_x, current_u);
     auto & current_motion_data = motion_data_seq_[i];
     current_motion_data.time = current_t;
-    current_motion_data.contact = contact_func(current_t);
+    current_motion_data.contact = (current_model->inputDim() > 0);
     current_motion_data.ref_pos = ref_pos_seq[0];
-    current_motion_data.planned_pos = current_x[0] / mass_;
-    current_motion_data.planned_vel = current_x[1] / mass_;
-    current_motion_data.planned_force = current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0;
+    current_motion_data.planned_pos = current_pos_vel_acc[0];
+    current_motion_data.planned_vel = current_pos_vel_acc[1];
+    current_motion_data.planned_acc = current_pos_vel_acc[2];
+    current_motion_data.planned_force = current_u[0];
 
     // Simulate one step
-    Eigen::Vector1d current_u;
-    current_u << current_motion_data.planned_force;
     current_t += sim_dt;
     current_x = sim_model_->stateEqDisc(current_x, current_u);
   }
@@ -143,7 +160,7 @@ Eigen::VectorXd LinearMpcTZ::procOnce(const ListType<std::shared_ptr<_StateSpace
 void LinearMpcTZ::dumpMotionDataSeq(const std::string & file_path, bool print_command) const
 {
   std::ofstream ofs(file_path);
-  ofs << "time contact ref_pos planned_pos planned_vel planned_force" << std::endl;
+  ofs << "time contact ref_pos planned_pos planned_vel planned_acc planned_force" << std::endl;
   for(const auto & motion_data : motion_data_seq_)
   {
     motion_data.dump(ofs);

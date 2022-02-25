@@ -45,6 +45,16 @@ public:
     ModelNoncontactPhase(double mass);
   };
 
+  /** \brief State-space model for simulation. */
+  class SimModel : public StateSpaceModel<state_dim_, 1, 3>
+  {
+  public:
+    /** \brief Constructor.
+        \param mass robot mass [kg]
+    */
+    SimModel(double mass);
+  };
+
   /** \brief Motion data. */
   struct MotionData
   {
@@ -63,6 +73,9 @@ public:
     //! Planned velocity
     double planned_vel = 0;
 
+    //! Planned acceleration
+    double planned_acc = 0;
+
     //! Planned force
     double planned_force = 0;
 
@@ -72,8 +85,8 @@ public:
     template<class StreamType>
     void dump(StreamType & ofs) const
     {
-      ofs << time << " " << contact << " " << ref_pos << " " << planned_pos << " " << planned_vel << " "
-          << planned_force << std::endl;
+      ofs << time << " " << contact << " " << ref_pos << " " << planned_pos << " " << planned_vel << " " << planned_acc
+          << " " << planned_force << std::endl;
     }
   };
 
@@ -156,7 +169,7 @@ public:
   std::shared_ptr<_StateSpaceModel> model_noncontact_;
 
   //! State-space model for simulation
-  std::shared_ptr<_StateSpaceModel> sim_model_;
+  std::shared_ptr<SimModel> sim_model_;
 
   //! QP solver
   std::shared_ptr<QpSolverCollection::QpSolver> qp_solver_;

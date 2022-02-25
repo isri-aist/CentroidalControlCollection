@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <CCC/Constants.h>
 #include <CCC/LinearMpcTZ.h>
 
 TEST(TestLinearMpcTZ, Test1)
@@ -22,9 +23,19 @@ TEST(TestLinearMpcTZ, Test1)
 
   mpc.dumpMotionDataSeq("/tmp/TestLinearMpcTZ.txt", true);
 
+  // Check final position
   EXPECT_LT(std::abs(mpc.motion_data_seq_[mpc.motion_data_seq_.size() - 1].planned_pos
                      - ref_pos_func(motion_time_range.second)),
             1e-2); // [m]
+
+  // Check acceleration in the air
+  for(const auto & motion_data : mpc.motion_data_seq_)
+  {
+    if(!contact_func(motion_data.time))
+    {
+      EXPECT_LT(std::abs(motion_data.planned_acc - -1 * CCC::constants::g), 1e-8); // [m/s^2]
+    }
+  }
 }
 
 int main(int argc, char ** argv)
