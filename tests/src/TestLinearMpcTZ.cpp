@@ -20,9 +20,9 @@ TEST(TestLinearMpcTZ, Test1)
 
   mpc.planLoop(contact_func, ref_pos_func, initial_pos_vel, motion_time_range, horizon_duration, sim_dt);
 
-  mpc.dumpResultDataSeq("/tmp/TestLinearMpcTZ.txt", true);
+  mpc.dumpMotionDataSeq("/tmp/TestLinearMpcTZ.txt", true);
 
-  EXPECT_LT(std::abs(mpc.result_data_seq_[mpc.result_data_seq_.size() - 1].planned_pos
+  EXPECT_LT(std::abs(mpc.motion_data_seq_[mpc.motion_data_seq_.size() - 1].planned_pos
                      - ref_pos_func(motion_time_range.second)),
             1e-2); // [m]
 }

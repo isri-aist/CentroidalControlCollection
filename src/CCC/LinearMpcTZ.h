@@ -45,8 +45,8 @@ public:
     ModelNoncontactPhase(double mass);
   };
 
-  /** \brief Result data. */
-  struct ResultData
+  /** \brief Motion data. */
+  struct MotionData
   {
     //! Time [s]
     double time = 0;
@@ -125,11 +125,11 @@ public:
                 double pos_weight = 1.0,
                 double force_weight = 1e-7);
 
-  /** \brief Dump result data sequence by planLoop().
+  /** \brief Dump motion data sequence by planLoop().
       \param file_path output file path
       \param print_command whether to print the plot commands
    */
-  void dumpResultDataSeq(const std::string & file_path, bool print_command = true) const;
+  void dumpMotionDataSeq(const std::string & file_path, bool print_command = true) const;
 
 protected:
   /** \brief Internal implementation of planning one step.
@@ -167,7 +167,7 @@ public:
   //! Min/max z-component force [N]
   std::pair<double, double> force_range_;
 
-  //! Result data sequence
-  std::vector<ResultData> result_data_seq_;
+  //! Motion data sequence
+  std::vector<MotionData> motion_data_seq_;
 };
 } // namespace CCC

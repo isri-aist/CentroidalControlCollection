@@ -79,7 +79,7 @@ void LinearMpcTZ::planLoop(const std::function<bool(double)> & contact_func,
   // Loop
   double current_t = motion_time_range.first;
   StateDimVector current_x = mass_ * initial_pos_vel;
-  result_data_seq_.resize(seq_len);
+  motion_data_seq_.resize(seq_len);
   for(int i = 0; i < seq_len; i++)
   {
     // Set model_list and ref_pos_seq
@@ -96,18 +96,18 @@ void LinearMpcTZ::planLoop(const std::function<bool(double)> & contact_func,
     // Calculate optimal force
     Eigen::VectorXd opt_force_seq = procOnce(model_list, current_x, ref_pos_seq, pos_weight, force_weight);
 
-    // Save current result
-    auto & current_result_data = result_data_seq_[i];
-    current_result_data.time = current_t;
-    current_result_data.contact = contact_func(current_t);
-    current_result_data.ref_pos = ref_pos_seq[0];
-    current_result_data.planned_pos = current_x[0] / mass_;
-    current_result_data.planned_vel = current_x[1] / mass_;
-    current_result_data.planned_force = current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0;
+    // Save current data
+    auto & current_motion_data = motion_data_seq_[i];
+    current_motion_data.time = current_t;
+    current_motion_data.contact = contact_func(current_t);
+    current_motion_data.ref_pos = ref_pos_seq[0];
+    current_motion_data.planned_pos = current_x[0] / mass_;
+    current_motion_data.planned_vel = current_x[1] / mass_;
+    current_motion_data.planned_force = current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0;
 
     // Simulate one step
     Eigen::Vector1d current_u;
-    current_u << current_result_data.planned_force;
+    current_u << current_motion_data.planned_force;
     current_t += sim_dt;
     current_x = sim_model_->stateEqDisc(current_x, current_u);
   }
@@ -140,13 +140,13 @@ Eigen::VectorXd LinearMpcTZ::procOnce(const ListType<std::shared_ptr<_StateSpace
   return qp_solver_->solve(qp_coeff_);
 }
 
-void LinearMpcTZ::dumpResultDataSeq(const std::string & file_path, bool print_command) const
+void LinearMpcTZ::dumpMotionDataSeq(const std::string & file_path, bool print_command) const
 {
   std::ofstream ofs(file_path);
   ofs << "time contact ref_pos planned_pos planned_vel planned_force" << std::endl;
-  for(const auto & result_data : result_data_seq_)
+  for(const auto & motion_data : motion_data_seq_)
   {
-    result_data.dump(ofs);
+    motion_data.dump(ofs);
   }
   if(print_command)
   {

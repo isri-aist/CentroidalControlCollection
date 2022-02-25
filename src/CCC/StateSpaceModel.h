@@ -113,7 +113,7 @@ public:
     return output_dim_;
   }
 
-  /** \brief Calculate the result of the continuous state equation.
+  /** \brief Calculate the continuous state equation.
       \param x state
       \param u input
       \returns time derivative of x (\dot{x})
@@ -123,7 +123,7 @@ public:
     return A_ * x + B_ * u + E_; // dx
   }
 
-  /** \brief Calculate the result of the discrete state equation.
+  /** \brief Calculate the discrete state equation.
       \param x current state (x[k])
       \param u current input (u[k])
       \returns next state (x[k+1])
@@ -133,7 +133,7 @@ public:
     return Ad_ * x + Bd_ * u + Ed_; // next_x
   }
 
-  /** \brief Calculate the result of the observation equation.
+  /** \brief Calculate the observation equation.
       \param x state
   */
   OutputDimVector observEq(const StateDimVector & x) const
@@ -141,7 +141,7 @@ public:
     return C_ * x; // y
   }
 
-  /** \brief Calculate the result of the observation equation.
+  /** \brief Calculate the observation equation.
       \param x state
       \param u input
   */

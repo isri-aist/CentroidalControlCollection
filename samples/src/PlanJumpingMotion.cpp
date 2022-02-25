@@ -18,7 +18,7 @@ int main(int argc, char ** argv)
 
   mpc.planLoop(contact_func, ref_pos_func, initial_pos_vel, motion_time_range, horizon_duration, sim_dt);
 
-  mpc.dumpResultDataSeq("/tmp/PlanJumpingMotion.txt", true);
+  mpc.dumpMotionDataSeq("/tmp/PlanJumpingMotion.txt", true);
 
   return 0;
 }
