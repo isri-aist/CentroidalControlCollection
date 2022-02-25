@@ -2,60 +2,29 @@
 
 #include <gtest/gtest.h>
 
-#include <fstream>
-
 #include <CCC/LinearMpcTZ.h>
 
 TEST(TestLinearMpcTZ, Test1)
 {
   double mass = 100.0; // [kg]
-  double dt = 0.05; // [ms]
-  double motion_duration = 10.0; // [sec]
+  double horizon_dt = 0.05; // [ms]
 
-  int seq_len = static_cast<int>(motion_duration / dt);
-  std::vector<bool> contact_seq(seq_len);
-  Eigen::VectorXd ref_pos_seq(seq_len);
-  for(int i = 0; i < seq_len; i++)
-  {
-    double t = i * dt;
+  CCC::LinearMpcTZ mpc(mass, horizon_dt);
 
-    if(5.0 < t && t < 5.25 || 6.0 < t && t < 6.5)
-    {
-      contact_seq[i] = false;
-    }
-    else
-    {
-      contact_seq[i] = true;
-    }
+  std::function<bool(double)> contact_func = [](double t) { return !(5.0 < t && t < 5.25 || 6.0 < t && t < 6.5); };
+  std::function<double(double)> ref_pos_func = [](double t) { return t < 8.5 ? 1.0 : 0.8; }; // [m]
+  Eigen::Vector2d initial_pos_vel(0.8, -1.0); // ([m], [m/s])
+  std::pair<double, double> motion_time_range(0.0, 10.0); // ([s], [s])
+  double horizon_duration = 4.0; // [sec]
+  double sim_dt = 0.04; // [ms]
 
-    if(t < 8.5)
-    {
-      ref_pos_seq[i] = 1.0;
-    }
-    else
-    {
-      ref_pos_seq[i] = 0.8;
-    }
-  }
-  double initial_pos = 0.8; // [m]
-  double initial_vel = -1.0; // [m/s]
+  mpc.planLoop(contact_func, ref_pos_func, initial_pos_vel, motion_time_range, horizon_duration, sim_dt);
 
-  CCC::LinearMpcTZ mpc(mass, dt);
-  mpc.runLoop(contact_seq, initial_pos, initial_vel, ref_pos_seq);
+  mpc.dumpResultDataSeq("/tmp/TestLinearMpcTZ.txt", true);
 
-  std::ofstream ofs("/tmp/TestLinearMpcTZ.txt");
-  ofs << "time contact ref_pos planned_pos planned_vel planned_force" << std::endl;
-  for(int i = 0; i < seq_len; i++)
-  {
-    ofs << i * dt << " " << contact_seq[i] << " " << ref_pos_seq[i] << " " << mpc.planned_pos_seq_[i] << " "
-        << mpc.planned_vel_seq_[i] << " " << mpc.planned_force_seq_[i] << std::endl;
-  }
-  std::cout << "Run the following commands in gnuplot:\n"
-               "  set key autotitle columnhead\n"
-               "  set key noenhanced\n"
-               "  plot \"/tmp/TestLinearMpcTZ.txt\" u 1:3 w lp, \"\" u 1:4 w lp\n";
-
-  EXPECT_LT(std::abs(mpc.planned_pos_seq_[seq_len - 1] - ref_pos_seq[seq_len - 1]), 1e-2);
+  EXPECT_LT(std::abs(mpc.result_data_seq_[mpc.result_data_seq_.size() - 1].planned_pos
+                     - ref_pos_func(motion_time_range.second)),
+            1e-2); // [m]
 }
 
 int main(int argc, char ** argv)

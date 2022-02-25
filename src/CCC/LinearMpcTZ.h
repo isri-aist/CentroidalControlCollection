@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include <qp_solver_collection/QpSolver.h>
 
 #include <CCC/EigenTypes.h>
@@ -43,82 +45,118 @@ public:
     ModelNoncontactPhase(double mass);
   };
 
+  /** \brief Result data. */
+  struct ResultData
+  {
+    //! Time [s]
+    double time = 0;
+
+    //! Contact/non-contact phase (true for contact phase)
+    bool contact = 0;
+
+    //! Reference position
+    double ref_pos = 0;
+
+    //! Planned position
+    double planned_pos = 0;
+
+    //! Planned velocity
+    double planned_vel = 0;
+
+    //! Planned force
+    double planned_force = 0;
+
+    /** \brief Dump data.
+        \tparam StreamType stream type
+     */
+    template<class StreamType>
+    void dump(StreamType & ofs) const
+    {
+      ofs << time << " " << contact << " " << ref_pos << " " << planned_pos << " " << planned_vel << " "
+          << planned_force << std::endl;
+    }
+  };
+
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** \brief Constructor.
       \param mass robot mass [kg]
-      \param dt discretization timestep [sec]
+      \param horizon_dt discretization timestep in horizon [s]
       \param qp_solver_type QP solver type
   */
   LinearMpcTZ(double mass,
-              double dt,
+              double horizon_dt,
               QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::QLD);
 
   /** \brief Plan one step.
-      \param contact_seq sequence of contact/non-contact phases (true for contact phase)
-      \param current_pos current position
-      \param current_vel current velocity
-      \param ref_pos_seq sequence of reference position (same length as contact_seq)
+      \param contact_func function of contact/non-contact phases (returns true for contact phase)
+      \param ref_pos_func function of reference position [m]
+      \param current_pos_vel current position and velocity ([m], [m/s])
+      \param horizon_time_range start and end time of horizon ([s], [s])
       \param pos_weight objective weight for position
       \param force_weight objective weight for force
       \returns planned force sequence
-      \note The length of contact_seq is assumed to be horizon size.
   */
-  Eigen::VectorXd runOnce(const std::vector<bool> & contact_seq,
-                          double current_pos,
-                          double current_vel,
-                          const Eigen::VectorXd & ref_pos_seq,
-                          double pos_weight = 1.0,
-                          double force_weight = 1e-7);
+  Eigen::VectorXd planOnce(const std::function<bool(double)> & contact_func,
+                           const std::function<double(double)> & ref_pos_func,
+                           const Eigen::Vector2d & current_pos_vel,
+                           std::pair<double, double> horizon_time_range,
+                           double pos_weight = 1.0,
+                           double force_weight = 1e-7);
 
   /** \brief Plan with loop.
-      \param contact_seq sequence of contact/non-contact phases (true for contact phase)
-      \param current_pos current position
-      \param current_vel current velocity
-      \param ref_pos_seq sequence of reference position (same length as contact_seq)
-      \param horizon_duration horizon duration (i.e., duration of preview window) [sec]
+      \param contact_func function of contact/non-contact phases (returns true for contact phase)
+      \param ref_pos_func function of reference position [m]
+      \param initial_pos_vel current position and velocity ([m], [m/s])
+      \param motion_time_range start and end time of motion ([s], [s])
+      \param horizon_duration horizon duration [s]
+      \param sim_dt discretization timestep for simulation [s]
       \param pos_weight objective weight for position
       \param force_weight objective weight for force
       \returns planned force sequence
   */
-  void runLoop(const std::vector<bool> & contact_seq,
-               double current_pos,
-               double current_vel,
-               const Eigen::VectorXd & ref_pos_seq,
-               double horizon_duration = 4.0,
-               double pos_weight = 1.0,
-               double force_weight = 1e-7);
+  void planLoop(const std::function<bool(double)> & contact_func,
+                const std::function<double(double)> & ref_pos_func,
+                const Eigen::Vector2d & initial_pos_vel,
+                std::pair<double, double> motion_time_range,
+                double horizon_duration,
+                double sim_dt,
+                double pos_weight = 1.0,
+                double force_weight = 1e-7);
+
+  /** \brief Dump result data sequence by planLoop().
+      \param file_path output file path
+      \param print_command whether to print the plot commands
+   */
+  void dumpResultDataSeq(const std::string & file_path, bool print_command = true) const;
 
 protected:
-  /** \brief Plan one step.
+  /** \brief Internal implementation of planning one step.
       \tparam ListType type of state-space model list
-      \param model_list state-space model list
-      \param current_x current state (product of mass and position, linear momentum)
-      \param ref_pos_seq sequence of reference position
-      \param pos_weight objective weight for position
-      \param force_weight objective weight for force
-      \returns planned force sequence
   */
   template<template<class> class ListType>
-  Eigen::VectorXd runOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
-                          const StateDimVector & current_x,
-                          const Eigen::VectorXd & ref_pos_seq,
-                          double pos_weight,
-                          double force_weight);
+  Eigen::VectorXd procOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
+                           const StateDimVector & current_x,
+                           const Eigen::VectorXd & ref_pos_seq,
+                           double pos_weight,
+                           double force_weight);
 
 public:
   //! Robot mass [kg]
   double mass_ = 0;
 
-  //! Discretization timestep [sec]
-  double dt_ = 0;
+  //! Discretization timestep in horizon [s]
+  double horizon_dt_ = 0;
 
   //! State-space model for contact phase
-  std::shared_ptr<_StateSpaceModel> model_contact_phase_;
+  std::shared_ptr<_StateSpaceModel> model_contact_;
 
   //! State-space model for non-contact phase
-  std::shared_ptr<_StateSpaceModel> model_noncontact_phase_;
+  std::shared_ptr<_StateSpaceModel> model_noncontact_;
+
+  //! State-space model for simulation
+  std::shared_ptr<_StateSpaceModel> sim_model_;
 
   //! QP solver
   std::shared_ptr<QpSolverCollection::QpSolver> qp_solver_;
@@ -127,15 +165,9 @@ public:
   QpSolverCollection::QpCoeff qp_coeff_;
 
   //! Min/max z-component force [N]
-  std::pair<double, double> force_range_ = {10.0, 4000.0};
+  std::pair<double, double> force_range_;
 
-  //! Planned position sequence
-  Eigen::VectorXd planned_pos_seq_;
-
-  //! Planned velocity sequence
-  Eigen::VectorXd planned_vel_seq_;
-
-  //! Planned force sequence
-  Eigen::VectorXd planned_force_seq_;
+  //! Result data sequence
+  std::vector<ResultData> result_data_seq_;
 };
 } // namespace CCC

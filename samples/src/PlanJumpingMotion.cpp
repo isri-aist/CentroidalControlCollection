@@ -9,7 +9,7 @@ int main(int argc, char ** argv)
 {
   double mass = 104.835; // [kg]
   double dt = 0.02; // [ms]
-  double motion_duration = 5.0; // [sec]
+  double motion_duration = 5.0; // [s]
 
   int seq_len = static_cast<int>(motion_duration / dt);
   std::vector<bool> contact_seq(seq_len);
@@ -35,7 +35,7 @@ int main(int argc, char ** argv)
   CCC::LinearMpcTZ mpc(mass, dt);
   mpc.runLoop(contact_seq, initial_pos, initial_vel, ref_pos_seq);
 
-  double start_time = 3.0; // [sec]
+  double start_time = 3.0; // [s]
   std::ofstream ofs_data("/tmp/PlanJumpingMotionData.txt");
   std::ofstream ofs_src("/tmp/PlanJumpingMotionSrc.txt");
   ofs_data << "time contact ref_pos planned_pos planned_vel planned_force" << std::endl;

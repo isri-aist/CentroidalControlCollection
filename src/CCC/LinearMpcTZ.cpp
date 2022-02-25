@@ -1,6 +1,6 @@
 /* Author: Masaki Murooka */
 
-#include <deque>
+#include <fstream>
 
 #include <CCC/Constants.h>
 #include <CCC/LinearMpcTZ.h>
@@ -27,95 +27,98 @@ LinearMpcTZ::ModelNoncontactPhase::ModelNoncontactPhase(double mass) : StateSpac
   E_ << 0, -1 * mass * constants::g;
 }
 
-LinearMpcTZ::LinearMpcTZ(double mass, double dt, QpSolverCollection::QpSolverType qp_solver_type) : mass_(mass), dt_(dt)
+LinearMpcTZ::LinearMpcTZ(double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type)
+: mass_(mass), horizon_dt_(horizon_dt), force_range_(10.0, 10.0 * mass * constants::g)
 {
-  model_contact_phase_ = std::make_shared<ModelContactPhase>(mass_);
-  model_noncontact_phase_ = std::make_shared<ModelNoncontactPhase>(mass_);
+  model_contact_ = std::make_shared<ModelContactPhase>(mass_);
+  model_noncontact_ = std::make_shared<ModelNoncontactPhase>(mass_);
+  sim_model_ = std::make_shared<ModelContactPhase>(mass_);
 
-  model_contact_phase_->calcDiscMatrix(dt_);
-  model_noncontact_phase_->calcDiscMatrix(dt_);
+  model_contact_->calcDiscMatrix(horizon_dt_);
+  model_noncontact_->calcDiscMatrix(horizon_dt_);
 
   qp_solver_ = QpSolverCollection::allocateQpSolver(qp_solver_type);
 }
 
-Eigen::VectorXd LinearMpcTZ::runOnce(const std::vector<bool> & contact_seq,
-                                     double current_pos,
-                                     double current_vel,
-                                     const Eigen::VectorXd & ref_pos_seq,
-                                     double pos_weight,
-                                     double force_weight)
+Eigen::VectorXd LinearMpcTZ::planOnce(const std::function<bool(double)> & contact_func,
+                                      const std::function<double(double)> & ref_pos_func,
+                                      const Eigen::Vector2d & current_pos_vel,
+                                      std::pair<double, double> horizon_time_range,
+                                      double pos_weight,
+                                      double force_weight)
 {
-  // Set model list
-  std::vector<std::shared_ptr<_StateSpaceModel>> model_list(contact_seq.size());
-  for(size_t i = 0; i < contact_seq.size(); i++)
-  {
-    model_list[i] = contact_seq[i] ? model_contact_phase_ : model_noncontact_phase_;
-  }
-
-  StateDimVector current_x = StateDimVector(mass_ * current_pos, mass_ * current_vel);
-  return runOnce(model_list, current_x, ref_pos_seq, pos_weight, force_weight);
-}
-
-void LinearMpcTZ::runLoop(const std::vector<bool> & contact_seq,
-                          double current_pos,
-                          double current_vel,
-                          const Eigen::VectorXd & ref_pos_seq,
-                          double horizon_duration,
-                          double pos_weight,
-                          double force_weight)
-{
-  // Setup model list
-  int seq_len = contact_seq.size();
-  int horizon_size = static_cast<int>(horizon_duration / dt_);
-  std::deque<std::shared_ptr<_StateSpaceModel>> model_list;
+  // Set model_list and ref_pos_seq
+  int horizon_size = static_cast<int>((horizon_time_range.second - horizon_time_range.first) / horizon_dt_);
+  std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_size);
+  Eigen::VectorXd ref_pos_seq(horizon_size);
   for(int i = 0; i < horizon_size; i++)
   {
-    model_list.push_back(contact_seq[i] ? model_contact_phase_ : model_noncontact_phase_);
+    double t = horizon_time_range.first + i * horizon_dt_;
+    model_list[i] = contact_func(t) ? model_contact_ : model_noncontact_;
+    ref_pos_seq[i] = ref_pos_func(t);
   }
 
+  // Calculate optimal force
+  return procOnce(model_list, mass_ * current_pos_vel, ref_pos_seq, pos_weight, force_weight);
+}
+
+void LinearMpcTZ::planLoop(const std::function<bool(double)> & contact_func,
+                           const std::function<double(double)> & ref_pos_func,
+                           const Eigen::Vector2d & initial_pos_vel,
+                           std::pair<double, double> motion_time_range,
+                           double horizon_duration,
+                           double sim_dt,
+                           double pos_weight,
+                           double force_weight)
+{
+  int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
+  int horizon_size = static_cast<int>(horizon_duration / horizon_dt_);
+
+  sim_model_->calcDiscMatrix(sim_dt);
+
   // Loop
-  StateDimVector current_x = StateDimVector(mass_ * current_pos, mass_ * current_vel);
-  Eigen::VectorXd ref_pos_seq_horizon(horizon_size);
-  Eigen::VectorXd opt_force_seq(horizon_size);
-  planned_pos_seq_.resize(seq_len);
-  planned_vel_seq_.resize(seq_len);
-  planned_force_seq_.setZero(seq_len);
+  double current_t = motion_time_range.first;
+  StateDimVector current_x = mass_ * initial_pos_vel;
+  result_data_seq_.resize(seq_len);
   for(int i = 0; i < seq_len; i++)
   {
+    // Set model_list and ref_pos_seq
+    std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_size);
+    Eigen::VectorXd ref_pos_seq(horizon_size);
+    for(int i = 0; i < horizon_size; i++)
+    {
+      double t = current_t + i * horizon_dt_;
+      model_list[i] = contact_func(t) ? model_contact_ : model_noncontact_;
+      ref_pos_seq[i] = ref_pos_func(t);
+    }
     const auto & current_model = model_list[0];
 
-    // Set ref_pos_seq_horizon
-    ref_pos_seq_horizon.head(std::min(horizon_size, seq_len - i)) =
-        ref_pos_seq.segment(i, std::min(horizon_size, seq_len - i));
-    ref_pos_seq_horizon.tail(std::max(0, i + horizon_size - seq_len)).setConstant(ref_pos_seq[seq_len - 1]);
+    // Calculate optimal force
+    Eigen::VectorXd opt_force_seq = procOnce(model_list, current_x, ref_pos_seq, pos_weight, force_weight);
 
-    // Save current state
-    planned_pos_seq_[i] = current_x[0] / mass_;
-    planned_vel_seq_[i] = current_x[1] / mass_;
+    // Save current result
+    auto & current_result_data = result_data_seq_[i];
+    current_result_data.time = current_t;
+    current_result_data.contact = contact_func(current_t);
+    current_result_data.ref_pos = ref_pos_seq[0];
+    current_result_data.planned_pos = current_x[0] / mass_;
+    current_result_data.planned_vel = current_x[1] / mass_;
+    current_result_data.planned_force = current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0;
 
-    // Calculate and save optimal force
-    opt_force_seq = runOnce(model_list, current_x, ref_pos_seq_horizon, pos_weight, force_weight);
-    if(current_model->inputDim() > 0)
-    {
-      planned_force_seq_[i] = opt_force_seq[0];
-    }
-
-    // Calculate next state
-    current_x = current_model->stateEqDisc(current_x, opt_force_seq.head(current_model->inputDim()));
-
-    // Update model_list
-    model_list.pop_front();
-    model_list.push_back(contact_seq[std::min(i + horizon_size, seq_len - 1)] ? model_contact_phase_
-                                                                              : model_noncontact_phase_);
+    // Simulate one step
+    Eigen::Vector1d current_u;
+    current_u << current_result_data.planned_force;
+    current_t += sim_dt;
+    current_x = sim_model_->stateEqDisc(current_x, current_u);
   }
 }
 
 template<template<class> class ListType>
-Eigen::VectorXd LinearMpcTZ::runOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
-                                     const StateDimVector & current_x,
-                                     const Eigen::VectorXd & ref_pos_seq,
-                                     double pos_weight,
-                                     double force_weight)
+Eigen::VectorXd LinearMpcTZ::procOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
+                                      const StateDimVector & current_x,
+                                      const Eigen::VectorXd & ref_pos_seq,
+                                      double pos_weight,
+                                      double force_weight)
 {
   // Calculate sequential extension
   VariantSequentialExtension<state_dim_, ListType> seq_ext(model_list, true);
@@ -135,4 +138,21 @@ Eigen::VectorXd LinearMpcTZ::runOnce(const ListType<std::shared_ptr<_StateSpaceM
 
   // Solve QP
   return qp_solver_->solve(qp_coeff_);
+}
+
+void LinearMpcTZ::dumpResultDataSeq(const std::string & file_path, bool print_command) const
+{
+  std::ofstream ofs(file_path);
+  ofs << "time contact ref_pos planned_pos planned_vel planned_force" << std::endl;
+  for(const auto & result_data : result_data_seq_)
+  {
+    result_data.dump(ofs);
+  }
+  if(print_command)
+  {
+    std::cout << "Run the following commands in gnuplot:\n"
+              << "  set key autotitle columnhead\n"
+              << "  set key noenhanced\n"
+              << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:4 w lp\n";
+  }
 }
