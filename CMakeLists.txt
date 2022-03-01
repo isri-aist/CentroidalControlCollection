@@ -40,7 +40,7 @@ catkin_package(
 include_directories(src ${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
 
-add_subdirectory(src/CCC)
+add_subdirectory(src)
 
 add_subdirectory(samples)
 
