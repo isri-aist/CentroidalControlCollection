@@ -48,7 +48,6 @@ LinearMpcZ::LinearMpcZ(double mass, double horizon_dt, QpSolverCollection::QpSol
 {
   model_contact_ = std::make_shared<ModelContactPhase>(mass_);
   model_noncontact_ = std::make_shared<ModelNoncontactPhase>(mass_);
-  sim_model_ = std::make_shared<SimModel>(mass_);
 
   model_contact_->calcDiscMatrix(horizon_dt_);
   model_noncontact_->calcDiscMatrix(horizon_dt_);
@@ -88,7 +87,8 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
   int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
   int horizon_size = static_cast<int>(horizon_duration / horizon_dt_);
 
-  sim_model_->calcDiscMatrix(sim_dt);
+  const auto & sim_model = std::make_shared<SimModel>(mass_);
+  sim_model->calcDiscMatrix(sim_dt);
 
   // Loop
   double current_t = motion_time_range.first;
@@ -113,19 +113,21 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
     // Save current data
     Eigen::Vector1d current_u;
     current_u << (current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0);
-    const Eigen::Vector3d & current_pos_vel_acc = sim_model_->observEq(current_x, current_u);
+    const Eigen::Vector3d & current_sim_output = sim_model->observEq(current_x, current_u);
     auto & current_motion_data = motion_data_seq_[i];
     current_motion_data.time = current_t;
     current_motion_data.contact = (current_model->inputDim() > 0);
     current_motion_data.ref_pos = ref_pos_seq[0];
-    current_motion_data.planned_pos = current_pos_vel_acc[0];
-    current_motion_data.planned_vel = current_pos_vel_acc[1];
-    current_motion_data.planned_acc = current_pos_vel_acc[2];
+    current_motion_data.ref_vel = 0;
+    current_motion_data.ref_acc = 0;
+    current_motion_data.planned_pos = current_sim_output[0];
+    current_motion_data.planned_vel = current_sim_output[1];
+    current_motion_data.planned_acc = current_sim_output[2];
     current_motion_data.planned_force = current_u[0];
 
     // Simulate one step
     current_t += sim_dt;
-    current_x = sim_model_->stateEqDisc(current_x, current_u);
+    current_x = sim_model->stateEqDisc(current_x, current_u);
   }
 }
 

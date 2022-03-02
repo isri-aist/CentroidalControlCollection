@@ -6,6 +6,7 @@
 
 #include <qp_solver_collection/QpSolver.h>
 
+#include <CCC/MotionData.h>
 #include <CCC/VariantSequentialExtension.h>
 
 namespace CCC
@@ -47,28 +48,10 @@ public:
   };
 
   /** \brief Motion data. */
-  struct MotionData
+  struct MotionData : MotionDataBase<double, double, double>
   {
-    //! Time [s]
-    double time = 0;
-
     //! Contact/non-contact phase (true for contact phase)
-    bool contact = 0;
-
-    //! Reference position
-    double ref_pos = 0;
-
-    //! Planned position
-    double planned_pos = 0;
-
-    //! Planned velocity
-    double planned_vel = 0;
-
-    //! Planned acceleration
-    double planned_acc = 0;
-
-    //! Planned force
-    double planned_force = 0;
+    bool contact = false;
 
     /** \brief Dump data.
         \tparam StreamType stream type
@@ -180,9 +163,6 @@ public:
 
   //! State-space model for non-contact phase
   std::shared_ptr<_StateSpaceModel> model_noncontact_;
-
-  //! State-space model for simulation
-  std::shared_ptr<SimModel> sim_model_;
 
   //! QP solver
   std::shared_ptr<QpSolverCollection::QpSolver> qp_solver_;
