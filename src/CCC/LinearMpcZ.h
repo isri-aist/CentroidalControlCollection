@@ -24,34 +24,26 @@ public:
   using StateDimVector = Eigen::Matrix<double, state_dim_, 1>;
 
 public:
-  /** \brief State-space model for contact phase. */
-  class ModelContactPhase : public _StateSpaceModel
-  {
-  public:
-    /** \brief Constructor.
-        \param mass robot mass [kg]
-    */
-    ModelContactPhase(double mass);
-  };
+  /** \brief Initial parameter.
 
-  /** \brief State-space model for non-contact phase. */
-  class ModelNoncontactPhase : public _StateSpaceModel
-  {
-  public:
-    /** \brief Constructor.
-        \param mass robot mass [kg]
-    */
-    ModelNoncontactPhase(double mass);
-  };
+      First element is CoM position, and second element is CoM velocity.
+  */
+  using InitialParam = Eigen::Vector2d;
 
-  /** \brief State-space model for simulation. */
-  class SimModel : public StateSpaceModel<state_dim_, 1, 3>
+  /** \brief Weight parameter. */
+  struct WeightParam
   {
-  public:
+    //! Position weight
+    double pos;
+
+    //! Force weight
+    double force;
+
     /** \brief Constructor.
-        \param mass robot mass [kg]
-    */
-    SimModel(double mass);
+        \param _pos position weight
+        \param _force force weight
+     */
+    WeightParam(double _pos = 1.0, double _force = 1e-7) : pos(_pos), force(_force) {}
   };
 
   /** \brief Motion data. */
@@ -89,6 +81,36 @@ public:
     }
   };
 
+  /** \brief State-space model for contact phase. */
+  class ModelContactPhase : public _StateSpaceModel
+  {
+  public:
+    /** \brief Constructor.
+        \param mass robot mass [kg]
+    */
+    ModelContactPhase(double mass);
+  };
+
+  /** \brief State-space model for non-contact phase. */
+  class ModelNoncontactPhase : public _StateSpaceModel
+  {
+  public:
+    /** \brief Constructor.
+        \param mass robot mass [kg]
+    */
+    ModelNoncontactPhase(double mass);
+  };
+
+  /** \brief State-space model for simulation. */
+  class SimModel : public StateSpaceModel<state_dim_, 1, 3>
+  {
+  public:
+    /** \brief Constructor.
+        \param mass robot mass [kg]
+    */
+    SimModel(double mass);
+  };
+
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
@@ -104,38 +126,34 @@ public:
   /** \brief Plan one step.
       \param contact_func function of contact/non-contact phases (returns true for contact phase)
       \param ref_pos_func function of reference position [m]
-      \param current_pos_vel current position and velocity ([m], [m/s])
+      \param initial_param initial parameter
       \param horizon_time_range start and end time of horizon ([s], [s])
-      \param pos_weight objective weight for position
-      \param force_weight objective weight for force
+      \param weight_param objective weight parameter
       \returns planned force sequence
   */
   Eigen::VectorXd planOnce(const std::function<bool(double)> & contact_func,
                            const std::function<double(double)> & ref_pos_func,
-                           const Eigen::Vector2d & current_pos_vel,
-                           std::pair<double, double> horizon_time_range,
-                           double pos_weight = 1.0,
-                           double force_weight = 1e-7);
+                           const InitialParam & initial_param,
+                           const std::pair<double, double> & horizon_time_range,
+                           const WeightParam & weight_param = WeightParam());
 
   /** \brief Plan with loop.
       \param contact_func function of contact/non-contact phases (returns true for contact phase)
       \param ref_pos_func function of reference position [m]
-      \param initial_pos_vel current position and velocity ([m], [m/s])
+      \param initial_param initial parameter
       \param motion_time_range start and end time of motion ([s], [s])
       \param horizon_duration horizon duration [s]
       \param sim_dt discretization timestep for simulation [s]
-      \param pos_weight objective weight for position
-      \param force_weight objective weight for force
+      \param weight_param objective weight parameter
       \returns planned force sequence
   */
   void planLoop(const std::function<bool(double)> & contact_func,
                 const std::function<double(double)> & ref_pos_func,
-                const Eigen::Vector2d & initial_pos_vel,
-                std::pair<double, double> motion_time_range,
+                const InitialParam & initial_param,
+                const std::pair<double, double> & motion_time_range,
                 double horizon_duration,
                 double sim_dt,
-                double pos_weight = 1.0,
-                double force_weight = 1e-7);
+                const WeightParam & weight_param = WeightParam());
 
   /** \brief Dump motion data sequence by planLoop().
       \param file_path output file path
@@ -144,15 +162,11 @@ public:
   void dumpMotionDataSeq(const std::string & file_path, bool print_command = true) const;
 
 protected:
-  /** \brief Internal implementation of planning one step.
-      \tparam ListType type of state-space model list
-  */
-  template<template<class> class ListType>
-  Eigen::VectorXd procOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
+  /** \brief Process one step. */
+  Eigen::VectorXd procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
                            const StateDimVector & current_x,
                            const Eigen::VectorXd & ref_pos_seq,
-                           double pos_weight,
-                           double force_weight);
+                           const WeightParam & weight_param);
 
 public:
   //! Robot mass [kg]

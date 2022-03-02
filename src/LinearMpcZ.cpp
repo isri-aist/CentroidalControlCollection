@@ -58,10 +58,9 @@ LinearMpcZ::LinearMpcZ(double mass, double horizon_dt, QpSolverCollection::QpSol
 
 Eigen::VectorXd LinearMpcZ::planOnce(const std::function<bool(double)> & contact_func,
                                      const std::function<double(double)> & ref_pos_func,
-                                     const Eigen::Vector2d & current_pos_vel,
-                                     std::pair<double, double> horizon_time_range,
-                                     double pos_weight,
-                                     double force_weight)
+                                     const InitialParam & initial_param,
+                                     const std::pair<double, double> & horizon_time_range,
+                                     const WeightParam & weight_param)
 {
   // Set model_list and ref_pos_seq
   int horizon_size = static_cast<int>((horizon_time_range.second - horizon_time_range.first) / horizon_dt_);
@@ -75,17 +74,16 @@ Eigen::VectorXd LinearMpcZ::planOnce(const std::function<bool(double)> & contact
   }
 
   // Calculate optimal force
-  return procOnce(model_list, mass_ * current_pos_vel, ref_pos_seq, pos_weight, force_weight);
+  return procOnce(model_list, mass_ * initial_param, ref_pos_seq, weight_param);
 }
 
 void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
                           const std::function<double(double)> & ref_pos_func,
-                          const Eigen::Vector2d & initial_pos_vel,
-                          std::pair<double, double> motion_time_range,
+                          const InitialParam & initial_param,
+                          const std::pair<double, double> & motion_time_range,
                           double horizon_duration,
                           double sim_dt,
-                          double pos_weight,
-                          double force_weight)
+                          const WeightParam & weight_param)
 {
   int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
   int horizon_size = static_cast<int>(horizon_duration / horizon_dt_);
@@ -94,7 +92,7 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
 
   // Loop
   double current_t = motion_time_range.first;
-  StateDimVector current_x = mass_ * initial_pos_vel;
+  StateDimVector current_x = mass_ * initial_param;
   motion_data_seq_.resize(seq_len);
   for(int i = 0; i < seq_len; i++)
   {
@@ -110,12 +108,12 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
     const auto & current_model = model_list[0];
 
     // Calculate optimal force
-    Eigen::VectorXd opt_force_seq = procOnce(model_list, current_x, ref_pos_seq, pos_weight, force_weight);
+    const Eigen::VectorXd & opt_force_seq = procOnce(model_list, current_x, ref_pos_seq, weight_param);
 
     // Save current data
     Eigen::Vector1d current_u;
     current_u << (current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0);
-    Eigen::Vector3d current_pos_vel_acc = sim_model_->observEq(current_x, current_u);
+    const Eigen::Vector3d & current_pos_vel_acc = sim_model_->observEq(current_x, current_u);
     auto & current_motion_data = motion_data_seq_[i];
     current_motion_data.time = current_t;
     current_motion_data.contact = (current_model->inputDim() > 0);
@@ -131,15 +129,13 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
   }
 }
 
-template<template<class> class ListType>
-Eigen::VectorXd LinearMpcZ::procOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
+Eigen::VectorXd LinearMpcZ::procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
                                      const StateDimVector & current_x,
                                      const Eigen::VectorXd & ref_pos_seq,
-                                     double pos_weight,
-                                     double force_weight)
+                                     const WeightParam & weight_param)
 {
   // Calculate sequential extension
-  VariantSequentialExtension<state_dim_, ListType> seq_ext(model_list, true);
+  VariantSequentialExtension<state_dim_> seq_ext(model_list, true);
 
   // Set QP coefficients
   int total_input_dim = seq_ext.totalInputDim();
@@ -147,10 +143,10 @@ Eigen::VectorXd LinearMpcZ::procOnce(const ListType<std::shared_ptr<_StateSpaceM
   {
     qp_coeff_.setup(total_input_dim, 0, 0);
   }
-  qp_coeff_.obj_mat_.noalias() = pos_weight * seq_ext.B_seq_.transpose() * seq_ext.B_seq_
-                                 + force_weight * Eigen::MatrixXd::Identity(total_input_dim, total_input_dim);
+  qp_coeff_.obj_mat_.noalias() = weight_param.pos * seq_ext.B_seq_.transpose() * seq_ext.B_seq_
+                                 + weight_param.force * Eigen::MatrixXd::Identity(total_input_dim, total_input_dim);
   qp_coeff_.obj_vec_.noalias() =
-      -1 * pos_weight * seq_ext.B_seq_.transpose() * (ref_pos_seq - seq_ext.A_seq_ * current_x - seq_ext.E_seq_);
+      -1 * weight_param.pos * seq_ext.B_seq_.transpose() * (ref_pos_seq - seq_ext.A_seq_ * current_x - seq_ext.E_seq_);
   qp_coeff_.x_min_.setConstant(force_range_.first);
   qp_coeff_.x_max_.setConstant(force_range_.second);
 
