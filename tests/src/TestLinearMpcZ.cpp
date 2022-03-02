@@ -3,14 +3,14 @@
 #include <gtest/gtest.h>
 
 #include <CCC/Constants.h>
-#include <CCC/LinearMpcTZ.h>
+#include <CCC/LinearMpcZ.h>
 
-TEST(TestLinearMpcTZ, Test1)
+TEST(TestLinearMpcZ, Test1)
 {
   double mass = 100.0; // [kg]
   double horizon_dt = 0.05; // [ms]
 
-  CCC::LinearMpcTZ mpc(mass, horizon_dt);
+  CCC::LinearMpcZ mpc(mass, horizon_dt);
 
   std::function<bool(double)> contact_func = [](double t) { return !(5.0 < t && t < 5.25 || 6.0 < t && t < 6.5); };
   std::function<double(double)> ref_pos_func = [](double t) { return t < 8.5 ? 1.0 : 0.8; }; // [m]
@@ -21,7 +21,7 @@ TEST(TestLinearMpcTZ, Test1)
 
   mpc.planLoop(contact_func, ref_pos_func, initial_pos_vel, motion_time_range, horizon_duration, sim_dt);
 
-  mpc.dumpMotionDataSeq("/tmp/TestLinearMpcTZ.txt", true);
+  mpc.dumpMotionDataSeq("/tmp/TestLinearMpcZ.txt", true);
 
   // Check final position
   EXPECT_LT(std::abs(mpc.motion_data_seq_[mpc.motion_data_seq_.size() - 1].planned_pos

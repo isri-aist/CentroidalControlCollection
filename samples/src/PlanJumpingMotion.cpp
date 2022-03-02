@@ -1,13 +1,13 @@
 /* Author: Masaki Murooka */
 
-#include <CCC/LinearMpcTZ.h>
+#include <CCC/LinearMpcZ.h>
 
 int main(int argc, char ** argv)
 {
   double mass = 104.835; // [kg]
   double horizon_dt = 0.02; // [ms]
 
-  CCC::LinearMpcTZ mpc(mass, horizon_dt);
+  CCC::LinearMpcZ mpc(mass, horizon_dt);
 
   std::function<bool(double)> contact_func = [](double t) { return !(5.5 < t && t < 5.7); };
   std::function<double(double)> ref_pos_func = [](double t) { return 0.85; }; // [m]

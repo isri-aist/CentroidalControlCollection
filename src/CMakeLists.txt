@@ -1,5 +1,6 @@
 add_library(CCC
-  LinearMpcTZ.cpp
+  LinearMpcZ.cpp
+  LinearMpcXY.cpp
   )
 target_include_directories(CCC PUBLIC
   ${PROJECT_SOURCE_DIR}/src)

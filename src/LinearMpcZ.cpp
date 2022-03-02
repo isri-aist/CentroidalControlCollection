@@ -3,11 +3,12 @@
 #include <fstream>
 
 #include <CCC/Constants.h>
-#include <CCC/LinearMpcTZ.h>
+#include <CCC/EigenTypes.h>
+#include <CCC/LinearMpcZ.h>
 
 using namespace CCC;
 
-LinearMpcTZ::ModelContactPhase::ModelContactPhase(double mass) : StateSpaceModel(LinearMpcTZ::state_dim_, 1, 1)
+LinearMpcZ::ModelContactPhase::ModelContactPhase(double mass) : StateSpaceModel(LinearMpcZ::state_dim_, 1, 1)
 {
   A_ << 0, 1, 0, 0;
 
@@ -18,7 +19,7 @@ LinearMpcTZ::ModelContactPhase::ModelContactPhase(double mass) : StateSpaceModel
   E_ << 0, -1 * mass * constants::g;
 }
 
-LinearMpcTZ::ModelNoncontactPhase::ModelNoncontactPhase(double mass) : StateSpaceModel(LinearMpcTZ::state_dim_, 0, 1)
+LinearMpcZ::ModelNoncontactPhase::ModelNoncontactPhase(double mass) : StateSpaceModel(LinearMpcZ::state_dim_, 0, 1)
 {
   A_ << 0, 1, 0, 0;
 
@@ -27,7 +28,7 @@ LinearMpcTZ::ModelNoncontactPhase::ModelNoncontactPhase(double mass) : StateSpac
   E_ << 0, -1 * mass * constants::g;
 }
 
-LinearMpcTZ::SimModel::SimModel(double mass)
+LinearMpcZ::SimModel::SimModel(double mass)
 {
   A_ << 0, 1, 0, 0;
 
@@ -42,7 +43,7 @@ LinearMpcTZ::SimModel::SimModel(double mass)
   F_ << 0, 0, -1 * constants::g;
 }
 
-LinearMpcTZ::LinearMpcTZ(double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type)
+LinearMpcZ::LinearMpcZ(double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type)
 : mass_(mass), horizon_dt_(horizon_dt), force_range_(10.0, 10.0 * mass * constants::g)
 {
   model_contact_ = std::make_shared<ModelContactPhase>(mass_);
@@ -55,12 +56,12 @@ LinearMpcTZ::LinearMpcTZ(double mass, double horizon_dt, QpSolverCollection::QpS
   qp_solver_ = QpSolverCollection::allocateQpSolver(qp_solver_type);
 }
 
-Eigen::VectorXd LinearMpcTZ::planOnce(const std::function<bool(double)> & contact_func,
-                                      const std::function<double(double)> & ref_pos_func,
-                                      const Eigen::Vector2d & current_pos_vel,
-                                      std::pair<double, double> horizon_time_range,
-                                      double pos_weight,
-                                      double force_weight)
+Eigen::VectorXd LinearMpcZ::planOnce(const std::function<bool(double)> & contact_func,
+                                     const std::function<double(double)> & ref_pos_func,
+                                     const Eigen::Vector2d & current_pos_vel,
+                                     std::pair<double, double> horizon_time_range,
+                                     double pos_weight,
+                                     double force_weight)
 {
   // Set model_list and ref_pos_seq
   int horizon_size = static_cast<int>((horizon_time_range.second - horizon_time_range.first) / horizon_dt_);
@@ -77,14 +78,14 @@ Eigen::VectorXd LinearMpcTZ::planOnce(const std::function<bool(double)> & contac
   return procOnce(model_list, mass_ * current_pos_vel, ref_pos_seq, pos_weight, force_weight);
 }
 
-void LinearMpcTZ::planLoop(const std::function<bool(double)> & contact_func,
-                           const std::function<double(double)> & ref_pos_func,
-                           const Eigen::Vector2d & initial_pos_vel,
-                           std::pair<double, double> motion_time_range,
-                           double horizon_duration,
-                           double sim_dt,
-                           double pos_weight,
-                           double force_weight)
+void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
+                          const std::function<double(double)> & ref_pos_func,
+                          const Eigen::Vector2d & initial_pos_vel,
+                          std::pair<double, double> motion_time_range,
+                          double horizon_duration,
+                          double sim_dt,
+                          double pos_weight,
+                          double force_weight)
 {
   int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
   int horizon_size = static_cast<int>(horizon_duration / horizon_dt_);
@@ -131,11 +132,11 @@ void LinearMpcTZ::planLoop(const std::function<bool(double)> & contact_func,
 }
 
 template<template<class> class ListType>
-Eigen::VectorXd LinearMpcTZ::procOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
-                                      const StateDimVector & current_x,
-                                      const Eigen::VectorXd & ref_pos_seq,
-                                      double pos_weight,
-                                      double force_weight)
+Eigen::VectorXd LinearMpcZ::procOnce(const ListType<std::shared_ptr<_StateSpaceModel>> & model_list,
+                                     const StateDimVector & current_x,
+                                     const Eigen::VectorXd & ref_pos_seq,
+                                     double pos_weight,
+                                     double force_weight)
 {
   // Calculate sequential extension
   VariantSequentialExtension<state_dim_, ListType> seq_ext(model_list, true);
@@ -157,7 +158,7 @@ Eigen::VectorXd LinearMpcTZ::procOnce(const ListType<std::shared_ptr<_StateSpace
   return qp_solver_->solve(qp_coeff_);
 }
 
-void LinearMpcTZ::dumpMotionDataSeq(const std::string & file_path, bool print_command) const
+void LinearMpcZ::dumpMotionDataSeq(const std::string & file_path, bool print_command) const
 {
   std::ofstream ofs(file_path);
   ofs << "time contact ref_pos planned_pos planned_vel planned_acc planned_force" << std::endl;

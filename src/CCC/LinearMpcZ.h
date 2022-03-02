@@ -6,13 +6,12 @@
 
 #include <qp_solver_collection/QpSolver.h>
 
-#include <CCC/EigenTypes.h>
 #include <CCC/VariantSequentialExtension.h>
 
 namespace CCC
 {
 /** \brief Linear MPC of translational z-component motion. */
-class LinearMpcTZ
+class LinearMpcZ
 {
 public:
   /** \brief State dimension. */
@@ -98,9 +97,9 @@ public:
       \param horizon_dt discretization timestep in horizon [s]
       \param qp_solver_type QP solver type
   */
-  LinearMpcTZ(double mass,
-              double horizon_dt,
-              QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::QLD);
+  LinearMpcZ(double mass,
+             double horizon_dt,
+             QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::QLD);
 
   /** \brief Plan one step.
       \param contact_func function of contact/non-contact phases (returns true for contact phase)
