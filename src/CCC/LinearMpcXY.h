@@ -110,10 +110,10 @@ public:
         \param _angular_momentum angular momentum weight
         \param _force force weight
      */
-    WeightParam(const Eigen::Vector2d & _linear_momentum_integral = Eigen::Vector2d::Constant(100.0),
+    WeightParam(const Eigen::Vector2d & _linear_momentum_integral = Eigen::Vector2d::Constant(1.0),
                 const Eigen::Vector2d & _linear_momentum = Eigen::Vector2d::Constant(0.0),
-                const Eigen::Vector2d & _angular_momentum = Eigen::Vector2d::Constant(10.0),
-                double _force = 1e-3)
+                const Eigen::Vector2d & _angular_momentum = Eigen::Vector2d::Constant(1.0),
+                double _force = 1e-5)
     : linear_momentum_integral(_linear_momentum_integral), linear_momentum(_linear_momentum),
       angular_momentum(_angular_momentum), force(_force)
     {
@@ -147,8 +147,9 @@ public:
     template<class StreamType>
     void dump(StreamType & ofs) const
     {
-      ofs << time << " " << ref_pos.transpose() << " " << ref_vel.transpose() << " " << planned_pos.transpose() << " "
-          << planned_vel.transpose() << " " << planned_acc.transpose() << " " << planned_force.transpose() << std::endl;
+      ofs << time << " " << ref_pos.transpose() << " " << ref_vel.transpose() << " " << ref_angular_momentum.transpose()
+          << " " << planned_pos.transpose() << " " << planned_vel.transpose() << " " << planned_acc.transpose() << " "
+          << planned_angular_momentum.transpose() << " " << planned_force.transpose() << std::endl;
     }
   };
 

@@ -216,8 +216,9 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
 void LinearMpcXY::dumpMotionDataSeq(const std::string & file_path, bool print_command) const
 {
   std::ofstream ofs(file_path);
-  ofs << "time ref_pos_x ref_pos_y ref_vel_x ref_vel_y planned_pos_x planned_pos_y planned_vel_x planned_vel_y "
-         "planned_acc_x planned_acc_y planned_force"
+  ofs << "time ref_pos_x ref_pos_y ref_vel_x ref_vel_y ref_angular_momentum_x ref_angular_momentum_y planned_pos_x "
+         "planned_pos_y planned_vel_x planned_vel_y planned_acc_x planned_acc_y planned_angular_momentum_x "
+         "planned_angular_momentum_y planned_force"
       << std::endl;
   for(const auto & motion_data : motion_data_seq_)
   {
@@ -228,7 +229,9 @@ void LinearMpcXY::dumpMotionDataSeq(const std::string & file_path, bool print_co
     std::cout << "Run the following commands in gnuplot:\n"
               << "  set key autotitle columnhead\n"
               << "  set key noenhanced\n"
-              << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:6 w lp\n"
-              << "  replot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:7 w lp\n";
+              << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:8 w lp # pos_x\n"
+              << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:9 w lp # pos_y\n"
+              << "  plot \"" << file_path << "\" u 1:6 w lp, \"\" u 1:14 w lp # momentum_x\n"
+              << "  plot \"" << file_path << "\" u 1:7 w lp, \"\" u 1:15 w lp # momentum_y\n";
   }
 }
