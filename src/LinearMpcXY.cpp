@@ -3,7 +3,6 @@
 #include <fstream>
 
 #include <CCC/Constants.h>
-#include <CCC/EigenTypes.h>
 #include <CCC/LinearMpcXY.h>
 
 using namespace CCC;

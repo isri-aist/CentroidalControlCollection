@@ -6,6 +6,7 @@
 
 #include <qp_solver_collection/QpSolver.h>
 
+#include <CCC/EigenTypes.h>
 #include <CCC/MotionData.h>
 #include <CCC/VariantSequentialExtension.h>
 
@@ -35,20 +36,20 @@ public:
     double total_force_z;
 
     //! List of contact vertex and force direction (i.e., friction pyramid ridge)
-    const std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> & vertex_ridge_list;
+    std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> vertex_ridge_list;
   };
 
   /** \brief Initial parameter. */
   struct InitialParam
   {
     //! CoM position [m]
-    Eigen::Vector2d pos;
+    Eigen::Vector2d pos = Eigen::Vector2d::Zero();
 
     //! CoM linear velocity [m/s]
-    Eigen::Vector2d vel;
+    Eigen::Vector2d vel = Eigen::Vector2d::Zero();
 
     //! Angular momentum [kg m^2/s]
-    Eigen::Vector2d angular_momentum;
+    Eigen::Vector2d angular_momentum = Eigen::Vector2d::Zero();
 
     /** \brief Get state of state-space model.
         \param mass robot mass [kg]
@@ -60,13 +61,13 @@ public:
   struct RefData
   {
     //! CoM position [m]
-    Eigen::Vector2d pos;
+    Eigen::Vector2d pos = Eigen::Vector2d::Zero();
 
     //! CoM linear velocity [m/s]
-    Eigen::Vector2d vel;
+    Eigen::Vector2d vel = Eigen::Vector2d::Zero();
 
     //! Angular momentum [kg m^2/s]
-    Eigen::Vector2d angular_momentum;
+    Eigen::Vector2d angular_momentum = Eigen::Vector2d::Zero();
 
     /** \brief Get reference output size. */
     static constexpr int outputDim()
