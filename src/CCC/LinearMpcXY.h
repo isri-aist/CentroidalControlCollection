@@ -29,6 +29,8 @@ public:
   /** \brief Motion parameter. */
   struct MotionParam
   {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
     //! CoM z position [m]
     double com_z;
 
@@ -42,6 +44,8 @@ public:
   /** \brief Initial parameter. */
   struct InitialParam
   {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
     //! CoM position [m]
     Eigen::Vector2d pos = Eigen::Vector2d::Zero();
 
@@ -60,6 +64,8 @@ public:
   /** \brief Reference data. */
   struct RefData
   {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
     //! CoM position [m]
     Eigen::Vector2d pos = Eigen::Vector2d::Zero();
 
@@ -84,6 +90,8 @@ public:
   /** \brief Weight parameter. */
   struct WeightParam
   {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
     //! Linear momentum integral weight
     Eigen::Vector2d linear_momentum_integral;
 
@@ -125,6 +133,8 @@ public:
   /** \brief Motion data. */
   struct MotionData : MotionDataBase<Eigen::Vector2d, Eigen::Vector2d, Eigen::VectorXd>
   {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
     //! Reference angular momentum [kg m^2/s]
     Eigen::Vector2d ref_angular_momentum;
 
@@ -232,9 +242,6 @@ public:
 
   //! Discretization timestep in horizon [s]
   double horizon_dt_ = 0;
-
-  //! State-space model for simulation
-  std::shared_ptr<SimModel> sim_model_;
 
   //! QP solver
   std::shared_ptr<QpSolverCollection::QpSolver> qp_solver_;

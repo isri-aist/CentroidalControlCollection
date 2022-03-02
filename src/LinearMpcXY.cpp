@@ -149,7 +149,7 @@ void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_par
     // Save current data
     Eigen::VectorXd current_u(current_model->inputDim());
     current_u << opt_force_seq.head(current_model->inputDim());
-    const auto & current_sim_output = sim_model_->observEq(current_x, current_u);
+    const auto & current_sim_output = sim_model->observEq(current_x, current_u);
     auto & current_motion_data = motion_data_seq_[i];
     current_motion_data.time = current_t;
     current_motion_data.ref_pos = current_ref_data.pos;
@@ -164,7 +164,7 @@ void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_par
 
     // Simulate one step
     current_t += sim_dt;
-    current_x = sim_model_->stateEqDisc(current_x, current_u);
+    current_x = sim_model->stateEqDisc(current_x, current_u);
   }
 }
 
