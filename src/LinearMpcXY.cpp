@@ -42,20 +42,21 @@ Eigen::VectorXd LinearMpcXY::WeightParam::outputWeight(size_t seq_len) const
 }
 
 LinearMpcXY::Model::Model(double mass, const MotionParam & motion_param, int output_dim)
-: StateSpaceModel(LinearMpcXY::state_dim_, motion_param.vertex_ridge_list.size(), output_dim)
+: StateSpaceModel(LinearMpcXY::state_dim_, motion_param.vertex_ridge_list.size(), output_dim),
+  motion_param_(motion_param)
 {
   A_(0, 1) = 1;
   A_(2, 3) = 1;
-  A_(4, 2) = -1 * motion_param.total_force_z / mass;
-  A_(5, 0) = motion_param.total_force_z / mass;
+  A_(4, 2) = -1 * motion_param_.total_force_z / mass;
+  A_(5, 0) = motion_param_.total_force_z / mass;
 
-  for(size_t i = 0; i < motion_param.vertex_ridge_list.size(); i++)
+  for(size_t i = 0; i < motion_param_.vertex_ridge_list.size(); i++)
   {
-    const auto & vertex = motion_param.vertex_ridge_list[i].first;
-    const auto & ridge = motion_param.vertex_ridge_list[i].second;
+    const auto & vertex = motion_param_.vertex_ridge_list[i].first;
+    const auto & ridge = motion_param_.vertex_ridge_list[i].second;
     B_.col(i) << 0, ridge.x(), 0, ridge.y(),
-        -1 * (vertex.z() - motion_param.com_z) * ridge.y() + vertex.y() * ridge.z(),
-        (vertex.z() - motion_param.com_z) * ridge.x() + -1 * vertex.x() * ridge.z();
+        -1 * (vertex.z() - motion_param_.com_z) * ridge.y() + vertex.y() * ridge.z(),
+        (vertex.z() - motion_param_.com_z) * ridge.x() + -1 * vertex.x() * ridge.z();
   }
 }
 
@@ -68,9 +69,9 @@ LinearMpcXY::SimModel::SimModel(double mass, const MotionParam & motion_param) :
   C_(6, 4) = 1;
   C_(7, 5) = 1;
 
-  for(size_t i = 0; i < motion_param.vertex_ridge_list.size(); i++)
+  for(size_t i = 0; i < motion_param_.vertex_ridge_list.size(); i++)
   {
-    const auto & ridge = motion_param.vertex_ridge_list[i].second;
+    const auto & ridge = motion_param_.vertex_ridge_list[i].second;
     D_(2, i) = ridge.x() / mass;
     D_(5, i) = ridge.y() / mass;
   }
@@ -174,13 +175,14 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
                                       const WeightParam & weight_param)
 {
   // Calculate sequential extension
+  int horizon_size = model_list.size();
   VariantSequentialExtension<state_dim_> seq_ext(model_list, false);
 
-  // Set QP coefficients
+  // Set QP objective coefficients
   int total_input_dim = seq_ext.totalInputDim();
-  if(!(qp_coeff_.dim_var_ == total_input_dim && qp_coeff_.dim_eq_ == 1 && qp_coeff_.dim_ineq_ == 0))
+  if(!(qp_coeff_.dim_var_ == total_input_dim && qp_coeff_.dim_eq_ == horizon_size && qp_coeff_.dim_ineq_ == 0))
   {
-    qp_coeff_.setup(total_input_dim, 1, 0);
+    qp_coeff_.setup(total_input_dim, horizon_size, 0);
   }
   const Eigen::VectorXd & output_weight = weight_param.outputWeight(model_list.size());
   qp_coeff_.obj_mat_.noalias() = seq_ext.B_seq_.transpose() * output_weight.asDiagonal() * seq_ext.B_seq_;
@@ -189,6 +191,22 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
   qp_coeff_.obj_mat_ += weight_param.inputWeight(total_input_dim).asDiagonal();
   qp_coeff_.obj_vec_.noalias() = -1 * seq_ext.B_seq_.transpose() * output_weight.asDiagonal()
                                  * (ref_output_seq - seq_ext.A_seq_ * current_x - seq_ext.E_seq_);
+
+  // Set QP constraint coefficients
+  int accum_input_dim = 0;
+  for(int i = 0; i < horizon_size; i++)
+  {
+    const auto & model = std::dynamic_pointer_cast<Model>(model_list[i]);
+
+    for(size_t j = 0; j < model->motion_param_.vertex_ridge_list.size(); j++)
+    {
+      const auto & ridge = model->motion_param_.vertex_ridge_list[j].second;
+      qp_coeff_.eq_mat_(i, accum_input_dim + j) = ridge.z();
+    }
+    qp_coeff_.eq_vec_[i] = model->motion_param_.total_force_z;
+
+    accum_input_dim += model->inputDim();
+  }
   qp_coeff_.x_min_.setConstant(force_range_.first);
   qp_coeff_.x_max_.setConstant(force_range_.second);
 

@@ -151,6 +151,10 @@ public:
         \param output_dim output dimension
      */
     Model(double mass, const MotionParam & motion_param, int output_dim = 0);
+
+  public:
+    //! Motion parameter
+    MotionParam motion_param_;
   };
 
   /** \brief State-space model for simulation. */
