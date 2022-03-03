@@ -24,7 +24,7 @@ TEST(TestLinearMpcZ, Test1)
   mpc.dumpMotionDataSeq("/tmp/TestLinearMpcZ.txt", true);
 
   // Check final state
-  const auto & motion_data_final = mpc.motion_data_seq_[mpc.motion_data_seq_.size() - 1];
+  const auto & motion_data_final = mpc.motionDataSeq().rbegin()->second;
   EXPECT_LT(std::abs(motion_data_final.planned_pos - motion_data_final.ref_pos),
             1e-2); // [m]
   EXPECT_LT(std::abs(motion_data_final.planned_vel),
@@ -33,11 +33,11 @@ TEST(TestLinearMpcZ, Test1)
             1e-10); // [m]
 
   // Check acceleration in the air
-  for(const auto & motion_data : mpc.motion_data_seq_)
+  for(const auto & motion_data_kv : mpc.motionDataSeq())
   {
-    if(!contact_func(motion_data.time))
+    if(!contact_func(motion_data_kv.first))
     {
-      EXPECT_LT(std::abs(motion_data.planned_acc - -1 * CCC::constants::g), 1e-8); // [m/s^2]
+      EXPECT_LT(std::abs(motion_data_kv.second.planned_acc - -1 * CCC::constants::g), 1e-8); // [m/s^2]
     }
   }
 }

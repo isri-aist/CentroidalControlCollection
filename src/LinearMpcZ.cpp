@@ -93,7 +93,6 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
   // Loop
   double current_t = motion_time_range.first;
   StateDimVector current_x = mass_ * initial_param;
-  motion_data_seq_.resize(seq_len);
   for(int i = 0; i < seq_len; i++)
   {
     // Set model_list and ref_pos_seq
@@ -113,8 +112,8 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
     // Save current data
     Eigen::Vector1d current_u;
     current_u << (current_model->inputDim() > 0 ? opt_force_seq[0] : 0.0);
-    const Eigen::Vector3d & current_sim_output = sim_model->observEq(current_x, current_u);
-    auto & current_motion_data = motion_data_seq_[i];
+    const auto & current_sim_output = sim_model->observEq(current_x, current_u);
+    MotionData current_motion_data;
     current_motion_data.time = current_t;
     current_motion_data.contact = (current_model->inputDim() > 0);
     current_motion_data.ref_pos = ref_pos_seq[0];
@@ -124,6 +123,7 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
     current_motion_data.planned_vel = current_sim_output[1];
     current_motion_data.planned_acc = current_sim_output[2];
     current_motion_data.planned_force = current_u[0];
+    motion_data_seq_.emplace(current_t, current_motion_data);
 
     // Simulate one step
     current_t += sim_dt;
@@ -160,9 +160,9 @@ void LinearMpcZ::dumpMotionDataSeq(const std::string & file_path, bool print_com
 {
   std::ofstream ofs(file_path);
   ofs << "time contact ref_pos planned_pos planned_vel planned_acc planned_force" << std::endl;
-  for(const auto & motion_data : motion_data_seq_)
+  for(const auto & motion_data_kv : motion_data_seq_)
   {
-    motion_data.dump(ofs);
+    motion_data_kv.second.dump(ofs);
   }
   if(print_command)
   {

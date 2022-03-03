@@ -118,7 +118,6 @@ void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_par
   // Loop
   double current_t = motion_time_range.first;
   StateDimVector current_x = initial_param.toState(mass_);
-  motion_data_seq_.resize(seq_len);
   for(int i = 0; i < seq_len; i++)
   {
     // Set model_list and ref_output_seq
@@ -150,7 +149,7 @@ void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_par
     Eigen::VectorXd current_u(current_model->inputDim());
     current_u << opt_force_seq.head(current_model->inputDim());
     const auto & current_sim_output = sim_model->observEq(current_x, current_u);
-    auto & current_motion_data = motion_data_seq_[i];
+    MotionData current_motion_data;
     current_motion_data.time = current_t;
     current_motion_data.ref_pos = current_ref_data.pos;
     current_motion_data.ref_vel = current_ref_data.vel;
@@ -161,6 +160,7 @@ void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_par
     current_motion_data.planned_acc << current_sim_output[2], current_sim_output[5];
     current_motion_data.planned_force = current_u;
     current_motion_data.planned_angular_momentum = current_sim_output.tail<2>();
+    motion_data_seq_.emplace(current_t, current_motion_data);
 
     // Simulate one step
     current_t += sim_dt;
@@ -238,9 +238,9 @@ void LinearMpcXY::dumpMotionDataSeq(const std::string & file_path, bool print_co
          "planned_pos_y planned_vel_x planned_vel_y planned_acc_x planned_acc_y planned_angular_momentum_x "
          "planned_angular_momentum_y planned_force"
       << std::endl;
-  for(const auto & motion_data : motion_data_seq_)
+  for(const auto & motion_data_kv : motion_data_seq_)
   {
-    motion_data.dump(ofs);
+    motion_data_kv.second.dump(ofs);
   }
   if(print_command)
   {

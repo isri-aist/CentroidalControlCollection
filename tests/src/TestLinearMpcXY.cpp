@@ -104,7 +104,7 @@ TEST(TestLinearMpcXY, Test1)
   mpc.dumpMotionDataSeq("/tmp/TestLinearMpcXY.txt", true);
 
   // Check final state
-  const auto & motion_data_final = mpc.motion_data_seq_[mpc.motion_data_seq_.size() - 1];
+  const auto & motion_data_final = mpc.motionDataSeq().rbegin()->second;
   EXPECT_LT((motion_data_final.planned_pos - motion_data_final.ref_pos).norm(),
             1e-3); // [m]
   EXPECT_LT((motion_data_final.planned_vel - motion_data_final.ref_vel).norm(),

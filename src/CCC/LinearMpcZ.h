@@ -144,6 +144,12 @@ public:
    */
   void dumpMotionDataSeq(const std::string & file_path, bool print_command = true) const;
 
+  /** \brief Get motion data sequence. */
+  inline const std::map<double, MotionData> & motionDataSeq() const
+  {
+    return motion_data_seq_;
+  }
+
 protected:
   /** \brief Process one step. */
   Eigen::VectorXd procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
@@ -173,7 +179,8 @@ public:
   //! Min/max z-component force [N]
   std::pair<double, double> force_range_;
 
+protected:
   //! Motion data sequence
-  std::vector<MotionData> motion_data_seq_;
+  std::map<double, MotionData> motion_data_seq_;
 };
 } // namespace CCC
