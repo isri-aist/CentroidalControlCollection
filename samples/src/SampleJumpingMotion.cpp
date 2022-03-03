@@ -63,37 +63,37 @@ int main(int argc, char ** argv)
   // Plan XY
   std::shared_ptr<CCC::LinearMpcXY> mpc_xy;
   {
-    std::function<CCC::LinearMpcXY::MotionParam(double)> motion_param_func =
-        [mass, ref_com_z, jump_start_t, jump_end_t, sim_dt, motion_time_range, mpc_z](double t) {
-          CCC::LinearMpcXY::MotionParam motion_param;
+    std::function<CCC::LinearMpcXY::MotionParam(double)> motion_param_func = [sim_dt, motion_time_range, jump_start_t,
+                                                                              jump_end_t, ref_com_z, mpc_z](double t) {
+      CCC::LinearMpcXY::MotionParam motion_param;
 
-          // Set com_z and total_force_z
-          int motion_data_z_idx = std::min(static_cast<int>(std::round((t - motion_time_range.first) / sim_dt)),
-                                           static_cast<int>(mpc_z->motion_data_seq_.size()) - 1);
-          const auto & motion_data_z = mpc_z->motion_data_seq_[motion_data_z_idx];
-          motion_param.com_z = motion_data_z.planned_pos;
-          motion_param.total_force_z = motion_data_z.planned_force;
-          const auto & last_motion_data_z = mpc_z->motion_data_seq_[mpc_z->motion_data_seq_.size() - 1];
-          if(std::abs(motion_data_z.time - std::min(t, last_motion_data_z.time)) > 1e-10)
-          {
-            throw std::runtime_error("motion_data_z.time is inconsistent. " + std::to_string(motion_data_z.time)
-                                     + " != " + std::to_string(std::min(t, last_motion_data_z.time)));
-          }
+      // Set com_z and total_force_z
+      int motion_data_z_idx = std::min(static_cast<int>(std::round((t - motion_time_range.first) / sim_dt)),
+                                       static_cast<int>(mpc_z->motion_data_seq_.size()) - 1);
+      const auto & motion_data_z = mpc_z->motion_data_seq_[motion_data_z_idx];
+      motion_param.com_z = motion_data_z.planned_pos;
+      motion_param.total_force_z = motion_data_z.planned_force;
+      const auto & last_motion_data_z = mpc_z->motion_data_seq_[mpc_z->motion_data_seq_.size() - 1];
+      if(std::abs(motion_data_z.time - std::min(t, last_motion_data_z.time)) > 1e-10)
+      {
+        throw std::runtime_error("motion_data_z.time is inconsistent. " + std::to_string(motion_data_z.time)
+                                 + " != " + std::to_string(std::min(t, last_motion_data_z.time)));
+      }
 
-          // Set vertex_ridge_list
-          if(t <= jump_start_t)
-          {
-            motion_param.vertex_ridge_list =
-                makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)}); // [m]
-          }
-          else if(t >= jump_end_t)
-          {
-            motion_param.vertex_ridge_list =
-                makeVertexRidgeListFromRect({Eigen::Vector2d(0.4, -0.1), Eigen::Vector2d(0.6, 0.1)});
-          }
+      // Set vertex_ridge_list
+      if(t <= jump_start_t)
+      {
+        motion_param.vertex_ridge_list =
+            makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)}); // [m]
+      }
+      else if(t >= jump_end_t)
+      {
+        motion_param.vertex_ridge_list =
+            makeVertexRidgeListFromRect({Eigen::Vector2d(0.4, -0.1), Eigen::Vector2d(0.6, 0.1)});
+      }
 
-          return motion_param;
-        };
+      return motion_param;
+    };
     std::function<CCC::LinearMpcXY::RefData(double)> ref_data_func = [jump_start_t, jump_end_t](double t) {
       CCC::LinearMpcXY::RefData ref_data;
       Eigen::Vector2d start_pos(0.0, 0.0); // [m]
