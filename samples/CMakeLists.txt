@@ -1,2 +1,2 @@
-add_executable(PlanJumpingMotion src/PlanJumpingMotion.cpp)
-target_link_libraries(PlanJumpingMotion PRIVATE CCC)
+add_executable(SampleJumpingMotion src/SampleJumpingMotion.cpp)
+target_link_libraries(SampleJumpingMotion PRIVATE CCC)

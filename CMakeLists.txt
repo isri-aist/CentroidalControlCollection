@@ -42,7 +42,7 @@ link_directories(${catkin_LIBRARY_DIRS})
 
 add_subdirectory(src)
 
-# add_subdirectory(samples)
+add_subdirectory(samples)
 
 if(CATKIN_ENABLE_TESTING)
   add_subdirectory(tests)
