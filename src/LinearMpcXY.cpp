@@ -177,12 +177,23 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
   int horizon_size = model_list.size();
   VariantSequentialExtension<state_dim_> seq_ext(model_list, false);
 
-  // Set QP objective coefficients
+  // Setup QP coefficients
   int total_input_dim = seq_ext.totalInputDim();
-  if(!(qp_coeff_.dim_var_ == total_input_dim && qp_coeff_.dim_eq_ == horizon_size && qp_coeff_.dim_ineq_ == 0))
+  int dim_eq = 0;
+  for(const auto & model : model_list)
   {
-    qp_coeff_.setup(total_input_dim, horizon_size, 0);
+    // Do not impose the total_force_z constraint on models with no contact
+    if(model->inputDim() > 0)
+    {
+      dim_eq++;
+    }
   }
+  if(!(qp_coeff_.dim_var_ == total_input_dim && qp_coeff_.dim_eq_ == dim_eq && qp_coeff_.dim_ineq_ == 0))
+  {
+    qp_coeff_.setup(total_input_dim, dim_eq, 0);
+  }
+
+  // Set QP objective coefficients
   const Eigen::VectorXd & output_weight = weight_param.outputWeight(model_list.size());
   qp_coeff_.obj_mat_.noalias() = seq_ext.B_seq_.transpose() * output_weight.asDiagonal() * seq_ext.B_seq_;
   // Diagonal matrix cannot be added at the same time.
@@ -192,18 +203,25 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
                                  * (ref_output_seq - seq_ext.A_seq_ * current_x - seq_ext.E_seq_);
 
   // Set QP constraint coefficients
+  qp_coeff_.eq_mat_.setZero();
+  int accum_eq_dim = 0;
   int accum_input_dim = 0;
-  for(int i = 0; i < horizon_size; i++)
+  for(const auto & _model : model_list)
   {
-    const auto & model = std::dynamic_pointer_cast<Model>(model_list[i]);
-
-    for(size_t j = 0; j < model->motion_param_.vertex_ridge_list.size(); j++)
+    const auto & model = std::dynamic_pointer_cast<Model>(_model);
+    if(model->inputDim() == 0)
     {
-      const auto & ridge = model->motion_param_.vertex_ridge_list[j].second;
-      qp_coeff_.eq_mat_(i, accum_input_dim + j) = ridge.z();
+      continue;
     }
-    qp_coeff_.eq_vec_[i] = model->motion_param_.total_force_z;
 
+    for(size_t i = 0; i < model->inputDim(); i++)
+    {
+      const auto & ridge = model->motion_param_.vertex_ridge_list[i].second;
+      qp_coeff_.eq_mat_(accum_eq_dim, accum_input_dim + i) = ridge.z();
+    }
+    qp_coeff_.eq_vec_[accum_eq_dim] = model->motion_param_.total_force_z;
+
+    accum_eq_dim++;
     accum_input_dim += model->inputDim();
   }
   qp_coeff_.x_min_.setConstant(force_range_.first);
