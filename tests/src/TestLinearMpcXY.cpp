@@ -37,7 +37,7 @@ std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> makeVertexRidgeListFrom
 TEST(TestLinearMpcXY, Test1)
 {
   double mass = 100.0; // [kg]
-  double horizon_dt = 0.1; // [ms]
+  double horizon_dt = 0.1; // [sec]
 
   CCC::LinearMpcXY mpc(mass, horizon_dt);
 
@@ -95,9 +95,9 @@ TEST(TestLinearMpcXY, Test1)
   };
   CCC::LinearMpcXY::InitialParam initial_param;
   initial_param.pos << 1.0, 0.0; // [m]
-  std::pair<double, double> motion_time_range(0.0, 8.0); // ([s], [s])
+  std::pair<double, double> motion_time_range(0.0, 8.0); // ([sec], [sec])
   double horizon_duration = 1.5; // [sec]
-  double sim_dt = 0.05; // [ms]
+  double sim_dt = 0.05; // [sec]
 
   mpc.planLoop(motion_param_func, ref_data_func, initial_param, motion_time_range, horizon_duration, sim_dt);
 

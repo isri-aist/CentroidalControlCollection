@@ -8,7 +8,7 @@ namespace CCC
 template<class PosType, class VelType, class ForceType>
 struct MotionDataBase
 {
-  //! Time [s]
+  //! Time [sec]
   double time;
 
   //! Reference position

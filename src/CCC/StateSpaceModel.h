@@ -154,7 +154,7 @@ public:
   }
 
   /** \brief Calculate the discrete system matrices.
-      \param dt discretization timestep [s]
+      \param dt discretization timestep [sec]
   */
   void calcDiscMatrix(double dt)
   {
@@ -238,7 +238,7 @@ public:
   //! Offset vector F of observation equation
   OutputDimVector F_;
 
-  //! Discretization timestep [s] (zero if discrete coefficients are not initialized)
+  //! Discretization timestep [sec] (zero if discrete coefficients are not initialized)
   double dt_ = 0;
 
   //! Matrix A of discrete state equation

@@ -99,7 +99,7 @@ public:
 
   /** \brief Constructor.
       \param mass robot mass [kg]
-      \param horizon_dt discretization timestep in horizon [s]
+      \param horizon_dt discretization timestep in horizon [sec]
       \param qp_solver_type QP solver type
   */
   LinearMpcZ(double mass,
@@ -110,7 +110,7 @@ public:
       \param contact_func function of contact/non-contact phases (returns true for contact phase)
       \param ref_pos_func function of reference position [m]
       \param initial_param initial parameter
-      \param horizon_time_range start and end time of horizon ([s], [s])
+      \param horizon_time_range start and end time of horizon ([sec], [sec])
       \param weight_param objective weight parameter
       \returns planned force sequence
   */
@@ -124,9 +124,9 @@ public:
       \param contact_func function of contact/non-contact phases (returns true for contact phase)
       \param ref_pos_func function of reference position [m]
       \param initial_param initial parameter
-      \param motion_time_range start and end time of motion ([s], [s])
-      \param horizon_duration horizon duration [s]
-      \param sim_dt discretization timestep for simulation [s]
+      \param motion_time_range start and end time of motion ([sec], [sec])
+      \param horizon_duration horizon duration [sec]
+      \param sim_dt discretization timestep for simulation [sec]
       \param weight_param objective weight parameter
       \returns planned force sequence
   */
@@ -155,7 +155,7 @@ public:
   //! Robot mass [kg]
   double mass_ = 0;
 
-  //! Discretization timestep in horizon [s]
+  //! Discretization timestep in horizon [sec]
   double horizon_dt_ = 0;
 
   //! State-space model for contact phase
