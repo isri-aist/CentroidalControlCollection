@@ -63,21 +63,36 @@ int main(int argc, char ** argv)
   // Plan XY
   std::shared_ptr<CCC::LinearMpcXY> mpc_xy;
   {
-    std::function<CCC::LinearMpcXY::MotionParam(double)> motion_param_func = [sim_dt, motion_time_range, jump_start_t,
-                                                                              jump_end_t, ref_com_z, mpc_z](double t) {
+    std::function<CCC::LinearMpcXY::MotionParam(double)> motion_param_func = [jump_start_t, jump_end_t,
+                                                                              mpc_z](double t) {
       CCC::LinearMpcXY::MotionParam motion_param;
 
       // Set com_z and total_force_z
-      int motion_data_z_idx = std::min(static_cast<int>(std::round((t - motion_time_range.first) / sim_dt)),
-                                       static_cast<int>(mpc_z->motion_data_seq_.size()) - 1);
-      const auto & motion_data_z = mpc_z->motion_data_seq_[motion_data_z_idx];
-      motion_param.com_z = motion_data_z.planned_pos;
-      motion_param.total_force_z = motion_data_z.planned_force;
-      const auto & last_motion_data_z = mpc_z->motion_data_seq_[mpc_z->motion_data_seq_.size() - 1];
-      if(std::abs(motion_data_z.time - std::min(t, last_motion_data_z.time)) > 1e-10)
       {
-        throw std::runtime_error("motion_data_z.time is inconsistent. " + std::to_string(motion_data_z.time)
-                                 + " != " + std::to_string(std::min(t, last_motion_data_z.time)));
+        auto it = mpc_z->motionDataSeq().upper_bound(t);
+        if(it == mpc_z->motionDataSeq().begin())
+        {
+          motion_param.com_z = it->second.planned_pos;
+          motion_param.total_force_z = it->second.planned_force;
+        }
+        else if(it == mpc_z->motionDataSeq().end())
+        {
+          auto end_it = mpc_z->motionDataSeq().rbegin();
+          motion_param.com_z = end_it->second.planned_pos;
+          motion_param.total_force_z = end_it->second.planned_force;
+        }
+        else
+        {
+          double end_time = it->first;
+          const auto & end_motion_data = it->second;
+          it--;
+          double start_time = it->first;
+          const auto & start_motion_data = it->second;
+          double ratio = (t - start_time) / (end_time - start_time);
+          motion_param.com_z = (1 - ratio) * start_motion_data.planned_pos + ratio * end_motion_data.planned_pos;
+          motion_param.total_force_z =
+              (1 - ratio) * start_motion_data.planned_force + ratio * end_motion_data.planned_force;
+        }
       }
 
       // Set vertex_ridge_list
@@ -105,7 +120,7 @@ int main(int argc, char ** argv)
     };
     CCC::LinearMpcXY::InitialParam initial_param;
     initial_param.pos << 0.0, 0.0; // [m]
-    double horizon_dt = 0.03; // [sec]
+    double horizon_dt = 0.04; // [sec]
     double horizon_duration = 1.0; // [sec]
 
     mpc_xy = std::make_shared<CCC::LinearMpcXY>(mass, horizon_dt);
