@@ -8,24 +8,24 @@
 std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> makeVertexRidgeListFromRect(
     const std::array<Eigen::Vector2d, 2> & rect_min_max)
 {
-  std::vector<Eigen::Vector3d> vertexList(4);
-  vertexList[0] << rect_min_max[0], 0.0;
-  vertexList[1] << rect_min_max[0][0], rect_min_max[1][1], 0.0;
-  vertexList[2] << rect_min_max[1], 0.0;
-  vertexList[3] << rect_min_max[1][0], rect_min_max[0][1], 0.0;
+  std::vector<Eigen::Vector3d> vertex_list(4);
+  vertex_list[0] << rect_min_max[0], 0.0;
+  vertex_list[1] << rect_min_max[0][0], rect_min_max[1][1], 0.0;
+  vertex_list[2] << rect_min_max[1], 0.0;
+  vertex_list[3] << rect_min_max[1][0], rect_min_max[0][1], 0.0;
 
-  std::vector<Eigen::Vector3d> ridgeList(4);
+  std::vector<Eigen::Vector3d> ridge_list(4);
   for(int i = 0; i < 4; i++)
   {
     double theta = 2 * M_PI * (static_cast<double>(i) / 4);
-    ridgeList[i] << 0.5 * std::cos(theta), 0.5 * std::sin(theta), 1;
-    ridgeList[i].normalize();
+    ridge_list[i] << 0.5 * std::cos(theta), 0.5 * std::sin(theta), 1;
+    ridge_list[i].normalize();
   }
 
   std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> vertex_ridge_list;
-  for(const auto & vertex : vertexList)
+  for(const auto & vertex : vertex_list)
   {
-    for(const auto & ridge : ridgeList)
+    for(const auto & ridge : ridge_list)
     {
       vertex_ridge_list.emplace_back(vertex, ridge);
     }
