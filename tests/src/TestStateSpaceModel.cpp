@@ -74,7 +74,7 @@ void testStateSpaceModel(bool debug = false)
   // Discrete system
   double dt = 1e-2;
   model.calcDiscMatrix(dt);
-  Eigen::Vector3d nextXDisc = model.stateEqDisc(x, u);
+  Eigen::Vector3d next_x_disc = model.stateEqDisc(x, u);
 
   // Check results
   if(debug)
@@ -104,14 +104,14 @@ void testStateSpaceModel(bool debug = false)
     }
   }
 
-  Eigen::Vector3d nextXCont = x + dt * dx;
+  Eigen::Vector3d next_x_cont = x + dt * dx;
   if(debug)
   {
-    std::cout << "continuous result:\n" << nextXCont.transpose() << std::endl;
-    std::cout << "discrete result:\n" << nextXDisc.transpose() << std::endl;
+    std::cout << "continuous result:\n" << next_x_cont.transpose() << std::endl;
+    std::cout << "discrete result:\n" << next_x_disc.transpose() << std::endl;
   }
 
-  EXPECT_LT((nextXCont - nextXDisc).norm(), 1e-3);
+  EXPECT_LT((next_x_cont - next_x_disc).norm(), 1e-3);
 }
 
 TEST(TestStateSpaceModel, Fixed1)
