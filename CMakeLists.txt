@@ -33,12 +33,9 @@ catkin_package(
   sensor_msgs
   qp_solver_collection
   DEPENDS EIGEN3
-  INCLUDE_DIRS src
+  INCLUDE_DIRS include
   LIBRARIES CCC
   )
-
-include_directories(src ${catkin_INCLUDE_DIRS})
-link_directories(${catkin_LIBRARY_DIRS})
 
 add_subdirectory(src)
 
