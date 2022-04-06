@@ -119,9 +119,9 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abefb5baa22e71a2fdc96ee224f184300"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#abefb5baa22e71a2fdc96ee224f184300">LinearMpcZ</a> (double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type=QpSolverCollection::QpSolverType::QLD)</td></tr>
-<tr class="memdesc:abefb5baa22e71a2fdc96ee224f184300"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#abefb5baa22e71a2fdc96ee224f184300">More...</a><br /></td></tr>
-<tr class="separator:abefb5baa22e71a2fdc96ee224f184300"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c37538c55c9637adbb5792844a22a08"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#a8c37538c55c9637adbb5792844a22a08">LinearMpcZ</a> (double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type=QpSolverCollection::QpSolverType::Any)</td></tr>
+<tr class="memdesc:a8c37538c55c9637adbb5792844a22a08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a8c37538c55c9637adbb5792844a22a08">More...</a><br /></td></tr>
+<tr class="separator:a8c37538c55c9637adbb5792844a22a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14031ea37d65c79f8c35243a38fbcead"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#a14031ea37d65c79f8c35243a38fbcead">planOnce</a> (const std::function&lt; bool(double)&gt; &amp;contact_func, const std::function&lt; double(double)&gt; &amp;ref_pos_func, const <a class="el" href="classCCC_1_1LinearMpcZ.html#a457c4ffc9efe6f0d5cd6386b0447e5bb">InitialParam</a> &amp;initial_param, const std::pair&lt; double, double &gt; &amp;horizon_time_range, const <a class="el" href="structCCC_1_1LinearMpcZ_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1LinearMpcZ_1_1WeightParam.html">WeightParam</a>())</td></tr>
 <tr class="memdesc:a14031ea37d65c79f8c35243a38fbcead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#a14031ea37d65c79f8c35243a38fbcead">More...</a><br /></td></tr>
 <tr class="separator:a14031ea37d65c79f8c35243a38fbcead"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -238,8 +238,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="abefb5baa22e71a2fdc96ee224f184300"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abefb5baa22e71a2fdc96ee224f184300">&#9670;&nbsp;</a></span>LinearMpcZ()</h2>
+<a id="a8c37538c55c9637adbb5792844a22a08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c37538c55c9637adbb5792844a22a08">&#9670;&nbsp;</a></span>LinearMpcZ()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,7 +260,7 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">QpSolverCollection::QpSolverType&#160;</td>
-          <td class="paramname"><em>qp_solver_type</em> = <code>QpSolverCollection::QpSolverType::QLD</code>&#160;</td>
+          <td class="paramname"><em>qp_solver_type</em> = <code>QpSolverCollection::QpSolverType::Any</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
