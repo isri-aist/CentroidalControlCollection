@@ -5,7 +5,7 @@
     Collection of centroidal control for legged robots
   </description>
   <maintainer email="m-murooka@aist.go.jp">Masaki Murooka</maintainer>
-  <license>GPL</license>
+  <license>BSD</license>
 
   <url>http://ros.org/wiki/centroidal_control_collection</url>
   <author>Masaki Murooka</author>
@@ -13,22 +13,9 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>roscpp</depend>
-  <depend>rosbag</depend>
-  <depend>rviz</depend>
-  <depend>urdf</depend>
-  <depend>std_msgs</depend>
-  <depend>std_srvs</depend>
-  <depend>eigen_conversions</depend>
-  <depend>geometry_msgs</depend>
-  <depend>visualization_msgs</depend>
-  <depend>sensor_msgs</depend>
   <depend>qp_solver_collection</depend>
 
-  <build_depend>message_generation</build_depend>
   <build_depend>eigen</build_depend>
-
-  <exec_depend>message_runtime</exec_depend>
-  <exec_depend>rospy</exec_depend>
 
   <test_depend>rosunit</test_depend>
 
