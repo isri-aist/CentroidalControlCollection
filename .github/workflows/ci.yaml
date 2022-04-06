@@ -80,7 +80,7 @@ jobs:
           set -e
           cd ${GITHUB_WORKSPACE}/eigen-qld
           mkdir build && cd build
-          cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DBUILD_TESTING=OFF -DPYTHON_BINDING=OFF
+          cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DBUILD_TESTING=OFF -DPYTHON_BINDING=OFF -DINSTALL_DOCUMENTATION=OFF
           make && sudo make install
       #### [End] Install QP solvers ####
       - name: Catkin build
