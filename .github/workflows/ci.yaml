@@ -98,25 +98,25 @@ jobs:
           . devel/setup.bash
           catkin build --limit-status-rate 0.1 --catkin-make-args run_tests -- centroidal_control_collection --no-deps
           catkin_test_results --verbose --all build
-      # - name: Upload documentation
-      #   # Only run on master branch and for one configuration
-      #   if: matrix.build-type == 'RelWithDebInfo' && github.ref == 'refs/heads/master'
-      #   run: |
-      #     set -e
-      #     set -x
-      #     cd ${GITHUB_WORKSPACE}/catkin_ws/src/CentroidalControlCollection
-      #     git config --global user.name "Masaki Murooka"
-      #     git config --global user.email "m-murooka@aist.go.jp"
-      #     git remote set-url origin "https://mmurooka:${{ secrets.CI_TOKEN }}@github.com/isri-aist/CentroidalControlCollection"
-      #     git fetch --depth=1 origin gh-pages:gh-pages
-      #     git checkout --quiet gh-pages
-      #     rm -rf doxygen/
-      #     cp -r ${GITHUB_WORKSPACE}/catkin_ws/build/centroidal_control_collection/doc/html/ doxygen
-      #     git add doxygen
-      #     git_status=`git status -s`
-      #     if test -n "$git_status"; then
-      #       git commit --quiet -m "Update Doxygen HTML files from commit ${{ github.sha }}"
-      #       git push origin gh-pages
-      #     else
-      #       echo "Github pages documentation is already up-to-date."
-      #     fi
+      - name: Upload documentation
+        # Only run on master branch and for one configuration
+        if: matrix.build-type == 'RelWithDebInfo' && github.ref == 'refs/heads/master'
+        run: |
+          set -e
+          set -x
+          cd ${GITHUB_WORKSPACE}/catkin_ws/src/CentroidalControlCollection
+          git config --global user.name "Masaki Murooka"
+          git config --global user.email "m-murooka@aist.go.jp"
+          git remote set-url origin "https://mmurooka:${{ secrets.CI_TOKEN }}@github.com/isri-aist/CentroidalControlCollection"
+          git fetch --depth=1 origin gh-pages:gh-pages
+          git checkout --quiet gh-pages
+          rm -rf doxygen/
+          cp -r ${GITHUB_WORKSPACE}/catkin_ws/build/centroidal_control_collection/doc/html/ doxygen
+          git add doxygen
+          git_status=`git status -s`
+          if test -n "$git_status"; then
+            git commit --quiet -m "Update Doxygen HTML files from commit ${{ github.sha }}"
+            git push origin gh-pages
+          else
+            echo "Github pages documentation is already up-to-date."
+          fi
