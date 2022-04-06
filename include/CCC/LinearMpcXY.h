@@ -12,7 +12,12 @@
 
 namespace CCC
 {
-/** \brief Linear MPC of translational and rotational x,y-component motion. */
+/** \brief Linear MPC of translational and rotational x,y-component motion considering predefined z-component motion.
+
+    See the following for a detailed formulation.
+      - H Audren, et al. Model preview control in multi-contact motion-application to a humanoid robot. IROS, 2014.
+      - 長阪憲一郎, et al. 接触拘束を考慮可能なマルチコンタクト対応スタビライザと一般化逆動力学による人型ロボットの全身制御. ロボティクスシンポジア予稿集, 2012.
+ */
 class LinearMpcXY
 {
 public:
