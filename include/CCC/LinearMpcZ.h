@@ -4,7 +4,7 @@
 
 #include <functional>
 
-#include <qp_solver_collection/QpSolver.h>
+#include <qp_solver_collection/QpSolverCollection.h>
 
 #include <CCC/MotionData.h>
 #include <CCC/VariantSequentialExtension.h>
