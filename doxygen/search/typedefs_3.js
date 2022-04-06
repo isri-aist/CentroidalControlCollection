@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['statedimvector',['StateDimVector',['../classCCC_1_1LinearMpcXY.html#aaa76a8f83e5744fe030d290edafa69c7',1,'CCC::LinearMpcXY::StateDimVector()'],['../classCCC_1_1LinearMpcZ.html#a5b79213a58fcb001831609f491c0fead',1,'CCC::LinearMpcZ::StateDimVector()'],['../classCCC_1_1StateSpaceModel.html#a391066481de5abd35141ee992890ec60',1,'CCC::StateSpaceModel::StateDimVector()']]]
+  ['statedimvector',['StateDimVector',['../classCCC_1_1LinearMpcXY.html#aaa76a8f83e5744fe030d290edafa69c7',1,'CCC::LinearMpcXY::StateDimVector()'],['../classCCC_1_1LinearMpcZ.html#a5b79213a58fcb001831609f491c0fead',1,'CCC::LinearMpcZ::StateDimVector()'],['../classCCC_1_1PreviewControl.html#a39bc2c6135fa5e4c98952fcab1127200',1,'CCC::PreviewControl::StateDimVector()'],['../classCCC_1_1StateSpaceModel.html#a391066481de5abd35141ee992890ec60',1,'CCC::StateSpaceModel::StateDimVector()']]]
 ];

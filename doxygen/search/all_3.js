@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['calcgain',['calcGain',['../classCCC_1_1PreviewControl.html#a4b4e51fbd1232833a182ed0fe9f8e438',1,'CCC::PreviewControl']]],
+  ['calcoptimalinput',['calcOptimalInput',['../classCCC_1_1PreviewControl.html#ab279411526dbc5aa2a4a8544af49d488',1,'CCC::PreviewControl']]],
   ['ccc',['CCC',['../namespaceCCC.html',1,'']]],
   ['com_5fz',['com_z',['../structCCC_1_1LinearMpcXY_1_1MotionParam.html#adc8fa47723dd81a795f567dbf25ebc70',1,'CCC::LinearMpcXY::MotionParam']]],
   ['constants',['constants',['../namespaceCCC_1_1constants.html',1,'CCC']]],

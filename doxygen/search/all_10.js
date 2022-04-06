@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['setup',['setup',['../classCCC_1_1VariantSequentialExtension.html#a2ef61cee8cae63e2f8ef5f45c3a6c527',1,'CCC::VariantSequentialExtension']]],
-  ['simmodel',['SimModel',['../classCCC_1_1LinearMpcXY_1_1SimModel.html',1,'CCC::LinearMpcXY::SimModel'],['../classCCC_1_1LinearMpcZ_1_1SimModel.html',1,'CCC::LinearMpcZ::SimModel'],['../classCCC_1_1LinearMpcXY_1_1SimModel.html#a48765c5ea3626df5df574403bd147945',1,'CCC::LinearMpcXY::SimModel::SimModel()'],['../classCCC_1_1LinearMpcZ_1_1SimModel.html#afbaac6e2173f3ef63779bb95a6ac2328',1,'CCC::LinearMpcZ::SimModel::SimModel()']]],
-  ['state_5fdim_5f',['state_dim_',['../classCCC_1_1LinearMpcXY.html#af69f480c29e9ee1df13083117e6a4e82',1,'CCC::LinearMpcXY::state_dim_()'],['../classCCC_1_1LinearMpcZ.html#a6d0a23963ff20d0dc57f47ac76211c49',1,'CCC::LinearMpcZ::state_dim_()']]],
-  ['statedim',['stateDim',['../classCCC_1_1StateSpaceModel.html#a16d42a7c0db32850591924f0390d6269',1,'CCC::StateSpaceModel']]],
-  ['statedimvector',['StateDimVector',['../classCCC_1_1LinearMpcXY.html#aaa76a8f83e5744fe030d290edafa69c7',1,'CCC::LinearMpcXY::StateDimVector()'],['../classCCC_1_1LinearMpcZ.html#a5b79213a58fcb001831609f491c0fead',1,'CCC::LinearMpcZ::StateDimVector()'],['../classCCC_1_1StateSpaceModel.html#a391066481de5abd35141ee992890ec60',1,'CCC::StateSpaceModel::StateDimVector()']]],
-  ['statespacemodel',['StateSpaceModel',['../classCCC_1_1StateSpaceModel.html',1,'CCC::StateSpaceModel&lt; StateDim, InputDim, OutputDim &gt;'],['../classCCC_1_1StateSpaceModel.html#aa024e33847e3ebe672bc28b74e18ff48',1,'CCC::StateSpaceModel::StateSpaceModel()']]],
-  ['statespacemodel_2eh',['StateSpaceModel.h',['../StateSpaceModel_8h.html',1,'']]],
-  ['statespacemodel_3c_20state_5fdim_5f_2c_201_2c_203_20_3e',['StateSpaceModel&lt; state_dim_, 1, 3 &gt;',['../classCCC_1_1StateSpaceModel.html',1,'CCC']]]
+  ['readme_2emd',['README.md',['../README_8md.html',1,'']]],
+  ['ref_5facc',['ref_acc',['../structCCC_1_1MotionDataBase.html#a3efebb3d7ddc4db948f52079b392d04f',1,'CCC::MotionDataBase']]],
+  ['ref_5fangular_5fmomentum',['ref_angular_momentum',['../structCCC_1_1LinearMpcXY_1_1MotionData.html#afbe7564b1d37888f385880bee7385770',1,'CCC::LinearMpcXY::MotionData']]],
+  ['ref_5fpos',['ref_pos',['../structCCC_1_1MotionDataBase.html#a841ccfd94e2b99f8b9d0fea400635f37',1,'CCC::MotionDataBase']]],
+  ['ref_5fvel',['ref_vel',['../structCCC_1_1MotionDataBase.html#a4b83dad7053e9359bcaced473f77f0dd',1,'CCC::MotionDataBase']]],
+  ['refdata',['RefData',['../structCCC_1_1LinearMpcXY_1_1RefData.html',1,'CCC::LinearMpcXY']]],
+  ['riccatierror_5f',['riccatiError_',['../classCCC_1_1PreviewControl.html#aa6654ed1e34f0be9447bf07aba41004f',1,'CCC::PreviewControl']]]
 ];
