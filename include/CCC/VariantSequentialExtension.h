@@ -13,6 +13,12 @@ namespace CCC
     \tparam StateDim state dimension
     \tparam ListType type of state-space model list
     \note State dimension must be the same for all models in the sequence.
+
+    Such a sequential extension is often used to formulate linear MPC as quadratic programming. For example, the
+   following papers uses it.
+      - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong
+   Perturbations. Humanoids, 2006.
+      - H Audren, et al. Model preview control in multi-contact motion-application to a humanoid robot. IROS, 2014.
 */
 template<int StateDim, template<class> class ListType = std::vector>
 class VariantSequentialExtension
