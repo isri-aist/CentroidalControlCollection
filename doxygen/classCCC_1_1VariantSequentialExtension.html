@@ -147,9 +147,13 @@ class CCC::VariantSequentialExtension&lt; StateDim, ListType &gt;</h3>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>State dimension must be the same for all models in the sequence. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>State dimension must be the same for all models in the sequence.</dd></dl>
+<p>Such a sequential extension is often used to formulate linear MPC as quadratic programming. For example, the following papers uses it.</p><ul>
+<li>PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong Perturbations. Humanoids, 2006.</li>
+<li>H Audren, et al. Model preview control in multi-contact motion-application to a humanoid robot. IROS, 2014. </li>
+</ul>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00018">18</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00024">24</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a6bc51739e508147a6fbe5f2bacdde504"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6bc51739e508147a6fbe5f2bacdde504">&#9670;&nbsp;</a></span>_StateSpaceModel</h2>
@@ -167,7 +171,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Type of state-space model with fixed state dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00022">22</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00028">28</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -217,7 +221,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00031">31</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00037">37</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -250,7 +254,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Setup coefficients. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00058">58</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00064">64</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -281,7 +285,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Get total input dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00045">45</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00051">51</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +316,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Get total output dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00051">51</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00057">57</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -343,7 +347,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Get total state dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00039">39</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00045">45</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -364,7 +368,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Sequential extension matrix of A in discrete system. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00172">172</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00178">178</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -384,7 +388,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Sequential extension matrix of B in discrete system. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00175">175</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00181">181</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -404,7 +408,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Sequential extension vector of E (i.e., offset vector) in discrete system. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00178">178</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00184">184</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -424,7 +428,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>State-space model list. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00160">160</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00166">166</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -444,7 +448,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Total input dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00166">166</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00172">172</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -464,7 +468,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Total output dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00169">169</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00175">175</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -484,7 +488,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Total state dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00163">163</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00169">169</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
