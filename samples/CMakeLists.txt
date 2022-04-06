@@ -1,2 +1,0 @@
-add_executable(SampleJumpingMotion src/SampleJumpingMotion.cpp)
-target_link_libraries(SampleJumpingMotion PRIVATE CCC)
