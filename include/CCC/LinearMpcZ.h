@@ -104,7 +104,7 @@ public:
   */
   LinearMpcZ(double mass,
              double horizon_dt,
-             QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::QLD);
+             QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any);
 
   /** \brief Plan one step.
       \param contact_func function of contact/non-contact phases (returns true for contact phase)

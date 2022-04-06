@@ -197,7 +197,7 @@ public:
   */
   LinearMpcXY(double mass,
               double horizon_dt,
-              QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::QLD);
+              QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any);
 
   /** \brief Plan one step.
       \param motion_param_func function of motion parameter
