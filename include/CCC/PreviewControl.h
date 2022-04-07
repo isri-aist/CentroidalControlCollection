@@ -39,17 +39,17 @@ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** \brief Constructor.
-      \param model state space model
+      \param model state-space model
    */
   PreviewControl(const std::shared_ptr<_StateSpaceModel> & model) : model_(model) {}
 
   /** \brief Calculate the gain of the preview control.
       \param horizon horizon of the preview control [sec]
       \param dt sampling time of the preview control [sec]
-      \param outputWeight weight of output
-      \param inputWeight weight of input
+      \param output_weight weight of output
+      \param input_weight weight of input
    */
-  void calcGain(double horizon, double dt, OutputDimVector outputWeight, InputDimVector inputWeight)
+  void calcGain(double horizon, double dt, OutputDimVector output_weight, InputDimVector input_weight)
   {
     if(horizon <= 0 || dt <= 0)
     {
@@ -67,9 +67,9 @@ public:
     const Eigen::Matrix<double, StateDim, InputDim> & B = model_->Bd_;
     const Eigen::Matrix<double, OutputDim, StateDim> & C = model_->C_;
 
-    Eigen::Matrix<double, OutputDim, OutputDim> Q = outputWeight.asDiagonal();
-    Eigen::Matrix<double, InputDim, InputDim> R = inputWeight.asDiagonal();
-    Eigen::Matrix<double, InputDim, InputDim> Rinv = inputWeight.cwiseInverse().asDiagonal();
+    Eigen::Matrix<double, OutputDim, OutputDim> Q = output_weight.asDiagonal();
+    Eigen::Matrix<double, InputDim, InputDim> R = input_weight.asDiagonal();
+    Eigen::Matrix<double, InputDim, InputDim> Rinv = input_weight.cwiseInverse().asDiagonal();
 
     // int stateDim = model_->stateDim();
     int inputDim = model_->inputDim();
@@ -108,23 +108,23 @@ public:
     }
     P_ = H1;
 
-    riccatiError_ = (P_
-                     - (A.transpose() * P_ * A + C.transpose() * Q * C
-                        - A.transpose() * P_ * B * (R + B.transpose() * P_ * B).inverse() * B.transpose() * P_ * A))
-                        .norm();
+    riccati_error_ = (P_
+                      - (A.transpose() * P_ * A + C.transpose() * Q * C
+                         - A.transpose() * P_ * B * (R + B.transpose() * P_ * B).inverse() * B.transpose() * P_ * A))
+                         .norm();
 
     // 2. Calculate the feedback gain (K and f)
-    previewSize_ = static_cast<int>(std::ceil(horizon / dt));
+    preview_size_ = static_cast<int>(std::ceil(horizon / dt));
     Eigen::Matrix<double, InputDim, InputDim> R_BtPB_inv = (R + B.transpose() * P_ * B).inverse();
     // 2.1 Calculate K
     K_ = R_BtPB_inv * B.transpose() * P_ * A;
     // 2.2 Calculate f
-    F_.resize(inputDim, previewSize_ * outputDim);
+    F_.resize(inputDim, preview_size_ * outputDim);
     Eigen::Matrix<double, StateDim, StateDim> A_BK = A - B * K_;
     Eigen::Matrix<double, StateDim, StateDim> fSub = Eigen::Matrix<double, StateDim, StateDim>::Identity();
-    for(int i = 0; i < previewSize_; i++)
+    for(int i = 0; i < preview_size_; i++)
     {
-      if(i < previewSize_ - 1)
+      if(i < preview_size_ - 1)
       {
         F_.middleCols(i * outputDim, outputDim) = R_BtPB_inv * B.transpose() * fSub * C.transpose() * Q;
       }
@@ -137,13 +137,13 @@ public:
     }
   }
 
-  /** \brief Calculate the gain of the preview control
+  /** \brief Calculate optimal input.
       \param x state
-      \param refOutputTraj trajectory of reference output
+      \param ref_output_traj trajectory of reference output
    */
-  InputDimVector calcOptimalInput(const StateDimVector & x, const Eigen::VectorXd & refOutputTraj) const
+  InputDimVector calcOptimalInput(const StateDimVector & x, const Eigen::VectorXd & ref_output_traj) const
   {
-    return -K_ * x + F_ * refOutputTraj;
+    return -K_ * x + F_ * ref_output_traj;
   }
 
 public:
@@ -160,9 +160,9 @@ public:
   Eigen::Matrix<double, InputDim, Eigen::Dynamic> F_;
 
   //! Error of algebraic Riccati equation
-  double riccatiError_ = 0;
+  double riccati_error_ = 0;
 
   //! Size of preview window
-  int previewSize_ = -1;
+  int preview_size_ = -1;
 };
 } // namespace CCC
