@@ -69,7 +69,7 @@ public:
                  double horizon_duration,
                  double horizon_dt,
                  const WeightParam & weight_param)
-  : model_(model), horizon_dt_(horizon_dt), horizon_size_(static_cast<int>(std::ceil(horizon_duration / horizon_dt)))
+  : model_(model), horizon_dt_(horizon_dt), horizon_steps_(static_cast<int>(std::ceil(horizon_duration / horizon_dt)))
   {
     if(horizon_duration <= 0 || horizon_dt <= 0)
     {
@@ -154,12 +154,12 @@ protected:
     // 2.1 Calculate K
     K_ = R_BtPB_inv * B.transpose() * P_ * A;
     // 2.2 Calculate f
-    F_.resize(inputDim, horizon_size_ * outputDim);
+    F_.resize(inputDim, horizon_steps_ * outputDim);
     Eigen::Matrix<double, StateDim, StateDim> A_BK = A - B * K_;
     Eigen::Matrix<double, StateDim, StateDim> fSub = Eigen::Matrix<double, StateDim, StateDim>::Identity();
-    for(int i = 0; i < horizon_size_; i++)
+    for(int i = 0; i < horizon_steps_; i++)
     {
-      if(i < horizon_size_ - 1)
+      if(i < horizon_steps_ - 1)
       {
         F_.middleCols(i * outputDim, outputDim) = R_BtPB_inv * B.transpose() * fSub * C.transpose() * Q;
       }
@@ -180,7 +180,7 @@ public:
   double horizon_dt_ = 0;
 
   //! Number of steps in horizon
-  int horizon_size_ = -1;
+  int horizon_steps_ = -1;
 
   //! Solution of the algebraic Riccati equation
   Eigen::Matrix<double, StateDim, StateDim> P_;

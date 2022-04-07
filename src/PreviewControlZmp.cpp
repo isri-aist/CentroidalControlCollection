@@ -30,8 +30,8 @@ double PreviewControlZmp::planOnce(const std::function<double(double)> & ref_zmp
                                    const double & horizon_start_time) const
 {
   // Set ref_zmp_seq
-  Eigen::VectorXd ref_zmp_seq(horizon_size_);
-  for(int i = 0; i < horizon_size_; i++)
+  Eigen::VectorXd ref_zmp_seq(horizon_steps_);
+  for(int i = 0; i < horizon_steps_; i++)
   {
     double t = horizon_start_time + i * horizon_dt_;
     ref_zmp_seq[i] = ref_zmp_func(t);

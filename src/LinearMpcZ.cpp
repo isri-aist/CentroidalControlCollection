@@ -62,10 +62,10 @@ Eigen::VectorXd LinearMpcZ::planOnce(const std::function<bool(double)> & contact
                                      const WeightParam & weight_param)
 {
   // Set model_list and ref_pos_seq
-  int horizon_size = static_cast<int>((horizon_time_range.second - horizon_time_range.first) / horizon_dt_);
-  std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_size);
-  Eigen::VectorXd ref_pos_seq(horizon_size);
-  for(int i = 0; i < horizon_size; i++)
+  int horizon_steps = static_cast<int>((horizon_time_range.second - horizon_time_range.first) / horizon_dt_);
+  std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_steps);
+  Eigen::VectorXd ref_pos_seq(horizon_steps);
+  for(int i = 0; i < horizon_steps; i++)
   {
     double t = horizon_time_range.first + i * horizon_dt_;
     model_list[i] = contact_func(t) ? model_contact_ : model_noncontact_;
@@ -85,7 +85,7 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
                           const WeightParam & weight_param)
 {
   int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
-  int horizon_size = static_cast<int>(horizon_duration / horizon_dt_);
+  int horizon_steps = static_cast<int>(horizon_duration / horizon_dt_);
 
   const auto & sim_model = std::make_shared<SimModel>(mass_);
   sim_model->calcDiscMatrix(sim_dt);
@@ -96,9 +96,9 @@ void LinearMpcZ::planLoop(const std::function<bool(double)> & contact_func,
   for(int i = 0; i < seq_len; i++)
   {
     // Set model_list and ref_pos_seq
-    std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_size);
-    Eigen::VectorXd ref_pos_seq(horizon_size);
-    for(int i = 0; i < horizon_size; i++)
+    std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_steps);
+    Eigen::VectorXd ref_pos_seq(horizon_steps);
+    for(int i = 0; i < horizon_steps; i++)
     {
       double t = current_t + i * horizon_dt_;
       model_list[i] = contact_func(t) ? model_contact_ : model_noncontact_;

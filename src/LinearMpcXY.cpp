@@ -89,10 +89,10 @@ Eigen::VectorXd LinearMpcXY::planOnce(const std::function<MotionParam(double)> &
                                       const WeightParam & weight_param)
 {
   // Set model_list and ref_output_seq
-  int horizon_size = static_cast<int>((horizon_time_range.second - horizon_time_range.first) / horizon_dt_);
-  std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_size);
-  Eigen::VectorXd ref_output_seq(horizon_size * RefData::outputDim());
-  for(int i = 0; i < horizon_size; i++)
+  int horizon_steps = static_cast<int>((horizon_time_range.second - horizon_time_range.first) / horizon_dt_);
+  std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_steps);
+  Eigen::VectorXd ref_output_seq(horizon_steps * RefData::outputDim());
+  for(int i = 0; i < horizon_steps; i++)
   {
     double t = horizon_time_range.first + i * horizon_dt_;
     model_list[i] = std::make_shared<Model>(mass_, motion_param_func(t));
@@ -113,7 +113,7 @@ void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_par
                            const WeightParam & weight_param)
 {
   int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
-  int horizon_size = static_cast<int>(horizon_duration / horizon_dt_);
+  int horizon_steps = static_cast<int>(horizon_duration / horizon_dt_);
 
   // Loop
   double current_t = motion_time_range.first;
@@ -121,11 +121,11 @@ void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_par
   for(int i = 0; i < seq_len; i++)
   {
     // Set model_list and ref_output_seq
-    std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_size);
-    Eigen::VectorXd ref_output_seq(horizon_size * RefData::outputDim());
+    std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_steps);
+    Eigen::VectorXd ref_output_seq(horizon_steps * RefData::outputDim());
     const auto & current_motion_param = motion_param_func(current_t);
     const auto & current_ref_data = ref_data_func(current_t);
-    for(int i = 0; i < horizon_size; i++)
+    for(int i = 0; i < horizon_steps; i++)
     {
       double t = current_t + i * horizon_dt_;
       const auto & motion_param = (i == 0 ? current_motion_param : motion_param_func(t));
@@ -174,7 +174,7 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
                                       const WeightParam & weight_param)
 {
   // Calculate sequential extension
-  int horizon_size = model_list.size();
+  int horizon_steps = model_list.size();
   VariantSequentialExtension<state_dim_> seq_ext(model_list, false);
 
   // Setup QP coefficients
