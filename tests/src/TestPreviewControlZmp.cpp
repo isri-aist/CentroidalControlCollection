@@ -32,8 +32,7 @@ TEST(TestPreviewControlZmp, Test1)
   double com_height = 1.0; // [m]
 
   // Setup preview control
-  CCC::PreviewControlZmp pc(std::make_shared<CCC::PreviewControlZmp::ComZmpModel>(com_height), horizon_duration,
-                            horizon_dt);
+  CCC::PreviewControlZmp pc(com_height, horizon_duration, horizon_dt);
 
   // Setup simulation model
   ComZmpSimModel sim_model(com_height);

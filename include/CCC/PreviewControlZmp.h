@@ -54,16 +54,19 @@ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** \brief Constructor.
-      \param model state-space model
+      \param com_height height of robot CoM [m]
       \param horizon_duration horizon duration [sec]
       \param horizon_dt discretization timestep in horizon [sec]
       \param weight_param objective weight parameter
    */
-  PreviewControlZmp(const std::shared_ptr<ComZmpModel> & model,
+  PreviewControlZmp(double com_height,
                     double horizon_duration,
                     double horizon_dt,
                     const WeightParam & weight_param = WeightParam())
-  : PreviewControl<3, 1, 1>(model, horizon_duration, horizon_dt, weight_param.toPreviewControlWeightParam())
+  : PreviewControl<3, 1, 1>(std::make_shared<PreviewControlZmp::ComZmpModel>(com_height),
+                            horizon_duration,
+                            horizon_dt,
+                            weight_param.toPreviewControlWeightParam())
   {
   }
 
