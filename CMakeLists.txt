@@ -7,12 +7,14 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   roscpp
   qp_solver_collection
+  nmpc_ddp
   )
 
 catkin_package(
   CATKIN_DEPENDS
   roscpp
   qp_solver_collection
+  nmpc_ddp
   DEPENDS EIGEN3
   INCLUDE_DIRS include
   LIBRARIES CCC

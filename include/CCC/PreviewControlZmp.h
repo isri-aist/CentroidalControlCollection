@@ -41,13 +41,13 @@ public:
   };
 
   /** \brief State-space model of CoM-ZMP dynamics with CoM jerk input and ZMP output. */
-  class ComZmpModel : public StateSpaceModel<3, 1, 1>
+  class Model : public StateSpaceModel<3, 1, 1>
   {
   public:
     /** \brief Constructor.
         \param com_height height of robot CoM [m]
     */
-    ComZmpModel(double com_height);
+    Model(double com_height);
   };
 
 public:
@@ -63,7 +63,7 @@ public:
                     double horizon_duration,
                     double horizon_dt,
                     const WeightParam & weight_param = WeightParam())
-  : PreviewControl<3, 1, 1>(std::make_shared<PreviewControlZmp::ComZmpModel>(com_height),
+  : PreviewControl<3, 1, 1>(std::make_shared<Model>(com_height),
                             horizon_duration,
                             horizon_dt,
                             weight_param.toPreviewControlWeightParam())

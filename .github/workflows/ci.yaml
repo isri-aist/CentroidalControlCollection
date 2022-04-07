@@ -58,6 +58,12 @@ jobs:
           repository: isri-aist/QpSolverCollection
           submodules: recursive
           path: catkin_ws/src/QpSolverCollection
+      - name: Checkout NMPC
+        uses: actions/checkout@v2
+        with:
+          repository: isri-aist/NMPC
+          submodules: recursive
+          path: catkin_ws/src/NMPC
       - name: Rosdep install
         run: |
           set -e

@@ -14,7 +14,7 @@ PreviewControl<3, 1, 1>::WeightParam PreviewControlZmp::WeightParam::toPreviewCo
   return pc_weight_param;
 }
 
-PreviewControlZmp::ComZmpModel::ComZmpModel(double com_height)
+PreviewControlZmp::Model::Model(double com_height)
 {
   A_(0, 1) = 1;
   A_(1, 2) = 1;
