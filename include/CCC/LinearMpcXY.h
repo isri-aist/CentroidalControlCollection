@@ -221,7 +221,6 @@ public:
       \param horizon_duration horizon duration [sec]
       \param sim_dt discretization timestep for simulation [sec]
       \param weight_param objective weight parameter
-      \returns planned force sequence
   */
   void planLoop(const std::function<MotionParam(double)> & motion_param_func,
                 const std::function<RefData(double)> & ref_data_func,
