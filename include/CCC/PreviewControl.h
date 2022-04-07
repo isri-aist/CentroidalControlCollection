@@ -172,7 +172,7 @@ protected:
     }
   }
 
-public:
+protected:
   //! State-space model
   std::shared_ptr<_StateSpaceModel> model_;
 
