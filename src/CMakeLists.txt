@@ -1,4 +1,5 @@
 add_library(CCC
+  PreviewControlZmp.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
   )

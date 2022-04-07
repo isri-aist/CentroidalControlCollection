@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <CCC/Constants.h>
+#include <CCC/EigenTypes.h>
 #include <CCC/PreviewControlZmp.h>
 
 /** \brief State-space model of CoM-ZMP dynamics with ZMP input. */
@@ -25,78 +27,88 @@ public:
 
 TEST(TestPreviewControlZmp, Test1)
 {
+  double horizon_duration = 2.0; // [sec]
+  double horizon_dt = 0.005; // [sec]
   double com_height = 1.0; // [m]
-  CCC::PreviewControlZmp pc(std::make_shared<CCC::PreviewControlZmp::ComZmpModel>(com_height));
 
-  // Calculate gain
-  double horizon = 2.0; // [sec]
-  double dt = 0.005; // [sec]
-  pc.calcGain(horizon, dt);
+  // Setup preview control
+  CCC::PreviewControlZmp pc(std::make_shared<CCC::PreviewControlZmp::ComZmpModel>(com_height), horizon_duration,
+                            horizon_dt);
 
   // Setup simulation model
   ComZmpSimModel sim_model(com_height);
-  sim_model.calcDiscMatrix(dt);
+  sim_model.calcDiscMatrix(horizon_dt);
+
+  std::function<double(double)> ref_zmp_func = [](double t) {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    t += epsilon_t;
+    if(t < 2.0)
+    {
+      return 0.0;
+    }
+    else if(t < 3.0)
+    {
+      return 0.1;
+    }
+    else if(t < 4.0)
+    {
+      return -0.1;
+    }
+    else if(t < 5.0)
+    {
+      return 0.1;
+    }
+    else if(t < 6.0)
+    {
+      return 0.2;
+    }
+    else if(t < 7.0)
+    {
+      return 0.3;
+    }
+    else
+    {
+      return 0.4;
+    }
+  };
 
   // Run control
-  Eigen::Vector2d state = Eigen::Vector2d::Zero();
-  double planned_zmp = state[0];
-  Eigen::VectorXd ref_zmp_traj(pc.preview_size_);
+  Eigen::Vector2d com_pos_vel = Eigen::Vector2d::Zero();
+  double planned_zmp = com_pos_vel[0];
 
   std::string file_path = "/tmp/TestPreviewControlZmp.txt";
   std::ofstream ofs(file_path);
   ofs << "time com_pos com_vel com_acc planned_zmp ref_zmp" << std::endl;
 
+  constexpr double end_time = 10.0; // [sec]
   double t = 0;
-  while(t < 10.0)
+  while(t < end_time)
   {
-    // Generate reference trajectory
-    for(int i = 0; i < pc.preview_size_; i++)
-    {
-      double _t = t + i * dt;
-      if(_t < 2.0)
-      {
-        ref_zmp_traj[i] = 0.0;
-      }
-      else if(_t < 3.0)
-      {
-        ref_zmp_traj[i] = 0.1;
-      }
-      else if(_t < 4.0)
-      {
-        ref_zmp_traj[i] = -0.1;
-      }
-      else if(_t < 5.0)
-      {
-        ref_zmp_traj[i] = 0.1;
-      }
-      else if(_t < 6.0)
-      {
-        ref_zmp_traj[i] = 0.2;
-      }
-      else if(_t < 7.0)
-      {
-        ref_zmp_traj[i] = 0.3;
-      }
-      else
-      {
-        ref_zmp_traj[i] = 0.4;
-      }
-    }
-
-    // Calculate input
+    // Plan ZMP
     CCC::PreviewControlZmp::InitialParam initial_param;
-    initial_param << state, CCC::constants::g / com_height * (state[0] - planned_zmp);
-    planned_zmp = pc.planZmp(initial_param, ref_zmp_traj);
+    initial_param << com_pos_vel, CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp);
+    planned_zmp = pc.planOnce(ref_zmp_func, initial_param, t);
 
     // Dump
-    ofs << t << " " << initial_param.transpose() << " " << planned_zmp << " " << ref_zmp_traj[0] << std::endl;
+    double ref_zmp = ref_zmp_func(t);
+    ofs << t << " " << initial_param.transpose() << " " << planned_zmp << " " << ref_zmp << std::endl;
+
+    // Check ZMP
+    EXPECT_LT(std::abs(planned_zmp - ref_zmp), 0.1); // [m]
 
     // Update time and state
-    t += dt;
-    Eigen::Vector1d input;
-    input << planned_zmp;
-    state = sim_model.stateEqDisc(state, input);
+    t += horizon_dt;
+    Eigen::Vector1d sim_input;
+    sim_input << planned_zmp;
+    com_pos_vel = sim_model.stateEqDisc(com_pos_vel, sim_input);
   }
+
+  // Check final CoM
+  double ref_zmp = ref_zmp_func(t);
+  EXPECT_LT(std::abs(planned_zmp - ref_zmp), 1e-2);
+  EXPECT_LT(std::abs(com_pos_vel[0] - ref_zmp), 1e-2);
+  EXPECT_LT(std::abs(com_pos_vel[1]), 1e-2);
 
   std::cout << "Run the following commands in gnuplot:\n"
             << "  set key autotitle columnhead\n"

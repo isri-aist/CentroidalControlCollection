@@ -36,40 +36,76 @@ public:
   using _StateSpaceModel = StateSpaceModel<StateDim, InputDim, OutputDim>;
 
 public:
+  /** \brief Weight parameter. */
+  struct WeightParam
+  {
+    //! Output weight
+    OutputDimVector output;
+
+    //! Input weight
+    InputDimVector input;
+
+    /** \brief Constructor.
+        \param _output output weight
+        \param _input input weight
+     */
+    WeightParam(const OutputDimVector & _output = OutputDimVector::Zero(),
+                const InputDimVector & _input = InputDimVector::Zero())
+    : output(_output), input(_input)
+    {
+    }
+  };
+
+public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** \brief Constructor.
       \param model state-space model
+      \param horizon_duration horizon duration [sec]
+      \param horizon_dt discretization timestep in horizon [sec]
+      \param weight_param objective weight parameter
    */
-  PreviewControl(const std::shared_ptr<_StateSpaceModel> & model) : model_(model) {}
-
-  /** \brief Calculate the gain of the preview control.
-      \param horizon horizon of the preview control [sec]
-      \param dt sampling time of the preview control [sec]
-      \param output_weight weight of output
-      \param input_weight weight of input
-   */
-  void calcGain(double horizon, double dt, OutputDimVector output_weight, InputDimVector input_weight)
+  PreviewControl(const std::shared_ptr<_StateSpaceModel> & model,
+                 double horizon_duration,
+                 double horizon_dt,
+                 const WeightParam & weight_param)
+  : model_(model), horizon_dt_(horizon_dt), horizon_size_(static_cast<int>(std::ceil(horizon_duration / horizon_dt)))
   {
-    if(horizon <= 0 || dt <= 0)
+    if(horizon_duration <= 0 || horizon_dt <= 0)
     {
-      throw std::runtime_error("Input arguments of PreviewControl::calcGain are invalid. horizon: "
-                               + std::to_string(horizon) + ", dt: " + std::to_string(dt));
+      throw std::runtime_error("[PreviewControl] Input arguments are invalid. horizon_duration: "
+                               + std::to_string(horizon_duration) + ", horizon_dt: " + std::to_string(horizon_dt));
     }
 
+    calcGain(weight_param);
+  }
+
+  /** \brief Calculate optimal input.
+      \param x state
+      \param ref_output_seq sequence of reference output
+   */
+  InputDimVector calcOptimalInput(const StateDimVector & x, const Eigen::VectorXd & ref_output_seq) const
+  {
+    return -K_ * x + F_ * ref_output_seq;
+  }
+
+protected:
+  /** \brief Calculate the gain of the preview control. */
+  void calcGain(const WeightParam & weight_param)
+  {
     // 0. Calculate discrete system matrices
-    if(model_->dt_ != dt)
+    if(model_->dt_ != horizon_dt_)
     {
-      model_->calcDiscMatrix(dt);
+      model_->calcDiscMatrix(horizon_dt_);
     }
 
     const Eigen::Matrix<double, StateDim, StateDim> & A = model_->Ad_;
     const Eigen::Matrix<double, StateDim, InputDim> & B = model_->Bd_;
     const Eigen::Matrix<double, OutputDim, StateDim> & C = model_->C_;
 
-    Eigen::Matrix<double, OutputDim, OutputDim> Q = output_weight.asDiagonal();
-    Eigen::Matrix<double, InputDim, InputDim> R = input_weight.asDiagonal();
-    Eigen::Matrix<double, InputDim, InputDim> Rinv = input_weight.cwiseInverse().asDiagonal();
+    Eigen::Matrix<double, OutputDim, OutputDim> Q = weight_param.output.asDiagonal();
+    Eigen::Matrix<double, InputDim, InputDim> R = weight_param.input.asDiagonal();
+    Eigen::Matrix<double, InputDim, InputDim> Rinv = weight_param.input.cwiseInverse().asDiagonal();
 
     // int stateDim = model_->stateDim();
     int inputDim = model_->inputDim();
@@ -114,17 +150,16 @@ public:
                          .norm();
 
     // 2. Calculate the feedback gain (K and f)
-    preview_size_ = static_cast<int>(std::ceil(horizon / dt));
     Eigen::Matrix<double, InputDim, InputDim> R_BtPB_inv = (R + B.transpose() * P_ * B).inverse();
     // 2.1 Calculate K
     K_ = R_BtPB_inv * B.transpose() * P_ * A;
     // 2.2 Calculate f
-    F_.resize(inputDim, preview_size_ * outputDim);
+    F_.resize(inputDim, horizon_size_ * outputDim);
     Eigen::Matrix<double, StateDim, StateDim> A_BK = A - B * K_;
     Eigen::Matrix<double, StateDim, StateDim> fSub = Eigen::Matrix<double, StateDim, StateDim>::Identity();
-    for(int i = 0; i < preview_size_; i++)
+    for(int i = 0; i < horizon_size_; i++)
     {
-      if(i < preview_size_ - 1)
+      if(i < horizon_size_ - 1)
       {
         F_.middleCols(i * outputDim, outputDim) = R_BtPB_inv * B.transpose() * fSub * C.transpose() * Q;
       }
@@ -137,18 +172,15 @@ public:
     }
   }
 
-  /** \brief Calculate optimal input.
-      \param x state
-      \param ref_output_traj trajectory of reference output
-   */
-  InputDimVector calcOptimalInput(const StateDimVector & x, const Eigen::VectorXd & ref_output_traj) const
-  {
-    return -K_ * x + F_ * ref_output_traj;
-  }
-
 public:
   //! State-space model
   std::shared_ptr<_StateSpaceModel> model_;
+
+  //! Discretization timestep in horizon [sec]
+  double horizon_dt_ = 0;
+
+  //! Number of steps in horizon
+  int horizon_size_ = -1;
 
   //! Solution of the algebraic Riccati equation
   Eigen::Matrix<double, StateDim, StateDim> P_;
@@ -161,8 +193,5 @@ public:
 
   //! Error of algebraic Riccati equation
   double riccati_error_ = 0;
-
-  //! Size of preview window
-  int preview_size_ = -1;
 };
 } // namespace CCC
