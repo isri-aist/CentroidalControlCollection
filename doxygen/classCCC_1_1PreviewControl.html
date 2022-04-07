@@ -123,9 +123,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a45a3da4b86941925793e4248fb950325"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a45a3da4b86941925793e4248fb950325">horizon_dt_</a> = 0</td></tr>
 <tr class="memdesc:a45a3da4b86941925793e4248fb950325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Discretization timestep in horizon [sec].  <a href="#a45a3da4b86941925793e4248fb950325">More...</a><br /></td></tr>
 <tr class="separator:a45a3da4b86941925793e4248fb950325"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab751ef3e6d0be74a985f52591bf8194c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ab751ef3e6d0be74a985f52591bf8194c">horizon_size_</a> = -1</td></tr>
-<tr class="memdesc:ab751ef3e6d0be74a985f52591bf8194c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of steps in horizon.  <a href="#ab751ef3e6d0be74a985f52591bf8194c">More...</a><br /></td></tr>
-<tr class="separator:ab751ef3e6d0be74a985f52591bf8194c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3091a1835cc34bf2cdc3873550832f7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ac3091a1835cc34bf2cdc3873550832f7">horizon_steps_</a> = -1</td></tr>
+<tr class="memdesc:ac3091a1835cc34bf2cdc3873550832f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of steps in horizon.  <a href="#ac3091a1835cc34bf2cdc3873550832f7">More...</a><br /></td></tr>
+<tr class="separator:ac3091a1835cc34bf2cdc3873550832f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba962a100c243b95aa33421e243c9f25"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; double, StateDim, StateDim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aba962a100c243b95aa33421e243c9f25">P_</a></td></tr>
 <tr class="memdesc:aba962a100c243b95aa33421e243c9f25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solution of the algebraic Riccati equation.  <a href="#aba962a100c243b95aa33421e243c9f25">More...</a><br /></td></tr>
 <tr class="separator:aba962a100c243b95aa33421e243c9f25"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -431,8 +431,8 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 
 </div>
 </div>
-<a id="ab751ef3e6d0be74a985f52591bf8194c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab751ef3e6d0be74a985f52591bf8194c">&#9670;&nbsp;</a></span>horizon_size_</h2>
+<a id="ac3091a1835cc34bf2cdc3873550832f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3091a1835cc34bf2cdc3873550832f7">&#9670;&nbsp;</a></span>horizon_steps_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -440,7 +440,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::horizon_size_ = -1</td>
+          <td class="memname">int <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::horizon_steps_ = -1</td>
         </tr>
       </table>
 </div><div class="memdoc">
