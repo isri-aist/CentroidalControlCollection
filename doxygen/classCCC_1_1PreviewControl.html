@@ -72,6 +72,7 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classCCC_1_1PreviewControl-members.html">List of all members</a>  </div>
@@ -115,14 +116,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aca003780b5f9b7f2b44cc47a217355ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate optimal input.  <a href="#aca003780b5f9b7f2b44cc47a217355ef">More...</a><br /></td></tr>
 <tr class="separator:aca003780b5f9b7f2b44cc47a217355ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a6fb0138bf23d4daef5a57fb9e2e66c6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a6fb0138bf23d4daef5a57fb9e2e66c6c">calcGain</a> (const <a class="el" href="structCCC_1_1PreviewControl_1_1WeightParam.html">WeightParam</a> &amp;weight_param)</td></tr>
-<tr class="memdesc:a6fb0138bf23d4daef5a57fb9e2e66c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="#a6fb0138bf23d4daef5a57fb9e2e66c6c">More...</a><br /></td></tr>
-<tr class="separator:a6fb0138bf23d4daef5a57fb9e2e66c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
 <tr class="memitem:a22066705ec24a97ed44a04b5c6610c11"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControl.html#ae292773e38f4d6fda9fbca4feec4c3a6">_StateSpaceModel</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a22066705ec24a97ed44a04b5c6610c11">model_</a></td></tr>
 <tr class="memdesc:a22066705ec24a97ed44a04b5c6610c11"><td class="mdescLeft">&#160;</td><td class="mdescRight">State-space model.  <a href="#a22066705ec24a97ed44a04b5c6610c11">More...</a><br /></td></tr>
 <tr class="separator:a22066705ec24a97ed44a04b5c6610c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,6 +127,18 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac3091a1835cc34bf2cdc3873550832f7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ac3091a1835cc34bf2cdc3873550832f7">horizon_steps_</a> = -1</td></tr>
 <tr class="memdesc:ac3091a1835cc34bf2cdc3873550832f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of steps in horizon.  <a href="#ac3091a1835cc34bf2cdc3873550832f7">More...</a><br /></td></tr>
 <tr class="separator:ac3091a1835cc34bf2cdc3873550832f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc3653bb5d02d3d13360f005f9439cff"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#abc3653bb5d02d3d13360f005f9439cff">riccati_error_</a> = 0</td></tr>
+<tr class="memdesc:abc3653bb5d02d3d13360f005f9439cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error of algebraic Riccati equation.  <a href="#abc3653bb5d02d3d13360f005f9439cff">More...</a><br /></td></tr>
+<tr class="separator:abc3653bb5d02d3d13360f005f9439cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a6fb0138bf23d4daef5a57fb9e2e66c6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a6fb0138bf23d4daef5a57fb9e2e66c6c">calcGain</a> (const <a class="el" href="structCCC_1_1PreviewControl_1_1WeightParam.html">WeightParam</a> &amp;weight_param)</td></tr>
+<tr class="memdesc:a6fb0138bf23d4daef5a57fb9e2e66c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="#a6fb0138bf23d4daef5a57fb9e2e66c6c">More...</a><br /></td></tr>
+<tr class="separator:a6fb0138bf23d4daef5a57fb9e2e66c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
 <tr class="memitem:aba962a100c243b95aa33421e243c9f25"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; double, StateDim, StateDim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aba962a100c243b95aa33421e243c9f25">P_</a></td></tr>
 <tr class="memdesc:aba962a100c243b95aa33421e243c9f25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solution of the algebraic Riccati equation.  <a href="#aba962a100c243b95aa33421e243c9f25">More...</a><br /></td></tr>
 <tr class="separator:aba962a100c243b95aa33421e243c9f25"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,9 +148,6 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a559ee95250775c0ec6e8b379154f6222"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; double, InputDim, Eigen::Dynamic &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a559ee95250775c0ec6e8b379154f6222">F_</a></td></tr>
 <tr class="memdesc:a559ee95250775c0ec6e8b379154f6222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Preview gain.  <a href="#a559ee95250775c0ec6e8b379154f6222">More...</a><br /></td></tr>
 <tr class="separator:a559ee95250775c0ec6e8b379154f6222"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc3653bb5d02d3d13360f005f9439cff"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#abc3653bb5d02d3d13360f005f9439cff">riccati_error_</a> = 0</td></tr>
-<tr class="memdesc:abc3653bb5d02d3d13360f005f9439cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error of algebraic Riccati equation.  <a href="#abc3653bb5d02d3d13360f005f9439cff">More...</a><br /></td></tr>
-<tr class="separator:abc3653bb5d02d3d13360f005f9439cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;int StateDim, int InputDim, int OutputDim&gt;<br />
@@ -415,7 +419,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 
 <p>Preview gain. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00192">192</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00196">196</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
 
 </div>
 </div>
@@ -426,19 +430,11 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">double <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::horizon_dt_ = 0</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Discretization timestep in horizon [sec]. </p>
@@ -454,19 +450,11 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::horizon_steps_ = -1</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Number of steps in horizon. </p>
@@ -499,7 +487,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 
 <p>Feedback gain. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00189">189</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00193">193</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
 
 </div>
 </div>
@@ -510,19 +498,11 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::shared_ptr&lt;<a class="el" href="classCCC_1_1PreviewControl.html#ae292773e38f4d6fda9fbca4feec4c3a6">_StateSpaceModel</a>&gt; <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::model_</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>State-space model. </p>
@@ -555,7 +535,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 
 <p>Solution of the algebraic Riccati equation. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00186">186</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00190">190</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
 
 </div>
 </div>
@@ -566,24 +546,16 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">double <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::riccati_error_ = 0</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Error of algebraic Riccati equation. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00195">195</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControl_8h_source.html#l00186">186</a> of file <a class="el" href="PreviewControl_8h_source.html">PreviewControl.h</a>.</p>
 
 </div>
 </div>

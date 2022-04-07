@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['tooutput',['toOutput',['../structCCC_1_1LinearMpcXY_1_1RefData.html#ab03b28a20d276f66869e34624d30735c',1,'CCC::LinearMpcXY::RefData']]],
-  ['topreviewcontrolweightparam',['toPreviewControlWeightParam',['../structCCC_1_1PreviewControlZmp_1_1WeightParam.html#ae22ed5b32198527b2872557ed8578326',1,'CCC::PreviewControlZmp::WeightParam']]],
-  ['tostate',['toState',['../structCCC_1_1LinearMpcXY_1_1InitialParam.html#abaaaba9df1ce4d59c520ef0aa23c0bf2',1,'CCC::LinearMpcXY::InitialParam']]],
-  ['totalinputdim',['totalInputDim',['../classCCC_1_1VariantSequentialExtension.html#a369d76f1047c3f69a1838a500fbeb216',1,'CCC::VariantSequentialExtension']]],
-  ['totaloutputdim',['totalOutputDim',['../classCCC_1_1VariantSequentialExtension.html#a47b6a237f8ca338d57184915267d863d',1,'CCC::VariantSequentialExtension']]],
-  ['totalstatedim',['totalStateDim',['../classCCC_1_1VariantSequentialExtension.html#a19e38515a20d106119cb65014988f92f',1,'CCC::VariantSequentialExtension']]]
+  ['setrefdatafunc',['setRefDataFunc',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a0955bfbe95930f1cee49a536d24d2024',1,'CCC::DdpZmp::DdpProblem']]],
+  ['setup',['setup',['../classCCC_1_1VariantSequentialExtension.html#a2ef61cee8cae63e2f8ef5f45c3a6c527',1,'CCC::VariantSequentialExtension']]],
+  ['simmodel',['SimModel',['../classCCC_1_1LinearMpcXY_1_1SimModel.html#a48765c5ea3626df5df574403bd147945',1,'CCC::LinearMpcXY::SimModel::SimModel()'],['../classCCC_1_1LinearMpcZ_1_1SimModel.html#afbaac6e2173f3ef63779bb95a6ac2328',1,'CCC::LinearMpcZ::SimModel::SimModel()']]],
+  ['statedim',['stateDim',['../classCCC_1_1StateSpaceModel.html#a16d42a7c0db32850591924f0390d6269',1,'CCC::StateSpaceModel']]],
+  ['stateeq',['stateEq',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a6efb17fe8295d360a1ccd493e7809b17',1,'CCC::DdpZmp::DdpProblem']]],
+  ['statespacemodel',['StateSpaceModel',['../classCCC_1_1StateSpaceModel.html#aa024e33847e3ebe672bc28b74e18ff48',1,'CCC::StateSpaceModel']]]
 ];

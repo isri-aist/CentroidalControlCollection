@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['initialparam',['InitialParam',['../structCCC_1_1LinearMpcXY_1_1InitialParam.html',1,'CCC::LinearMpcXY']]]
+  ['ddpproblem',['DdpProblem',['../classCCC_1_1DdpZmp_1_1DdpProblem.html',1,'CCC::DdpZmp']]],
+  ['ddpzmp',['DdpZmp',['../classCCC_1_1DdpZmp.html',1,'CCC']]]
 ];

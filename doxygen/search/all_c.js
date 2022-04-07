@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['mass_5f',['mass_',['../classCCC_1_1LinearMpcXY.html#a4d741e4e81e3e621c0514a0314721c4a',1,'CCC::LinearMpcXY::mass_()'],['../classCCC_1_1LinearMpcZ.html#a40ee452c60ae4871e4db8d7f34198660',1,'CCC::LinearMpcZ::mass_()']]],
-  ['model',['Model',['../classCCC_1_1PreviewControlZmp_1_1Model.html',1,'CCC::PreviewControlZmp::Model'],['../classCCC_1_1LinearMpcXY_1_1Model.html',1,'CCC::LinearMpcXY::Model'],['../classCCC_1_1LinearMpcXY_1_1Model.html#a06bb18c879d71b9caff71f41d2d95b87',1,'CCC::LinearMpcXY::Model::Model()'],['../classCCC_1_1PreviewControlZmp_1_1Model.html#a5de0b9974ba753593b18b4ca1eac5874',1,'CCC::PreviewControlZmp::Model::Model()']]],
+  ['mass_5f',['mass_',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a701300c491ed08f10ae5cca7480f5cb2',1,'CCC::DdpZmp::DdpProblem::mass_()'],['../classCCC_1_1LinearMpcXY.html#a4d741e4e81e3e621c0514a0314721c4a',1,'CCC::LinearMpcXY::mass_()'],['../classCCC_1_1LinearMpcZ.html#a40ee452c60ae4871e4db8d7f34198660',1,'CCC::LinearMpcZ::mass_()']]],
+  ['model',['Model',['../classCCC_1_1LinearMpcXY_1_1Model.html',1,'CCC::LinearMpcXY::Model'],['../classCCC_1_1PreviewControlZmp_1_1Model.html',1,'CCC::PreviewControlZmp::Model'],['../classCCC_1_1LinearMpcXY_1_1Model.html#a06bb18c879d71b9caff71f41d2d95b87',1,'CCC::LinearMpcXY::Model::Model()'],['../classCCC_1_1PreviewControlZmp_1_1Model.html#a5de0b9974ba753593b18b4ca1eac5874',1,'CCC::PreviewControlZmp::Model::Model()']]],
   ['model_5f',['model_',['../classCCC_1_1PreviewControl.html#a22066705ec24a97ed44a04b5c6610c11',1,'CCC::PreviewControl']]],
   ['model_5fcontact_5f',['model_contact_',['../classCCC_1_1LinearMpcZ.html#a3edf622d41fe3c772974c8abba25fafc',1,'CCC::LinearMpcZ']]],
   ['model_5flist_5f',['model_list_',['../classCCC_1_1VariantSequentialExtension.html#a518937fecc5b409e218191867eb7a134',1,'CCC::VariantSequentialExtension']]],
