@@ -129,25 +129,19 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac442405fc3e5c168e05a4283a1ae0783"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#ac442405fc3e5c168e05a4283a1ae0783">PreviewControlZmp</a> (const std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControlZmp_1_1ComZmpModel.html">ComZmpModel</a> &gt; &amp;model)</td></tr>
-<tr class="memdesc:ac442405fc3e5c168e05a4283a1ae0783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#ac442405fc3e5c168e05a4283a1ae0783">More...</a><br /></td></tr>
-<tr class="separator:ac442405fc3e5c168e05a4283a1ae0783"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8d7304ec8d813d8948324a9cb6f2cc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#ad8d7304ec8d813d8948324a9cb6f2cc8">calcGain</a> (double horizon, double dt, const <a class="el" href="structCCC_1_1PreviewControlZmp_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1PreviewControlZmp_1_1WeightParam.html">WeightParam</a>())</td></tr>
-<tr class="memdesc:ad8d7304ec8d813d8948324a9cb6f2cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="#ad8d7304ec8d813d8948324a9cb6f2cc8">More...</a><br /></td></tr>
-<tr class="separator:ad8d7304ec8d813d8948324a9cb6f2cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affed3137adee9f6cf2299d62757c4758"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#affed3137adee9f6cf2299d62757c4758">planZmp</a> (const <a class="el" href="classCCC_1_1PreviewControlZmp.html#aa79dd795627d3d30a32f52ec5b266f0d">InitialParam</a> &amp;initial_param, const Eigen::VectorXd &amp;ref_zmp_traj) const</td></tr>
-<tr class="memdesc:affed3137adee9f6cf2299d62757c4758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan ZMP.  <a href="#affed3137adee9f6cf2299d62757c4758">More...</a><br /></td></tr>
-<tr class="separator:affed3137adee9f6cf2299d62757c4758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade3cc10e0942b390b6573d7ab753e252"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#ade3cc10e0942b390b6573d7ab753e252">PreviewControlZmp</a> (const std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControlZmp_1_1ComZmpModel.html">ComZmpModel</a> &gt; &amp;model, double horizon_duration, double horizon_dt, const <a class="el" href="structCCC_1_1PreviewControlZmp_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1PreviewControlZmp_1_1WeightParam.html">WeightParam</a>())</td></tr>
+<tr class="memdesc:ade3cc10e0942b390b6573d7ab753e252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#ade3cc10e0942b390b6573d7ab753e252">More...</a><br /></td></tr>
+<tr class="separator:ade3cc10e0942b390b6573d7ab753e252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1441889abbf03dbcbbcd556e8c16dfc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#ab1441889abbf03dbcbbcd556e8c16dfc">planOnce</a> (const std::function&lt; double(double)&gt; &amp;ref_zmp_func, const <a class="el" href="classCCC_1_1PreviewControlZmp.html#aa79dd795627d3d30a32f52ec5b266f0d">InitialParam</a> &amp;initial_param, const double &amp;horizon_start_time) const</td></tr>
+<tr class="memdesc:ab1441889abbf03dbcbbcd556e8c16dfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#ab1441889abbf03dbcbbcd556e8c16dfc">More...</a><br /></td></tr>
+<tr class="separator:ab1441889abbf03dbcbbcd556e8c16dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classCCC_1_1PreviewControl"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classCCC_1_1PreviewControl')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl&lt; 3, 1, 1 &gt;</a></td></tr>
-<tr class="memitem:a3ff90061226746c69169337c6fc7e177 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a3ff90061226746c69169337c6fc7e177">PreviewControl</a> (const std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControl.html#ae292773e38f4d6fda9fbca4feec4c3a6">_StateSpaceModel</a> &gt; &amp;model)</td></tr>
-<tr class="memdesc:a3ff90061226746c69169337c6fc7e177 inherit pub_methods_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCCC_1_1PreviewControl.html#a3ff90061226746c69169337c6fc7e177">More...</a><br /></td></tr>
-<tr class="separator:a3ff90061226746c69169337c6fc7e177 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6caa9d7b10819caca09fc2e96b98bb0 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aa6caa9d7b10819caca09fc2e96b98bb0">calcGain</a> (double horizon, double dt, <a class="el" href="classCCC_1_1PreviewControl.html#af1d278b96357eb35eea63d89c0a306e9">OutputDimVector</a> output_weight, <a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a> input_weight)</td></tr>
-<tr class="memdesc:aa6caa9d7b10819caca09fc2e96b98bb0 inherit pub_methods_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="classCCC_1_1PreviewControl.html#aa6caa9d7b10819caca09fc2e96b98bb0">More...</a><br /></td></tr>
-<tr class="separator:aa6caa9d7b10819caca09fc2e96b98bb0 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad60e16845dbb35e470e870ce62ea7d5 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aad60e16845dbb35e470e870ce62ea7d5">calcOptimalInput</a> (const <a class="el" href="classCCC_1_1PreviewControl.html#a39bc2c6135fa5e4c98952fcab1127200">StateDimVector</a> &amp;x, const Eigen::VectorXd &amp;ref_output_traj) const</td></tr>
-<tr class="memdesc:aad60e16845dbb35e470e870ce62ea7d5 inherit pub_methods_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate optimal input.  <a href="classCCC_1_1PreviewControl.html#aad60e16845dbb35e470e870ce62ea7d5">More...</a><br /></td></tr>
-<tr class="separator:aad60e16845dbb35e470e870ce62ea7d5 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab47d87c8ec09c3808ef1e20f1d902601 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ab47d87c8ec09c3808ef1e20f1d902601">PreviewControl</a> (const std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControl.html#ae292773e38f4d6fda9fbca4feec4c3a6">_StateSpaceModel</a> &gt; &amp;model, double horizon_duration, double horizon_dt, const WeightParam &amp;weight_param)</td></tr>
+<tr class="memdesc:ab47d87c8ec09c3808ef1e20f1d902601 inherit pub_methods_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCCC_1_1PreviewControl.html#ab47d87c8ec09c3808ef1e20f1d902601">More...</a><br /></td></tr>
+<tr class="separator:ab47d87c8ec09c3808ef1e20f1d902601 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca003780b5f9b7f2b44cc47a217355ef inherit pub_methods_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aca003780b5f9b7f2b44cc47a217355ef">calcOptimalInput</a> (const <a class="el" href="classCCC_1_1PreviewControl.html#a39bc2c6135fa5e4c98952fcab1127200">StateDimVector</a> &amp;x, const Eigen::VectorXd &amp;ref_output_seq) const</td></tr>
+<tr class="memdesc:aca003780b5f9b7f2b44cc47a217355ef inherit pub_methods_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate optimal input.  <a href="classCCC_1_1PreviewControl.html#aca003780b5f9b7f2b44cc47a217355ef">More...</a><br /></td></tr>
+<tr class="separator:aca003780b5f9b7f2b44cc47a217355ef inherit pub_methods_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -155,6 +149,12 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a22066705ec24a97ed44a04b5c6610c11 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControl.html#ae292773e38f4d6fda9fbca4feec4c3a6">_StateSpaceModel</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a22066705ec24a97ed44a04b5c6610c11">model_</a></td></tr>
 <tr class="memdesc:a22066705ec24a97ed44a04b5c6610c11 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">State-space model.  <a href="classCCC_1_1PreviewControl.html#a22066705ec24a97ed44a04b5c6610c11">More...</a><br /></td></tr>
 <tr class="separator:a22066705ec24a97ed44a04b5c6610c11 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45a3da4b86941925793e4248fb950325 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a45a3da4b86941925793e4248fb950325">horizon_dt_</a></td></tr>
+<tr class="memdesc:a45a3da4b86941925793e4248fb950325 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Discretization timestep in horizon [sec].  <a href="classCCC_1_1PreviewControl.html#a45a3da4b86941925793e4248fb950325">More...</a><br /></td></tr>
+<tr class="separator:a45a3da4b86941925793e4248fb950325 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab751ef3e6d0be74a985f52591bf8194c inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ab751ef3e6d0be74a985f52591bf8194c">horizon_size_</a></td></tr>
+<tr class="memdesc:ab751ef3e6d0be74a985f52591bf8194c inherit pub_attribs_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of steps in horizon.  <a href="classCCC_1_1PreviewControl.html#ab751ef3e6d0be74a985f52591bf8194c">More...</a><br /></td></tr>
+<tr class="separator:ab751ef3e6d0be74a985f52591bf8194c inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba962a100c243b95aa33421e243c9f25 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; double, StateDim, StateDim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aba962a100c243b95aa33421e243c9f25">P_</a></td></tr>
 <tr class="memdesc:aba962a100c243b95aa33421e243c9f25 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solution of the algebraic Riccati equation.  <a href="classCCC_1_1PreviewControl.html#aba962a100c243b95aa33421e243c9f25">More...</a><br /></td></tr>
 <tr class="separator:aba962a100c243b95aa33421e243c9f25 inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,9 +167,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:abc3653bb5d02d3d13360f005f9439cff inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#abc3653bb5d02d3d13360f005f9439cff">riccati_error_</a></td></tr>
 <tr class="memdesc:abc3653bb5d02d3d13360f005f9439cff inherit pub_attribs_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error of algebraic Riccati equation.  <a href="classCCC_1_1PreviewControl.html#abc3653bb5d02d3d13360f005f9439cff">More...</a><br /></td></tr>
 <tr class="separator:abc3653bb5d02d3d13360f005f9439cff inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae772f9e2f32bb14f0b57f31dedfcee1a inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ae772f9e2f32bb14f0b57f31dedfcee1a">preview_size_</a></td></tr>
-<tr class="memdesc:ae772f9e2f32bb14f0b57f31dedfcee1a inherit pub_attribs_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of preview window.  <a href="classCCC_1_1PreviewControl.html#ae772f9e2f32bb14f0b57f31dedfcee1a">More...</a><br /></td></tr>
-<tr class="separator:ae772f9e2f32bb14f0b57f31dedfcee1a inherit pub_attribs_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classCCC_1_1PreviewControl"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classCCC_1_1PreviewControl')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl&lt; 3, 1, 1 &gt;</a></td></tr>
+<tr class="memitem:a6fb0138bf23d4daef5a57fb9e2e66c6c inherit pro_methods_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a6fb0138bf23d4daef5a57fb9e2e66c6c">calcGain</a> (const WeightParam &amp;weight_param)</td></tr>
+<tr class="memdesc:a6fb0138bf23d4daef5a57fb9e2e66c6c inherit pro_methods_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="classCCC_1_1PreviewControl.html#a6fb0138bf23d4daef5a57fb9e2e66c6c">More...</a><br /></td></tr>
+<tr class="separator:a6fb0138bf23d4daef5a57fb9e2e66c6c inherit pro_methods_classCCC_1_1PreviewControl"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Preview control for CoM-ZMP model. </p>
@@ -177,7 +178,7 @@ Additional Inherited Members</h2></td></tr>
 <li>Shuuji Kajita, et al. Biped walking pattern generation by using preview control of zero-moment point. ICRA, 2003. </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00017">17</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00015">15</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="aa79dd795627d3d30a32f52ec5b266f0d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa79dd795627d3d30a32f52ec5b266f0d">&#9670;&nbsp;</a></span>InitialParam</h2>
@@ -194,13 +195,13 @@ Additional Inherited Members</h2></td></tr>
 <p>Initial parameter. </p>
 <p>First element is CoM position, second element is CoM velocity, and third element is CoM acceleration. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00024">24</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00022">22</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac442405fc3e5c168e05a4283a1ae0783"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac442405fc3e5c168e05a4283a1ae0783">&#9670;&nbsp;</a></span>PreviewControlZmp()</h2>
+<a id="ade3cc10e0942b390b6573d7ab753e252"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade3cc10e0942b390b6573d7ab753e252">&#9670;&nbsp;</a></span>PreviewControlZmp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,50 +213,19 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">EIGEN_MAKE_ALIGNED_OPERATOR_NEW CCC::PreviewControlZmp::PreviewControlZmp </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControlZmp_1_1ComZmpModel.html">ComZmpModel</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>model</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constructor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">model</td><td>state-space model </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00067">67</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad8d7304ec8d813d8948324a9cb6f2cc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8d7304ec8d813d8948324a9cb6f2cc8">&#9670;&nbsp;</a></span>calcGain()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCC::PreviewControlZmp::calcGain </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>horizon</em>, </td>
+          <td class="paramname"><em>model</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dt</em>, </td>
+          <td class="paramname"><em>horizon_duration</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>horizon_dt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -276,40 +246,45 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate the gain of the preview control. </p>
+<p>Constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">horizon</td><td>horizon of the preview control [sec] </td></tr>
-    <tr><td class="paramname">dt</td><td>sampling time of the preview control [sec] </td></tr>
+    <tr><td class="paramname">model</td><td>state-space model </td></tr>
+    <tr><td class="paramname">horizon_duration</td><td>horizon duration [sec] </td></tr>
+    <tr><td class="paramname">horizon_dt</td><td>discretization timestep in horizon [sec] </td></tr>
     <tr><td class="paramname">weight_param</td><td>objective weight parameter </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00074">74</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00062">62</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
 
 </div>
 </div>
-<a id="affed3137adee9f6cf2299d62757c4758"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affed3137adee9f6cf2299d62757c4758">&#9670;&nbsp;</a></span>planZmp()</h2>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab1441889abbf03dbcbbcd556e8c16dfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1441889abbf03dbcbbcd556e8c16dfc">&#9670;&nbsp;</a></span>planOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double CCC::PreviewControlZmp::planZmp </td>
+          <td class="memname">double CCC::PreviewControlZmp::planOnce </td>
           <td>(</td>
+          <td class="paramtype">const std::function&lt; double(double)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>ref_zmp_func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const <a class="el" href="classCCC_1_1PreviewControlZmp.html#aa79dd795627d3d30a32f52ec5b266f0d">InitialParam</a> &amp;&#160;</td>
           <td class="paramname"><em>initial_param</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>ref_zmp_traj</em>&#160;</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>horizon_start_time</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -317,24 +292,18 @@ Additional Inherited Members</h2></td></tr>
           <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Plan ZMP. </p>
+<p>Plan one step. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">ref_zmp_func</td><td>function of reference ZMP [m] </td></tr>
     <tr><td class="paramname">initial_param</td><td>initial parameter (CoM position, velocity, and acceleration) </td></tr>
-    <tr><td class="paramname">ref_zmp_traj</td><td>trajectory of reference ZMP </td></tr>
+    <tr><td class="paramname">horizon_start_time</td><td>start time of horizon [sec] </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>planned ZMP </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="PreviewControlZmp_8h_source.html#l00088">88</a> of file <a class="el" href="PreviewControlZmp_8h_source.html">PreviewControlZmp.h</a>.</p>
 
 </div>
 </div>
