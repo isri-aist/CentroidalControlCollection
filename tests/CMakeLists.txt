@@ -1,7 +1,7 @@
 set(CCC_gtest_list
   TestStateSpaceModel
   TestVariantSequentialExtension
-  TestPreviewControl
+  TestPreviewControlZmp
   TestLinearMpcZ
   TestLinearMpcXY
   )
