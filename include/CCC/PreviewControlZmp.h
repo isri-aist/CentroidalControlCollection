@@ -78,6 +78,6 @@ public:
    */
   double planOnce(const std::function<double(double)> & ref_zmp_func,
                   const InitialParam & initial_param,
-                  const double & horizon_start_time) const;
+                  double horizon_start_time) const;
 };
 } // namespace CCC
