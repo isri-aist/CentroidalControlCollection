@@ -103,12 +103,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3ff90061226746c69169337c6fc7e177"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a3ff90061226746c69169337c6fc7e177">PreviewControl</a> (const std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControl.html#ae292773e38f4d6fda9fbca4feec4c3a6">_StateSpaceModel</a> &gt; &amp;model)</td></tr>
 <tr class="memdesc:a3ff90061226746c69169337c6fc7e177"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a3ff90061226746c69169337c6fc7e177">More...</a><br /></td></tr>
 <tr class="separator:a3ff90061226746c69169337c6fc7e177"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b4e51fbd1232833a182ed0fe9f8e438"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a4b4e51fbd1232833a182ed0fe9f8e438">calcGain</a> (double horizon, double dt, <a class="el" href="classCCC_1_1PreviewControl.html#af1d278b96357eb35eea63d89c0a306e9">OutputDimVector</a> outputWeight, <a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a> inputWeight)</td></tr>
-<tr class="memdesc:a4b4e51fbd1232833a182ed0fe9f8e438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="#a4b4e51fbd1232833a182ed0fe9f8e438">More...</a><br /></td></tr>
-<tr class="separator:a4b4e51fbd1232833a182ed0fe9f8e438"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab279411526dbc5aa2a4a8544af49d488"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ab279411526dbc5aa2a4a8544af49d488">calcOptimalInput</a> (const <a class="el" href="classCCC_1_1PreviewControl.html#a39bc2c6135fa5e4c98952fcab1127200">StateDimVector</a> &amp;x, const Eigen::VectorXd &amp;refOutputTraj) const</td></tr>
-<tr class="memdesc:ab279411526dbc5aa2a4a8544af49d488"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="#ab279411526dbc5aa2a4a8544af49d488">More...</a><br /></td></tr>
-<tr class="separator:ab279411526dbc5aa2a4a8544af49d488"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6caa9d7b10819caca09fc2e96b98bb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aa6caa9d7b10819caca09fc2e96b98bb0">calcGain</a> (double horizon, double dt, <a class="el" href="classCCC_1_1PreviewControl.html#af1d278b96357eb35eea63d89c0a306e9">OutputDimVector</a> output_weight, <a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a> input_weight)</td></tr>
+<tr class="memdesc:aa6caa9d7b10819caca09fc2e96b98bb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the gain of the preview control.  <a href="#aa6caa9d7b10819caca09fc2e96b98bb0">More...</a><br /></td></tr>
+<tr class="separator:aa6caa9d7b10819caca09fc2e96b98bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad60e16845dbb35e470e870ce62ea7d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aad60e16845dbb35e470e870ce62ea7d5">calcOptimalInput</a> (const <a class="el" href="classCCC_1_1PreviewControl.html#a39bc2c6135fa5e4c98952fcab1127200">StateDimVector</a> &amp;x, const Eigen::VectorXd &amp;ref_output_traj) const</td></tr>
+<tr class="memdesc:aad60e16845dbb35e470e870ce62ea7d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate optimal input.  <a href="#aad60e16845dbb35e470e870ce62ea7d5">More...</a><br /></td></tr>
+<tr class="separator:aad60e16845dbb35e470e870ce62ea7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -124,12 +124,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a559ee95250775c0ec6e8b379154f6222"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; double, InputDim, Eigen::Dynamic &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a559ee95250775c0ec6e8b379154f6222">F_</a></td></tr>
 <tr class="memdesc:a559ee95250775c0ec6e8b379154f6222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Preview gain.  <a href="#a559ee95250775c0ec6e8b379154f6222">More...</a><br /></td></tr>
 <tr class="separator:a559ee95250775c0ec6e8b379154f6222"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6654ed1e34f0be9447bf07aba41004f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#aa6654ed1e34f0be9447bf07aba41004f">riccatiError_</a> = 0</td></tr>
-<tr class="memdesc:aa6654ed1e34f0be9447bf07aba41004f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error of algebraic Riccati equation.  <a href="#aa6654ed1e34f0be9447bf07aba41004f">More...</a><br /></td></tr>
-<tr class="separator:aa6654ed1e34f0be9447bf07aba41004f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a5dae1ed7b5fd9dd59503d8ce425f3d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#a8a5dae1ed7b5fd9dd59503d8ce425f3d">previewSize_</a> = -1</td></tr>
-<tr class="memdesc:a8a5dae1ed7b5fd9dd59503d8ce425f3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of preview window.  <a href="#a8a5dae1ed7b5fd9dd59503d8ce425f3d">More...</a><br /></td></tr>
-<tr class="separator:a8a5dae1ed7b5fd9dd59503d8ce425f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc3653bb5d02d3d13360f005f9439cff"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#abc3653bb5d02d3d13360f005f9439cff">riccati_error_</a> = 0</td></tr>
+<tr class="memdesc:abc3653bb5d02d3d13360f005f9439cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error of algebraic Riccati equation.  <a href="#abc3653bb5d02d3d13360f005f9439cff">More...</a><br /></td></tr>
+<tr class="separator:abc3653bb5d02d3d13360f005f9439cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae772f9e2f32bb14f0b57f31dedfcee1a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ae772f9e2f32bb14f0b57f31dedfcee1a">preview_size_</a> = -1</td></tr>
+<tr class="memdesc:ae772f9e2f32bb14f0b57f31dedfcee1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of preview window.  <a href="#ae772f9e2f32bb14f0b57f31dedfcee1a">More...</a><br /></td></tr>
+<tr class="separator:ae772f9e2f32bb14f0b57f31dedfcee1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;int StateDim, int InputDim, int OutputDim&gt;<br />
@@ -260,7 +260,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 <p>Constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">model</td><td>state space model </td></tr>
+    <tr><td class="paramname">model</td><td>state-space model </td></tr>
   </table>
   </dd>
 </dl>
@@ -270,8 +270,8 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4b4e51fbd1232833a182ed0fe9f8e438"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b4e51fbd1232833a182ed0fe9f8e438">&#9670;&nbsp;</a></span>calcGain()</h2>
+<a id="aa6caa9d7b10819caca09fc2e96b98bb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6caa9d7b10819caca09fc2e96b98bb0">&#9670;&nbsp;</a></span>calcGain()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,13 +297,13 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classCCC_1_1PreviewControl.html#af1d278b96357eb35eea63d89c0a306e9">OutputDimVector</a>&#160;</td>
-          <td class="paramname"><em>outputWeight</em>, </td>
+          <td class="paramname"><em>output_weight</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classCCC_1_1PreviewControl.html#aa309d1cb6f53d6bd19dc663125c6c484">InputDimVector</a>&#160;</td>
-          <td class="paramname"><em>inputWeight</em>&#160;</td>
+          <td class="paramname"><em>input_weight</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -323,8 +323,8 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
   <table class="params">
     <tr><td class="paramname">horizon</td><td>horizon of the preview control [sec] </td></tr>
     <tr><td class="paramname">dt</td><td>sampling time of the preview control [sec] </td></tr>
-    <tr><td class="paramname">outputWeight</td><td>weight of output </td></tr>
-    <tr><td class="paramname">inputWeight</td><td>weight of input </td></tr>
+    <tr><td class="paramname">output_weight</td><td>weight of output </td></tr>
+    <tr><td class="paramname">input_weight</td><td>weight of input </td></tr>
   </table>
   </dd>
 </dl>
@@ -333,8 +333,8 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 
 </div>
 </div>
-<a id="ab279411526dbc5aa2a4a8544af49d488"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab279411526dbc5aa2a4a8544af49d488">&#9670;&nbsp;</a></span>calcOptimalInput()</h2>
+<a id="aad60e16845dbb35e470e870ce62ea7d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad60e16845dbb35e470e870ce62ea7d5">&#9670;&nbsp;</a></span>calcOptimalInput()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -354,7 +354,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>refOutputTraj</em>&#160;</td>
+          <td class="paramname"><em>ref_output_traj</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -369,11 +369,11 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate the gain of the preview control. </p>
+<p>Calculate optimal input. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>state </td></tr>
-    <tr><td class="paramname">refOutputTraj</td><td>trajectory of reference output </td></tr>
+    <tr><td class="paramname">ref_output_traj</td><td>trajectory of reference output </td></tr>
   </table>
   </dd>
 </dl>
@@ -463,8 +463,8 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 
 </div>
 </div>
-<a id="a8a5dae1ed7b5fd9dd59503d8ce425f3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a5dae1ed7b5fd9dd59503d8ce425f3d">&#9670;&nbsp;</a></span>previewSize_</h2>
+<a id="ae772f9e2f32bb14f0b57f31dedfcee1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae772f9e2f32bb14f0b57f31dedfcee1a">&#9670;&nbsp;</a></span>preview_size_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -472,7 +472,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::previewSize_ = -1</td>
+          <td class="memname">int <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::preview_size_ = -1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -483,8 +483,8 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 
 </div>
 </div>
-<a id="aa6654ed1e34f0be9447bf07aba41004f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6654ed1e34f0be9447bf07aba41004f">&#9670;&nbsp;</a></span>riccatiError_</h2>
+<a id="abc3653bb5d02d3d13360f005f9439cff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc3653bb5d02d3d13360f005f9439cff">&#9670;&nbsp;</a></span>riccati_error_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -492,7 +492,7 @@ template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
 template&lt;int StateDim, int InputDim, int OutputDim&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::riccatiError_ = 0</td>
+          <td class="memname">double <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl</a>&lt; StateDim, InputDim, OutputDim &gt;::riccati_error_ = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">

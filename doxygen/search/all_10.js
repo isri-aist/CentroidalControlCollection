@@ -6,5 +6,5 @@ var searchData=
   ['ref_5fpos',['ref_pos',['../structCCC_1_1MotionDataBase.html#a841ccfd94e2b99f8b9d0fea400635f37',1,'CCC::MotionDataBase']]],
   ['ref_5fvel',['ref_vel',['../structCCC_1_1MotionDataBase.html#a4b83dad7053e9359bcaced473f77f0dd',1,'CCC::MotionDataBase']]],
   ['refdata',['RefData',['../structCCC_1_1LinearMpcXY_1_1RefData.html',1,'CCC::LinearMpcXY']]],
-  ['riccatierror_5f',['riccatiError_',['../classCCC_1_1PreviewControl.html#aa6654ed1e34f0be9447bf07aba41004f',1,'CCC::PreviewControl']]]
+  ['riccati_5ferror_5f',['riccati_error_',['../classCCC_1_1PreviewControl.html#abc3653bb5d02d3d13360f005f9439cff',1,'CCC::PreviewControl']]]
 ];
