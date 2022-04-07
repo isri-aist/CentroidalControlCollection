@@ -172,7 +172,7 @@ protected:
     }
   }
 
-protected:
+public:
   //! State-space model
   std::shared_ptr<_StateSpaceModel> model_;
 
@@ -182,6 +182,10 @@ protected:
   //! Number of steps in horizon
   int horizon_steps_ = -1;
 
+  //! Error of algebraic Riccati equation
+  double riccati_error_ = 0;
+
+protected:
   //! Solution of the algebraic Riccati equation
   Eigen::Matrix<double, StateDim, StateDim> P_;
 
@@ -190,8 +194,5 @@ protected:
 
   //! Preview gain
   Eigen::Matrix<double, InputDim, Eigen::Dynamic> F_;
-
-  //! Error of algebraic Riccati equation
-  double riccati_error_ = 0;
 };
 } // namespace CCC
