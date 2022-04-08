@@ -8,48 +8,15 @@
 #include <CCC/Constants.h>
 #include <CCC/DdpZmp.h>
 #include <CCC/EigenTypes.h>
-#include <CCC/StateSpaceModel.h>
 
-/** \brief State-space model of CoM-ZMP dynamics with ZMP input. */
-class ComZmpSimModel : public CCC::StateSpaceModel<2, 1, 0>
-{
-public:
-  /** \brief Constructor.
-      \param com_height height of robot CoM [m]
-  */
-  ComZmpSimModel(double com_height)
-  {
-    double omega2 = CCC::constants::g / com_height;
+#include "SimModels.h"
 
-    A_(0, 1) = 1;
-    A_(1, 0) = omega2;
-
-    B_(1, 0) = -1 * omega2;
-  }
-};
-
+/** \brief CoM position and velocity. */
 struct ComPosVel
 {
   Eigen::Vector2d x = Eigen::Vector2d::Zero();
   Eigen::Vector2d y = Eigen::Vector2d::Zero();
   Eigen::Vector2d z = Eigen::Vector2d::Zero();
-};
-
-/** \brief State-space model of vertical motion dynamics with force input. */
-class VerticalSimModel : public CCC::StateSpaceModel<2, 1, 0>
-{
-public:
-  /** \brief Constructor.
-      \param mass robot mass [Kg]
-  */
-  VerticalSimModel(double mass)
-  {
-    A_(0, 1) = 1;
-
-    B_(1, 0) = 1 / mass;
-
-    E_(1) = -1 * CCC::constants::g;
-  }
 };
 
 TEST(TestDdpZmp, Test1)
@@ -62,6 +29,7 @@ TEST(TestDdpZmp, Test1)
 
   // Setup DDP
   CCC::DdpZmp ddp(mass, horizon_dt, horizon_steps);
+  ddp.ddp_solver_->config().max_iter = 3;
 
   std::function<double(double)> ref_zmp_func = [](double t) {
     if(t < 2.0)
@@ -108,11 +76,14 @@ TEST(TestDdpZmp, Test1)
   // Run control
   ComPosVel com_pos_vel;
   com_pos_vel.z[0] = ref_com_height;
+  std::vector<CCC::DdpZmp::DdpProblem::InputDimVector> initial_u_list(
+      horizon_steps,
+      CCC::DdpZmp::DdpProblem::InputDimVector(com_pos_vel.x[0], com_pos_vel.y[0], mass * CCC::constants::g));
   CCC::DdpZmp::PlannedData planned_data;
 
   std::string file_path = "/tmp/TestDdpZmp.txt";
   std::ofstream ofs(file_path);
-  ofs << "time com_pos com_vel planned_zmp ref_zmp" << std::endl;
+  ofs << "time com_pos com_vel planned_zmp ref_zmp ddp_iter" << std::endl;
 
   constexpr double end_time = 10.0; // [sec]
   double t = 0;
@@ -122,11 +93,13 @@ TEST(TestDdpZmp, Test1)
     CCC::DdpZmp::InitialParam initial_param;
     initial_param.pos << com_pos_vel.x[0], com_pos_vel.y[0], com_pos_vel.z[0];
     initial_param.vel << com_pos_vel.x[1], com_pos_vel.y[1], com_pos_vel.z[1];
-    planned_data = ddp.planOnce(ref_data_func, initial_param, t);
+    planned_data = ddp.planOnce(ref_data_func, initial_param, t, initial_u_list);
+    initial_u_list = ddp.ddp_solver_->controlData().u_list;
 
     // Dump
     const auto & ref_data = ref_data_func(t);
-    ofs << t << " " << com_pos_vel.x.transpose() << " " << planned_data.zmp.x() << " " << ref_data.zmp.x() << std::endl;
+    ofs << t << " " << com_pos_vel.x.transpose() << " " << planned_data.zmp.x() << " " << ref_data.zmp.x() << " "
+        << ddp.ddp_solver_->traceDataList().back().iter << std::endl;
 
     // Check
     EXPECT_LT(std::abs(planned_data.zmp.x() - ref_data.zmp.x()), 0.1); // [m]

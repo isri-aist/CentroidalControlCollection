@@ -291,7 +291,7 @@ public:
                        double horizon_start_time,
                        const std::vector<DdpProblem::InputDimVector> & initial_u_list = {});
 
-protected:
+public:
   //! DDP problem
   std::shared_ptr<DdpProblem> ddp_problem_;
 
