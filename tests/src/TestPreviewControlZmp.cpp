@@ -44,7 +44,7 @@ TEST(TestPreviewControlZmp, Test1)
     }
     else
     {
-      return zmp_list[phase_idx];
+      return zmp_list[std::min(phase_idx, static_cast<int>(zmp_list.size()) - 1)];
     }
   };
 

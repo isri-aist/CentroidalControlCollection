@@ -22,8 +22,9 @@ struct ComPosVel
 TEST(TestDdpZmp, Test1)
 {
   double horizon_duration = 2.0; // [sec]
-  double horizon_dt = 0.005; // [sec]
+  double horizon_dt = 0.02; // [sec]
   int horizon_steps = static_cast<int>(horizon_duration / horizon_dt);
+  double sim_dt = 0.005; // [sec]
   double mass = 100.0; // [Kg]
   double ref_com_height = 1.0; // [m]
 
@@ -32,33 +33,29 @@ TEST(TestDdpZmp, Test1)
   ddp.ddp_solver_->config().max_iter = 3;
 
   std::function<double(double)> ref_zmp_func = [](double t) {
-    if(t < 2.0)
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    t += epsilon_t;
+
+    int phase_idx = static_cast<int>(std::floor(t) - 1);
+    double phase_time = t - std::floor(t);
+    std::vector<double> zmp_list = {0.0, 0.1, -0.1, 0.1, 0.2, 0.3, 0.4};
+    if(phase_idx <= 0)
     {
       return 0.0;
     }
-    else if(t < 3.0)
+    else if(phase_idx >= zmp_list.size())
     {
-      return 0.1;
+      return zmp_list.back();
     }
-    else if(t < 4.0)
+    else if(phase_time < 0.2)
     {
-      return -0.1;
-    }
-    else if(t < 5.0)
-    {
-      return 0.1;
-    }
-    else if(t < 6.0)
-    {
-      return 0.2;
-    }
-    else if(t < 7.0)
-    {
-      return 0.3;
+      double ratio = phase_time / 0.2;
+      return (1 - ratio) * zmp_list[phase_idx - 1] + ratio * zmp_list[phase_idx];
     }
     else
     {
-      return 0.4;
+      return zmp_list[std::min(phase_idx, static_cast<int>(zmp_list.size()) - 1)];
     }
   };
   std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [&](double t) {
@@ -73,7 +70,12 @@ TEST(TestDdpZmp, Test1)
     return ref_data;
   };
 
-  // Run control
+  // Setup dump file
+  std::string file_path = "/tmp/TestDdpZmp.txt";
+  std::ofstream ofs(file_path);
+  ofs << "time com_pos com_vel planned_zmp ref_zmp ddp_iter" << std::endl;
+
+  // Setup control loop
   ComPosVel com_pos_vel;
   com_pos_vel.z[0] = ref_com_height;
   std::vector<CCC::DdpZmp::DdpProblem::InputDimVector> initial_u_list(
@@ -81,10 +83,7 @@ TEST(TestDdpZmp, Test1)
       CCC::DdpZmp::DdpProblem::InputDimVector(com_pos_vel.x[0], com_pos_vel.y[0], mass * CCC::constants::g));
   CCC::DdpZmp::PlannedData planned_data;
 
-  std::string file_path = "/tmp/TestDdpZmp.txt";
-  std::ofstream ofs(file_path);
-  ofs << "time com_pos com_vel planned_zmp ref_zmp ddp_iter" << std::endl;
-
+  // Run control loop
   constexpr double end_time = 10.0; // [sec]
   double t = 0;
   while(t < end_time)
@@ -106,12 +105,12 @@ TEST(TestDdpZmp, Test1)
 
     // Setup simulation
     ComZmpSimModel sim_model_xy(com_pos_vel.z[0]);
-    sim_model_xy.calcDiscMatrix(horizon_dt);
+    sim_model_xy.calcDiscMatrix(sim_dt);
     VerticalSimModel sim_model_z(mass);
-    sim_model_z.calcDiscMatrix(horizon_dt);
+    sim_model_z.calcDiscMatrix(sim_dt);
 
     // Update
-    t += horizon_dt;
+    t += sim_dt;
     Eigen::Vector1d sim_input;
     sim_input << planned_data.zmp.x();
     com_pos_vel.x = sim_model_xy.stateEqDisc(com_pos_vel.x, sim_input);
