@@ -1,5 +1,11 @@
 var searchData=
 [
-  ['weight_5fparam_5f',['weight_param_',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#acc2c126e88a509fbb028125d40f9a484',1,'CCC::DdpZmp::DdpProblem']]],
-  ['weightparam',['WeightParam',['../structCCC_1_1LinearMpcXY_1_1WeightParam.html',1,'CCC::LinearMpcXY::WeightParam'],['../structCCC_1_1PreviewControl_1_1WeightParam.html',1,'CCC::PreviewControl&lt; StateDim, InputDim, OutputDim &gt;::WeightParam'],['../structCCC_1_1DdpZmp_1_1WeightParam.html',1,'CCC::DdpZmp::WeightParam'],['../structCCC_1_1PreviewControlZmp_1_1WeightParam.html',1,'CCC::PreviewControlZmp::WeightParam'],['../structCCC_1_1LinearMpcZ_1_1WeightParam.html',1,'CCC::LinearMpcZ::WeightParam'],['../structCCC_1_1DdpZmp_1_1WeightParam.html#ae0dac7cb470dc75ccf3e556991f1e625',1,'CCC::DdpZmp::WeightParam::WeightParam()'],['../structCCC_1_1LinearMpcXY_1_1WeightParam.html#ac3c3566c0d5814c31cde19061eff96d5',1,'CCC::LinearMpcXY::WeightParam::WeightParam()'],['../structCCC_1_1LinearMpcZ_1_1WeightParam.html#a17d961c271608a43bafd26078642ac10',1,'CCC::LinearMpcZ::WeightParam::WeightParam()'],['../structCCC_1_1PreviewControl_1_1WeightParam.html#ab059e081066177d190256a058ee5b5d5',1,'CCC::PreviewControl::WeightParam::WeightParam()'],['../structCCC_1_1PreviewControlZmp_1_1WeightParam.html#a02dd3ce57871f3d8772d45b39ef72c39',1,'CCC::PreviewControlZmp::WeightParam::WeightParam()']]]
+  ['variantsequentialextension',['VariantSequentialExtension',['../classCCC_1_1VariantSequentialExtension.html',1,'CCC::VariantSequentialExtension&lt; StateDim, ListType &gt;'],['../classCCC_1_1VariantSequentialExtension.html#aa7aecff7cd57952c9c4fd05f791371cf',1,'CCC::VariantSequentialExtension::VariantSequentialExtension()']]],
+  ['variantsequentialextension_2eh',['VariantSequentialExtension.h',['../VariantSequentialExtension_8h.html',1,'']]],
+  ['vector1',['Vector1',['../namespaceEigen.html#aebcc4f5978eaaf876880d325c6bed843',1,'Eigen']]],
+  ['vector1d',['Vector1d',['../namespaceEigen.html#abd348574d14d16ac86d6eeca9419bd85',1,'Eigen']]],
+  ['vector6',['Vector6',['../namespaceEigen.html#a664778266262bbdb1d1b2776bef25c7d',1,'Eigen']]],
+  ['vector6d',['Vector6d',['../namespaceEigen.html#acdb6a5c038a9c26a61b0187b696b2630',1,'Eigen']]],
+  ['vel',['vel',['../structCCC_1_1DdpZmp_1_1InitialParam.html#a30c67e36df047239b290f9a6a9e4d346',1,'CCC::DdpZmp::InitialParam::vel()'],['../structCCC_1_1LinearMpcXY_1_1InitialParam.html#af30c70f47136a4ae4ad854701b9cc8e9',1,'CCC::LinearMpcXY::InitialParam::vel()'],['../structCCC_1_1LinearMpcXY_1_1RefData.html#ab538d4d349718554599790e940d6f234',1,'CCC::LinearMpcXY::RefData::vel()']]],
+  ['vertex_5fridge_5flist',['vertex_ridge_list',['../structCCC_1_1LinearMpcXY_1_1MotionParam.html#a6c503b3d4038d165cfeba05d107f9720',1,'CCC::LinearMpcXY::MotionParam']]]
 ];
