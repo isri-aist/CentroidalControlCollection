@@ -132,9 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a30297490c53de961f918bbad6a432d57"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#a30297490c53de961f918bbad6a432d57">PreviewControlZmp</a> (double com_height, double horizon_duration, double horizon_dt, const <a class="el" href="structCCC_1_1PreviewControlZmp_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1PreviewControlZmp_1_1WeightParam.html">WeightParam</a>())</td></tr>
 <tr class="memdesc:a30297490c53de961f918bbad6a432d57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a30297490c53de961f918bbad6a432d57">More...</a><br /></td></tr>
 <tr class="separator:a30297490c53de961f918bbad6a432d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af53a0037ed2aa0cb662d2d946526f79d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#af53a0037ed2aa0cb662d2d946526f79d">planOnce</a> (const std::function&lt; double(double)&gt; &amp;ref_zmp_func, const <a class="el" href="classCCC_1_1PreviewControlZmp.html#aa79dd795627d3d30a32f52ec5b266f0d">InitialParam</a> &amp;initial_param, double horizon_start_time, double control_dt=-1) const</td></tr>
-<tr class="memdesc:af53a0037ed2aa0cb662d2d946526f79d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#af53a0037ed2aa0cb662d2d946526f79d">More...</a><br /></td></tr>
-<tr class="separator:af53a0037ed2aa0cb662d2d946526f79d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba00d3ba4a1229c599e3263d9f75dae1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlZmp.html#aba00d3ba4a1229c599e3263d9f75dae1">planOnce</a> (const std::function&lt; double(double)&gt; &amp;ref_zmp_func, const <a class="el" href="classCCC_1_1PreviewControlZmp.html#aa79dd795627d3d30a32f52ec5b266f0d">InitialParam</a> &amp;initial_param, double current_time, double control_dt=-1) const</td></tr>
+<tr class="memdesc:aba00d3ba4a1229c599e3263d9f75dae1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#aba00d3ba4a1229c599e3263d9f75dae1">More...</a><br /></td></tr>
+<tr class="separator:aba00d3ba4a1229c599e3263d9f75dae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classCCC_1_1PreviewControl"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classCCC_1_1PreviewControl')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classCCC_1_1PreviewControl.html">CCC::PreviewControl&lt; 3, 1, 1 &gt;</a></td></tr>
 <tr class="memitem:ab47d87c8ec09c3808ef1e20f1d902601 inherit pub_methods_classCCC_1_1PreviewControl"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControl.html#ab47d87c8ec09c3808ef1e20f1d902601">PreviewControl</a> (const std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControl.html#ae292773e38f4d6fda9fbca4feec4c3a6">_StateSpaceModel</a> &gt; &amp;model, double horizon_duration, double horizon_dt, const WeightParam &amp;weight_param)</td></tr>
 <tr class="memdesc:ab47d87c8ec09c3808ef1e20f1d902601 inherit pub_methods_classCCC_1_1PreviewControl"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCCC_1_1PreviewControl.html#ab47d87c8ec09c3808ef1e20f1d902601">More...</a><br /></td></tr>
@@ -263,8 +263,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af53a0037ed2aa0cb662d2d946526f79d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af53a0037ed2aa0cb662d2d946526f79d">&#9670;&nbsp;</a></span>planOnce()</h2>
+<a id="aba00d3ba4a1229c599e3263d9f75dae1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba00d3ba4a1229c599e3263d9f75dae1">&#9670;&nbsp;</a></span>planOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +285,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>horizon_start_time</em>, </td>
+          <td class="paramname"><em>current_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -306,7 +306,7 @@ Additional Inherited Members</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">ref_zmp_func</td><td>function of reference ZMP [m] </td></tr>
     <tr><td class="paramname">initial_param</td><td>initial parameter (CoM position, velocity, and acceleration) </td></tr>
-    <tr><td class="paramname">horizon_start_time</td><td>start time of horizon [sec] </td></tr>
+    <tr><td class="paramname">current_time</td><td>current time (i.e., start time of horizon) [sec] </td></tr>
     <tr><td class="paramname">control_dt</td><td>control timestep used to calculate ZMP (if omitted, horizon_dt is used) </td></tr>
   </table>
   </dd>

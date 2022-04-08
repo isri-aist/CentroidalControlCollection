@@ -106,9 +106,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad421a3719bda90edadfb382c3d62dc5e"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpZmp.html#ad421a3719bda90edadfb382c3d62dc5e">DdpZmp</a> (double mass, double horizon_dt, int horizon_steps, const <a class="el" href="structCCC_1_1DdpZmp_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1DdpZmp_1_1WeightParam.html">WeightParam</a>())</td></tr>
 <tr class="memdesc:ad421a3719bda90edadfb382c3d62dc5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#ad421a3719bda90edadfb382c3d62dc5e">More...</a><br /></td></tr>
 <tr class="separator:ad421a3719bda90edadfb382c3d62dc5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab21bc71a6e0376c67d673939d471b9e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structCCC_1_1DdpZmp_1_1PlannedData.html">PlannedData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpZmp.html#ab21bc71a6e0376c67d673939d471b9e1">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1DdpZmp_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1DdpZmp_1_1InitialParam.html">InitialParam</a> &amp;initial_param, double horizon_start_time, const std::vector&lt; DdpProblem::InputDimVector &gt; &amp;initial_u_list={})</td></tr>
-<tr class="memdesc:ab21bc71a6e0376c67d673939d471b9e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#ab21bc71a6e0376c67d673939d471b9e1">More...</a><br /></td></tr>
-<tr class="separator:ab21bc71a6e0376c67d673939d471b9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad72aa647c3f6a7433f9ee9f09c368b40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structCCC_1_1DdpZmp_1_1PlannedData.html">PlannedData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpZmp.html#ad72aa647c3f6a7433f9ee9f09c368b40">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1DdpZmp_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1DdpZmp_1_1InitialParam.html">InitialParam</a> &amp;initial_param, double current_time, const std::vector&lt; DdpProblem::InputDimVector &gt; &amp;initial_u_list={})</td></tr>
+<tr class="memdesc:ad72aa647c3f6a7433f9ee9f09c368b40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#ad72aa647c3f6a7433f9ee9f09c368b40">More...</a><br /></td></tr>
+<tr class="separator:ad72aa647c3f6a7433f9ee9f09c368b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -189,8 +189,8 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab21bc71a6e0376c67d673939d471b9e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab21bc71a6e0376c67d673939d471b9e1">&#9670;&nbsp;</a></span>planOnce()</h2>
+<a id="ad72aa647c3f6a7433f9ee9f09c368b40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad72aa647c3f6a7433f9ee9f09c368b40">&#9670;&nbsp;</a></span>planOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,7 +211,7 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>horizon_start_time</em>, </td>
+          <td class="paramname"><em>current_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -232,7 +232,7 @@ Public Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">ref_data_func</td><td>function of reference data </td></tr>
     <tr><td class="paramname">initial_param</td><td>initial parameter </td></tr>
-    <tr><td class="paramname">horizon_start_time</td><td>start time of horizon [sec] </td></tr>
+    <tr><td class="paramname">current_time</td><td>current time (i.e., start time of horizon) [sec] </td></tr>
     <tr><td class="paramname">initial_u_list</td><td>initial guess of input sequence (length should be horizon_steps) </td></tr>
   </table>
   </dd>
