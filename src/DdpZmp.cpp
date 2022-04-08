@@ -38,11 +38,11 @@ double DdpZmp::DdpProblem::terminalCost(double t, const StateDimVector & x) cons
          + weight_param_.terminal_com_vel * 0.5 * com_vel.squaredNorm();
 }
 
-void DdpZmp::DdpProblem::calcStatEqDeriv(double t,
-                                         const StateDimVector & x,
-                                         const InputDimVector & u,
-                                         Eigen::Ref<StateStateDimMatrix> state_eq_deriv_x,
-                                         Eigen::Ref<StateInputDimMatrix> state_eq_deriv_u) const
+void DdpZmp::DdpProblem::calcStateEqDeriv(double t,
+                                          const StateDimVector & x,
+                                          const InputDimVector & u,
+                                          Eigen::Ref<StateStateDimMatrix> state_eq_deriv_x,
+                                          Eigen::Ref<StateInputDimMatrix> state_eq_deriv_u) const
 {
   state_eq_deriv_x.setZero();
   state_eq_deriv_x(0, 1) = 1;
