@@ -116,7 +116,7 @@ TEST(TestDdpZmp, Test1)
     VerticalSimModel sim_model_z(mass);
     sim_model_z.calcDiscMatrix(sim_dt);
 
-    // Update
+    // Simulate
     t += sim_dt;
     Eigen::Vector1d sim_input;
     sim_input << planned_data.zmp.x();

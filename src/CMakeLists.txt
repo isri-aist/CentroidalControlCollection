@@ -1,6 +1,7 @@
 add_library(CCC
   PreviewControlZmp.cpp
   DdpZmp.cpp
+  DcmTracking.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
   )

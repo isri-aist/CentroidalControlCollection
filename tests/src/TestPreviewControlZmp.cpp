@@ -78,7 +78,7 @@ TEST(TestPreviewControlZmp, Test1)
     // Check
     EXPECT_LT(std::abs(planned_zmp - ref_zmp), 0.1); // [m]
 
-    // Update
+    // Simulate
     t += sim_dt;
     Eigen::Vector1d sim_input;
     sim_input << planned_zmp;

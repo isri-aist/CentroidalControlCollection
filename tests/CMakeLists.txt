@@ -3,6 +3,7 @@ set(CCC_gtest_list
   TestVariantSequentialExtension
   TestPreviewControlZmp
   TestDdpZmp
+  TestDcmTracking
   TestLinearMpcZ
   TestLinearMpcXY
   )
