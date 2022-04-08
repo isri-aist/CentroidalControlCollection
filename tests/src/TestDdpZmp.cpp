@@ -78,22 +78,29 @@ TEST(TestDdpZmp, Test1)
   // Setup control loop
   ComPosVel com_pos_vel;
   com_pos_vel.z[0] = ref_com_height;
-  std::vector<CCC::DdpZmp::DdpProblem::InputDimVector> initial_u_list(
-      horizon_steps,
-      CCC::DdpZmp::DdpProblem::InputDimVector(com_pos_vel.x[0], com_pos_vel.y[0], mass * CCC::constants::g));
   CCC::DdpZmp::PlannedData planned_data;
 
   // Run control loop
   constexpr double end_time = 10.0; // [sec]
   double t = 0;
+  bool first_iter = true;
   while(t < end_time)
   {
     // Plan
     CCC::DdpZmp::InitialParam initial_param;
     initial_param.pos << com_pos_vel.x[0], com_pos_vel.y[0], com_pos_vel.z[0];
     initial_param.vel << com_pos_vel.x[1], com_pos_vel.y[1], com_pos_vel.z[1];
-    planned_data = ddp.planOnce(ref_data_func, initial_param, t, initial_u_list);
-    initial_u_list = ddp.ddp_solver_->controlData().u_list;
+    if(first_iter)
+    {
+      first_iter = false;
+      initial_param.u_list.assign(horizon_steps, CCC::DdpZmp::DdpProblem::InputDimVector(
+                                                     com_pos_vel.x[0], com_pos_vel.y[0], mass * CCC::constants::g));
+    }
+    else
+    {
+      initial_param.u_list = ddp.ddp_solver_->controlData().u_list;
+    }
+    planned_data = ddp.planOnce(ref_data_func, initial_param, t);
 
     // Dump
     const auto & ref_data = ref_data_func(t);
