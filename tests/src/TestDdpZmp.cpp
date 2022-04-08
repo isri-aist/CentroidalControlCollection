@@ -160,6 +160,101 @@ TEST(TestDdpZmp, Test1)
             << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:4 w lp, \"\" u 1:5 w l lw 2\n";
 }
 
+TEST(TestDdpZmp, CheckDerivatives)
+{
+  constexpr double deriv_eps = 1e-6;
+
+  double horizon_dt = 0.005; // [sec]
+  double mass = 100.0; // [Kg]
+  CCC::DdpZmp::WeightParam weight_param;
+  auto ddp_problem = std::make_shared<CCC::DdpZmp::DdpProblem>(horizon_dt, mass, weight_param);
+
+  std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [](double t) {
+    CCC::DdpZmp::RefData ref_data;
+    ref_data.zmp << 0.1, -0.2; // [m]
+    ref_data.com_z = 1.0; // [m]
+    return ref_data;
+  };
+  ddp_problem->setRefDataFunc(ref_data_func);
+
+  double t = 0;
+  CCC::DdpZmp::DdpProblem::StateDimVector x;
+  x << 1.0, 0.1, -2.1, -0.5, 1.1, 0.5; // [m], [m/s]
+  CCC::DdpZmp::DdpProblem::InputDimVector u;
+  u << 1.0, -2.0, 1000.0; // [m], [N]
+
+  // Check state_eq_deriv
+  {
+    CCC::DdpZmp::DdpProblem::StateStateDimMatrix state_eq_deriv_x_analytical;
+    CCC::DdpZmp::DdpProblem::StateInputDimMatrix state_eq_deriv_u_analytical;
+    ddp_problem->calcStateEqDeriv(t, x, u, state_eq_deriv_x_analytical, state_eq_deriv_u_analytical);
+
+    CCC::DdpZmp::DdpProblem::StateStateDimMatrix state_eq_deriv_x_numerical;
+    CCC::DdpZmp::DdpProblem::StateInputDimMatrix state_eq_deriv_u_numerical;
+    for(int i = 0; i < ddp_problem->stateDim(); i++)
+    {
+      state_eq_deriv_x_numerical.col(i) =
+          (ddp_problem->stateEq(t, x + deriv_eps * CCC::DdpZmp::DdpProblem::StateDimVector::Unit(i), u)
+           - ddp_problem->stateEq(t, x - deriv_eps * CCC::DdpZmp::DdpProblem::StateDimVector::Unit(i), u))
+          / (2 * deriv_eps);
+    }
+    for(int i = 0; i < ddp_problem->inputDim(); i++)
+    {
+      state_eq_deriv_u_numerical.col(i) =
+          (ddp_problem->stateEq(t, x, u + deriv_eps * CCC::DdpZmp::DdpProblem::InputDimVector::Unit(i))
+           - ddp_problem->stateEq(t, x, u - deriv_eps * CCC::DdpZmp::DdpProblem::InputDimVector::Unit(i)))
+          / (2 * deriv_eps);
+    }
+
+    EXPECT_LT((state_eq_deriv_x_analytical - state_eq_deriv_x_numerical).norm(), 1e-6);
+    EXPECT_LT((state_eq_deriv_u_analytical - state_eq_deriv_u_numerical).norm(), 1e-6);
+  }
+
+  // Check running_cost_deriv
+  {
+    CCC::DdpZmp::DdpProblem::StateDimVector running_cost_deriv_x_analytical;
+    CCC::DdpZmp::DdpProblem::InputDimVector running_cost_deriv_u_analytical;
+    ddp_problem->calcRunningCostDeriv(t, x, u, running_cost_deriv_x_analytical, running_cost_deriv_u_analytical);
+
+    CCC::DdpZmp::DdpProblem::StateDimVector running_cost_deriv_x_numerical;
+    CCC::DdpZmp::DdpProblem::InputDimVector running_cost_deriv_u_numerical;
+    for(int i = 0; i < ddp_problem->stateDim(); i++)
+    {
+      running_cost_deriv_x_numerical[i] =
+          (ddp_problem->runningCost(t, x + deriv_eps * CCC::DdpZmp::DdpProblem::StateDimVector::Unit(i), u)
+           - ddp_problem->runningCost(t, x - deriv_eps * CCC::DdpZmp::DdpProblem::StateDimVector::Unit(i), u))
+          / (2 * deriv_eps);
+    }
+    for(int i = 0; i < ddp_problem->inputDim(); i++)
+    {
+      running_cost_deriv_u_numerical[i] =
+          (ddp_problem->runningCost(t, x, u + deriv_eps * CCC::DdpZmp::DdpProblem::InputDimVector::Unit(i))
+           - ddp_problem->runningCost(t, x, u - deriv_eps * CCC::DdpZmp::DdpProblem::InputDimVector::Unit(i)))
+          / (2 * deriv_eps);
+    }
+
+    EXPECT_LT((running_cost_deriv_x_analytical - running_cost_deriv_x_numerical).norm(), 1e-6);
+    EXPECT_LT((running_cost_deriv_u_analytical - running_cost_deriv_u_numerical).norm(), 1e-6);
+  }
+
+  // Check terminal_cost_deriv
+  {
+    CCC::DdpZmp::DdpProblem::StateDimVector terminal_cost_deriv_x_analytical;
+    ddp_problem->calcTerminalCostDeriv(t, x, terminal_cost_deriv_x_analytical);
+
+    CCC::DdpZmp::DdpProblem::StateDimVector terminal_cost_deriv_x_numerical;
+    for(int i = 0; i < ddp_problem->stateDim(); i++)
+    {
+      terminal_cost_deriv_x_numerical[i] =
+          (ddp_problem->terminalCost(t, x + deriv_eps * CCC::DdpZmp::DdpProblem::StateDimVector::Unit(i))
+           - ddp_problem->terminalCost(t, x - deriv_eps * CCC::DdpZmp::DdpProblem::StateDimVector::Unit(i)))
+          / (2 * deriv_eps);
+    }
+
+    EXPECT_LT((terminal_cost_deriv_x_analytical - terminal_cost_deriv_x_numerical).norm(), 1e-6);
+  }
+}
+
 int main(int argc, char ** argv)
 {
   testing::InitGoogleTest(&argc, argv);
