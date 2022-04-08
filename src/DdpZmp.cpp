@@ -147,20 +147,20 @@ DdpZmp::DdpProblem::StateDimVector DdpZmp::InitialParam::toState() const
 
 DdpZmp::PlannedData DdpZmp::planOnce(const std::function<RefData(double)> & ref_data_func,
                                      const InitialParam & initial_param,
-                                     double horizon_start_time,
+                                     double current_time,
                                      const std::vector<DdpProblem::InputDimVector> & initial_u_list)
 {
   ddp_problem_->setRefDataFunc(ref_data_func);
 
   if(initial_u_list.empty())
   {
-    ddp_solver_->solve(horizon_start_time, initial_param.toState(),
+    ddp_solver_->solve(current_time, initial_param.toState(),
                        std::vector<DdpProblem::InputDimVector>(ddp_solver_->config().horizon_steps,
                                                                DdpProblem::InputDimVector::Zero()));
   }
   else
   {
-    ddp_solver_->solve(horizon_start_time, initial_param.toState(), initial_u_list);
+    ddp_solver_->solve(current_time, initial_param.toState(), initial_u_list);
   }
 
   PlannedData planned_data;

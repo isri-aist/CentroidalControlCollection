@@ -27,14 +27,14 @@ PreviewControlZmp::Model::Model(double com_height)
 
 double PreviewControlZmp::planOnce(const std::function<double(double)> & ref_zmp_func,
                                    const InitialParam & initial_param,
-                                   double horizon_start_time,
+                                   double current_time,
                                    double control_dt) const
 {
   // Set ref_zmp_seq
   Eigen::VectorXd ref_zmp_seq(horizon_steps_);
   for(int i = 0; i < horizon_steps_; i++)
   {
-    double t = horizon_start_time + i * horizon_dt_;
+    double t = current_time + i * horizon_dt_;
     ref_zmp_seq[i] = ref_zmp_func(t);
   }
 

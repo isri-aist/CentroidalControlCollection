@@ -280,7 +280,7 @@ public:
   /** \brief Plan one step.
       \param ref_data_func function of reference data
       \param initial_param initial parameter
-      \param horizon_start_time start time of horizon [sec]
+      \param current_time current time (i.e., start time of horizon) [sec]
       \param initial_u_list initial guess of input sequence (length should be horizon_steps)
       \returns planned data
 
@@ -288,7 +288,7 @@ public:
    */
   PlannedData planOnce(const std::function<RefData(double)> & ref_data_func,
                        const InitialParam & initial_param,
-                       double horizon_start_time,
+                       double current_time,
                        const std::vector<DdpProblem::InputDimVector> & initial_u_list = {});
 
 public:

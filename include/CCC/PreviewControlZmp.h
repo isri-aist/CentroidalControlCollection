@@ -95,13 +95,13 @@ public:
   /** \brief Plan one step.
       \param ref_zmp_func function of reference ZMP [m]
       \param initial_param initial parameter (CoM position, velocity, and acceleration)
-      \param horizon_start_time start time of horizon [sec]
+      \param current_time current time (i.e., start time of horizon) [sec]
       \param control_dt control timestep used to calculate ZMP (if omitted, horizon_dt is used)
       \returns planned ZMP
    */
   double planOnce(const std::function<double(double)> & ref_zmp_func,
                   const InitialParam & initial_param,
-                  double horizon_start_time,
+                  double current_time,
                   double control_dt = -1) const;
 };
 } // namespace CCC
