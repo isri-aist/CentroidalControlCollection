@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['model',['Model',['../classCCC_1_1LinearMpcXY_1_1Model.html',1,'CCC::LinearMpcXY::Model'],['../classCCC_1_1PreviewControlZmp_1_1Model.html',1,'CCC::PreviewControlZmp::Model']]],
+  ['model',['Model',['../classCCC_1_1PreviewControlZmp_1_1Model.html',1,'CCC::PreviewControlZmp::Model'],['../classCCC_1_1LinearMpcXY_1_1Model.html',1,'CCC::LinearMpcXY::Model']]],
   ['modelcontactphase',['ModelContactPhase',['../classCCC_1_1LinearMpcZ_1_1ModelContactPhase.html',1,'CCC::LinearMpcZ']]],
   ['modelnoncontactphase',['ModelNoncontactPhase',['../classCCC_1_1LinearMpcZ_1_1ModelNoncontactPhase.html',1,'CCC::LinearMpcZ']]],
   ['motiondata',['MotionData',['../structCCC_1_1LinearMpcZ_1_1MotionData.html',1,'CCC::LinearMpcZ::MotionData'],['../structCCC_1_1LinearMpcXY_1_1MotionData.html',1,'CCC::LinearMpcXY::MotionData']]],
