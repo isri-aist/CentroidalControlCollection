@@ -10,11 +10,13 @@
 
 namespace CCC
 {
-/** \brief Walking control based on tracking of divergent component of motion (DCM)
+/** \brief Walking control based on tracking of divergent component of motion (DCM).
+
+    \todo Support three-dimensional motion.
+
+    \todo Is it possible to handle continuous ZMP transition during the double support phase?
 
     See the following for a detailed formulation.
-      - J Englsberger and C Ott. Integration of vertical CoM motion and angular momentum in an extended capture point
-   tracking controller for bipedal walking. Humanoids, 2012.
       - J Englsberger, et al. Three-dimensional bipedal walking control using divergent component of motion. IROS, 2013.
  */
 class DcmTracking
