@@ -45,12 +45,12 @@ public:
   }
 
   /** \brief Plan one step.
-    \param time_zmp_list list of pairs of future ZMP and switching time
-    \param initial_param initial parameter
-    \param current_time current time (i.e., start time of horizon) [sec]
-    \returns planned ZMP
+      \param time_zmp_list list of pairs of future ZMP and switching time
+      \param initial_param initial parameter
+      \param current_time current time (i.e., start time of horizon) [sec]
+      \returns planned ZMP
 
-    In the referenced paper, the length of time_zmp_list is three.
+      In the referenced paper, the length of time_zmp_list is three.
  */
   Eigen::Vector2d planOnce(const std::map<double, Eigen::Vector2d> & time_zmp_list,
                            const InitialParam & initial_param,
