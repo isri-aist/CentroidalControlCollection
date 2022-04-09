@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['linearmpcxy',['LinearMpcXY',['../classCCC_1_1LinearMpcXY.html#a74a8273a8d741149a267a6f79426ffa3',1,'CCC::LinearMpcXY']]],
-  ['linearmpcz',['LinearMpcZ',['../classCCC_1_1LinearMpcZ.html#a8c37538c55c9637adbb5792844a22a08',1,'CCC::LinearMpcZ']]]
+  ['inputdim',['inputDim',['../classCCC_1_1StateSpaceModel.html#a7552903649bd3a2ac8fba5b19beb2be2',1,'CCC::StateSpaceModel']]],
+  ['inputweight',['inputWeight',['../structCCC_1_1LinearMpcXY_1_1WeightParam.html#a2960724ebfa7b0a92df0902d175050c5',1,'CCC::LinearMpcXY::WeightParam']]]
 ];

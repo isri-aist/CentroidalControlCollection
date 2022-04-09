@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['outputdim',['outputDim',['../structCCC_1_1LinearMpcXY_1_1RefData.html#a39febad45fc8fe035851ad493784fb3e',1,'CCC::LinearMpcXY::RefData::outputDim()'],['../classCCC_1_1StateSpaceModel.html#a7a92b8168c4f99fd04d8d3371c35d575',1,'CCC::StateSpaceModel::outputDim()']]],
-  ['outputweight',['outputWeight',['../structCCC_1_1LinearMpcXY_1_1WeightParam.html#a0ff86d1b369445d09369d99105447613',1,'CCC::LinearMpcXY::WeightParam']]]
+  ['model',['Model',['../classCCC_1_1LinearMpcXY_1_1Model.html#a06bb18c879d71b9caff71f41d2d95b87',1,'CCC::LinearMpcXY::Model::Model()'],['../classCCC_1_1PreviewControlZmp_1_1Model.html#a5de0b9974ba753593b18b4ca1eac5874',1,'CCC::PreviewControlZmp::Model::Model()']]],
+  ['modelcontactphase',['ModelContactPhase',['../classCCC_1_1LinearMpcZ_1_1ModelContactPhase.html#a91939e30233e8d2538847117ae92c3d5',1,'CCC::LinearMpcZ::ModelContactPhase']]],
+  ['modelnoncontactphase',['ModelNoncontactPhase',['../classCCC_1_1LinearMpcZ_1_1ModelNoncontactPhase.html#abcfb8167acbdbc0ce244997f2f473cec',1,'CCC::LinearMpcZ::ModelNoncontactPhase']]],
+  ['motiondataseq',['motionDataSeq',['../classCCC_1_1LinearMpcXY.html#a924c0bed34c1704db2846924eb84c0eb',1,'CCC::LinearMpcXY::motionDataSeq()'],['../classCCC_1_1LinearMpcZ.html#a9c0820786fd8b2b3fd1d352fd7631a8f',1,'CCC::LinearMpcZ::motionDataSeq()']]]
 ];

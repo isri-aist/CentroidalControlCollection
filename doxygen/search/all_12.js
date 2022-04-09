@@ -15,5 +15,9 @@ var searchData=
   ['total_5fstate_5fdim_5f',['total_state_dim_',['../classCCC_1_1VariantSequentialExtension.html#a931025e3d7691ac4d012fd3a8614fc3f',1,'CCC::VariantSequentialExtension']]],
   ['totalinputdim',['totalInputDim',['../classCCC_1_1VariantSequentialExtension.html#a369d76f1047c3f69a1838a500fbeb216',1,'CCC::VariantSequentialExtension']]],
   ['totaloutputdim',['totalOutputDim',['../classCCC_1_1VariantSequentialExtension.html#a47b6a237f8ca338d57184915267d863d',1,'CCC::VariantSequentialExtension']]],
-  ['totalstatedim',['totalStateDim',['../classCCC_1_1VariantSequentialExtension.html#a19e38515a20d106119cb65014988f92f',1,'CCC::VariantSequentialExtension']]]
+  ['totalstatedim',['totalStateDim',['../classCCC_1_1VariantSequentialExtension.html#a19e38515a20d106119cb65014988f92f',1,'CCC::VariantSequentialExtension']]],
+  ['transit_5fduration',['transit_duration',['../structCCC_1_1FootGuidedControl_1_1RefData.html#a1ad7929f9069f5006e8e71a2b19ac41f',1,'CCC::FootGuidedControl::RefData']]],
+  ['transit_5fend_5fzmp',['transit_end_zmp',['../structCCC_1_1FootGuidedControl_1_1RefData.html#a0b42ef3aa84fb1eecdf86808999c00c4',1,'CCC::FootGuidedControl::RefData']]],
+  ['transit_5fstart_5ftime',['transit_start_time',['../structCCC_1_1FootGuidedControl_1_1RefData.html#a9816e6487249e35c9a0eb1af748adc79',1,'CCC::FootGuidedControl::RefData']]],
+  ['transit_5fstart_5fzmp',['transit_start_zmp',['../structCCC_1_1FootGuidedControl_1_1RefData.html#aa3c77aadc2458b01e930dc5a63ba96a7',1,'CCC::FootGuidedControl::RefData']]]
 ];
