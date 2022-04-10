@@ -14,6 +14,53 @@ namespace CCC
     \tparam ListType type of state-space model list
     \note State dimension must be the same for all models in the sequence.
 
+    Given the following time-variant discrete state equation (even systems with time-variant dimensions of control input
+   are acceptable). \f{align*}{ \boldsymbol{x}_{k+1} = \boldsymbol{A}_{k} \boldsymbol{x}_{k} + \boldsymbol{B}_{k}
+   \boldsymbol{u}_{k} + \boldsymbol{e_k} \f}
+
+    The following equation is called "sequential extension" here. In this class, the coefficients
+   \f$\boldsymbol{\hat{A}}_k\f$, \f$\boldsymbol{\hat{B}}_k\f$, and \f$\boldsymbol{\hat{e}}_k\f$ are calculated.
+    \f{align*}{
+    \boldsymbol{\hat{x}}_{k+1} &= \boldsymbol{\hat{A}}_{k} \boldsymbol{x}_{k} + \boldsymbol{\hat{B}}_{k}
+   \boldsymbol{\hat{u}}_{k} + \boldsymbol{\hat{e}_k} \\ \Leftrightarrow \begin{bmatrix} \boldsymbol{x}_{k+1} \\
+   \boldsymbol{x}_{k+2} \\ \boldsymbol{x}_{k+3} \\ \boldsymbol{x}_{k+4} \\ \vdots \\ \boldsymbol{x}_{k+N} \end{bmatrix}
+   &= \begin{bmatrix}
+      \boldsymbol{A}_{k} \\
+      \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\
+      \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\
+      \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\
+      \vdots \\
+      \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\
+    \end{bmatrix}
+    \boldsymbol{x}_{k} \\
+    & +
+    \begin{bmatrix}
+      \boldsymbol{B}_{k} & \boldsymbol{O} & \boldsymbol{O} & \boldsymbol{O} & \boldsymbol{O} & \cdots & \boldsymbol{O}
+   \\
+      \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} & \boldsymbol{B}_{k+1} & \boldsymbol{O} & \boldsymbol{O} & \boldsymbol{O}
+   & \cdots & \boldsymbol{O} \\
+      \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} & \boldsymbol{A}_{k+2} \boldsymbol{B}_{k+1} &
+   \boldsymbol{B}_{k+2} & \boldsymbol{O} & \boldsymbol{O} & \cdots & \boldsymbol{O} \\
+      \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} & \boldsymbol{A}_{k+3}
+   \boldsymbol{A}_{k+2} \boldsymbol{B}_{k+1} & \boldsymbol{A}_{k+3} \boldsymbol{B}_{k+2} & \boldsymbol{B}_{k+3} &
+   \boldsymbol{O} & \cdots & \boldsymbol{O} \\
+      \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+      \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} & \cdots & \cdots & \cdots & \cdots &
+   \boldsymbol{A}_{k+N-1} \boldsymbol{B}_{k+N-2} & \boldsymbol{B}_{k+N-1} \end{bmatrix} \begin{bmatrix} \boldsymbol{u}_{k}
+   \\ \boldsymbol{u}_{k+1} \\ \boldsymbol{u}_{k+2} \\ \boldsymbol{u}_{k+3} \\ \vdots \\ \boldsymbol{u}_{k+N-1}
+    \end{bmatrix} \\
+    & +
+    \begin{bmatrix}
+      \boldsymbol{e}_{k} \\
+      \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{e}_{k+1} \\
+      \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} +
+   \boldsymbol{e}_{k+2}\\
+      \vdots \\
+      \vdots \\
+      \boldsymbol{A}_{k+N-1} \boldsymbol{A}_{k+N-2} \cdots \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} +
+   \boldsymbol{A}_{k+N-2} \boldsymbol{A}_{k+N-3} \cdots\boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} + \cdots +
+   \boldsymbol{e}_{k+N-1}\\ \end{bmatrix} \f}
+
     Such a sequential extension is often used to formulate linear MPC as quadratic programming. For example, the
    following papers uses it.
       - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong
