@@ -13,7 +13,6 @@ namespace CCC
     \tparam StateDim state dimension
     \tparam InputDim input dimension
     \tparam OutputDim output dimension
-    \tparam ListType type of state-space model list
 
     Given the following time-invariant linear discrete state equation.
     \f{align*}{ \boldsymbol{x}_{k+1} = \boldsymbol{A} \boldsymbol{x}_{k} +
@@ -58,7 +57,7 @@ namespace CCC
       - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong
    Perturbations. Humanoids, 2006.
 */
-template<int StateDim, int InputDim, int OutputDim, template<class> class ListType = std::vector>
+template<int StateDim, int InputDim, int OutputDim>
 class InvariantSequentialExtension
 {
 public:

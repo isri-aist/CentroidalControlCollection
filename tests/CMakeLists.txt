@@ -1,6 +1,7 @@
 set(CCC_gtest_list
   TestStateSpaceModel
   TestVariantSequentialExtension
+  TestInvariantSequentialExtension
   TestPreviewControlZmp
   TestDdpZmp
   TestDcmTracking
