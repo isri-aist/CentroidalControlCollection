@@ -60,9 +60,9 @@ TEST(TestDcmTracking, Test1)
   {
     // Plan
     CCC::DcmTracking::InitialParam initial_param;
-    initial_param.current_dcm << com_pos_vel.x[0] + com_pos_vel.x[1] / omega,
-        com_pos_vel.y[0] + com_pos_vel.y[1] / omega;
-    initial_param.ref_zmp = std::prev(time_zmp_list_all.upper_bound(t))->second;
+    initial_param << com_pos_vel.x[0] + com_pos_vel.x[1] / omega, com_pos_vel.y[0] + com_pos_vel.y[1] / omega;
+    CCC::DcmTracking::RefData ref_data;
+    ref_data.current_zmp = std::prev(time_zmp_list_all.upper_bound(t))->second;
     std::map<double, Eigen::Vector2d> time_zmp_list_future;
     constexpr int time_zmp_num = 3;
     for(auto time_zmp_it = time_zmp_list_all.upper_bound(t);
@@ -70,10 +70,11 @@ TEST(TestDcmTracking, Test1)
     {
       time_zmp_list_future.emplace(*time_zmp_it);
     }
-    planned_zmp = dcm_tracking.planOnce(time_zmp_list_future, initial_param, t);
+    ref_data.time_zmp_list = time_zmp_list_future;
+    planned_zmp = dcm_tracking.planOnce(ref_data, initial_param, t);
 
     // Dump
-    ref_zmp = initial_param.ref_zmp;
+    ref_zmp = ref_data.current_zmp;
     ofs << t << " " << com_pos_vel.x.transpose() << " " << planned_zmp.x() << " " << ref_zmp.x() << std::endl;
 
     // Check

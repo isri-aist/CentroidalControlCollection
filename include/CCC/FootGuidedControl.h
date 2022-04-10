@@ -49,7 +49,7 @@ public:
 
   /** \brief Plan one step.
       \param ref_data reference data
-      \param initial_param initial parameter (capture point)
+      \param initial_param initial parameter (current capture point)
       \param current_time current time (i.e., start time of horizon) [sec]
       \returns planned ZMP
    */

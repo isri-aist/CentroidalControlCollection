@@ -4,20 +4,20 @@
 
 using namespace CCC;
 
-Eigen::Vector2d DcmTracking::planOnce(const std::map<double, Eigen::Vector2d> & time_zmp_list,
+Eigen::Vector2d DcmTracking::planOnce(const RefData & ref_data,
                                       const InitialParam & initial_param,
                                       double current_time) const
 {
   // Calculate DCM at switching
   Eigen::Vector2d dcm_switch;
-  if(time_zmp_list.empty())
+  if(ref_data.time_zmp_list.empty())
   {
-    dcm_switch = initial_param.ref_zmp;
+    dcm_switch = ref_data.current_zmp;
   }
   else
   {
     // Check time
-    for(const auto & time_zmp_kv : time_zmp_list)
+    for(const auto & time_zmp_kv : ref_data.time_zmp_list)
     {
       if(time_zmp_kv.first < current_time)
       {
@@ -26,8 +26,9 @@ Eigen::Vector2d DcmTracking::planOnce(const std::map<double, Eigen::Vector2d> & 
       }
     }
 
-    dcm_switch = time_zmp_list.rbegin()->second;
-    for(auto time_zmp_it = std::next(time_zmp_list.rbegin()); time_zmp_it != time_zmp_list.rend(); time_zmp_it++)
+    dcm_switch = ref_data.time_zmp_list.rbegin()->second;
+    for(auto time_zmp_it = std::next(ref_data.time_zmp_list.rbegin()); time_zmp_it != ref_data.time_zmp_list.rend();
+        time_zmp_it++)
     {
       double zmp_duration = std::prev(time_zmp_it)->first - time_zmp_it->first;
       // Equation (18) in the paper
@@ -37,12 +38,11 @@ Eigen::Vector2d DcmTracking::planOnce(const std::map<double, Eigen::Vector2d> & 
 
   // Calculate target DCM: equation (19) in the paper
   Eigen::Vector2d target_dcm =
-      initial_param.ref_zmp
-      + std::exp(omega_ * (current_time - time_zmp_list.begin()->first)) * (dcm_switch - initial_param.ref_zmp);
+      ref_data.current_zmp
+      + std::exp(omega_ * (current_time - ref_data.time_zmp_list.begin()->first)) * (dcm_switch - ref_data.current_zmp);
 
   // Calculate control ZMP: equation (24) in the paper
-  Eigen::Vector2d control_zmp =
-      initial_param.ref_zmp + (1.0 + feedback_gain_ / omega_) * (initial_param.current_dcm - target_dcm);
+  Eigen::Vector2d control_zmp = ref_data.current_zmp + (1.0 + feedback_gain_ / omega_) * (initial_param - target_dcm);
 
   return control_zmp;
 }
