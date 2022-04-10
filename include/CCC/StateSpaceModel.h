@@ -9,8 +9,10 @@ namespace CCC
 {
 /** \brief State-space model.
 
-    dx = A x + B u + E
-    y = C x + D u + F
+    \f{align*}{
+    \boldsymbol{\dot{x}} &= \boldsymbol{A} \boldsymbol{x} + \boldsymbol{B} \boldsymbol{u} + \boldsymbol{e} \\
+    \boldsymbol{y} &= \boldsymbol{C} \boldsymbol{x} + \boldsymbol{D} \boldsymbol{u} + \boldsymbol{f}
+    \f}
 
     \tparam StateDim state dimension
     \tparam InputDim input dimension
@@ -115,9 +117,9 @@ public:
   }
 
   /** \brief Calculate the continuous state equation.
-      \param x state
-      \param u input
-      \returns time derivative of state (\dot{x})
+      \param x state \f$\boldsymbol{x}\f$
+      \param u input \f$\boldsymbol{u}\f$
+      \returns time derivative of state \f$\boldsymbol{\dot{x}}\f$
   */
   StateDimVector stateEq(const StateDimVector & x, const InputDimVector & u) const
   {
@@ -125,9 +127,9 @@ public:
   }
 
   /** \brief Calculate the discrete state equation.
-      \param x current state (x[k])
-      \param u current input (u[k])
-      \returns next state (x[k+1])
+      \param x current state \f$\boldsymbol{x}_k\f$
+      \param u current input \f$\boldsymbol{u}_k\f$
+      \returns next state \f$\boldsymbol{x}_{k+1}\f$
   */
   StateDimVector stateEqDisc(const StateDimVector & x, const InputDimVector & u) const
   {
@@ -135,8 +137,8 @@ public:
   }
 
   /** \brief Calculate the observation equation.
-      \param x state
-      \returns observation
+      \param x state \f$\boldsymbol{x}\f$
+      \returns observation \f$\boldsymbol{y}\f$
   */
   OutputDimVector observEq(const StateDimVector & x) const
   {
@@ -144,17 +146,21 @@ public:
   }
 
   /** \brief Calculate the observation equation.
-      \param x state
-      \param u input
-      \returns observation
+      \param x state \f$\boldsymbol{x}\f$
+      \param u input \f$\boldsymbol{u}\f$
+      \returns observation \f$\boldsymbol{y}\f$
   */
   OutputDimVector observEq(const StateDimVector & x, const InputDimVector & u) const
   {
     return C_ * x + D_ * u + F_;
   }
 
-  /** \brief Calculate the discrete system matrices.
+  /** \brief Calculate the discrete system matrices \f$\boldsymbol{A}_d, \boldsymbol{B}_d, \boldsymbol{e}_d\f$.
       \param dt discretization timestep [sec]
+
+      \f{align*}{
+      \boldsymbol{x}_{k+1} = \boldsymbol{A}_d \boldsymbol{x}_k + \boldsymbol{B}_d \boldsymbol{u}_k + \boldsymbol{e}_d
+      \f}
   */
   void calcDiscMatrix(double dt)
   {
@@ -220,34 +226,34 @@ public:
   //! Output dimension
   const int output_dim_ = 0;
 
-  //! Matrix A of continuous state equation
+  //! Matrix \f$\boldsymbol{A}\f$ of continuous state equation
   Eigen::Matrix<double, StateDim, StateDim> A_;
 
-  //! Matrix B of continuous state equation
+  //! Matrix \f$\boldsymbol{B}\f$ of continuous state equation
   Eigen::Matrix<double, StateDim, InputDim> B_;
 
-  //! Matrix C of observation equation
+  //! Matrix \f$\boldsymbol{C}\f$ of observation equation
   Eigen::Matrix<double, OutputDim, StateDim> C_;
 
-  //! Matrix D of observation equation
+  //! Matrix \f$\boldsymbol{D}\f$ of observation equation
   Eigen::Matrix<double, OutputDim, InputDim> D_;
 
-  //! Offset vector E of continuous state equation
+  //! Offset vector \f$\boldsymbol{e}\f$ of continuous state equation
   StateDimVector E_;
 
-  //! Offset vector F of observation equation
+  //! Offset vector \f$\boldsymbol{f}\f$ of observation equation
   OutputDimVector F_;
 
   //! Discretization timestep [sec] (zero if discrete coefficients are not initialized)
   double dt_ = 0;
 
-  //! Matrix A of discrete state equation
+  //! Matrix \f$\boldsymbol{A}_d\f$ of discrete state equation
   Eigen::Matrix<double, StateDim, StateDim> Ad_;
 
-  //! Matrix B of discrete state equation
+  //! Matrix \f$\boldsymbol{B}_d\f$ of discrete state equation
   Eigen::Matrix<double, StateDim, InputDim> Bd_;
 
-  //! Offset vector E of discrete state equation
+  //! Offset vector \f$\boldsymbol{e}_d\f$ of discrete state equation
   StateDimVector Ed_;
 };
 } // namespace CCC
