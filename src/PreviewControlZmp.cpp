@@ -1,7 +1,5 @@
 /* Author: Masaki Murooka */
 
-#include <CCC/Constants.h>
-#include <CCC/EigenTypes.h>
 #include <CCC/PreviewControlZmp.h>
 
 using namespace CCC;

@@ -4,6 +4,7 @@ add_library(CCC
   DdpZmp.cpp
   DcmTracking.cpp
   FootGuidedControl.cpp
+  QpZmp.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
   )
