@@ -8,15 +8,14 @@
 namespace CCC
 {
 /** \brief State-space model.
+    \tparam StateDim state dimension
+    \tparam InputDim input dimension
+    \tparam OutputDim output dimension
 
     \f{align*}{
     \boldsymbol{\dot{x}} &= \boldsymbol{A} \boldsymbol{x} + \boldsymbol{B} \boldsymbol{u} + \boldsymbol{e} \\
     \boldsymbol{y} &= \boldsymbol{C} \boldsymbol{x} + \boldsymbol{D} \boldsymbol{u} + \boldsymbol{f}
     \f}
-
-    \tparam StateDim state dimension
-    \tparam InputDim input dimension
-    \tparam OutputDim output dimension
 */
 template<int StateDim, int InputDim, int OutputDim>
 class StateSpaceModel

@@ -14,15 +14,15 @@ namespace CCC
     \tparam ListType type of state-space model list
     \note State dimension must be the same for all models in the sequence.
 
-    Given the following time-variant discrete state equation (even systems with time-variant dimensions of control input
-   are acceptable). \f{align*}{ \boldsymbol{x}_{k+1} = \boldsymbol{A}_{k} \boldsymbol{x}_{k} + \boldsymbol{B}_{k}
-   \boldsymbol{u}_{k} + \boldsymbol{e_k} \f}
+    Given the following time-variant linear discrete state equation (even systems with time-variant dimensions of
+   control input are acceptable). \f{align*}{ \boldsymbol{x}_{k+1} = \boldsymbol{A}_{k} \boldsymbol{x}_{k} +
+   \boldsymbol{B}_{k} \boldsymbol{u}_{k} + \boldsymbol{e}_k \f}
 
     The following equation is called "sequential extension" here. In this class, the coefficients
    \f$\boldsymbol{\hat{A}}_k\f$, \f$\boldsymbol{\hat{B}}_k\f$, and \f$\boldsymbol{\hat{e}}_k\f$ are calculated.
     \f{align*}{
     \boldsymbol{\hat{x}}_{k+1} &= \boldsymbol{\hat{A}}_{k} \boldsymbol{x}_{k} + \boldsymbol{\hat{B}}_{k}
-   \boldsymbol{\hat{u}}_{k} + \boldsymbol{\hat{e}_k} \\ \Leftrightarrow \begin{bmatrix} \boldsymbol{x}_{k+1} \\
+   \boldsymbol{\hat{u}}_{k} + \boldsymbol{\hat{e}}_k \\ \Leftrightarrow \begin{bmatrix} \boldsymbol{x}_{k+1} \\
    \boldsymbol{x}_{k+2} \\ \boldsymbol{x}_{k+3} \\ \boldsymbol{x}_{k+4} \\ \vdots \\ \boldsymbol{x}_{k+N} \end{bmatrix}
    &= \begin{bmatrix}
       \boldsymbol{A}_{k} \\
@@ -30,7 +30,7 @@ namespace CCC
       \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\
       \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\
       \vdots \\
-      \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\
+      \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{A}_{k}
     \end{bmatrix}
     \boldsymbol{x}_{k} \\
     & +
@@ -46,7 +46,8 @@ namespace CCC
    \boldsymbol{O} & \cdots & \boldsymbol{O} \\
       \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
       \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} & \cdots & \cdots & \cdots & \cdots &
-   \boldsymbol{A}_{k+N-1} \boldsymbol{B}_{k+N-2} & \boldsymbol{B}_{k+N-1} \end{bmatrix} \begin{bmatrix} \boldsymbol{u}_{k}
+   \boldsymbol{A}_{k+N-1} \boldsymbol{B}_{k+N-2} & \boldsymbol{B}_{k+N-1} \end{bmatrix} \begin{bmatrix}
+   \boldsymbol{u}_{k}
    \\ \boldsymbol{u}_{k+1} \\ \boldsymbol{u}_{k+2} \\ \boldsymbol{u}_{k+3} \\ \vdots \\ \boldsymbol{u}_{k+N-1}
     \end{bmatrix} \\
     & +
@@ -57,14 +58,12 @@ namespace CCC
    \boldsymbol{e}_{k+2}\\
       \vdots \\
       \vdots \\
-      \boldsymbol{A}_{k+N-1} \boldsymbol{A}_{k+N-2} \cdots \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} +
-   \boldsymbol{A}_{k+N-2} \boldsymbol{A}_{k+N-3} \cdots\boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} + \cdots +
-   \boldsymbol{e}_{k+N-1}\\ \end{bmatrix} \f}
+      \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} +
+   \boldsymbol{A}_{k+N-1} \cdots\boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} + \cdots +
+   \boldsymbol{e}_{k+N-1} \end{bmatrix} \f}
 
     Such a sequential extension is often used to formulate linear MPC as quadratic programming. For example, the
    following papers uses it.
-      - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong
-   Perturbations. Humanoids, 2006.
       - H Audren, et al. Model preview control in multi-contact motion-application to a humanoid robot. IROS, 2014.
 */
 template<int StateDim, template<class> class ListType = std::vector>
@@ -179,7 +178,7 @@ protected:
       }
       else
       {
-        E_seq_.segment<StateDim>(i * StateDim) =
+        (E_seq_.segment<StateDim>(i * StateDim)).noalias() =
             model_list_[i]->Ad_ * E_seq_.segment<StateDim>((i - 1) * StateDim) + model_list_[i]->Ed_;
       }
 
@@ -196,7 +195,7 @@ protected:
       {
         int current_output_dim = model_list_[i]->outputDim();
 
-        C_seq.template block(accum_output_dim, i * StateDim, current_output_dim, StateDim) = model_list_[i]->C_;
+        C_seq.block(accum_output_dim, i * StateDim, current_output_dim, StateDim) = model_list_[i]->C_;
 
         accum_output_dim += current_output_dim;
       }
@@ -221,13 +220,13 @@ public:
   //! Total output dimension
   int total_output_dim_ = 0;
 
-  //! Sequential extension matrix of A in discrete system
+  //! Sequential extension matrix \f$\boldsymbol{\hat{A}}\f$
   Eigen::Matrix<double, Eigen::Dynamic, StateDim> A_seq_;
 
-  //! Sequential extension matrix of B in discrete system
+  //! Sequential extension matrix \f$\boldsymbol{\hat{B}}\f$
   Eigen::MatrixXd B_seq_;
 
-  //! Sequential extension vector of E (i.e., offset vector) in discrete system
+  //! Sequential extension vector (i.e., offset vector) \f$\boldsymbol{\hat{e}}\f$
   Eigen::VectorXd E_seq_;
 };
 } // namespace CCC
