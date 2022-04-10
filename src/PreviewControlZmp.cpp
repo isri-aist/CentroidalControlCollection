@@ -14,17 +14,6 @@ PreviewControl<3, 1, 1>::WeightParam PreviewControlZmp::WeightParam::toPreviewCo
   return pc_weight_param;
 }
 
-PreviewControlZmp::Model::Model(double com_height)
-{
-  A_(0, 1) = 1;
-  A_(1, 2) = 1;
-
-  B_(2, 0) = 1;
-
-  C_(0, 0) = 1;
-  C_(0, 2) = -1 * com_height / constants::g;
-}
-
 double PreviewControlZmp::planOnce(const std::function<double(double)> & ref_zmp_func,
                                    const InitialParam & initial_param,
                                    double current_time,

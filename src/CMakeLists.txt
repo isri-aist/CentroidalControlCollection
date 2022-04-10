@@ -1,4 +1,5 @@
 add_library(CCC
+  CommonModels.cpp
   PreviewControlZmp.cpp
   DdpZmp.cpp
   DcmTracking.cpp

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <CCC/CommonModels.h>
 #include <CCC/PreviewControl.h>
 
 namespace CCC
@@ -40,38 +41,6 @@ public:
     PreviewControl<3, 1, 1>::WeightParam toPreviewControlWeightParam() const;
   };
 
-  /** \brief State-space model of CoM-ZMP dynamics with CoM jerk input and ZMP output.
-
-      Dynamics is expressed by the following equation.
-      \f{align*}{
-      \ddot{c}_x = \dfrac{g}{c_z} (c_x - z_x)
-      \f}
-      \f$\boldsymbol{c}\f$ and \f$\boldsymbol{z}\f$ are CoM and ZMP.
-
-      This can be represented as a linear time-invariant system as follows.
-      \f{align*}{
-      \boldsymbol{\dot{x}} &=
-      \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{bmatrix}
-      \boldsymbol{x} +
-      \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} u \\
-      y &= \begin{bmatrix} 1 & 0 & - \dfrac{c_z}{g} \end{bmatrix} \boldsymbol{x}
-      \f}
-
-      State, control input, and output are expressed as follows.
-      \f{align*}{
-      \boldsymbol{x} = \begin{bmatrix} c_x \\ \dot{c}_x \\ \ddot{c}_x \end{bmatrix},
-      u = \dddot{c}_x, y = z_x
-      \f}
-   */
-  class Model : public StateSpaceModel<3, 1, 1>
-  {
-  public:
-    /** \brief Constructor.
-        \param com_height height of robot CoM [m]
-    */
-    Model(double com_height);
-  };
-
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
@@ -85,7 +54,7 @@ public:
                     double horizon_duration,
                     double horizon_dt,
                     const WeightParam & weight_param = WeightParam())
-  : PreviewControl<3, 1, 1>(std::make_shared<Model>(com_height),
+  : PreviewControl<3, 1, 1>(std::make_shared<ComZmpModelJerkInput>(com_height),
                             horizon_duration,
                             horizon_dt,
                             weight_param.toPreviewControlWeightParam())
