@@ -120,13 +120,13 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a5850df059cbc83a473c41b536ea86ac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total output dimension.  <a href="#a5850df059cbc83a473c41b536ea86ac1">More...</a><br /></td></tr>
 <tr class="separator:a5850df059cbc83a473c41b536ea86ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49882ee4cad7f67f8af051fd43345857"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; double, Eigen::Dynamic, StateDim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1VariantSequentialExtension.html#a49882ee4cad7f67f8af051fd43345857">A_seq_</a></td></tr>
-<tr class="memdesc:a49882ee4cad7f67f8af051fd43345857"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension matrix of A in discrete system.  <a href="#a49882ee4cad7f67f8af051fd43345857">More...</a><br /></td></tr>
+<tr class="memdesc:a49882ee4cad7f67f8af051fd43345857"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension matrix \(\boldsymbol{\hat{A}}\).  <a href="#a49882ee4cad7f67f8af051fd43345857">More...</a><br /></td></tr>
 <tr class="separator:a49882ee4cad7f67f8af051fd43345857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeba285ba21b7043f07128661dc2ce6f9"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1VariantSequentialExtension.html#aeba285ba21b7043f07128661dc2ce6f9">B_seq_</a></td></tr>
-<tr class="memdesc:aeba285ba21b7043f07128661dc2ce6f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension matrix of B in discrete system.  <a href="#aeba285ba21b7043f07128661dc2ce6f9">More...</a><br /></td></tr>
+<tr class="memdesc:aeba285ba21b7043f07128661dc2ce6f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension matrix \(\boldsymbol{\hat{B}}\).  <a href="#aeba285ba21b7043f07128661dc2ce6f9">More...</a><br /></td></tr>
 <tr class="separator:aeba285ba21b7043f07128661dc2ce6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a592bbbdffd1b1abf51cb4fe52927ea82"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1VariantSequentialExtension.html#a592bbbdffd1b1abf51cb4fe52927ea82">E_seq_</a></td></tr>
-<tr class="memdesc:a592bbbdffd1b1abf51cb4fe52927ea82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension vector of E (i.e., offset vector) in discrete system.  <a href="#a592bbbdffd1b1abf51cb4fe52927ea82">More...</a><br /></td></tr>
+<tr class="memdesc:a592bbbdffd1b1abf51cb4fe52927ea82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension vector (i.e., offset vector) \(\boldsymbol{\hat{e}}\).  <a href="#a592bbbdffd1b1abf51cb4fe52927ea82">More...</a><br /></td></tr>
 <tr class="separator:a592bbbdffd1b1abf51cb4fe52927ea82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
@@ -148,18 +148,17 @@ class CCC::VariantSequentialExtension&lt; StateDim, ListType &gt;</h3>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>State dimension must be the same for all models in the sequence.</dd></dl>
-<p>Given the following time-variant discrete state equation (even systems with time-variant dimensions of control input are acceptable). </p><p class="formulaDsp">
-\begin{align*} \boldsymbol{x}_{k+1} = \boldsymbol{A}_{k} \boldsymbol{x}_{k} + \boldsymbol{B}_{k} \boldsymbol{u}_{k} + \boldsymbol{e_k} \end{align*}
+<p>Given the following time-variant linear discrete state equation (even systems with time-variant dimensions of control input are acceptable). </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{x}_{k+1} = \boldsymbol{A}_{k} \boldsymbol{x}_{k} + \boldsymbol{B}_{k} \boldsymbol{u}_{k} + \boldsymbol{e}_k \end{align*}
 </p>
 <p>The following equation is called "sequential extension" here. In this class, the coefficients \(\boldsymbol{\hat{A}}_k\), \(\boldsymbol{\hat{B}}_k\), and \(\boldsymbol{\hat{e}}_k\) are calculated. </p><p class="formulaDsp">
-\begin{align*} \boldsymbol{\hat{x}}_{k+1} &amp;= \boldsymbol{\hat{A}}_{k} \boldsymbol{x}_{k} + \boldsymbol{\hat{B}}_{k} \boldsymbol{\hat{u}}_{k} + \boldsymbol{\hat{e}_k} \\ \Leftrightarrow \begin{bmatrix} \boldsymbol{x}_{k+1} \\ \boldsymbol{x}_{k+2} \\ \boldsymbol{x}_{k+3} \\ \boldsymbol{x}_{k+4} \\ \vdots \\ \boldsymbol{x}_{k+N} \end{bmatrix} &amp;= \begin{bmatrix} \boldsymbol{A}_{k} \\ \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\ \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\ \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\ \vdots \\ \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\ \end{bmatrix} \boldsymbol{x}_{k} \\ &amp; + \begin{bmatrix} \boldsymbol{B}_{k} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \boldsymbol{B}_{k+1} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \boldsymbol{A}_{k+2} \boldsymbol{B}_{k+1} &amp; \boldsymbol{B}_{k+2} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{B}_{k+1} &amp; \boldsymbol{A}_{k+3} \boldsymbol{B}_{k+2} &amp; \boldsymbol{B}_{k+3} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\ \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \cdots &amp; \cdots &amp; \cdots &amp; \cdots &amp; \boldsymbol{A}_{k+N-1} \boldsymbol{B}_{k+N-2} &amp; \boldsymbol{B}_{k+N-1} \end{bmatrix} \begin{bmatrix} \boldsymbol{u}_{k} \\ \boldsymbol{u}_{k+1} \\ \boldsymbol{u}_{k+2} \\ \boldsymbol{u}_{k+3} \\ \vdots \\ \boldsymbol{u}_{k+N-1} \end{bmatrix} \\ &amp; + \begin{bmatrix} \boldsymbol{e}_{k} \\ \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{e}_{k+1} \\ \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} + \boldsymbol{e}_{k+2}\\ \vdots \\ \vdots \\ \boldsymbol{A}_{k+N-1} \boldsymbol{A}_{k+N-2} \cdots \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{A}_{k+N-2} \boldsymbol{A}_{k+N-3} \cdots\boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} + \cdots + \boldsymbol{e}_{k+N-1}\\ \end{bmatrix} \end{align*}
+\begin{align*} \boldsymbol{\hat{x}}_{k+1} &amp;= \boldsymbol{\hat{A}}_{k} \boldsymbol{x}_{k} + \boldsymbol{\hat{B}}_{k} \boldsymbol{\hat{u}}_{k} + \boldsymbol{\hat{e}}_k \\ \Leftrightarrow \begin{bmatrix} \boldsymbol{x}_{k+1} \\ \boldsymbol{x}_{k+2} \\ \boldsymbol{x}_{k+3} \\ \boldsymbol{x}_{k+4} \\ \vdots \\ \boldsymbol{x}_{k+N} \end{bmatrix} &amp;= \begin{bmatrix} \boldsymbol{A}_{k} \\ \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\ \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\ \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \\ \vdots \\ \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{A}_{k} \end{bmatrix} \boldsymbol{x}_{k} \\ &amp; + \begin{bmatrix} \boldsymbol{B}_{k} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \boldsymbol{B}_{k+1} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \boldsymbol{A}_{k+2} \boldsymbol{B}_{k+1} &amp; \boldsymbol{B}_{k+2} &amp; \boldsymbol{O} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \boldsymbol{A}_{k+3} \boldsymbol{A}_{k+2} \boldsymbol{B}_{k+1} &amp; \boldsymbol{A}_{k+3} \boldsymbol{B}_{k+2} &amp; \boldsymbol{B}_{k+3} &amp; \boldsymbol{O} &amp; \cdots &amp; \boldsymbol{O} \\ \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\ \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{B}_{k} &amp; \cdots &amp; \cdots &amp; \cdots &amp; \cdots &amp; \boldsymbol{A}_{k+N-1} \boldsymbol{B}_{k+N-2} &amp; \boldsymbol{B}_{k+N-1} \end{bmatrix} \begin{bmatrix} \boldsymbol{u}_{k} \\ \boldsymbol{u}_{k+1} \\ \boldsymbol{u}_{k+2} \\ \boldsymbol{u}_{k+3} \\ \vdots \\ \boldsymbol{u}_{k+N-1} \end{bmatrix} \\ &amp; + \begin{bmatrix} \boldsymbol{e}_{k} \\ \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{e}_{k+1} \\ \boldsymbol{A}_{k+2} \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} + \boldsymbol{e}_{k+2}\\ \vdots \\ \vdots \\ \boldsymbol{A}_{k+N-1} \cdots \boldsymbol{A}_{k+1} \boldsymbol{e}_{k} + \boldsymbol{A}_{k+N-1} \cdots\boldsymbol{A}_{k+2} \boldsymbol{e}_{k+1} + \cdots + \boldsymbol{e}_{k+N-1} \end{bmatrix} \end{align*}
 </p>
 <p>Such a sequential extension is often used to formulate linear MPC as quadratic programming. For example, the following papers uses it.</p><ul>
-<li>PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong Perturbations. Humanoids, 2006.</li>
 <li>H Audren, et al. Model preview control in multi-contact motion-application to a humanoid robot. IROS, 2014. </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00071">71</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00070">70</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a6bc51739e508147a6fbe5f2bacdde504"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6bc51739e508147a6fbe5f2bacdde504">&#9670;&nbsp;</a></span>_StateSpaceModel</h2>
@@ -177,7 +176,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Type of state-space model with fixed state dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00075">75</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00074">74</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -227,7 +226,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00084">84</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00083">83</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -260,7 +259,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Setup coefficients. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00111">111</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00110">110</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -291,7 +290,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Get total input dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00098">98</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00097">97</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -322,7 +321,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Get total output dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00104">104</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00103">103</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -353,7 +352,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Get total state dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00092">92</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00091">91</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -372,9 +371,9 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
       </table>
 </div><div class="memdoc">
 
-<p>Sequential extension matrix of A in discrete system. </p>
+<p>Sequential extension matrix \(\boldsymbol{\hat{A}}\). </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00225">225</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00224">224</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -392,9 +391,9 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
       </table>
 </div><div class="memdoc">
 
-<p>Sequential extension matrix of B in discrete system. </p>
+<p>Sequential extension matrix \(\boldsymbol{\hat{B}}\). </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00228">228</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00227">227</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -412,9 +411,9 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
       </table>
 </div><div class="memdoc">
 
-<p>Sequential extension vector of E (i.e., offset vector) in discrete system. </p>
+<p>Sequential extension vector (i.e., offset vector) \(\boldsymbol{\hat{e}}\). </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00231">231</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00230">230</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -434,7 +433,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>State-space model list. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00213">213</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00212">212</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -454,7 +453,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Total input dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00219">219</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00218">218</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -474,7 +473,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Total output dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00222">222</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00221">221</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
@@ -494,7 +493,7 @@ template&lt;int StateDim, template&lt; class &gt; class ListType = std::vector&g
 
 <p>Total state dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00216">216</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VariantSequentialExtension_8h_source.html#l00215">215</a> of file <a class="el" href="VariantSequentialExtension_8h_source.html">VariantSequentialExtension.h</a>.</p>
 
 </div>
 </div>
