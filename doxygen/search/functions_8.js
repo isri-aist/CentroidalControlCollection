@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['runningcost',['runningCost',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a2b06753b0437d32be4c8d0caa2ff6070',1,'CCC::DdpZmp::DdpProblem']]]
+  ['qpzmp',['QpZmp',['../classCCC_1_1QpZmp.html#a5264cd4f62704ea59ee14d12707e9f8b',1,'CCC::QpZmp']]]
 ];

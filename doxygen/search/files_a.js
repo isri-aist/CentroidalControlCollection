@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['variantsequentialextension_2eh',['VariantSequentialExtension.h',['../VariantSequentialExtension_8h.html',1,'']]]
+  ['statespacemodel_2eh',['StateSpaceModel.h',['../StateSpaceModel_8h.html',1,'']]]
 ];

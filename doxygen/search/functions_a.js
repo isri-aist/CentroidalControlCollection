@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['terminalcost',['terminalCost',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a67b8896bb44de95edce0533038b85250',1,'CCC::DdpZmp::DdpProblem']]],
-  ['tooutput',['toOutput',['../structCCC_1_1LinearMpcXY_1_1RefData.html#ab03b28a20d276f66869e34624d30735c',1,'CCC::LinearMpcXY::RefData']]],
-  ['topreviewcontrolweightparam',['toPreviewControlWeightParam',['../structCCC_1_1PreviewControlZmp_1_1WeightParam.html#ae22ed5b32198527b2872557ed8578326',1,'CCC::PreviewControlZmp::WeightParam']]],
-  ['tostate',['toState',['../structCCC_1_1DdpZmp_1_1InitialParam.html#ae9bd070e2f6fb10e18fa587f9eb0d0dd',1,'CCC::DdpZmp::InitialParam::toState()'],['../structCCC_1_1LinearMpcXY_1_1InitialParam.html#abaaaba9df1ce4d59c520ef0aa23c0bf2',1,'CCC::LinearMpcXY::InitialParam::toState()']]],
-  ['totalinputdim',['totalInputDim',['../classCCC_1_1InvariantSequentialExtension.html#a0f995f4c5bf53b3ede9207d600f0d1dd',1,'CCC::InvariantSequentialExtension::totalInputDim()'],['../classCCC_1_1VariantSequentialExtension.html#a369d76f1047c3f69a1838a500fbeb216',1,'CCC::VariantSequentialExtension::totalInputDim()']]],
-  ['totaloutputdim',['totalOutputDim',['../classCCC_1_1InvariantSequentialExtension.html#a4f35aa1575f11e88fac69a49bb7d39ca',1,'CCC::InvariantSequentialExtension::totalOutputDim()'],['../classCCC_1_1VariantSequentialExtension.html#a47b6a237f8ca338d57184915267d863d',1,'CCC::VariantSequentialExtension::totalOutputDim()']]],
-  ['totalstatedim',['totalStateDim',['../classCCC_1_1InvariantSequentialExtension.html#af33045ef2e527fcbff51eef70f893884',1,'CCC::InvariantSequentialExtension::totalStateDim()'],['../classCCC_1_1VariantSequentialExtension.html#a19e38515a20d106119cb65014988f92f',1,'CCC::VariantSequentialExtension::totalStateDim()']]]
+  ['setrefdatafunc',['setRefDataFunc',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a0955bfbe95930f1cee49a536d24d2024',1,'CCC::DdpZmp::DdpProblem']]],
+  ['setup',['setup',['../classCCC_1_1InvariantSequentialExtension.html#adec9217a012cd8a651278cb3cfa24e25',1,'CCC::InvariantSequentialExtension::setup()'],['../classCCC_1_1VariantSequentialExtension.html#a2ef61cee8cae63e2f8ef5f45c3a6c527',1,'CCC::VariantSequentialExtension::setup()']]],
+  ['simmodel',['SimModel',['../classCCC_1_1LinearMpcXY_1_1SimModel.html#a48765c5ea3626df5df574403bd147945',1,'CCC::LinearMpcXY::SimModel::SimModel()'],['../classCCC_1_1LinearMpcZ_1_1SimModel.html#afbaac6e2173f3ef63779bb95a6ac2328',1,'CCC::LinearMpcZ::SimModel::SimModel()']]],
+  ['statedim',['stateDim',['../classCCC_1_1StateSpaceModel.html#a16d42a7c0db32850591924f0390d6269',1,'CCC::StateSpaceModel']]],
+  ['stateeq',['stateEq',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a6efb17fe8295d360a1ccd493e7809b17',1,'CCC::DdpZmp::DdpProblem::stateEq()'],['../classCCC_1_1StateSpaceModel.html#a0c61263a9a4e03c365cff636387951ff',1,'CCC::StateSpaceModel::stateEq()']]],
+  ['stateeqdisc',['stateEqDisc',['../classCCC_1_1StateSpaceModel.html#a3d224a50808473e83b57220461398455',1,'CCC::StateSpaceModel']]],
+  ['statespacemodel',['StateSpaceModel',['../classCCC_1_1StateSpaceModel.html#aa024e33847e3ebe672bc28b74e18ff48',1,'CCC::StateSpaceModel']]]
 ];

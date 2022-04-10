@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['seq_5fext_5f',['seq_ext_',['../classCCC_1_1QpZmp.html#ad9c9c645e200b3a21b14b01b25e78a00',1,'CCC::QpZmp']]],
   ['seq_5flen_5f',['seq_len_',['../classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef',1,'CCC::InvariantSequentialExtension']]],
   ['setrefdatafunc',['setRefDataFunc',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a0955bfbe95930f1cee49a536d24d2024',1,'CCC::DdpZmp::DdpProblem']]],
   ['setup',['setup',['../classCCC_1_1InvariantSequentialExtension.html#adec9217a012cd8a651278cb3cfa24e25',1,'CCC::InvariantSequentialExtension::setup()'],['../classCCC_1_1VariantSequentialExtension.html#a2ef61cee8cae63e2f8ef5f45c3a6c527',1,'CCC::VariantSequentialExtension::setup()']]],
