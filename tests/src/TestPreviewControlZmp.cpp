@@ -9,6 +9,7 @@
 #include <CCC/EigenTypes.h>
 #include <CCC/PreviewControlZmp.h>
 
+#include "FootstepManager.h"
 #include "SimModels.h"
 
 TEST(TestPreviewControlZmp, Test1)
@@ -21,32 +22,11 @@ TEST(TestPreviewControlZmp, Test1)
   // Setup preview control
   CCC::PreviewControlZmp pc(com_height, horizon_duration, horizon_dt);
 
-  std::function<double(double)> ref_zmp_func = [](double t) {
-    // Add small values to avoid numerical instability at inequality bounds
-    constexpr double epsilon_t = 1e-6;
-    t += epsilon_t;
-
-    int phase_idx = static_cast<int>(std::floor(t) - 1);
-    double phase_time = t - std::floor(t);
-    std::vector<double> zmp_list = {0.0, 0.1, -0.1, 0.1, 0.2, 0.3, 0.4};
-    if(phase_idx <= 0)
-    {
-      return 0.0;
-    }
-    else if(phase_idx >= zmp_list.size())
-    {
-      return zmp_list.back();
-    }
-    else if(phase_time < 0.2)
-    {
-      double ratio = phase_time / 0.2;
-      return (1 - ratio) * zmp_list[phase_idx - 1] + ratio * zmp_list[phase_idx];
-    }
-    else
-    {
-      return zmp_list[std::min(phase_idx, static_cast<int>(zmp_list.size()) - 1)];
-    }
-  };
+  // Setup footstep
+  FootstepManager footstep_manager;
+  footstep_manager.appendFootstep(Footstep(Foot::Left, Eigen::Vector2d(0.2, 0.2), 2.0, 0.2, 0.7));
+  footstep_manager.appendFootstep(Footstep(Foot::Right, Eigen::Vector2d(-0.2, -0.2), 3.0, 0.2, 0.7));
+  std::function<double(double)> ref_zmp_func = [&](double t) { return footstep_manager.refZmp(t)[0]; };
 
   // Setup simulation
   ComZmpSimModel sim_model(com_height);
@@ -67,6 +47,7 @@ TEST(TestPreviewControlZmp, Test1)
   while(t < end_time)
   {
     // Plan
+    footstep_manager.update(t);
     CCC::PreviewControlZmp::InitialParam initial_param;
     initial_param << com_pos_vel, CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp);
     planned_zmp = pc.planOnce(ref_zmp_func, initial_param, t, sim_dt);
