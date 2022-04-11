@@ -6,6 +6,7 @@ set(CCC_gtest_list
   TestDdpZmp
   TestDcmTracking
   TestFootGuidedControl
+  TestLinearMpcZmp
   TestLinearMpcZ
   TestLinearMpcXY
   )

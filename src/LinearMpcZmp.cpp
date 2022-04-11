@@ -1,5 +1,7 @@
 /* Author: Masaki Murooka */
 
+#include <algorithm>
+
 #include <CCC/LinearMpcZmp.h>
 
 using namespace CCC;
@@ -30,6 +32,8 @@ double LinearMpcZmp::planOnce(const std::function<RefData(double)> & ref_data_fu
                               double current_time,
                               double control_dt)
 {
+  std::array<double, 2> current_zmp_limits;
+
   // Set QP coefficients
   qp_coeff_.ineq_vec_.head(horizon_steps_) = seq_ext_->A_seq_ * initial_param;
   qp_coeff_.ineq_vec_.tail(horizon_steps_) = -1 * qp_coeff_.ineq_vec_.head(horizon_steps_);
@@ -39,6 +43,11 @@ double LinearMpcZmp::planOnce(const std::function<RefData(double)> & ref_data_fu
     const auto & ref_data = ref_data_func(t);
     qp_coeff_.ineq_vec_[i] -= ref_data.zmp_limits[0];
     qp_coeff_.ineq_vec_[i + horizon_steps_] += ref_data.zmp_limits[1];
+
+    if(i == 0)
+    {
+      current_zmp_limits = ref_data.zmp_limits;
+    }
   }
 
   // Solve QP
@@ -51,7 +60,7 @@ double LinearMpcZmp::planOnce(const std::function<RefData(double)> & ref_data_fu
   }
   double com_acc = initial_param[2] + control_dt * com_jerk;
   double com_pos = initial_param[0] + control_dt * initial_param[1] + 0.5 * std::pow(control_dt, 2) * initial_param[2];
-  double zmp = com_pos + model_->C_(0, 2) * com_acc;
+  double zmp = std::clamp(com_pos + model_->C_(0, 2) * com_acc, current_zmp_limits[0], current_zmp_limits[1]);
 
   return zmp;
 }
