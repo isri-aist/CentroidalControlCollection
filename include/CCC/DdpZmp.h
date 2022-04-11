@@ -254,7 +254,7 @@ public:
     //! CoM position [m]
     Eigen::Vector3d pos = Eigen::Vector3d::Zero();
 
-    //! CoM position [m/s]
+    //! CoM velocity [m/s]
     Eigen::Vector3d vel = Eigen::Vector3d::Zero();
 
     /** \brief Initial guess of input sequence.

@@ -38,7 +38,6 @@ TEST(TestPreviewControlZmp, Test1)
       Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 6.0, transit_duration, swing_duration));
   footstep_manager.appendFootstep(
       Footstep(Foot::Right, Eigen::Vector2d(0.6, -0.1), 7.0, transit_duration, swing_duration));
-  std::function<double(double)> ref_zmp_func = [&](double t) { return footstep_manager.refZmp(t)[0]; };
 
   // Setup simulation
   ComZmpSimModel sim_model(com_height);
@@ -61,11 +60,14 @@ TEST(TestPreviewControlZmp, Test1)
     // Plan
     footstep_manager.update(t);
     CCC::PreviewControlZmp::InitialParam initial_param;
-    initial_param << com_pos_vel, CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp);
-    planned_zmp = pc.planOnce(ref_zmp_func, initial_param, t, sim_dt);
+    initial_param.pos << com_pos_vel[0], com_pos_vel[0];
+    initial_param.vel << com_pos_vel[1], com_pos_vel[1];
+    initial_param.acc << CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp),
+        CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp);
+    planned_zmp = pc.planOnce(std::bind(&FootstepManager::refZmp, &footstep_manager, std::placeholders::_1), initial_param, t, sim_dt).x();
 
     // Dump
-    double ref_zmp = ref_zmp_func(t);
+    double ref_zmp = footstep_manager.refZmp(t)[0];
     ofs << t << " " << com_pos_vel.transpose() << " " << planned_zmp << " " << ref_zmp << std::endl;
 
     // Check
@@ -79,7 +81,7 @@ TEST(TestPreviewControlZmp, Test1)
   }
 
   // Final check
-  double ref_zmp = ref_zmp_func(t);
+  double ref_zmp = footstep_manager.refZmp(t)[0];
   EXPECT_LT(std::abs(planned_zmp - ref_zmp), 1e-2);
   EXPECT_LT(std::abs(com_pos_vel[0] - ref_zmp), 1e-2);
   EXPECT_LT(std::abs(com_pos_vel[1]), 1e-2);
