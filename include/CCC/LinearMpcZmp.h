@@ -17,7 +17,7 @@ namespace CCC
       - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong
    Perturbations. Humanoids, 2006.
  */
-class QpZmp
+class LinearMpcZmp
 {
 public:
   /** \brief Reference data. */
@@ -40,10 +40,10 @@ public:
       \param horizon_dt discretization timestep in horizon [sec]
       \param qp_solver_type QP solver type
    */
-  QpZmp(double com_height,
-        double horizon_duration,
-        double horizon_dt,
-        QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any);
+  LinearMpcZmp(double com_height,
+               double horizon_duration,
+               double horizon_dt,
+               QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any);
 
   /** \brief Plan one step.
       \param ref_data_func function of reference data

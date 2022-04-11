@@ -1,13 +1,13 @@
 /* Author: Masaki Murooka */
 
-#include <CCC/QpZmp.h>
+#include <CCC/LinearMpcZmp.h>
 
 using namespace CCC;
 
-QpZmp::QpZmp(double com_height,
-             double horizon_duration,
-             double horizon_dt,
-             QpSolverCollection::QpSolverType qp_solver_type)
+LinearMpcZmp::LinearMpcZmp(double com_height,
+                           double horizon_duration,
+                           double horizon_dt,
+                           QpSolverCollection::QpSolverType qp_solver_type)
 : horizon_dt_(horizon_dt), horizon_steps_(static_cast<int>(std::ceil(horizon_duration / horizon_dt)))
 {
   // Setup model
@@ -25,9 +25,9 @@ QpZmp::QpZmp(double com_height,
   qp_coeff_.x_max_.setConstant(1e10);
 }
 
-double QpZmp::planOnce(const std::function<RefData(double)> & ref_data_func,
-                       const InitialParam & initial_param,
-                       double current_time)
+double LinearMpcZmp::planOnce(const std::function<RefData(double)> & ref_data_func,
+                              const InitialParam & initial_param,
+                              double current_time)
 {
   // Set QP coefficients
   qp_coeff_.ineq_vec_.head(horizon_steps_) = seq_ext_->A_seq_ * initial_param;
