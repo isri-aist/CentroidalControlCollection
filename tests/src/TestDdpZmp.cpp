@@ -7,17 +7,9 @@
 
 #include <CCC/Constants.h>
 #include <CCC/DdpZmp.h>
-#include <CCC/EigenTypes.h>
 
+#include "FootstepManager.h"
 #include "SimModels.h"
-
-/** \brief CoM position and velocity. */
-struct ComPosVel
-{
-  Eigen::Vector2d x = Eigen::Vector2d::Zero();
-  Eigen::Vector2d y = Eigen::Vector2d::Zero();
-  Eigen::Vector2d z = Eigen::Vector2d::Zero();
-};
 
 TEST(TestDdpZmp, Test1)
 {
@@ -32,52 +24,41 @@ TEST(TestDdpZmp, Test1)
   CCC::DdpZmp ddp(mass, horizon_dt, horizon_steps);
   ddp.ddp_solver_->config().max_iter = 3;
 
-  std::function<double(double)> ref_zmp_func = [](double t) {
-    // Add small values to avoid numerical instability at inequality bounds
-    constexpr double epsilon_t = 1e-6;
-    t += epsilon_t;
-
-    int phase_idx = static_cast<int>(std::floor(t) - 1);
-    double phase_time = t - std::floor(t);
-    std::vector<double> zmp_list = {0.0, 0.1, -0.1, 0.1, 0.2, 0.3, 0.4};
-    if(phase_idx <= 0)
-    {
-      return 0.0;
-    }
-    else if(phase_idx >= zmp_list.size())
-    {
-      return zmp_list.back();
-    }
-    else if(phase_time < 0.2)
-    {
-      double ratio = phase_time / 0.2;
-      return (1 - ratio) * zmp_list[phase_idx - 1] + ratio * zmp_list[phase_idx];
-    }
-    else
-    {
-      return zmp_list[std::min(phase_idx, static_cast<int>(zmp_list.size()) - 1)];
-    }
-  };
+  // Setup footstep
+  FootstepManager footstep_manager;
+  double transit_duration = 0.2; // [sec]
+  double swing_duration = 0.8; // [sec]
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.2, 0.1), 2.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.4, -0.1), 3.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 4.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.8, -0.1), 5.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 6.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.6, -0.1), 7.0, transit_duration, swing_duration));
   std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [&](double t) {
-    // Add small values to avoid numerical instability at inequality bounds
-    constexpr double epsilon_t = 1e-6;
-    t += epsilon_t;
-
     CCC::DdpZmp::RefData ref_data;
-    ref_data.zmp.setConstant(ref_zmp_func(t));
+    ref_data.zmp = footstep_manager.refZmp(t);
     ref_data.com_z = ref_com_height;
-
     return ref_data;
   };
+
+  // Setup simulation
+  ComZmpSim3d sim(mass, sim_dt);
+  sim.state_.z[0] = ref_com_height;
 
   // Setup dump file
   std::string file_path = "/tmp/TestDdpZmp.txt";
   std::ofstream ofs(file_path);
-  ofs << "time com_pos com_vel planned_zmp ref_zmp ddp_iter" << std::endl;
+  ofs << "time com_pos_x com_pos_y com_pos_z planned_zmp_x planned_zmp_y planned_force_z ref_zmp_x ref_zmp_y ref_com_z "
+         "ddp_iter"
+      << std::endl;
 
   // Setup control loop
-  ComPosVel com_pos_vel;
-  com_pos_vel.z[0] = ref_com_height;
   CCC::DdpZmp::PlannedData planned_data;
 
   // Run control loop
@@ -87,14 +68,16 @@ TEST(TestDdpZmp, Test1)
   while(t < end_time)
   {
     // Plan
+    footstep_manager.update(t);
     CCC::DdpZmp::InitialParam initial_param;
-    initial_param.pos << com_pos_vel.x[0], com_pos_vel.y[0], com_pos_vel.z[0];
-    initial_param.vel << com_pos_vel.x[1], com_pos_vel.y[1], com_pos_vel.z[1];
+    initial_param.pos = sim.state_.pos();
+    initial_param.vel = sim.state_.vel();
     if(first_iter)
     {
       first_iter = false;
-      initial_param.u_list.assign(horizon_steps, CCC::DdpZmp::DdpProblem::InputDimVector(
-                                                     com_pos_vel.x[0], com_pos_vel.y[0], mass * CCC::constants::g));
+      initial_param.u_list.assign(horizon_steps,
+                                  CCC::DdpZmp::DdpProblem::InputDimVector(sim.state_.pos().x(), sim.state_.pos().y(),
+                                                                          mass * CCC::constants::g));
     }
     else
     {
@@ -104,39 +87,36 @@ TEST(TestDdpZmp, Test1)
 
     // Dump
     const auto & ref_data = ref_data_func(t);
-    ofs << t << " " << com_pos_vel.x.transpose() << " " << planned_data.zmp.x() << " " << ref_data.zmp.x() << " "
+    ofs << t << " " << sim.state_.pos().transpose() << " " << planned_data.zmp.transpose() << " "
+        << planned_data.force_z << " " << ref_data.zmp.transpose() << " " << ref_com_height << " "
         << ddp.ddp_solver_->traceDataList().back().iter << std::endl;
 
     // Check
-    EXPECT_LT(std::abs(planned_data.zmp.x() - ref_data.zmp.x()), 0.1); // [m]
-
-    // Setup simulation
-    ComZmpSimModel1d sim_model_xy(com_pos_vel.z[0]);
-    sim_model_xy.calcDiscMatrix(sim_dt);
-    VerticalSimModel sim_model_z(mass);
-    sim_model_z.calcDiscMatrix(sim_dt);
+    EXPECT_LT((planned_data.zmp - ref_data.zmp).norm(), 0.1); // [m]
+    EXPECT_LT(std::abs(sim.state_.pos().z() - ref_com_height), 0.1); // [m]
 
     // Simulate
     t += sim_dt;
-    Eigen::Vector1d sim_input;
-    sim_input << planned_data.zmp.x();
-    com_pos_vel.x = sim_model_xy.stateEqDisc(com_pos_vel.x, sim_input);
-    sim_input << planned_data.zmp.y();
-    com_pos_vel.y = sim_model_xy.stateEqDisc(com_pos_vel.y, sim_input);
-    sim_input << planned_data.force_z;
-    com_pos_vel.z = sim_model_z.stateEqDisc(com_pos_vel.z, sim_input);
+    ComZmpSim3d::Input sim_input;
+    sim_input.zmp = planned_data.zmp;
+    sim_input.force_z = planned_data.force_z;
+    sim.update(sim_input);
   }
 
   // Final check
   const auto & ref_data = ref_data_func(t);
-  EXPECT_LT(std::abs(planned_data.zmp.x() - ref_data.zmp.x()), 1e-2);
-  EXPECT_LT(std::abs(com_pos_vel.x[0] - ref_data.zmp.x()), 1e-2);
-  EXPECT_LT(std::abs(com_pos_vel.x[1]), 1e-2);
+  EXPECT_LT((planned_data.zmp - ref_data.zmp).norm(), 1e-2);
+  EXPECT_LT(std::abs(sim.state_.pos().z() - ref_com_height), 1e-2);
+  EXPECT_LT((sim.state_.pos().head<2>() - ref_data.zmp).norm(), 1e-2);
+  EXPECT_LT(sim.state_.vel().norm(), 1e-2);
 
   std::cout << "Run the following commands in gnuplot:\n"
             << "  set key autotitle columnhead\n"
             << "  set key noenhanced\n"
-            << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:4 w lp, \"\" u 1:5 w l lw 2\n";
+            << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:5 w lp, \"\" u 1:8 w l lw 2 # x\n"
+            << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:6 w lp, \"\" u 1:9 w l lw 2 # y\n"
+            << "  plot \"" << file_path << "\" u 1:4 w lp, \"\" u 1:10 w l lw 2 # z\n"
+            << "  plot \"" << file_path << "\" u 1:11 w lp # ddp_iter\n";
 }
 
 TEST(TestDdpZmp, CheckDerivatives)

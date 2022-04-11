@@ -6,7 +6,6 @@
 #include <iostream>
 
 #include <CCC/Constants.h>
-#include <CCC/EigenTypes.h>
 #include <CCC/PreviewControlZmp.h>
 
 #include "FootstepManager.h"
@@ -45,7 +44,7 @@ TEST(TestPreviewControlZmp, Test1)
   // Setup dump file
   std::string file_path = "/tmp/TestPreviewControlZmp.txt";
   std::ofstream ofs(file_path);
-  ofs << "time com_pos_x com_pos_y com_vel_x com_vel_y planned_zmp_x planned_zmp_y ref_zmp_x ref_zmp_y" << std::endl;
+  ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_x ref_zmp_y" << std::endl;
 
   // Setup control loop
   Eigen::Vector2d planned_zmp = sim.state_.pos();
@@ -66,8 +65,8 @@ TEST(TestPreviewControlZmp, Test1)
 
     // Dump
     Eigen::Vector2d ref_zmp = footstep_manager.refZmp(t);
-    ofs << t << " " << sim.state_.pos().transpose() << " " << sim.state_.vel().transpose() << " "
-        << planned_zmp.transpose() << " " << ref_zmp.transpose() << std::endl;
+    ofs << t << " " << sim.state_.pos().transpose() << " " << planned_zmp.transpose() << " " << ref_zmp.transpose()
+        << std::endl;
 
     // Check
     EXPECT_LT((planned_zmp - ref_zmp).norm(), 0.1); // [m]
@@ -86,8 +85,8 @@ TEST(TestPreviewControlZmp, Test1)
   std::cout << "Run the following commands in gnuplot:\n"
             << "  set key autotitle columnhead\n"
             << "  set key noenhanced\n"
-            << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:6 w lp, \"\" u 1:8 w l lw 2 # x\n"
-            << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:7 w lp, \"\" u 1:9 w l lw 2 # y\n";
+            << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:4 w lp, \"\" u 1:6 w l lw 2 # x\n"
+            << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:5 w lp, \"\" u 1:7 w l lw 2 # y\n";
 }
 
 int main(int argc, char ** argv)

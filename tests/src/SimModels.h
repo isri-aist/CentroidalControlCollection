@@ -102,3 +102,87 @@ public:
   //! Simulation state
   State state_;
 };
+
+/** \brief Simulation of three-dimensional CoM-ZMP dynamics with ZMP and force input. */
+class ComZmpSim3d
+{
+public:
+  /** \brief Simulation state. */
+  struct State
+  {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+    //! X position and velocity
+    Eigen::Vector2d x = Eigen::Vector2d::Zero();
+
+    //! Y position and velocity
+    Eigen::Vector2d y = Eigen::Vector2d::Zero();
+
+    //! Z position and velocity
+    Eigen::Vector2d z = Eigen::Vector2d::Zero();
+
+    /** \brief Get position. */
+    inline Eigen::Vector3d pos() const
+    {
+      return Eigen::Vector3d(x[0], y[0], z[0]);
+    }
+
+    /** \brief Get velocity. */
+    inline Eigen::Vector3d vel() const
+    {
+      return Eigen::Vector3d(x[1], y[1], z[1]);
+    }
+  };
+
+  /** \brief Simulation input. */
+  struct Input
+  {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+    //! ZMP [m]
+    Eigen::Vector2d zmp = Eigen::Vector2d::Zero();
+
+    //! Z force [N]
+    double force_z = 0;
+  };
+
+public:
+  /** \brief Constructor.
+      \param mass robot mass [Kg]
+      \param sim_dt simulation timestep [sec]
+  */
+  ComZmpSim3d(double mass, double sim_dt) : sim_dt_(sim_dt), z_model_(std::make_shared<VerticalSimModel>(mass))
+  {
+    z_model_->calcDiscMatrix(sim_dt_);
+  }
+
+  /** \brief Update.
+      \param input simulation input (ZMP)
+  */
+  void update(const Input & input)
+  {
+    xy_model_ = std::make_shared<ComZmpSimModel1d>(state_.z[0]);
+    xy_model_->calcDiscMatrix(sim_dt_);
+
+    ComZmpSimModel1d::InputDimVector input_1d;
+    input_1d << input.zmp.x();
+    state_.x = xy_model_->stateEqDisc(state_.x, input_1d);
+    input_1d << input.zmp.y();
+    state_.y = xy_model_->stateEqDisc(state_.y, input_1d);
+    input_1d << input.force_z;
+    state_.z = z_model_->stateEqDisc(state_.z, input_1d);
+  }
+
+public:
+  //! Simulation timestep [sec]
+  double sim_dt_ = 0;
+
+  //! One-dimensional CoM-ZMP model
+  std::shared_ptr<ComZmpSimModel1d> xy_model_;
+
+  //! Vertical motion model
+  std::shared_ptr<VerticalSimModel> z_model_;
+
+  //! Simulation state
+  State state_;
+};
