@@ -73,6 +73,7 @@ var menudata={children:[
 {text:"v",url:"functions_vars.html#index_v"},
 {text:"w",url:"functions_vars.html#index_w"},
 {text:"z",url:"functions_vars.html#index_z"}]},
-{text:"Typedefs",url:"functions_type.html"}]}]},
+{text:"Typedefs",url:"functions_type.html"},
+{text:"Related Functions",url:"functions_rela.html"}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"}]}]}
