@@ -40,7 +40,7 @@ TEST(TestDcmTracking, Test1)
   // clang-format on
 
   // Setup simulation
-  ComZmpSimModel sim_model(com_height);
+  ComZmpSimModel1d sim_model(com_height);
   sim_model.calcDiscMatrix(sim_dt);
 
   // Setup dump file

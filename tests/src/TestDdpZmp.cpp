@@ -111,7 +111,7 @@ TEST(TestDdpZmp, Test1)
     EXPECT_LT(std::abs(planned_data.zmp.x() - ref_data.zmp.x()), 0.1); // [m]
 
     // Setup simulation
-    ComZmpSimModel sim_model_xy(com_pos_vel.z[0]);
+    ComZmpSimModel1d sim_model_xy(com_pos_vel.z[0]);
     sim_model_xy.calcDiscMatrix(sim_dt);
     VerticalSimModel sim_model_z(mass);
     sim_model_z.calcDiscMatrix(sim_dt);

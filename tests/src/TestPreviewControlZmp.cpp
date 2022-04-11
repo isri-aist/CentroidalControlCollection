@@ -40,17 +40,15 @@ TEST(TestPreviewControlZmp, Test1)
       Footstep(Foot::Right, Eigen::Vector2d(0.6, -0.1), 7.0, transit_duration, swing_duration));
 
   // Setup simulation
-  ComZmpSimModel sim_model(com_height);
-  sim_model.calcDiscMatrix(sim_dt);
+  ComZmpSim2d sim(com_height, sim_dt);
 
   // Setup dump file
   std::string file_path = "/tmp/TestPreviewControlZmp.txt";
   std::ofstream ofs(file_path);
-  ofs << "time com_pos com_vel planned_zmp ref_zmp" << std::endl;
+  ofs << "time com_pos_x com_pos_y com_vel_x com_vel_y planned_zmp_x planned_zmp_y ref_zmp_x ref_zmp_y" << std::endl;
 
   // Setup control loop
-  Eigen::Vector2d com_pos_vel = Eigen::Vector2d::Zero();
-  double planned_zmp = com_pos_vel[0];
+  Eigen::Vector2d planned_zmp = sim.state_.pos();
 
   // Run control loop
   constexpr double end_time = 10.0; // [sec]
@@ -60,36 +58,36 @@ TEST(TestPreviewControlZmp, Test1)
     // Plan
     footstep_manager.update(t);
     CCC::PreviewControlZmp::InitialParam initial_param;
-    initial_param.pos << com_pos_vel[0], com_pos_vel[0];
-    initial_param.vel << com_pos_vel[1], com_pos_vel[1];
-    initial_param.acc << CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp),
-        CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp);
-    planned_zmp = pc.planOnce(std::bind(&FootstepManager::refZmp, &footstep_manager, std::placeholders::_1), initial_param, t, sim_dt).x();
+    initial_param.pos = sim.state_.pos();
+    initial_param.vel = sim.state_.vel();
+    initial_param.acc = CCC::constants::g / com_height * (sim.state_.pos() - planned_zmp);
+    planned_zmp = pc.planOnce(std::bind(&FootstepManager::refZmp, &footstep_manager, std::placeholders::_1),
+                              initial_param, t, sim_dt);
 
     // Dump
-    double ref_zmp = footstep_manager.refZmp(t)[0];
-    ofs << t << " " << com_pos_vel.transpose() << " " << planned_zmp << " " << ref_zmp << std::endl;
+    Eigen::Vector2d ref_zmp = footstep_manager.refZmp(t);
+    ofs << t << " " << sim.state_.pos().transpose() << " " << sim.state_.vel().transpose() << " "
+        << planned_zmp.transpose() << " " << ref_zmp.transpose() << std::endl;
 
     // Check
-    EXPECT_LT(std::abs(planned_zmp - ref_zmp), 0.1); // [m]
+    EXPECT_LT((planned_zmp - ref_zmp).norm(), 0.1); // [m]
 
     // Simulate
     t += sim_dt;
-    Eigen::Vector1d sim_input;
-    sim_input << planned_zmp;
-    com_pos_vel = sim_model.stateEqDisc(com_pos_vel, sim_input);
+    sim.update(planned_zmp);
   }
 
   // Final check
-  double ref_zmp = footstep_manager.refZmp(t)[0];
-  EXPECT_LT(std::abs(planned_zmp - ref_zmp), 1e-2);
-  EXPECT_LT(std::abs(com_pos_vel[0] - ref_zmp), 1e-2);
-  EXPECT_LT(std::abs(com_pos_vel[1]), 1e-2);
+  Eigen::Vector2d ref_zmp = footstep_manager.refZmp(t);
+  EXPECT_LT((planned_zmp - ref_zmp).norm(), 1e-2);
+  EXPECT_LT((sim.state_.pos() - ref_zmp).norm(), 1e-2);
+  EXPECT_LT(sim.state_.vel().norm(), 1e-2);
 
   std::cout << "Run the following commands in gnuplot:\n"
             << "  set key autotitle columnhead\n"
             << "  set key noenhanced\n"
-            << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:4 w lp, \"\" u 1:5 w l lw 2\n";
+            << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:6 w lp, \"\" u 1:8 w l lw 2 # x\n"
+            << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:7 w lp, \"\" u 1:9 w l lw 2 # y\n";
 }
 
 int main(int argc, char ** argv)

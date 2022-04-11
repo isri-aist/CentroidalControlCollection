@@ -56,7 +56,7 @@ TEST(TestLinearMpcZmp, Test1)
   };
 
   // Setup simulation
-  ComZmpSimModel sim_model(com_height);
+  ComZmpSimModel1d sim_model(com_height);
   sim_model.calcDiscMatrix(sim_dt);
 
   // Setup dump file
