@@ -49,11 +49,13 @@ public:
       \param ref_data_func function of reference data
       \param initial_param initial parameter (CoM position, velocity, and acceleration)
       \param current_time current time (i.e., start time of horizon) [sec]
+      \param control_dt control timestep used to calculate ZMP (if omitted, horizon_dt is used)
       \returns planned ZMP
    */
   double planOnce(const std::function<RefData(double)> & ref_data_func,
                   const InitialParam & initial_param,
-                  double current_time);
+                  double current_time,
+                  double control_dt = -1);
 
 protected:
   //! Discretization timestep in horizon [sec]
@@ -61,6 +63,9 @@ protected:
 
   //! Number of steps in horizon
   int horizon_steps_ = -1;
+
+  //! State-space model
+  std::shared_ptr<ComZmpModelJerkInput> model_;
 
   //! Sequential extension of state-space model
   std::shared_ptr<InvariantSequentialExtension<3, 1, 1>> seq_ext_;
