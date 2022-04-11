@@ -101,9 +101,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2dbed994b362acb91be4f4a4502dd720"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a2dbed994b362acb91be4f4a4502dd720">LinearMpcZmp</a> (double com_height, double horizon_duration, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type=QpSolverCollection::QpSolverType::Any)</td></tr>
 <tr class="memdesc:a2dbed994b362acb91be4f4a4502dd720"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a2dbed994b362acb91be4f4a4502dd720">More...</a><br /></td></tr>
 <tr class="separator:a2dbed994b362acb91be4f4a4502dd720"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2da6cb028e699df6c3e5670e7ec148e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#ab2da6cb028e699df6c3e5670e7ec148e">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcZmp_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="classCCC_1_1LinearMpcZmp.html#a87601cee67fa76649e4ea645c3299398">InitialParam</a> &amp;initial_param, double current_time)</td></tr>
-<tr class="memdesc:ab2da6cb028e699df6c3e5670e7ec148e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#ab2da6cb028e699df6c3e5670e7ec148e">More...</a><br /></td></tr>
-<tr class="separator:ab2da6cb028e699df6c3e5670e7ec148e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac77004440775f3dd44f2398dc99d330a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#ac77004440775f3dd44f2398dc99d330a">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcZmp_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="classCCC_1_1LinearMpcZmp.html#a87601cee67fa76649e4ea645c3299398">InitialParam</a> &amp;initial_param, double current_time, double control_dt=-1)</td></tr>
+<tr class="memdesc:ac77004440775f3dd44f2398dc99d330a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#ac77004440775f3dd44f2398dc99d330a">More...</a><br /></td></tr>
+<tr class="separator:ac77004440775f3dd44f2398dc99d330a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -113,6 +113,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a618f8778ac770756de79721e5e5eaf21"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a618f8778ac770756de79721e5e5eaf21">horizon_steps_</a> = -1</td></tr>
 <tr class="memdesc:a618f8778ac770756de79721e5e5eaf21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of steps in horizon.  <a href="#a618f8778ac770756de79721e5e5eaf21">More...</a><br /></td></tr>
 <tr class="separator:a618f8778ac770756de79721e5e5eaf21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbdf8efc22dea320102b10a3528963a0"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classCCC_1_1ComZmpModelJerkInput.html">ComZmpModelJerkInput</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#adbdf8efc22dea320102b10a3528963a0">model_</a></td></tr>
+<tr class="memdesc:adbdf8efc22dea320102b10a3528963a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">State-space model.  <a href="#adbdf8efc22dea320102b10a3528963a0">More...</a><br /></td></tr>
+<tr class="separator:adbdf8efc22dea320102b10a3528963a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43ccfcfce3ba6ee89aa85bef7a6f6519"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classCCC_1_1InvariantSequentialExtension.html">InvariantSequentialExtension</a>&lt; 3, 1, 1 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a43ccfcfce3ba6ee89aa85bef7a6f6519">seq_ext_</a></td></tr>
 <tr class="memdesc:a43ccfcfce3ba6ee89aa85bef7a6f6519"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension of state-space model.  <a href="#a43ccfcfce3ba6ee89aa85bef7a6f6519">More...</a><br /></td></tr>
 <tr class="separator:a43ccfcfce3ba6ee89aa85bef7a6f6519"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,8 +206,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab2da6cb028e699df6c3e5670e7ec148e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2da6cb028e699df6c3e5670e7ec148e">&#9670;&nbsp;</a></span>planOnce()</h2>
+<a id="ac77004440775f3dd44f2398dc99d330a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac77004440775f3dd44f2398dc99d330a">&#9670;&nbsp;</a></span>planOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,7 +228,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>current_time</em>&#160;</td>
+          <td class="paramname"><em>current_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>control_dt</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -241,6 +250,7 @@ Protected Attributes</h2></td></tr>
     <tr><td class="paramname">ref_data_func</td><td>function of reference data </td></tr>
     <tr><td class="paramname">initial_param</td><td>initial parameter (CoM position, velocity, and acceleration) </td></tr>
     <tr><td class="paramname">current_time</td><td>current time (i.e., start time of horizon) [sec] </td></tr>
+    <tr><td class="paramname">control_dt</td><td>control timestep used to calculate ZMP (if omitted, horizon_dt is used) </td></tr>
   </table>
   </dd>
 </dl>
@@ -271,7 +281,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Discretization timestep in horizon [sec]. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00060">60</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00062">62</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>
@@ -297,7 +307,33 @@ Protected Attributes</h2></td></tr>
 
 <p>Number of steps in horizon. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00063">63</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00065">65</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+
+</div>
+</div>
+<a id="adbdf8efc22dea320102b10a3528963a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbdf8efc22dea320102b10a3528963a0">&#9670;&nbsp;</a></span>model_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classCCC_1_1ComZmpModelJerkInput.html">ComZmpModelJerkInput</a>&gt; CCC::LinearMpcZmp::model_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>State-space model. </p>
+
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00068">68</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>
@@ -323,7 +359,7 @@ Protected Attributes</h2></td></tr>
 
 <p>QP coefficients. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00072">72</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00077">77</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>
@@ -349,7 +385,7 @@ Protected Attributes</h2></td></tr>
 
 <p>QP solver. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00069">69</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00074">74</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>
@@ -375,7 +411,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Sequential extension of state-space model. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00066">66</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00071">71</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>
