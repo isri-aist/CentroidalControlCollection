@@ -8,6 +8,8 @@
 
 #include <Eigen/Core>
 
+#include <CCC/DcmTracking.h>
+
 /** \brief Foot. */
 enum class Foot
 {
@@ -151,6 +153,20 @@ public:
     }
   }
 
+  /** \brief Append footstep.
+      \param footstep footstep
+  */
+  inline void appendFootstep(const Footstep & footstep)
+  {
+    if(!footstep_list_.empty() && footstep.transit_start_time < footstep_list_.back().transit_end_time)
+    {
+      throw std::runtime_error(
+          "transit_start_time of specified footstep must be after transit_end_time of last footstep.");
+    }
+
+    footstep_list_.push_back(footstep);
+  }
+
   /** \brief Get reference zmp.
       \param t time
   */
@@ -165,18 +181,20 @@ public:
     return (1 - ratio) * std::prev(ref_zmp_it)->second + ratio * ref_zmp_it->second;
   }
 
-  /** \brief Append footstep.
-      \param footstep footstep
+  /** \brief Make DcmTracking::RefData instance.
+      \param current_time current time
+      \param horizon_duration horizon duration
   */
-  inline void appendFootstep(const Footstep & footstep)
+  inline CCC::DcmTracking::RefData makeDcmTrackingRefData(double current_time, int horizon_duration = 5.0) const
   {
-    if(!footstep_list_.empty() && footstep.transit_start_time < footstep_list_.back().transit_end_time)
+    CCC::DcmTracking::RefData ref_data;
+    ref_data.current_zmp = std::prev(ref_zmp_list_.upper_bound(current_time))->second;
+    for(auto time_zmp_it = ref_zmp_list_.upper_bound(current_time);
+        time_zmp_it != ref_zmp_list_.end() && time_zmp_it->first < current_time + horizon_duration; time_zmp_it++)
     {
-      throw std::runtime_error(
-          "transit_start_time of specified footstep must be after transit_end_time of last footstep.");
+      ref_data.time_zmp_list.emplace(*time_zmp_it);
     }
-
-    footstep_list_.push_back(footstep);
+    return ref_data;
   }
 
 public:
