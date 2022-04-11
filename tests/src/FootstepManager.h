@@ -89,8 +89,8 @@ public:
   /** \brief Constructor.
       \param initial_footstance initial footstance
   */
-  FootstepManager(const Footstance & initial_footstance = {{Foot::Left, Eigen::Vector2d(0.1, 0.1)},
-                                                           {Foot::Right, Eigen::Vector2d(-0.1, -0.1)}})
+  FootstepManager(const Footstance & initial_footstance = {{Foot::Left, Eigen::Vector2d(0.0, 0.1)},
+                                                           {Foot::Right, Eigen::Vector2d(0.0, -0.1)}})
   : footstance_(initial_footstance)
   {
   }

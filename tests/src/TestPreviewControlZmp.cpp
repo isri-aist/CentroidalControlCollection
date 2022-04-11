@@ -24,8 +24,20 @@ TEST(TestPreviewControlZmp, Test1)
 
   // Setup footstep
   FootstepManager footstep_manager;
-  footstep_manager.appendFootstep(Footstep(Foot::Left, Eigen::Vector2d(0.2, 0.2), 2.0, 0.2, 0.7));
-  footstep_manager.appendFootstep(Footstep(Foot::Right, Eigen::Vector2d(-0.2, -0.2), 3.0, 0.2, 0.7));
+  double transit_duration = 0.2; // [sec]
+  double swing_duration = 0.8; // [sec]
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.2, 0.1), 2.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.4, -0.1), 3.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 4.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.8, -0.1), 5.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 6.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.6, -0.1), 7.0, transit_duration, swing_duration));
   std::function<double(double)> ref_zmp_func = [&](double t) { return footstep_manager.refZmp(t)[0]; };
 
   // Setup simulation
