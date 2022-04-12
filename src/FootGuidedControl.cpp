@@ -8,9 +8,9 @@
 
 using namespace CCC;
 
-double FootGuidedControl::planOnce(const RefData & ref_data,
-                                   const InitialParam & initial_param,
-                                   double current_time) const
+double FootGuidedControl1d::planOnce(const RefData & ref_data,
+                                     const InitialParam & initial_param,
+                                     double current_time) const
 {
   double capture_point = initial_param;
 
@@ -20,7 +20,7 @@ double FootGuidedControl::planOnce(const RefData & ref_data,
   }
 
   double transit_end_time = ref_data.transit_start_time + ref_data.transit_duration;
-  constexpr double future_margin_duration = 1e-6;
+  constexpr double future_margin_duration = 1e-6; // [sec]
   if(!(transit_end_time >= current_time + future_margin_duration))
   {
     throw std::runtime_error("Transition end time must be in the future with some margin: "
@@ -64,6 +64,29 @@ double FootGuidedControl::planOnce(const RefData & ref_data,
                 / (1.0 - std::exp(-2 * omega_ * (transit_end_time - current_time)));
     }
   }
+
+  return planned_zmp;
+}
+
+Eigen::Vector2d FootGuidedControl::planOnce(const RefData & ref_data,
+                                            const InitialParam & initial_param,
+                                            double current_time) const
+{
+  FootGuidedControl1d::RefData ref_data_1d;
+  ref_data_1d.transit_start_time = ref_data.transit_start_time;
+  ref_data_1d.transit_duration = ref_data.transit_duration;
+  FootGuidedControl1d::InitialParam initial_param_1d;
+  Eigen::Vector2d planned_zmp;
+
+  ref_data_1d.transit_start_zmp = ref_data.transit_start_zmp.x();
+  ref_data_1d.transit_end_zmp = ref_data.transit_end_zmp.x();
+  initial_param_1d = initial_param.x();
+  planned_zmp.x() = fgc_1d_->planOnce(ref_data_1d, initial_param_1d, current_time);
+
+  ref_data_1d.transit_start_zmp = ref_data.transit_start_zmp.y();
+  ref_data_1d.transit_end_zmp = ref_data.transit_end_zmp.y();
+  initial_param_1d = initial_param.y();
+  planned_zmp.y() = fgc_1d_->planOnce(ref_data_1d, initial_param_1d, current_time);
 
   return planned_zmp;
 }

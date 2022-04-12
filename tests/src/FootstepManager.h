@@ -4,11 +4,13 @@
 
 #include <deque>
 #include <map>
+#include <memory>
 #include <unordered_map>
 
 #include <Eigen/Core>
 
 #include <CCC/DcmTracking.h>
+#include <CCC/FootGuidedControl.h>
 
 /** \brief Foot. */
 enum class Foot
@@ -113,6 +115,7 @@ public:
     // Remove old footsteps
     while(!footstep_list_.empty() && footstep_list_.front().transit_end_time < current_time)
     {
+      prev_footstep_ = std::make_shared<Footstep>(footstep_list_.front());
       footstep_list_.pop_front();
     }
 
@@ -197,12 +200,88 @@ public:
     return ref_data;
   }
 
+  /** \brief Make FootGuidedControl::RefData instance.
+      \param current_time current time
+  */
+  inline CCC::FootGuidedControl::RefData makeFootGuidedControlRefData(double current_time) const
+  {
+    double constant_zmp_duration = 1.0; // [sec]
+    double footsteps_concat_duration_thre = 0.1; // [sec]
+    double horizon_margin = 1e-3; // [sec]
+    CCC::FootGuidedControl::RefData ref_data;
+
+    if(footstep_list_.empty())
+    {
+      ref_data.transit_start_zmp = footstance_.midPos();
+      ref_data.transit_end_zmp = ref_data.transit_start_zmp;
+      ref_data.transit_start_time = current_time + constant_zmp_duration;
+      ref_data.transit_duration = 0;
+    }
+    else
+    {
+      const auto & footstep = footstep_list_.front();
+      if(current_time < footstep.swing_start_time)
+      {
+        ref_data.transit_start_zmp = footstance_.midPos();
+        ref_data.transit_end_zmp = footstance_.at(opposite(footstep.foot));
+        ref_data.transit_start_time = footstep.transit_start_time;
+        ref_data.transit_duration = footstep.swing_start_time - footstep.transit_start_time;
+
+        // If the double support duration is short, concatenate the previous and current footsteps to avoid the horizon
+        // becoming too short
+        if(prev_footstep_)
+        {
+          if(prev_footstep_->foot == opposite(footstep.foot)
+             && footstep.transit_start_time - prev_footstep_->transit_end_time < footsteps_concat_duration_thre)
+          {
+            ref_data.transit_start_zmp = footstance_.at(opposite(prev_footstep_->foot));
+            ref_data.transit_start_time = prev_footstep_->swing_end_time;
+            ref_data.transit_duration = footstep.swing_start_time - prev_footstep_->swing_end_time;
+          }
+        }
+      }
+      else
+      {
+        ref_data.transit_start_zmp = footstance_.at(opposite(footstep.foot));
+        Footstance tmp_footstance = footstance_;
+        tmp_footstance.at(footstep.foot) = footstep.pos;
+        ref_data.transit_end_zmp = tmp_footstance.midPos();
+        ref_data.transit_start_time = footstep.swing_end_time;
+        ref_data.transit_duration = footstep.transit_end_time - footstep.swing_end_time;
+
+        // If the double support duration is short, concatenate the current and next footsteps to avoid the horizon
+        // becoming too short
+        if(footstep_list_.size() >= 2)
+        {
+          Footstep next_footstep = footstep_list_[1];
+          if(next_footstep.foot == opposite(footstep.foot)
+             && next_footstep.transit_start_time - footstep.transit_end_time < footsteps_concat_duration_thre)
+          {
+            ref_data.transit_end_zmp = footstep.pos;
+            ref_data.transit_duration = next_footstep.swing_start_time - footstep.swing_end_time;
+          }
+        }
+      }
+
+      // Ensure a horizon, since a horizon close to zero produces a very large input
+      if(ref_data.transit_start_time + ref_data.transit_duration < current_time + horizon_margin)
+      {
+        ref_data.transit_duration += horizon_margin;
+      }
+    }
+
+    return ref_data;
+  }
+
 public:
   //! Footstance
   Footstance footstance_;
 
   //! Footstep list
   std::deque<Footstep> footstep_list_;
+
+  //! Previous footstep
+  std::shared_ptr<Footstep> prev_footstep_;
 
   //! Horizon duration
   double horizon_duration_ = 10.0; // [sec]
