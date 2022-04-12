@@ -45,6 +45,10 @@ class PlotTestZmpBasedMethodResults(object):
                 com_pos_key = "com_pos_{}".format(axis_str)
                 ax.plot(result_data["time"], result_data[com_pos_key],
                         color="green", label="CoM")
+                capture_point_key = "capture_point_{}".format(axis_str)
+                if capture_point_key in result_data.dtype.names:
+                    ax.plot(result_data["time"], result_data[capture_point_key],
+                            color="orange", label="capture point")
 
                 # Set labels, etc.
                 ax.set_title("{}-{}".format(method_str, axis_str.upper()))
