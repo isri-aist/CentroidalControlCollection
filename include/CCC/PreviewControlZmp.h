@@ -135,7 +135,7 @@ public:
                            double control_dt = -1) const;
 
 public:
-  //! one-dimensional preview control
+  //! One-dimensional preview control
   std::shared_ptr<PreviewControlZmp1d> preview_control_1d_;
 };
 } // namespace CCC

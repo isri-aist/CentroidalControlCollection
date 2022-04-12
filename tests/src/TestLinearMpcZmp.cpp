@@ -6,67 +6,49 @@
 #include <iostream>
 
 #include <CCC/Constants.h>
-#include <CCC/EigenTypes.h>
 #include <CCC/LinearMpcZmp.h>
 
+#include "FootstepManager.h"
 #include "SimModels.h"
 
 TEST(TestLinearMpcZmp, Test1)
 {
   double horizon_duration = 2.0; // [sec]
-  double horizon_dt = 0.04; // [sec]
+  double horizon_dt = 0.02; // [sec]
   double sim_dt = 0.005; // [sec]
   double com_height = 1.0; // [m]
 
   // Setup MPC
   CCC::LinearMpcZmp mpc(com_height, horizon_duration, horizon_dt);
 
-  std::function<CCC::LinearMpcZmp::RefData(double)> ref_data_func = [](double t) {
-    // Add small values to avoid numerical instability at inequality bounds
-    constexpr double epsilon_t = 1e-6;
-    t += epsilon_t;
-
-    CCC::LinearMpcZmp::RefData ref_data;
-    int phase_idx = static_cast<int>(std::floor(t) - 1);
-    double phase_time = t - std::floor(t);
-    std::vector<double> zmp_list = {0.0, 0.1, -0.1, 0.1, 0.2, 0.3, 0.4};
-    double support_region_width = 0.05; // [m]
-    if(phase_idx <= 0)
-    {
-      double ref_zmp = 0.0;
-      ref_data.zmp_limits = {ref_zmp - 0.5 * support_region_width, ref_zmp + 0.5 * support_region_width};
-    }
-    else if(phase_idx >= zmp_list.size())
-    {
-      double ref_zmp = zmp_list.back();
-      ref_data.zmp_limits = {ref_zmp - 0.5 * support_region_width, ref_zmp + 0.5 * support_region_width};
-    }
-    else if(phase_time < 0.2)
-    {
-      double ref_zmp_min = std::min(zmp_list[phase_idx - 1], zmp_list[phase_idx]);
-      double ref_zmp_max = std::max(zmp_list[phase_idx - 1], zmp_list[phase_idx]);
-      ref_data.zmp_limits = {ref_zmp_min - 0.5 * support_region_width, ref_zmp_max + 0.5 * support_region_width};
-    }
-    else
-    {
-      double ref_zmp = zmp_list[std::min(phase_idx, static_cast<int>(zmp_list.size()) - 1)];
-      ref_data.zmp_limits = {ref_zmp - 0.5 * support_region_width, ref_zmp + 0.5 * support_region_width};
-    }
-    return ref_data;
-  };
+  // Setup footstep
+  FootstepManager footstep_manager;
+  double transit_duration = 0.2; // [sec]
+  double swing_duration = 0.8; // [sec]
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.2, 0.1), 2.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.4, -0.1), 3.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 4.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.8, -0.1), 5.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 6.0, transit_duration, swing_duration));
+  footstep_manager.appendFootstep(
+      Footstep(Foot::Right, Eigen::Vector2d(0.6, -0.1), 7.0, transit_duration, swing_duration));
 
   // Setup simulation
-  ComZmpSimModel1d sim_model(com_height);
-  sim_model.calcDiscMatrix(sim_dt);
+  ComZmpSim2d sim(com_height, sim_dt);
 
   // Setup dump file
   std::string file_path = "/tmp/TestLinearMpcZmp.txt";
   std::ofstream ofs(file_path);
-  ofs << "time com_pos com_vel planned_zmp ref_zmp_min ref_zmp_max" << std::endl;
+  ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_min_x ref_zmp_min_y ref_zmp_max_x ref_zmp_max_y"
+      << std::endl;
 
   // Setup control loop
-  Eigen::Vector2d com_pos_vel = Eigen::Vector2d::Zero();
-  double planned_zmp = com_pos_vel[0];
+  Eigen::Vector2d planned_zmp = sim.state_.pos();
 
   // Run control loop
   constexpr double end_time = 10.0; // [sec]
@@ -74,37 +56,43 @@ TEST(TestLinearMpcZmp, Test1)
   while(t < end_time)
   {
     // Plan
+    footstep_manager.update(t);
     CCC::LinearMpcZmp::InitialParam initial_param;
-    initial_param << com_pos_vel, CCC::constants::g / com_height * (com_pos_vel[0] - planned_zmp);
-    planned_zmp = mpc.planOnce(ref_data_func, initial_param, t, sim_dt);
+    initial_param.pos = sim.state_.pos();
+    initial_param.vel = sim.state_.vel();
+    initial_param.acc = CCC::constants::g / com_height * (sim.state_.pos() - planned_zmp);
+    planned_zmp =
+        mpc.planOnce(std::bind(&FootstepManager::makeLinearMpcZmpRefData, &footstep_manager, std::placeholders::_1),
+                     initial_param, t, sim_dt);
 
     // Dump
-    const auto & ref_data = ref_data_func(t);
-    ofs << t << " " << com_pos_vel.transpose() << " " << planned_zmp << " " << ref_data.zmp_limits[0] << " "
-        << ref_data.zmp_limits[1] << std::endl;
+    const auto & ref_data = footstep_manager.makeLinearMpcZmpRefData(t);
+    ofs << t << " " << sim.state_.pos().transpose() << " " << planned_zmp.transpose() << " "
+        << ref_data.zmp_limits[0].transpose() << " " << ref_data.zmp_limits[1].transpose() << std::endl;
 
     // Check
-    EXPECT_LE(ref_data.zmp_limits[0], planned_zmp);
-    EXPECT_LE(planned_zmp, ref_data.zmp_limits[1]);
+    EXPECT_TRUE(((planned_zmp - ref_data.zmp_limits[0]).array() >= 0).all());
+    EXPECT_TRUE(((ref_data.zmp_limits[1] - planned_zmp).array() >= 0).all());
 
     // Simulate
     t += sim_dt;
-    Eigen::Vector1d sim_input;
-    sim_input << planned_zmp;
-    com_pos_vel = sim_model.stateEqDisc(com_pos_vel, sim_input);
+    sim.update(planned_zmp);
   }
 
   // Final check
-  const auto & ref_data = ref_data_func(t);
-  EXPECT_LE(ref_data.zmp_limits[0], planned_zmp);
-  EXPECT_LE(planned_zmp, ref_data.zmp_limits[1]);
-  EXPECT_LE(ref_data.zmp_limits[0], com_pos_vel[0]);
-  EXPECT_LE(com_pos_vel[0], ref_data.zmp_limits[1]);
+  const auto & ref_data = footstep_manager.makeLinearMpcZmpRefData(t);
+  EXPECT_TRUE(((planned_zmp - ref_data.zmp_limits[0]).array() >= 0).all());
+  EXPECT_TRUE(((ref_data.zmp_limits[1] - planned_zmp).array() >= 0).all());
+  EXPECT_TRUE(((sim.state_.pos() - ref_data.zmp_limits[0]).array() >= 0).all());
+  EXPECT_TRUE(((ref_data.zmp_limits[1] - sim.state_.pos()).array() >= 0).all());
 
   std::cout << "Run the following commands in gnuplot:\n"
             << "  set key autotitle columnhead\n"
             << "  set key noenhanced\n"
-            << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:4 w lp, \"\" u 1:5 w l lw 2, \"\" u 1:6 w l lw 2\n";
+            << "  plot \"" << file_path
+            << "\" u 1:2 w lp, \"\" u 1:4 w lp, \"\" u 1:6 w l lw 2, \"\" u 1:8 w l lw 2 # x\n"
+            << "  plot \"" << file_path
+            << "\" u 1:3 w lp, \"\" u 1:5 w lp, \"\" u 1:7 w l lw 2, \"\" u 1:9 w l lw 2 # y\n";
 }
 
 int main(int argc, char ** argv)

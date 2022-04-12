@@ -9,8 +9,11 @@
 
 #include <Eigen/Core>
 
+#include <ros/console.h>
+
 #include <CCC/DcmTracking.h>
 #include <CCC/FootGuidedControl.h>
+#include <CCC/LinearMpcZmp.h>
 
 /** \brief Foot. */
 enum class Foot
@@ -82,7 +85,42 @@ struct Footstance : public std::unordered_map<Foot, Eigen::Vector2d>
   /** \brief Get stance center. */
   inline Eigen::Vector2d midPos() const
   {
-    return 0.5 * (this->at(Foot::Left) + this->at(Foot::Right));
+    if(this->size() == 0)
+    {
+      ROS_WARN("[Footstance::midPos] The number of contacts is zero.");
+      return Eigen::Vector2d::Zero();
+    }
+    else if(this->size() == 1)
+    {
+      return this->begin()->second;
+    }
+    else
+    {
+      return 0.5 * (this->at(Foot::Left) + this->at(Foot::Right));
+    }
+  }
+
+  /** \brief Get min/max vertices of support region. */
+  inline std::array<Eigen::Vector2d, 2> supportRegion() const
+  {
+    std::array<Eigen::Vector2d, 2> region_min_max;
+    if(this->size() == 0)
+    {
+      ROS_WARN("[Footstance::supportRegion] The number of contacts is zero.");
+      region_min_max[0] = Eigen::Vector2d::Zero();
+      region_min_max[1] = Eigen::Vector2d::Zero();
+    }
+    else if(this->size() == 1)
+    {
+      region_min_max[0] = this->begin()->second;
+      region_min_max[1] = this->begin()->second;
+    }
+    else
+    {
+      region_min_max[0] = this->at(Foot::Left).cwiseMin(this->at(Foot::Right));
+      region_min_max[1] = this->at(Foot::Left).cwiseMax(this->at(Foot::Right));
+    }
+    return region_min_max;
   }
 };
 
@@ -119,13 +157,16 @@ public:
       footstep_list_.pop_front();
     }
 
-    // Set ref_zmp_list
+    // Set ref_zmp_list and ref_footstance_list_
     ref_zmp_list_.clear();
+    ref_footstance_list_.clear();
     if(footstep_list_.empty())
     {
       // If there is no footstep, keep current footstance
       ref_zmp_list_.emplace(current_time, footstance_.midPos());
       ref_zmp_list_.emplace(current_time + horizon_duration_, footstance_.midPos());
+      ref_footstance_list_.emplace(current_time, footstance_);
+      ref_footstance_list_.emplace(current_time + horizon_duration_, footstance_);
     }
     else
     {
@@ -133,6 +174,7 @@ public:
       if(current_time < footstep_list_.front().transit_start_time)
       {
         ref_zmp_list_.emplace(current_time, footstance_.midPos());
+        ref_footstance_list_.emplace(current_time, footstance_);
       }
 
       // Apply footsteps in horizon in order
@@ -142,9 +184,16 @@ public:
           footstep_it++)
       {
         ref_zmp_list_.emplace(footstep_it->transit_start_time, tmp_footstance.midPos());
+        ref_footstance_list_.emplace(footstep_it->transit_start_time, tmp_footstance);
+
+        tmp_footstance.erase(footstep_it->foot);
         ref_zmp_list_.emplace(footstep_it->swing_start_time, tmp_footstance.at(opposite(footstep_it->foot)));
+        ref_footstance_list_.emplace(footstep_it->swing_start_time, tmp_footstance);
+
+        tmp_footstance.emplace(footstep_it->foot, footstep_it->pos);
         ref_zmp_list_.emplace(footstep_it->swing_end_time, tmp_footstance.at(opposite(footstep_it->foot)));
-        tmp_footstance.at(footstep_it->foot) = footstep_it->pos;
+        ref_footstance_list_.emplace(footstep_it->swing_end_time, tmp_footstance);
+
         ref_zmp_list_.emplace(footstep_it->transit_end_time, tmp_footstance.midPos());
       }
 
@@ -152,6 +201,7 @@ public:
       if(ref_zmp_list_.rbegin()->first < current_time + horizon_duration_)
       {
         ref_zmp_list_.emplace(current_time + horizon_duration_, tmp_footstance.midPos());
+        ref_footstance_list_.emplace(current_time + horizon_duration_, tmp_footstance);
       }
     }
   }
@@ -163,8 +213,8 @@ public:
   {
     if(!footstep_list_.empty() && footstep.transit_start_time < footstep_list_.back().transit_end_time)
     {
-      throw std::runtime_error(
-          "transit_start_time of specified footstep must be after transit_end_time of last footstep.");
+      throw std::runtime_error("[FootstepManager::appendFootstep] transit_start_time of specified footstep must be "
+                               "after transit_end_time of last footstep.");
     }
 
     footstep_list_.push_back(footstep);
@@ -273,6 +323,19 @@ public:
     return ref_data;
   }
 
+  /** \brief Make LinearMpcZmp::RefData instance.
+      \param t time
+  */
+  inline CCC::LinearMpcZmp::RefData makeLinearMpcZmpRefData(double t) const
+  {
+    CCC::LinearMpcZmp::RefData ref_data;
+    const auto & footstance = std::prev(ref_footstance_list_.upper_bound(t))->second;
+    ref_data.zmp_limits = footstance.supportRegion();
+    ref_data.zmp_limits[0] -= 0.5 * foot_size_;
+    ref_data.zmp_limits[1] += 0.5 * foot_size_;
+    return ref_data;
+  }
+
 public:
   //! Footstance
   Footstance footstance_;
@@ -283,10 +346,16 @@ public:
   //! Previous footstep
   std::shared_ptr<Footstep> prev_footstep_;
 
-  //! Horizon duration
-  double horizon_duration_ = 10.0; // [sec]
+  //! Horizon duration [sec]
+  double horizon_duration_ = 10.0;
+
+  //! Size of foot region [m]
+  Eigen::Vector2d foot_size_ = Eigen::Vector2d(0.1, 0.05);
 
 protected:
   //! Reference ZMP list
   std::map<double, Eigen::Vector2d> ref_zmp_list_;
+
+  //! Reference footstance list
+  std::map<double, Footstance> ref_footstance_list_;
 };
