@@ -6,6 +6,7 @@ var searchData=
   ['linearmpcxy_2eh',['LinearMpcXY.h',['../LinearMpcXY_8h.html',1,'']]],
   ['linearmpcz',['LinearMpcZ',['../classCCC_1_1LinearMpcZ.html',1,'CCC::LinearMpcZ'],['../classCCC_1_1LinearMpcZ.html#a8c37538c55c9637adbb5792844a22a08',1,'CCC::LinearMpcZ::LinearMpcZ()']]],
   ['linearmpcz_2eh',['LinearMpcZ.h',['../LinearMpcZ_8h.html',1,'']]],
-  ['linearmpczmp',['LinearMpcZmp',['../classCCC_1_1LinearMpcZmp.html',1,'CCC::LinearMpcZmp'],['../classCCC_1_1LinearMpcZmp.html#a2dbed994b362acb91be4f4a4502dd720',1,'CCC::LinearMpcZmp::LinearMpcZmp()']]],
-  ['linearmpczmp_2eh',['LinearMpcZmp.h',['../LinearMpcZmp_8h.html',1,'']]]
+  ['linearmpczmp',['LinearMpcZmp',['../classCCC_1_1LinearMpcZmp.html',1,'CCC::LinearMpcZmp'],['../classCCC_1_1LinearMpcZmp1d.html#add9f2a7ec867ad27b2a748a97b2989fb',1,'CCC::LinearMpcZmp1d::LinearMpcZmp()'],['../classCCC_1_1LinearMpcZmp.html#a2dbed994b362acb91be4f4a4502dd720',1,'CCC::LinearMpcZmp::LinearMpcZmp()']]],
+  ['linearmpczmp_2eh',['LinearMpcZmp.h',['../LinearMpcZmp_8h.html',1,'']]],
+  ['linearmpczmp1d',['LinearMpcZmp1d',['../classCCC_1_1LinearMpcZmp1d.html',1,'CCC::LinearMpcZmp1d'],['../classCCC_1_1LinearMpcZmp1d.html#a95034d1583413378d74fd466c2732edc',1,'CCC::LinearMpcZmp1d::LinearMpcZmp1d()']]]
 ];

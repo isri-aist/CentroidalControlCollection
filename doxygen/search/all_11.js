@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['seq_5fext_5f',['seq_ext_',['../classCCC_1_1LinearMpcZmp.html#a43ccfcfce3ba6ee89aa85bef7a6f6519',1,'CCC::LinearMpcZmp']]],
+  ['seq_5fext_5f',['seq_ext_',['../classCCC_1_1LinearMpcZmp1d.html#a1123dbaf4f0c10ea2c17f28cdeed1ea3',1,'CCC::LinearMpcZmp1d']]],
   ['seq_5flen_5f',['seq_len_',['../classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef',1,'CCC::InvariantSequentialExtension']]],
   ['setrefdatafunc',['setRefDataFunc',['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a0955bfbe95930f1cee49a536d24d2024',1,'CCC::DdpZmp::DdpProblem']]],
   ['setup',['setup',['../classCCC_1_1InvariantSequentialExtension.html#adec9217a012cd8a651278cb3cfa24e25',1,'CCC::InvariantSequentialExtension::setup()'],['../classCCC_1_1VariantSequentialExtension.html#a2ef61cee8cae63e2f8ef5f45c3a6c527',1,'CCC::VariantSequentialExtension::setup()']]],

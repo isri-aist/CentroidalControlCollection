@@ -70,7 +70,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classCCC_1_1LinearMpcZmp-members.html">List of all members</a>  </div>
@@ -79,86 +78,57 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>QP-based MPC for CoM-ZMP model.  
+<p>QP-based linear MPC for CoM-ZMP model.  
  <a href="classCCC_1_1LinearMpcZmp.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCCC_1_1LinearMpcZmp_1_1InitialParam.html">InitialParam</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial parameter.  <a href="structCCC_1_1LinearMpcZmp_1_1InitialParam.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCCC_1_1LinearMpcZmp_1_1RefData.html">RefData</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference data.  <a href="structCCC_1_1LinearMpcZmp_1_1RefData.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a87601cee67fa76649e4ea645c3299398"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a87601cee67fa76649e4ea645c3299398">InitialParam</a> = Eigen::Vector3d</td></tr>
-<tr class="memdesc:a87601cee67fa76649e4ea645c3299398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial parameter.  <a href="#a87601cee67fa76649e4ea645c3299398">More...</a><br /></td></tr>
-<tr class="separator:a87601cee67fa76649e4ea645c3299398"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2dbed994b362acb91be4f4a4502dd720"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a2dbed994b362acb91be4f4a4502dd720">LinearMpcZmp</a> (double com_height, double horizon_duration, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type=QpSolverCollection::QpSolverType::Any)</td></tr>
 <tr class="memdesc:a2dbed994b362acb91be4f4a4502dd720"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a2dbed994b362acb91be4f4a4502dd720">More...</a><br /></td></tr>
 <tr class="separator:a2dbed994b362acb91be4f4a4502dd720"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac77004440775f3dd44f2398dc99d330a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#ac77004440775f3dd44f2398dc99d330a">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcZmp_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="classCCC_1_1LinearMpcZmp.html#a87601cee67fa76649e4ea645c3299398">InitialParam</a> &amp;initial_param, double current_time, double control_dt=-1)</td></tr>
-<tr class="memdesc:ac77004440775f3dd44f2398dc99d330a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#ac77004440775f3dd44f2398dc99d330a">More...</a><br /></td></tr>
-<tr class="separator:ac77004440775f3dd44f2398dc99d330a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40ebbfe83a05f42215b0b6696207addb"><td class="memItemLeft" align="right" valign="top">Eigen::Vector2d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a40ebbfe83a05f42215b0b6696207addb">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcZmp_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1LinearMpcZmp_1_1InitialParam.html">InitialParam</a> &amp;initial_param, double current_time, double control_dt=-1)</td></tr>
+<tr class="memdesc:a40ebbfe83a05f42215b0b6696207addb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="#a40ebbfe83a05f42215b0b6696207addb">More...</a><br /></td></tr>
+<tr class="separator:a40ebbfe83a05f42215b0b6696207addb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:af394896c3fd76f6e280bcfee53ce4a94"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#af394896c3fd76f6e280bcfee53ce4a94">horizon_dt_</a> = 0</td></tr>
-<tr class="memdesc:af394896c3fd76f6e280bcfee53ce4a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Discretization timestep in horizon [sec].  <a href="#af394896c3fd76f6e280bcfee53ce4a94">More...</a><br /></td></tr>
-<tr class="separator:af394896c3fd76f6e280bcfee53ce4a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a618f8778ac770756de79721e5e5eaf21"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a618f8778ac770756de79721e5e5eaf21">horizon_steps_</a> = -1</td></tr>
-<tr class="memdesc:a618f8778ac770756de79721e5e5eaf21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of steps in horizon.  <a href="#a618f8778ac770756de79721e5e5eaf21">More...</a><br /></td></tr>
-<tr class="separator:a618f8778ac770756de79721e5e5eaf21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbdf8efc22dea320102b10a3528963a0"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classCCC_1_1ComZmpModelJerkInput.html">ComZmpModelJerkInput</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#adbdf8efc22dea320102b10a3528963a0">model_</a></td></tr>
-<tr class="memdesc:adbdf8efc22dea320102b10a3528963a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">State-space model.  <a href="#adbdf8efc22dea320102b10a3528963a0">More...</a><br /></td></tr>
-<tr class="separator:adbdf8efc22dea320102b10a3528963a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43ccfcfce3ba6ee89aa85bef7a6f6519"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classCCC_1_1InvariantSequentialExtension.html">InvariantSequentialExtension</a>&lt; 3, 1, 1 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a43ccfcfce3ba6ee89aa85bef7a6f6519">seq_ext_</a></td></tr>
-<tr class="memdesc:a43ccfcfce3ba6ee89aa85bef7a6f6519"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequential extension of state-space model.  <a href="#a43ccfcfce3ba6ee89aa85bef7a6f6519">More...</a><br /></td></tr>
-<tr class="separator:a43ccfcfce3ba6ee89aa85bef7a6f6519"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d62c596db9dd99821dc06ea28c8a5d6"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; QpSolverCollection::QpSolver &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a4d62c596db9dd99821dc06ea28c8a5d6">qp_solver_</a></td></tr>
-<tr class="memdesc:a4d62c596db9dd99821dc06ea28c8a5d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">QP solver.  <a href="#a4d62c596db9dd99821dc06ea28c8a5d6">More...</a><br /></td></tr>
-<tr class="separator:a4d62c596db9dd99821dc06ea28c8a5d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a174ef2a75c8b54493365e17952f2799f"><td class="memItemLeft" align="right" valign="top">QpSolverCollection::QpCoeff&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a174ef2a75c8b54493365e17952f2799f">qp_coeff_</a></td></tr>
-<tr class="memdesc:a174ef2a75c8b54493365e17952f2799f"><td class="mdescLeft">&#160;</td><td class="mdescRight">QP coefficients.  <a href="#a174ef2a75c8b54493365e17952f2799f">More...</a><br /></td></tr>
-<tr class="separator:a174ef2a75c8b54493365e17952f2799f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d92617b29daa46a4e5cfa5d0ed90711"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classCCC_1_1LinearMpcZmp1d.html">LinearMpcZmp1d</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a8d92617b29daa46a4e5cfa5d0ed90711">mpc_1d_</a></td></tr>
+<tr class="memdesc:a8d92617b29daa46a4e5cfa5d0ed90711"><td class="mdescLeft">&#160;</td><td class="mdescRight">One-dimensional linear MPC.  <a href="#a8d92617b29daa46a4e5cfa5d0ed90711">More...</a><br /></td></tr>
+<tr class="separator:a8d92617b29daa46a4e5cfa5d0ed90711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a0a306296be429e33db336b2cf9e3dd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structCCC_1_1LinearMpcZmp1d_1_1RefData.html">LinearMpcZmp1d::RefData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#a6a0a306296be429e33db336b2cf9e3dd">ref_data_seq_x_</a></td></tr>
+<tr class="memdesc:a6a0a306296be429e33db336b2cf9e3dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference data sequence of x.  <a href="#a6a0a306296be429e33db336b2cf9e3dd">More...</a><br /></td></tr>
+<tr class="separator:a6a0a306296be429e33db336b2cf9e3dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac98b3d31a0d7dff7b232c5895f51545a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structCCC_1_1LinearMpcZmp1d_1_1RefData.html">LinearMpcZmp1d::RefData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZmp.html#ac98b3d31a0d7dff7b232c5895f51545a">ref_data_seq_y_</a></td></tr>
+<tr class="memdesc:ac98b3d31a0d7dff7b232c5895f51545a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference data sequence of y.  <a href="#ac98b3d31a0d7dff7b232c5895f51545a">More...</a><br /></td></tr>
+<tr class="separator:ac98b3d31a0d7dff7b232c5895f51545a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>QP-based MPC for CoM-ZMP model. </p>
+<div class="textblock"><p>QP-based linear MPC for CoM-ZMP model. </p>
 <p>See the following for a detailed formulation.</p><ul>
 <li>PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong Perturbations. Humanoids, 2006. </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00020">20</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a87601cee67fa76649e4ea645c3299398"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87601cee67fa76649e4ea645c3299398">&#9670;&nbsp;</a></span>InitialParam</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classCCC_1_1LinearMpcZmp.html#a87601cee67fa76649e4ea645c3299398">CCC::LinearMpcZmp::InitialParam</a> =  Eigen::Vector3d</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initial parameter. </p>
-<p>First element is CoM position, second element is CoM velocity, and third element is CoM acceleration. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00034">34</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00095">95</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2dbed994b362acb91be4f4a4502dd720"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2dbed994b362acb91be4f4a4502dd720">&#9670;&nbsp;</a></span>LinearMpcZmp()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">CCC::LinearMpcZmp::LinearMpcZmp </td>
@@ -190,6 +160,11 @@ Protected Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
@@ -203,17 +178,19 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00127">127</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac77004440775f3dd44f2398dc99d330a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac77004440775f3dd44f2398dc99d330a">&#9670;&nbsp;</a></span>planOnce()</h2>
+<a id="a40ebbfe83a05f42215b0b6696207addb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40ebbfe83a05f42215b0b6696207addb">&#9670;&nbsp;</a></span>planOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double CCC::LinearMpcZmp::planOnce </td>
+          <td class="memname">Eigen::Vector2d CCC::LinearMpcZmp::planOnce </td>
           <td>(</td>
           <td class="paramtype">const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcZmp_1_1RefData.html">RefData</a>(double)&gt; &amp;&#160;</td>
           <td class="paramname"><em>ref_data_func</em>, </td>
@@ -221,7 +198,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classCCC_1_1LinearMpcZmp.html#a87601cee67fa76649e4ea645c3299398">InitialParam</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structCCC_1_1LinearMpcZmp_1_1InitialParam.html">InitialParam</a> &amp;&#160;</td>
           <td class="paramname"><em>initial_param</em>, </td>
         </tr>
         <tr>
@@ -248,7 +225,7 @@ Protected Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ref_data_func</td><td>function of reference data </td></tr>
-    <tr><td class="paramname">initial_param</td><td>initial parameter (CoM position, velocity, and acceleration) </td></tr>
+    <tr><td class="paramname">initial_param</td><td>initial parameter </td></tr>
     <tr><td class="paramname">current_time</td><td>current time (i.e., start time of horizon) [sec] </td></tr>
     <tr><td class="paramname">control_dt</td><td>control timestep used to calculate ZMP (if omitted, horizon_dt is used) </td></tr>
   </table>
@@ -259,8 +236,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="af394896c3fd76f6e280bcfee53ce4a94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af394896c3fd76f6e280bcfee53ce4a94">&#9670;&nbsp;</a></span>horizon_dt_</h2>
+<a id="a8d92617b29daa46a4e5cfa5d0ed90711"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d92617b29daa46a4e5cfa5d0ed90711">&#9670;&nbsp;</a></span>mpc_1d_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +246,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double CCC::LinearMpcZmp::horizon_dt_ = 0</td>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classCCC_1_1LinearMpcZmp1d.html">LinearMpcZmp1d</a>&gt; CCC::LinearMpcZmp::mpc_1d_</td>
         </tr>
       </table>
   </td>
@@ -279,14 +256,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Discretization timestep in horizon [sec]. </p>
+<p>One-dimensional linear MPC. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00062">62</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00151">151</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>
-<a id="a618f8778ac770756de79721e5e5eaf21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a618f8778ac770756de79721e5e5eaf21">&#9670;&nbsp;</a></span>horizon_steps_</h2>
+<a id="a6a0a306296be429e33db336b2cf9e3dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a0a306296be429e33db336b2cf9e3dd">&#9670;&nbsp;</a></span>ref_data_seq_x_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -295,7 +272,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int CCC::LinearMpcZmp::horizon_steps_ = -1</td>
+          <td class="memname">std::vector&lt;<a class="el" href="structCCC_1_1LinearMpcZmp1d_1_1RefData.html">LinearMpcZmp1d::RefData</a>&gt; CCC::LinearMpcZmp::ref_data_seq_x_</td>
         </tr>
       </table>
   </td>
@@ -305,14 +282,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Number of steps in horizon. </p>
+<p>Reference data sequence of x. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00065">65</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00154">154</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>
-<a id="adbdf8efc22dea320102b10a3528963a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adbdf8efc22dea320102b10a3528963a0">&#9670;&nbsp;</a></span>model_</h2>
+<a id="ac98b3d31a0d7dff7b232c5895f51545a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac98b3d31a0d7dff7b232c5895f51545a">&#9670;&nbsp;</a></span>ref_data_seq_y_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -321,7 +298,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="classCCC_1_1ComZmpModelJerkInput.html">ComZmpModelJerkInput</a>&gt; CCC::LinearMpcZmp::model_</td>
+          <td class="memname">std::vector&lt;<a class="el" href="structCCC_1_1LinearMpcZmp1d_1_1RefData.html">LinearMpcZmp1d::RefData</a>&gt; CCC::LinearMpcZmp::ref_data_seq_y_</td>
         </tr>
       </table>
   </td>
@@ -331,87 +308,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>State-space model. </p>
+<p>Reference data sequence of y. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00068">68</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
-
-</div>
-</div>
-<a id="a174ef2a75c8b54493365e17952f2799f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a174ef2a75c8b54493365e17952f2799f">&#9670;&nbsp;</a></span>qp_coeff_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QpSolverCollection::QpCoeff CCC::LinearMpcZmp::qp_coeff_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>QP coefficients. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00077">77</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
-
-</div>
-</div>
-<a id="a4d62c596db9dd99821dc06ea28c8a5d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d62c596db9dd99821dc06ea28c8a5d6">&#9670;&nbsp;</a></span>qp_solver_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;QpSolverCollection::QpSolver&gt; CCC::LinearMpcZmp::qp_solver_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>QP solver. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00074">74</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
-
-</div>
-</div>
-<a id="a43ccfcfce3ba6ee89aa85bef7a6f6519"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43ccfcfce3ba6ee89aa85bef7a6f6519">&#9670;&nbsp;</a></span>seq_ext_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="classCCC_1_1InvariantSequentialExtension.html">InvariantSequentialExtension</a>&lt;3, 1, 1&gt; &gt; CCC::LinearMpcZmp::seq_ext_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sequential extension of state-space model. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00071">71</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcZmp_8h_source.html#l00157">157</a> of file <a class="el" href="LinearMpcZmp_8h_source.html">LinearMpcZmp.h</a>.</p>
 
 </div>
 </div>

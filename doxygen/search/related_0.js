@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['previewcontrolzmp',['PreviewControlZmp',['../classCCC_1_1PreviewControlZmp1d.html#a15a12bb78a9c2001ca23aef08dfc6a38',1,'CCC::PreviewControlZmp1d']]]
+  ['linearmpczmp',['LinearMpcZmp',['../classCCC_1_1LinearMpcZmp1d.html#add9f2a7ec867ad27b2a748a97b2989fb',1,'CCC::LinearMpcZmp1d']]]
 ];
