@@ -57,7 +57,7 @@ TEST(TestDdpZmp, Test1)
   std::string file_path = "/tmp/TestDdpZmp.txt";
   std::ofstream ofs(file_path);
   ofs << "time com_pos_x com_pos_y com_pos_z planned_zmp_x planned_zmp_y planned_force_z ref_zmp_x ref_zmp_y ref_com_z "
-         "ddp_iter computation_time"
+         "capture_point_x capture_point_y ddp_iter computation_time"
       << std::endl;
 
   // Setup control loop
@@ -94,9 +94,12 @@ TEST(TestDdpZmp, Test1)
 
     // Dump
     const auto & ref_data = ref_data_func(t);
+    Eigen::Vector2d capture_point =
+        (initial_param.pos + std::sqrt(sim.state_.pos().z() / CCC::constants::g) * initial_param.vel).head<2>();
     ofs << t << " " << sim.state_.pos().transpose() << " " << planned_data.zmp.transpose() << " "
         << planned_data.force_z << " " << ref_data.zmp.transpose() << " " << ref_com_height << " "
-        << ddp.ddp_solver_->traceDataList().back().iter << " " << computation_duration_list.back() << std::endl;
+        << capture_point.transpose() << " " << ddp.ddp_solver_->traceDataList().back().iter << " "
+        << computation_duration_list.back() << std::endl;
 
     // Check
     EXPECT_LT((planned_data.zmp - ref_data.zmp).norm(), 0.1); // [m]

@@ -46,7 +46,9 @@ TEST(TestPreviewControlZmp, Test1)
   // Setup dump file
   std::string file_path = "/tmp/TestPreviewControlZmp.txt";
   std::ofstream ofs(file_path);
-  ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_x ref_zmp_y computation_time" << std::endl;
+  ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_x ref_zmp_y capture_point_x capture_point_y "
+         "computation_time"
+      << std::endl;
 
   // Setup control loop
   Eigen::Vector2d planned_zmp = sim.state_.pos();
@@ -72,8 +74,9 @@ TEST(TestPreviewControlZmp, Test1)
 
     // Dump
     Eigen::Vector2d ref_zmp = footstep_manager.refZmp(t);
+    Eigen::Vector2d capture_point = initial_param.pos + std::sqrt(com_height / CCC::constants::g) * initial_param.vel;
     ofs << t << " " << sim.state_.pos().transpose() << " " << planned_zmp.transpose() << " " << ref_zmp.transpose()
-        << " " << computation_duration_list.back() << std::endl;
+        << " " << capture_point.transpose() << " " << computation_duration_list.back() << std::endl;
 
     // Check
     EXPECT_LT((planned_zmp - ref_zmp).norm(), 0.1); // [m]

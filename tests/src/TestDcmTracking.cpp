@@ -44,7 +44,9 @@ TEST(TestDcmTracking, Test1)
   // Setup dump file
   std::string file_path = "/tmp/TestDcmTracking.txt";
   std::ofstream ofs(file_path);
-  ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_x ref_zmp_y computation_time" << std::endl;
+  ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_x ref_zmp_y capture_point_x capture_point_y "
+         "computation_time"
+      << std::endl;
 
   // Setup control loop
   Eigen::Vector2d planned_zmp = Eigen::Vector2d::Zero();
@@ -69,7 +71,7 @@ TEST(TestDcmTracking, Test1)
     // Dump
     Eigen::Vector2d ref_zmp = ref_data.current_zmp;
     ofs << t << " " << sim.state_.pos().transpose() << " " << planned_zmp.transpose() << " " << ref_zmp.transpose()
-        << " " << computation_duration_list.back() << std::endl;
+        << " " << initial_param.transpose() << " " << computation_duration_list.back() << std::endl;
 
     // Check
     EXPECT_LT((planned_zmp - ref_zmp).norm(), 0.1); // [m]

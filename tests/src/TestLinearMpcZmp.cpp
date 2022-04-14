@@ -47,7 +47,7 @@ TEST(TestLinearMpcZmp, Test1)
   std::string file_path = "/tmp/TestLinearMpcZmp.txt";
   std::ofstream ofs(file_path);
   ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_min_x ref_zmp_min_y ref_zmp_max_x ref_zmp_max_y "
-         "computation_time"
+         "capture_point_x capture_point_y computation_time"
       << std::endl;
 
   // Setup control loop
@@ -75,9 +75,10 @@ TEST(TestLinearMpcZmp, Test1)
 
     // Dump
     const auto & ref_data = footstep_manager.makeLinearMpcZmpRefData(t);
+    Eigen::Vector2d capture_point = initial_param.pos + std::sqrt(com_height / CCC::constants::g) * initial_param.vel;
     ofs << t << " " << sim.state_.pos().transpose() << " " << planned_zmp.transpose() << " "
         << ref_data.zmp_limits[0].transpose() << " " << ref_data.zmp_limits[1].transpose() << " "
-        << computation_duration_list.back() << std::endl;
+        << capture_point.transpose() << " " << computation_duration_list.back() << std::endl;
 
     // Check
     EXPECT_TRUE(((planned_zmp - ref_data.zmp_limits[0]).array() >= 0).all());
