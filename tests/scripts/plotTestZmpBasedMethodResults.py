@@ -1,4 +1,3 @@
-
 #! /usr/bin/env python
 
 import numpy as np
@@ -6,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 class PlotTestZmpBasedMethodResults(object):
-    def __init__(self):
+    def __init__(self, plot_capture_point=False):
         self.fig = plt.figure()
         plt.rcParams["font.size"] = 10
 
@@ -46,7 +45,7 @@ class PlotTestZmpBasedMethodResults(object):
                 ax.plot(result_data["time"], result_data[com_pos_key],
                         color="green", label="CoM")
                 capture_point_key = "capture_point_{}".format(axis_str)
-                if capture_point_key in result_data.dtype.names:
+                if plot_capture_point and capture_point_key in result_data.dtype.names:
                     ax.plot(result_data["time"], result_data[capture_point_key],
                             color="orange", label="capture point")
 
@@ -67,6 +66,7 @@ class PlotTestZmpBasedMethodResults(object):
         ax.set_title("Computation time")
         plt.xticks(rotation=20, ha="center")
         ax.set_ylabel("time [ms]".format(axis_str))
+        ax.grid(axis="y")
 
         # Show
         # plt.tight_layout()
