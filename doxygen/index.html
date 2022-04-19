@@ -75,22 +75,35 @@ $(function() {
 <p>Make sure that it is built with <code>--catkin-make-args tests</code> option.</p>
 <h3>Bipedal methods</h3>
 <h4><a href="https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1PreviewControlZmp.html">PreviewControlZmp</a></h4>
-<div class="image">
+<ul>
+<li>Shuuji Kajita, et al. Biped walking pattern generation by using preview control of zero-moment point. ICRA, 2003.</li>
+</ul>
+<div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestPreviewControlZmp</div><div class="line">$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method PreviewControlZmp</div></div><!-- fragment --><div class="image">
 <img src="PreviewControlZmp.png" alt="PreviewControlZmp.png"/>
 <div class="caption">
 PreviewControlZmp</div></div>
  <h4><a href="https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DdpZmp.html">DdpZmp</a></h4>
-<div class="image">
+<ul>
+<li>S Feng, et al. Optimization‐based full body control for the darpa robotics challenge. Journal of field robotics, 2015.</li>
+</ul>
+<div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestDdpZmp</div><div class="line">$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method DdpZmp</div></div><!-- fragment --><div class="image">
 <img src="DdpZmp.png" alt="DdpZmp.png"/>
 <div class="caption">
 DdpZmp</div></div>
  <h4><a href="https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DcmTracking.html">DcmTracking</a></h4>
-<div class="image">
+<ul>
+<li>J Englsberger, et al. Three-dimensional bipedal walking control using divergent component of motion. IROS, 2013.</li>
+</ul>
+<div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestDcmTracking</div><div class="line">$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method DcmTracking</div></div><!-- fragment --><div class="image">
 <img src="DcmTracking.png" alt="DcmTracking.png"/>
 <div class="caption">
 DcmTracking</div></div>
  <h4><a href="https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1FootGuidedControl.html">FootGuidedControl</a></h4>
-<div class="image">
+<ul>
+<li>T Sugihara, et al. Foot-guided agile control of a biped robot through ZMP manipulation. IROS, 2017.</li>
+<li>Y Kojio, et al. Unified balance control for biped robots including modification of footsteps with angular momentum and falling detection based on capturability. IROS, 2019.</li>
+</ul>
+<div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestFootGuidedControl</div><div class="line">$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method FootGuidedControl</div></div><!-- fragment --><div class="image">
 <img src="FootGuidedControl.png" alt="FootGuidedControl.png"/>
 <div class="caption">
 FootGuidedControl</div></div>
