@@ -6,6 +6,40 @@ Collection of centroidal control for legged robots
 
 ## Install
 
+### Requirements
+- Compiler supporting C++17
+- Tested with Ubuntu 18.04 / ROS Melodic
+
+### Dependencies
+This package depends on
+- [QpSolverCollection](https://github.com/isri-aist/QpSolverCollection)
+- [NMPC](https://github.com/isri-aist/NMPC)
+
+### Installation procedure
+It is assumed that ROS is installed.
+
+1. Setup catkin workspace.
+```bash
+$ mkdir -p ~/ros/ws_ccc/src
+$ cd ~/ros/ws_ccc
+$ wstool init src
+$ wstool set -t src isri-aist/QpSolverCollection git@github.com:isri-aist/QpSolverCollection.git --git -y
+$ wstool set -t src isri-aist/NMPC git@github.com:isri-aist/NMPC.git --git -y
+$ wstool set -t src isri-aist/CentroidalControlCollection git@github.com:isri-aist/CentroidalControlCollection.git --git -y
+$ wstool update -t src
+```
+
+2. Install dependent packages.
+```bash
+$ source /opt/ros/${ROS_DISTRO}/setup.bash
+$ rosdep install -y -r --from-paths src --ignore-src
+```
+
+3. Build a package.
+```bash
+$ catkin build centroidal_control_collection -DCMAKE_BUILD_TYPE=RelWithDebInfo --catkin-make-args all tests
+```
+
 ## Examples
 Make sure that it is built with `--catkin-make-args tests` option.
 
