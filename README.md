@@ -10,17 +10,53 @@ Collection of centroidal control for legged robots
 Make sure that it is built with `--catkin-make-args tests` option.
 
 ### Bipedal methods
-#### PreviewControlZmp
+#### [PreviewControlZmp](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1PreviewControlZmp.html)
+- Shuuji Kajita, et al. Biped walking pattern generation by using preview control of zero-moment point. ICRA, 2003.
+
+```bash
+$ rosrun centroidal_control_collection TestPreviewControlZmp
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method PreviewControlZmp
+```
+
 ![PreviewControlZmp](doc/images/PreviewControlZmp.png)
 
-#### DdpZmp
+#### [DdpZmp](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DdpZmp.html)
+- S Feng, et al. Optimization‐based full body control for the darpa robotics challenge. Journal of field robotics, 2015.
+
+```bash
+$ rosrun centroidal_control_collection TestDdpZmp
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method DdpZmp
+```
+
 ![DdpZmp](doc/images/DdpZmp.png)
 
-#### DcmTracking
+#### [DcmTracking](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DcmTracking.html)
+- J Englsberger, et al. Three-dimensional bipedal walking control using divergent component of motion. IROS, 2013.
+
+```bash
+$ rosrun centroidal_control_collection TestDcmTracking
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method DcmTracking
+```
+
 ![DcmTracking](doc/images/DcmTracking.png)
 
-#### FootGuidedControl
+#### [FootGuidedControl](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1FootGuidedControl.html)
+- T Sugihara, et al. Foot-guided agile control of a biped robot through ZMP manipulation. IROS, 2017.
+- Y Kojio, et al. Unified balance control for biped robots including modification of footsteps with angular momentum and falling detection based on capturability. IROS, 2019.
+
+```bash
+$ rosrun centroidal_control_collection TestFootGuidedControl
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method FootGuidedControl
+```
+
 ![FootGuidedControl](doc/images/FootGuidedControl.png)
 
-#### LinearMpcZmp
+#### [LinearMpcZmp](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1LinearMpcZmp.html)
+- PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong Perturbations. Humanoids, 2006.
+
+```bash
+$ rosrun centroidal_control_collection TestLinearMpcZmp
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method LinearMpcZmp
+```
+
 ![LinearMpcZmp](doc/images/LinearMpcZmp.png)
