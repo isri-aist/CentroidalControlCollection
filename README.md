@@ -60,3 +60,11 @@ $ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method
 ```
 
 ![LinearMpcZmp](doc/images/LinearMpcZmp.png)
+
+#### Plotting all methods
+
+```bash
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method All --plot-comp-time
+```
+
+You will get a plot like [this one](https://www.dropbox.com/s/8bcynsaf7h8qoqq/plotTestZmpBasedMethodResultsAll.pdf?dl=0) that shows all the methods in one sheet.
