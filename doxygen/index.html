@@ -71,6 +71,23 @@ $(function() {
 <div class="textblock"><p>Collection of centroidal control for legged robots</p>
 <p><a href="https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci.yaml"></a> <a href="https://isri-aist.github.io/CentroidalControlCollection/"></a></p>
 <h2>Install</h2>
+<h3>Requirements</h3>
+<ul>
+<li>Compiler supporting C++17</li>
+<li>Tested with Ubuntu 18.04 / ROS Melodic</li>
+</ul>
+<h3>Dependencies</h3>
+<p>This package depends on</p><ul>
+<li><a href="https://github.com/isri-aist/QpSolverCollection">QpSolverCollection</a></li>
+<li><a href="https://github.com/isri-aist/NMPC">NMPC</a></li>
+</ul>
+<h3>Installation procedure</h3>
+<p>It is assumed that ROS is installed.</p>
+<ol type="1">
+<li>Setup catkin workspace. <div class="fragment"><div class="line">$ mkdir -p ~/ros/ws_ccc/src</div><div class="line">$ cd ~/ros/ws_ccc</div><div class="line">$ wstool init src</div><div class="line">$ wstool set -t src isri-aist/QpSolverCollection git@github.com:isri-aist/QpSolverCollection.git --git -y</div><div class="line">$ wstool set -t src isri-aist/NMPC git@github.com:isri-aist/NMPC.git --git -y</div><div class="line">$ wstool set -t src isri-aist/CentroidalControlCollection git@github.com:isri-aist/CentroidalControlCollection.git --git -y</div><div class="line">$ wstool update -t src</div></div><!-- fragment --></li>
+<li>Install dependent packages. <div class="fragment"><div class="line">$ source /opt/ros/${ROS_DISTRO}/setup.bash</div><div class="line">$ rosdep install -y -r --from-paths src --ignore-src</div></div><!-- fragment --></li>
+<li>Build a package. <div class="fragment"><div class="line">$ catkin build centroidal_control_collection -DCMAKE_BUILD_TYPE=RelWithDebInfo --catkin-make-args all tests</div></div><!-- fragment --></li>
+</ol>
 <h2>Examples</h2>
 <p>Make sure that it is built with <code>--catkin-make-args tests</code> option.</p>
 <h3>Bipedal methods</h3>
