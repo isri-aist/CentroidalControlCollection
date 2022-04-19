@@ -17,6 +17,8 @@ TEST(TestFootGuidedControl, Test1)
 {
   double sim_dt = 0.005; // [sec]
   double com_height = 1.0; // [m]
+  std::vector<double> disturb_time_list = {4.5, 8.5}; // [sec]
+  Eigen::Vector2d disturb_impulse_per_mass = Eigen::Vector2d(0.05, 0.05); // [m/s]
 
   // Setup foot-guided control
   std::vector<double> computation_duration_list;
@@ -80,6 +82,16 @@ TEST(TestFootGuidedControl, Test1)
     // Simulate
     t += sim_dt;
     sim.update(planned_zmp);
+
+    // Add disturbance
+    for(double disturb_time : disturb_time_list)
+    {
+      if(disturb_time <= t && t < disturb_time + sim_dt)
+      {
+        sim.addDisturb(disturb_impulse_per_mass);
+        break;
+      }
+    }
   }
 
   // Final check

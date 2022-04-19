@@ -20,6 +20,8 @@ TEST(TestDdpZmp, Test1)
   double sim_dt = 0.005; // [sec]
   double mass = 100.0; // [Kg]
   double ref_com_height = 1.0; // [m]
+  std::vector<double> disturb_time_list = {4.5, 8.5}; // [sec]
+  Eigen::Vector2d disturb_impulse_per_mass = Eigen::Vector2d(0.05, 0.05); // [m/s]
 
   // Setup DDP
   std::vector<double> computation_duration_list;
@@ -111,6 +113,16 @@ TEST(TestDdpZmp, Test1)
     sim_input.zmp = planned_data.zmp;
     sim_input.force_z = planned_data.force_z;
     sim.update(sim_input);
+
+    // Add disturbance
+    for(double disturb_time : disturb_time_list)
+    {
+      if(disturb_time <= t && t < disturb_time + sim_dt)
+      {
+        sim.addDisturb(disturb_impulse_per_mass);
+        break;
+      }
+    }
   }
 
   // Final check
@@ -133,8 +145,8 @@ TEST(TestDdpZmp, Test1)
             << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:5 w lp, \"\" u 1:8 w l lw 2 # x\n"
             << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:6 w lp, \"\" u 1:9 w l lw 2 # y\n"
             << "  plot \"" << file_path << "\" u 1:4 w lp, \"\" u 1:10 w l lw 2 # z\n"
-            << "  plot \"" << file_path << "\" u 1:11 w lp # ddp_iter\n"
-            << "  plot \"" << file_path << "\" u 1:12 w lp # computation_time\n";
+            << "  plot \"" << file_path << "\" u 1:13 w lp # ddp_iter\n"
+            << "  plot \"" << file_path << "\" u 1:14 w lp # computation_time\n";
 }
 
 TEST(TestDdpZmp, CheckDerivatives)

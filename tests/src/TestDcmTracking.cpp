@@ -16,6 +16,8 @@ TEST(TestDcmTracking, Test1)
 {
   double sim_dt = 0.005; // [sec]
   double com_height = 1.0; // [m]
+  std::vector<double> disturb_time_list = {4.5, 8.5}; // [sec]
+  Eigen::Vector2d disturb_impulse_per_mass = Eigen::Vector2d(0.05, 0.05); // [m/s]
 
   // Setup DCM tracking
   std::vector<double> computation_duration_list;
@@ -79,6 +81,16 @@ TEST(TestDcmTracking, Test1)
     // Simulate
     t += sim_dt;
     sim.update(planned_zmp);
+
+    // Add disturbance
+    for(double disturb_time : disturb_time_list)
+    {
+      if(disturb_time <= t && t < disturb_time + sim_dt)
+      {
+        sim.addDisturb(disturb_impulse_per_mass);
+        break;
+      }
+    }
   }
 
   // Final check
@@ -99,7 +111,7 @@ TEST(TestDcmTracking, Test1)
             << "  set key noenhanced\n"
             << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:4 w lp, \"\" u 1:6 w l lw 2 # x\n"
             << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:5 w lp, \"\" u 1:7 w l lw 2 # y\n"
-            << "  plot \"" << file_path << "\" u 1:8 w lp # computation_time\n";
+            << "  plot \"" << file_path << "\" u 1:10 w lp # computation_time\n";
 }
 
 int main(int argc, char ** argv)

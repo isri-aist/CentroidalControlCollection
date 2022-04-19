@@ -95,6 +95,15 @@ public:
     state_.y = model_->stateEqDisc(state_.y, input_1d);
   }
 
+  /** \brief Add disturbance
+      \param impulse_per_mass impulse per mass [m/s]
+  */
+  void addDisturb(const Eigen::Vector2d & impulse_per_mass)
+  {
+    state_.x[1] += impulse_per_mass.x();
+    state_.y[1] += impulse_per_mass.x();
+  }
+
 public:
   //! One-dimensional CoM-ZMP model
   std::shared_ptr<ComZmpSimModel1d> model_;
@@ -171,6 +180,15 @@ public:
     state_.y = xy_model_->stateEqDisc(state_.y, input_1d);
     input_1d << input.force_z;
     state_.z = z_model_->stateEqDisc(state_.z, input_1d);
+  }
+
+  /** \brief Add disturbance
+      \param impulse_per_mass impulse per mass [m/s]
+  */
+  void addDisturb(const Eigen::Vector2d & impulse_per_mass)
+  {
+    state_.x[1] += impulse_per_mass.x();
+    state_.y[1] += impulse_per_mass.x();
   }
 
 public:
