@@ -220,7 +220,7 @@ public:
     footstep_list_.push_back(footstep);
   }
 
-  /** \brief Get reference zmp.
+  /** \brief Get reference ZMP.
       \param t time
   */
   inline Eigen::Vector2d refZmp(double t) const
@@ -232,6 +232,19 @@ public:
     auto ref_zmp_it = ref_zmp_list_.upper_bound(t);
     double ratio = (t - std::prev(ref_zmp_it)->first) / (ref_zmp_it->first - std::prev(ref_zmp_it)->first);
     return (1 - ratio) * std::prev(ref_zmp_it)->second + ratio * ref_zmp_it->second;
+  }
+
+  /** \brief Get ZMP limits.
+      \param t time
+  */
+  inline std::array<Eigen::Vector2d, 2> zmpLimits(double t) const
+  {
+    const auto & footstance = std::prev(ref_footstance_list_.upper_bound(t))->second;
+    std::array<Eigen::Vector2d, 2> zmp_limits;
+    zmp_limits = footstance.supportRegion();
+    zmp_limits[0] -= 0.5 * foot_size_;
+    zmp_limits[1] += 0.5 * foot_size_;
+    return zmp_limits;
   }
 
   /** \brief Make DcmTracking::RefData instance.
@@ -329,10 +342,7 @@ public:
   inline CCC::LinearMpcZmp::RefData makeLinearMpcZmpRefData(double t) const
   {
     CCC::LinearMpcZmp::RefData ref_data;
-    const auto & footstance = std::prev(ref_footstance_list_.upper_bound(t))->second;
-    ref_data.zmp_limits = footstance.supportRegion();
-    ref_data.zmp_limits[0] -= 0.5 * foot_size_;
-    ref_data.zmp_limits[1] += 0.5 * foot_size_;
+    ref_data.zmp_limits = zmpLimits(t);
     return ref_data;
   }
 
