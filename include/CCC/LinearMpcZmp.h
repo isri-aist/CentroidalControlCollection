@@ -95,7 +95,12 @@ protected:
 class LinearMpcZmp
 {
 public:
-  /** \brief Reference data. */
+  /** \brief Reference data.
+
+      \todo It is assumed that ZMP limits are independent for the x and y components. This assumption is not valid if
+     the foot is placed diagonally during the single-support phase or if the feet are not aligned during the
+     double-support phase.
+   */
   struct RefData
   {
     //! Min/max limits of ZMP [m]
