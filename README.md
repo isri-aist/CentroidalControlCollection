@@ -44,6 +44,8 @@ $ catkin build centroidal_control_collection -DCMAKE_BUILD_TYPE=RelWithDebInfo -
 Make sure that it is built with `--catkin-make-args tests` option.
 
 ### Bipedal methods
+The CoM and ZMP trajectories are planned according to the ZMP reference trajectory and the ZMP region boundaries as inputs, which are determined from a given footstep sequence (i.e., the position and timing of the foot landings). The CoM velocity is jumped by emulating a disturbance during motion.
+
 #### [PreviewControlZmp](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1PreviewControlZmp.html)
 - Shuuji Kajita, et al. Biped walking pattern generation by using preview control of zero-moment point. ICRA, 2003.
 
