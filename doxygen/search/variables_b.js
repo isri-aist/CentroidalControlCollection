@@ -7,5 +7,5 @@ var searchData=
   ['model_5fnoncontact_5f',['model_noncontact_',['../classCCC_1_1LinearMpcZ.html#aacf17b628f4dbd87d5003304957df05c',1,'CCC::LinearMpcZ']]],
   ['motion_5fdata_5fseq_5f',['motion_data_seq_',['../classCCC_1_1LinearMpcXY.html#a12255177575f1d2ead420e6256745422',1,'CCC::LinearMpcXY::motion_data_seq_()'],['../classCCC_1_1LinearMpcZ.html#ab168295bc37d4a2b271870694e613f11',1,'CCC::LinearMpcZ::motion_data_seq_()']]],
   ['motion_5fparam_5f',['motion_param_',['../classCCC_1_1LinearMpcXY_1_1Model.html#ab38e59c9ee6a8f9df45e2434cc5db499',1,'CCC::LinearMpcXY::Model']]],
-  ['mpc_5f1d_5f',['mpc_1d_',['../classCCC_1_1LinearMpcZmp.html#a8d92617b29daa46a4e5cfa5d0ed90711',1,'CCC::LinearMpcZmp']]]
+  ['mpc_5f1d_5f',['mpc_1d_',['../classCCC_1_1IntrinsicallyStableMpc.html#a4b777b44f9c584c2fa61e70d62844a99',1,'CCC::IntrinsicallyStableMpc::mpc_1d_()'],['../classCCC_1_1LinearMpcZmp.html#a8d92617b29daa46a4e5cfa5d0ed90711',1,'CCC::LinearMpcZmp::mpc_1d_()']]]
 ];

@@ -10,12 +10,12 @@ var searchData=
   ['modelnoncontactphase',['ModelNoncontactPhase',['../classCCC_1_1LinearMpcZ_1_1ModelNoncontactPhase.html',1,'CCC::LinearMpcZ::ModelNoncontactPhase'],['../classCCC_1_1LinearMpcZ_1_1ModelNoncontactPhase.html#abcfb8167acbdbc0ce244997f2f473cec',1,'CCC::LinearMpcZ::ModelNoncontactPhase::ModelNoncontactPhase()']]],
   ['motion_5fdata_5fseq_5f',['motion_data_seq_',['../classCCC_1_1LinearMpcXY.html#a12255177575f1d2ead420e6256745422',1,'CCC::LinearMpcXY::motion_data_seq_()'],['../classCCC_1_1LinearMpcZ.html#ab168295bc37d4a2b271870694e613f11',1,'CCC::LinearMpcZ::motion_data_seq_()']]],
   ['motion_5fparam_5f',['motion_param_',['../classCCC_1_1LinearMpcXY_1_1Model.html#ab38e59c9ee6a8f9df45e2434cc5db499',1,'CCC::LinearMpcXY::Model']]],
-  ['motiondata',['MotionData',['../structCCC_1_1LinearMpcXY_1_1MotionData.html',1,'CCC::LinearMpcXY::MotionData'],['../structCCC_1_1LinearMpcZ_1_1MotionData.html',1,'CCC::LinearMpcZ::MotionData']]],
+  ['motiondata',['MotionData',['../structCCC_1_1LinearMpcZ_1_1MotionData.html',1,'CCC::LinearMpcZ::MotionData'],['../structCCC_1_1LinearMpcXY_1_1MotionData.html',1,'CCC::LinearMpcXY::MotionData']]],
   ['motiondata_2eh',['MotionData.h',['../MotionData_8h.html',1,'']]],
   ['motiondatabase',['MotionDataBase',['../structCCC_1_1MotionDataBase.html',1,'CCC']]],
   ['motiondatabase_3c_20double_2c_20double_2c_20double_20_3e',['MotionDataBase&lt; double, double, double &gt;',['../structCCC_1_1MotionDataBase.html',1,'CCC']]],
   ['motiondatabase_3c_20eigen_3a_3avector2d_2c_20eigen_3a_3avector2d_2c_20eigen_3a_3avectorxd_20_3e',['MotionDataBase&lt; Eigen::Vector2d, Eigen::Vector2d, Eigen::VectorXd &gt;',['../structCCC_1_1MotionDataBase.html',1,'CCC']]],
   ['motiondataseq',['motionDataSeq',['../classCCC_1_1LinearMpcXY.html#a924c0bed34c1704db2846924eb84c0eb',1,'CCC::LinearMpcXY::motionDataSeq()'],['../classCCC_1_1LinearMpcZ.html#a9c0820786fd8b2b3fd1d352fd7631a8f',1,'CCC::LinearMpcZ::motionDataSeq()']]],
   ['motionparam',['MotionParam',['../structCCC_1_1LinearMpcXY_1_1MotionParam.html',1,'CCC::LinearMpcXY']]],
-  ['mpc_5f1d_5f',['mpc_1d_',['../classCCC_1_1LinearMpcZmp.html#a8d92617b29daa46a4e5cfa5d0ed90711',1,'CCC::LinearMpcZmp']]]
+  ['mpc_5f1d_5f',['mpc_1d_',['../classCCC_1_1IntrinsicallyStableMpc.html#a4b777b44f9c584c2fa61e70d62844a99',1,'CCC::IntrinsicallyStableMpc::mpc_1d_()'],['../classCCC_1_1LinearMpcZmp.html#a8d92617b29daa46a4e5cfa5d0ed90711',1,'CCC::LinearMpcZmp::mpc_1d_()']]]
 ];
