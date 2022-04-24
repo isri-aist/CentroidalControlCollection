@@ -95,9 +95,21 @@ $ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method
 
 ![LinearMpcZmp](doc/images/LinearMpcZmp.png)
 
+#### [IntrinsicallyStableMpc](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1IntrinsicallyStableMpc.html)
+- N Scianca, et al. Intrinsically Stable MPC for Humanoid Gait Generation. Humanoids, 2016.
+
+```bash
+$ rosrun centroidal_control_collection TestIntrinsicallyStableMpc
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method IntrinsicallyStableMpc
+```
+
+![IntrinsicallyStableMpc](doc/images/IntrinsicallyStableMpc.png)
+
 #### Plotting all methods
 
 ```bash
+$ roscd centroidal_control_collection
+$ catkin bt --no-deps --catkin-make-args run_tests
 $ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method All --plot-comp-time
 ```
 
