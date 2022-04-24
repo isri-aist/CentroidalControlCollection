@@ -28,7 +28,8 @@ IntrinsicallyStableMpc1d::IntrinsicallyStableMpc1d(double com_height,
   qp_solver_ = QpSolverCollection::allocateQpSolver(qp_solver_type);
   qp_coeff_.setup(horizon_steps_, 1, 2 * horizon_steps_);
   qp_coeff_.obj_mat_.diagonal().setConstant(weight_param_.zmp_vel);
-  // Although no formula is given in the paper, it is mentioned that reference ZMP is considered in the objective function.
+  // Although no formula is given in the paper, it is mentioned that reference ZMP is considered in the objective
+  // function.
   qp_coeff_.obj_mat_.noalias() += weight_param_.zmp * P_.transpose() * P_;
   qp_coeff_.obj_vec_.setZero();
   // See equation (14) in the paper
