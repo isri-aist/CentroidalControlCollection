@@ -61,7 +61,7 @@ class PlotTestZmpBasedMethodResults(object):
 
                 # Set labels, etc.
                 ax.set_title("{}-{}".format(method_str, axis_str.upper()))
-                ax.set_xlabel("time [s]")
+                ax.set_xlabel("time [s]", labelpad=-2)
                 ax.set_ylabel("pos [m]".format(axis_str))
                 ax.grid()
                 if method_idx == 0 and axis_idx == 0:
@@ -86,7 +86,8 @@ class PlotTestZmpBasedMethodResults(object):
             self.fig.set_size_inches((12, 4))
             plt.subplots_adjust(left=0.06, bottom=0.14, right=0.98, top=0.90, wspace=0.2, hspace=0.6)
         else:
-            plt.subplots_adjust(left=0.06, bottom=0.06, right=0.98, top=0.96, wspace=0.2, hspace=0.6)
+            self.fig.set_size_inches((12, 13))
+            plt.subplots_adjust(left=0.06, bottom=0.06, right=0.98, top=0.96, wspace=0.2, hspace=0.7)
         plt.show()
 
 
