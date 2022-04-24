@@ -5,6 +5,7 @@ add_library(CCC
   DcmTracking.cpp
   FootGuidedControl.cpp
   LinearMpcZmp.cpp
+  IntrinsicallyStableMpc.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
   )

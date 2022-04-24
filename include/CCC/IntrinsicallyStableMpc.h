@@ -6,34 +6,53 @@
 
 #include <qp_solver_collection/QpSolverCollection.h>
 
-#include <CCC/CommonModels.h>
-#include <CCC/InvariantSequentialExtension.h>
-
 namespace CCC
 {
-/** \brief QP-based linear MPC for one-dimensional CoM-ZMP model.
+/** \brief QP-based MPC with stability constraint for one-dimensional CoM-ZMP model.
 
     See the following for a detailed formulation.
-      - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong
-   Perturbations. Humanoids, 2006.
+      - N Scianca, et al. Intrinsically Stable MPC for Humanoid Gait Generation. Humanoids, 2016.
  */
-class LinearMpcZmp1d
+class IntrinsicallyStableMpc1d
 {
-  friend class LinearMpcZmp;
+  friend class IntrinsicallyStableMpc;
 
 public:
   /** \brief Reference data. */
   struct RefData
   {
+    //! ZMP [m]
+    double zmp = 0;
+
     //! Min/max limits of ZMP [m]
     std::array<double, 2> zmp_limits;
   };
 
-  /** \brief Initial parameter.
+  /** \brief Initial parameter. */
+  struct InitialParam
+  {
+    //! Capture point [m]
+    double capture_point = 0;
 
-      First element is CoM position, second element is CoM velocity, and third element is CoM acceleration.
-  */
-  using InitialParam = Eigen::Vector3d;
+    //! Current ZMP planned in previous step [m]
+    double planned_zmp = 0;
+  };
+
+  /** \brief Weight parameter. */
+  struct WeightParam
+  {
+    //! ZMP weight
+    double zmp;
+
+    //! ZMP velocity weight
+    double zmp_vel;
+
+    /** \brief Constructor.
+        \param _zmp ZMP weight
+        \param _zmp_vel ZMP velocity weight
+     */
+    WeightParam(double _zmp = 1.0, double _zmp_vel = 1e-3) : zmp(_zmp), zmp_vel(_zmp_vel) {}
+  };
 
 public:
   /** \brief Constructor.
@@ -41,15 +60,17 @@ public:
       \param horizon_duration horizon duration [sec]
       \param horizon_dt discretization timestep in horizon [sec]
       \param qp_solver_type QP solver type
+      \param weight_param objective weight parameter
    */
-  LinearMpcZmp1d(double com_height,
-                 double horizon_duration,
-                 double horizon_dt,
-                 QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any);
+  IntrinsicallyStableMpc1d(double com_height,
+                           double horizon_duration,
+                           double horizon_dt,
+                           QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any,
+                           const WeightParam & weight_param = WeightParam());
 
   /** \brief Plan one step.
       \param ref_data_func function of reference data
-      \param initial_param initial parameter (CoM position, velocity, and acceleration)
+      \param initial_param initial parameter
       \param current_time current time (i.e., start time of horizon) [sec]
       \param control_dt control timestep used to calculate ZMP (if omitted, horizon_dt is used)
       \returns planned ZMP
@@ -67,32 +88,37 @@ protected:
                   double control_dt);
 
 protected:
+  //! Weight parameter
+  WeightParam weight_param_;
+
   //! Discretization timestep in horizon [sec]
   double horizon_dt_ = 0;
 
   //! Number of steps in horizon
   int horizon_steps_ = -1;
 
-  //! State-space model
-  std::shared_ptr<ComZmpModelJerkInput> model_;
-
-  //! Sequential extension of state-space model
-  std::shared_ptr<InvariantSequentialExtension<3, 1, 1>> seq_ext_;
-
   //! QP solver
   std::shared_ptr<QpSolverCollection::QpSolver> qp_solver_;
 
   //! QP coefficients
   QpSolverCollection::QpCoeff qp_coeff_;
+
+  //! Time constant for inverted pendulum dynamics
+  double omega_ = 0;
+
+  //! Constant value dependent on omega and horizon_dt
+  double lambda_ = 0;
+
+  //! Constant matrix dependent on horizon_dt (defined in equation (7) in the paper)
+  Eigen::MatrixXd P_;
 };
 
-/** \brief QP-based linear MPC for CoM-ZMP model.
+/** \brief QP-based MPC with stability constraint for CoM-ZMP model.
 
     See the following for a detailed formulation.
-      - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong
-   Perturbations. Humanoids, 2006.
+      - N Scianca, et al. Intrinsically Stable MPC for Humanoid Gait Generation. Humanoids, 2016.
  */
-class LinearMpcZmp
+class IntrinsicallyStableMpc
 {
 public:
   /** \brief Reference data.
@@ -105,6 +131,9 @@ public:
   {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
+    //! ZMP [m]
+    Eigen::Vector2d zmp = Eigen::Vector2d::Zero();
+
     //! Min/max limits of ZMP [m]
     std::array<Eigen::Vector2d, 2> zmp_limits;
   };
@@ -114,14 +143,11 @@ public:
   {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-    //! CoM position [m]
-    Eigen::Vector2d pos = Eigen::Vector2d::Zero();
+    //! Capture point [m]
+    Eigen::Vector2d capture_point = Eigen::Vector2d::Zero();
 
-    //! CoM velocity [m/s]
-    Eigen::Vector2d vel = Eigen::Vector2d::Zero();
-
-    //! CoM acceleration [m/s^2]
-    Eigen::Vector2d acc = Eigen::Vector2d::Zero();
+    //! Current ZMP planned in previous step [m]
+    Eigen::Vector2d planned_zmp = Eigen::Vector2d::Zero();
   };
 
 public:
@@ -130,12 +156,16 @@ public:
       \param horizon_duration horizon duration [sec]
       \param horizon_dt discretization timestep in horizon [sec]
       \param qp_solver_type QP solver type
+      \param weight_param objective weight parameter
    */
-  LinearMpcZmp(double com_height,
-               double horizon_duration,
-               double horizon_dt,
-               QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any)
-  : mpc_1d_(std::make_shared<LinearMpcZmp1d>(com_height, horizon_duration, horizon_dt, qp_solver_type))
+  IntrinsicallyStableMpc(
+      double com_height,
+      double horizon_duration,
+      double horizon_dt,
+      QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any,
+      const IntrinsicallyStableMpc1d::WeightParam & weight_param = IntrinsicallyStableMpc1d::WeightParam())
+  : mpc_1d_(
+      std::make_shared<IntrinsicallyStableMpc1d>(com_height, horizon_duration, horizon_dt, qp_solver_type, weight_param))
   {
     ref_data_seq_x_.resize(mpc_1d_->horizon_steps_);
     ref_data_seq_y_.resize(mpc_1d_->horizon_steps_);
@@ -155,12 +185,12 @@ public:
 
 protected:
   //! One-dimensional linear MPC
-  std::shared_ptr<LinearMpcZmp1d> mpc_1d_;
+  std::shared_ptr<IntrinsicallyStableMpc1d> mpc_1d_;
 
   //! Reference data sequence of x
-  std::vector<LinearMpcZmp1d::RefData> ref_data_seq_x_;
+  std::vector<IntrinsicallyStableMpc1d::RefData> ref_data_seq_x_;
 
   //! Reference data sequence of y
-  std::vector<LinearMpcZmp1d::RefData> ref_data_seq_y_;
+  std::vector<IntrinsicallyStableMpc1d::RefData> ref_data_seq_y_;
 };
 } // namespace CCC

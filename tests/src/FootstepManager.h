@@ -13,6 +13,7 @@
 
 #include <CCC/DcmTracking.h>
 #include <CCC/FootGuidedControl.h>
+#include <CCC/IntrinsicallyStableMpc.h>
 #include <CCC/LinearMpcZmp.h>
 
 /** \brief Foot. */
@@ -342,6 +343,17 @@ public:
   inline CCC::LinearMpcZmp::RefData makeLinearMpcZmpRefData(double t) const
   {
     CCC::LinearMpcZmp::RefData ref_data;
+    ref_data.zmp_limits = zmpLimits(t);
+    return ref_data;
+  }
+
+  /** \brief Make IntrinsicallyStableMpc::RefData instance.
+      \param t time
+  */
+  inline CCC::IntrinsicallyStableMpc::RefData makeIntrinsicallyStableMpcRefData(double t) const
+  {
+    CCC::IntrinsicallyStableMpc::RefData ref_data;
+    ref_data.zmp = refZmp(t);
     ref_data.zmp_limits = zmpLimits(t);
     return ref_data;
   }

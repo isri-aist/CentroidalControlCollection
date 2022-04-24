@@ -7,12 +7,12 @@
 #include <iostream>
 
 #include <CCC/Constants.h>
-#include <CCC/LinearMpcZmp.h>
+#include <CCC/IntrinsicallyStableMpc.h>
 
 #include "FootstepManager.h"
 #include "SimModels.h"
 
-TEST(TestLinearMpcZmp, Test1)
+TEST(TestIntrinsicallyStableMpc, Test1)
 {
   double horizon_duration = 2.0; // [sec]
   double horizon_dt = 0.02; // [sec]
@@ -23,7 +23,7 @@ TEST(TestLinearMpcZmp, Test1)
 
   // Setup MPC
   std::vector<double> computation_duration_list;
-  CCC::LinearMpcZmp mpc(com_height, horizon_duration, horizon_dt);
+  CCC::IntrinsicallyStableMpc mpc(com_height, horizon_duration, horizon_dt);
 
   // Setup footstep
   FootstepManager footstep_manager;
@@ -46,7 +46,7 @@ TEST(TestLinearMpcZmp, Test1)
   ComZmpSim2d sim(com_height, sim_dt);
 
   // Setup dump file
-  std::string file_path = "/tmp/TestLinearMpcZmp.txt";
+  std::string file_path = "/tmp/TestIntrinsicallyStableMpc.txt";
   std::ofstream ofs(file_path);
   ofs << "time com_pos_x com_pos_y planned_zmp_x planned_zmp_y ref_zmp_min_x ref_zmp_min_y ref_zmp_max_x ref_zmp_max_y "
          "capture_point_x capture_point_y computation_time"
@@ -63,13 +63,12 @@ TEST(TestLinearMpcZmp, Test1)
     // Plan
     auto start_time = std::chrono::system_clock::now();
     footstep_manager.update(t);
-    CCC::LinearMpcZmp::InitialParam initial_param;
-    initial_param.pos = sim.state_.pos();
-    initial_param.vel = sim.state_.vel();
-    initial_param.acc = CCC::constants::g / com_height * (sim.state_.pos() - planned_zmp);
-    planned_zmp =
-        mpc.planOnce(std::bind(&FootstepManager::makeLinearMpcZmpRefData, &footstep_manager, std::placeholders::_1),
-                     initial_param, t, sim_dt);
+    CCC::IntrinsicallyStableMpc::InitialParam initial_param;
+    initial_param.capture_point = sim.state_.pos() + std::sqrt(com_height / CCC::constants::g) * sim.state_.vel();
+    initial_param.planned_zmp = planned_zmp;
+    planned_zmp = mpc.planOnce(
+        std::bind(&FootstepManager::makeIntrinsicallyStableMpcRefData, &footstep_manager, std::placeholders::_1),
+        initial_param, t, sim_dt);
     computation_duration_list.push_back(
         1e3
         * std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::system_clock::now() - start_time)
@@ -77,10 +76,9 @@ TEST(TestLinearMpcZmp, Test1)
 
     // Dump
     const auto & zmp_limits = footstep_manager.zmpLimits(t);
-    Eigen::Vector2d capture_point = initial_param.pos + std::sqrt(com_height / CCC::constants::g) * initial_param.vel;
     ofs << t << " " << sim.state_.pos().transpose() << " " << planned_zmp.transpose() << " "
-        << zmp_limits[0].transpose() << " " << zmp_limits[1].transpose() << " " << capture_point.transpose() << " "
-        << computation_duration_list.back() << std::endl;
+        << zmp_limits[0].transpose() << " " << zmp_limits[1].transpose() << " "
+        << initial_param.capture_point.transpose() << " " << computation_duration_list.back() << std::endl;
 
     // Check
     EXPECT_TRUE(((planned_zmp - zmp_limits[0]).array() >= 0).all());
