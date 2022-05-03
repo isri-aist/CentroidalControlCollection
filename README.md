@@ -1,4 +1,4 @@
-# centroidal_control_collection
+# [CentroidalControlCollection](https://github.com/isri-aist/CentroidalControlCollection)
 Collection of centroidal control for legged robots
 
 [![CI](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci.yaml)
