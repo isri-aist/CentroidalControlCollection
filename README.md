@@ -107,6 +107,16 @@ $ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method
 
 ![IntrinsicallyStableMpc](doc/images/IntrinsicallyStableMpc.png)
 
+#### [SingularPreviewControlZmp](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1SingularPreviewControlZmp.html)
+- J Urata, et al. Online Decision of Foot Placement using Singular LQ Preview Regulation. Humanoids, 2011.
+
+```bash
+$ rosrun centroidal_control_collection TestSingularPreviewControlZmp
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method SingularPreviewControlZmp
+```
+
+![SingularPreviewControlZmp](doc/images/SingularPreviewControlZmp.png)
+
 #### Plotting all methods
 
 ```bash
