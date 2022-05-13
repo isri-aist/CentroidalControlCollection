@@ -6,6 +6,7 @@ add_library(CCC
   FootGuidedControl.cpp
   LinearMpcZmp.cpp
   IntrinsicallyStableMpc.cpp
+  SingularPreviewControlZmp.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
   )
