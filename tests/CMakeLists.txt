@@ -8,6 +8,7 @@ set(CCC_gtest_list
   TestFootGuidedControl
   TestLinearMpcZmp
   TestIntrinsicallyStableMpc
+  TestSingularPreviewControlZmp
   TestLinearMpcZ
   TestLinearMpcXY
   )

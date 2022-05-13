@@ -95,7 +95,15 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Plot test results of ZMP-based methods.")
-    all_methods = ["PreviewControlZmp", "DdpZmp", "DcmTracking", "FootGuidedControl", "LinearMpcZmp", "IntrinsicallyStableMpc"]
+    all_methods = [
+        "PreviewControlZmp",
+        "DdpZmp",
+        "DcmTracking",
+        "FootGuidedControl",
+        "LinearMpcZmp",
+        "IntrinsicallyStableMpc",
+        "SingularPreviewControlZmp"
+    ]
     parser.add_argument("--method", "-m", type=str, default="PreviewControlZmp",
                         choices=all_methods+["All"])
     parser.add_argument("--plot-capture-point", "-pcp", action="store_true")
