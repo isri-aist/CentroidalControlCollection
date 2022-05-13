@@ -7,7 +7,7 @@ var indexSectionsWithContent =
   4: "cdfilmoprstvw~",
   5: "abcdefghiklmopqrstuvwz",
   6: "_iosv",
-  7: "ilp",
+  7: "ilps",
   8: "t"
 };
 
