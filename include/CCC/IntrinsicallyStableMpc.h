@@ -126,6 +126,8 @@ public:
       \todo It is assumed that ZMP limits are independent for the x and y components. This assumption is not valid if
      the foot is placed diagonally during the single-support phase or if the feet are not aligned during the
      double-support phase.
+
+      \todo Footstep online planning is not supported.
    */
   struct RefData
   {

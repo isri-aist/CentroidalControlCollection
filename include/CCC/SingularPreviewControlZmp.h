@@ -80,6 +80,8 @@ protected:
 
     See the following for a detailed formulation.
       - J Urata, et al. Online Decision of Foot Placement using Singular LQ Preview Regulation. Humanoids, 2011.
+
+    \todo Footstep online planning is not supported.
  */
 class SingularPreviewControlZmp
 {
