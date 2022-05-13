@@ -76,7 +76,7 @@ class PlotTestZmpBasedMethodResults(object):
                    yerr=[np.std(self.result_data_list[method_str]["computation_time"]) for method_str in method_list],
                    tick_label=method_list, ecolor="black", capsize=5, align="center", log=True)
             ax.set_title("Computation time")
-            plt.xticks(rotation=20, ha="center")
+            plt.xticks(rotation=30, ha="center")
             ax.set_ylabel("time [ms]".format(axis_str))
             ax.grid(axis="y")
 
@@ -87,7 +87,7 @@ class PlotTestZmpBasedMethodResults(object):
             plt.subplots_adjust(left=0.06, bottom=0.14, right=0.98, top=0.90, wspace=0.2, hspace=0.6)
         else:
             self.fig.set_size_inches((12, 13))
-            plt.subplots_adjust(left=0.06, bottom=0.06, right=0.98, top=0.96, wspace=0.2, hspace=0.7)
+            plt.subplots_adjust(left=0.06, bottom=0.10, right=0.98, top=0.96, wspace=0.2, hspace=0.7)
         plt.show()
 
 
