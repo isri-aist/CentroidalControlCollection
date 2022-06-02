@@ -198,7 +198,7 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
   qp_coeff_.obj_mat_.noalias() = seq_ext.B_seq_.transpose() * output_weight.asDiagonal() * seq_ext.B_seq_;
   // Diagonal matrix cannot be added at the same time.
   // See https://forum.kde.org/viewtopic.php?f=74&t=136617#p365547
-  qp_coeff_.obj_mat_ += weight_param.inputWeight(total_input_dim).asDiagonal();
+  qp_coeff_.obj_mat_.diagonal() += weight_param.inputWeight(total_input_dim);
   qp_coeff_.obj_vec_.noalias() = -1 * seq_ext.B_seq_.transpose() * output_weight.asDiagonal()
                                  * (ref_output_seq - seq_ext.A_seq_ * current_x - seq_ext.E_seq_);
 
