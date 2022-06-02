@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['simmodel',['SimModel',['../classCCC_1_1LinearMpcXY_1_1SimModel.html',1,'CCC::LinearMpcXY::SimModel'],['../classCCC_1_1LinearMpcZ_1_1SimModel.html',1,'CCC::LinearMpcZ::SimModel']]],
+  ['simmodel',['SimModel',['../classCCC_1_1LinearMpcZ_1_1SimModel.html',1,'CCC::LinearMpcZ::SimModel'],['../classCCC_1_1LinearMpcXY_1_1SimModel.html',1,'CCC::LinearMpcXY::SimModel']]],
   ['singularpreviewcontrolzmp',['SingularPreviewControlZmp',['../classCCC_1_1SingularPreviewControlZmp.html',1,'CCC']]],
   ['singularpreviewcontrolzmp1d',['SingularPreviewControlZmp1d',['../classCCC_1_1SingularPreviewControlZmp1d.html',1,'CCC']]],
   ['statespacemodel',['StateSpaceModel',['../classCCC_1_1StateSpaceModel.html',1,'CCC']]],

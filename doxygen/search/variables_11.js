@@ -1,8 +1,11 @@
 var searchData=
 [
+  ['terminal_5fangular_5fmomentum',['terminal_angular_momentum',['../structCCC_1_1DdpCentroidal_1_1WeightParam.html#aa6ee58dc8f778bf9eb0f908bad2a95c2',1,'CCC::DdpCentroidal::WeightParam']]],
   ['terminal_5fcom_5fpos_5fxy',['terminal_com_pos_xy',['../structCCC_1_1DdpZmp_1_1WeightParam.html#a0192738e4cedd91990bd418b5dc77e57',1,'CCC::DdpZmp::WeightParam']]],
   ['terminal_5fcom_5fpos_5fz',['terminal_com_pos_z',['../structCCC_1_1DdpZmp_1_1WeightParam.html#a959a5af7b1b7b487efe153c6f69e7bff',1,'CCC::DdpZmp::WeightParam']]],
   ['terminal_5fcom_5fvel',['terminal_com_vel',['../structCCC_1_1DdpZmp_1_1WeightParam.html#a323ac9c5ae743cc956eedc0e0247ef7a',1,'CCC::DdpZmp::WeightParam']]],
+  ['terminal_5flinear_5fmomentum',['terminal_linear_momentum',['../structCCC_1_1DdpCentroidal_1_1WeightParam.html#a13613c49629c519b2daaa2f7a2e3be7c',1,'CCC::DdpCentroidal::WeightParam']]],
+  ['terminal_5fpos',['terminal_pos',['../structCCC_1_1DdpCentroidal_1_1WeightParam.html#a8774f6219b8ecca17911244b726f5fcb',1,'CCC::DdpCentroidal::WeightParam']]],
   ['time',['time',['../structCCC_1_1MotionDataBase.html#aa613bb94827a7b8c8d5a8d38e89facfd',1,'CCC::MotionDataBase']]],
   ['time_5fzmp_5flist',['time_zmp_list',['../structCCC_1_1DcmTracking_1_1RefData.html#a1371b7691778c3c7cc8670f1f368f4c1',1,'CCC::DcmTracking::RefData']]],
   ['total_5fforce_5fz',['total_force_z',['../structCCC_1_1LinearMpcXY_1_1MotionParam.html#afb4b13d80a3ba380bced1cb22ee92866',1,'CCC::LinearMpcXY::MotionParam']]],
