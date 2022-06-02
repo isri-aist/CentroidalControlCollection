@@ -145,8 +145,8 @@ Eigen::VectorXd LinearMpcZ::procOnce(const std::vector<std::shared_ptr<_StateSpa
   {
     qp_coeff_.setup(total_input_dim, 0, 0);
   }
-  qp_coeff_.obj_mat_.noalias() = weight_param.pos * seq_ext.B_seq_.transpose() * seq_ext.B_seq_
-                                 + weight_param.force * Eigen::MatrixXd::Identity(total_input_dim, total_input_dim);
+  qp_coeff_.obj_mat_.noalias() = weight_param.pos * seq_ext.B_seq_.transpose() * seq_ext.B_seq_;
+  qp_coeff_.obj_mat_.diagonal().array() += weight_param.force;
   qp_coeff_.obj_vec_.noalias() =
       -1 * weight_param.pos * seq_ext.B_seq_.transpose() * (ref_pos_seq - seq_ext.A_seq_ * current_x - seq_ext.E_seq_);
   qp_coeff_.x_min_.setConstant(force_range_.first);
