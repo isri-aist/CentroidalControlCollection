@@ -6,6 +6,8 @@
 
 #include <nmpc_ddp/DDPSolver.h>
 
+#include <CCC/EigenTypes.h>
+
 namespace CCC
 {
 /** \brief Differential dynamic programming (DDP) for centroidal model. */
@@ -23,6 +25,14 @@ public:
        represent ridge.
      */
     Eigen::Matrix<double, 6, Eigen::Dynamic> vertex_ridge_list;
+
+    /** \brief Calculate total wrench.
+        \param force_scales force scales
+        \param moment_origin origin of moment
+        \returns wrench (in order of force, moment)
+    */
+    Eigen::Vector6d calcTotalWrench(const Eigen::VectorXd & force_scales,
+                                    const Eigen::Vector3d & moment_origin = Eigen::Vector3d::Zero()) const;
   };
 
   /** \brief Reference data. */
@@ -341,7 +351,7 @@ public:
       \param ref_data_func function of reference data
       \param initial_param initial parameter
       \param current_time current time (i.e., start time of horizon) [sec]
-      \returns planned force scale
+      \returns planned force scales
    */
   Eigen::VectorXd planOnce(const std::function<MotionParam(double)> & motion_param_func,
                            const std::function<RefData(double)> & ref_data_func,

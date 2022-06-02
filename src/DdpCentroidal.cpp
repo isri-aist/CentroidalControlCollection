@@ -16,6 +16,22 @@ Eigen::Matrix3d crossMat(const Eigen::Vector3d & vec)
 }
 } // namespace
 
+Eigen::Vector6d DdpCentroidal::MotionParam::calcTotalWrench(const Eigen::VectorXd & force_scales,
+                                                            const Eigen::Vector3d & moment_origin) const
+{
+  const Eigen::Ref<const Eigen::Matrix3Xd> & vertices_mat = vertex_ridge_list.topRows<3>();
+  const Eigen::Ref<const Eigen::Matrix3Xd> & ridges_mat = vertex_ridge_list.bottomRows<3>();
+
+  Eigen::Vector6d wrench;
+  wrench.head<3>() = ridges_mat * force_scales;
+  wrench.tail<3>().setZero();
+  for(int i = 0; i < force_scales.size(); i++)
+  {
+    wrench.tail<3>() += force_scales[i] * (vertices_mat.col(i) - moment_origin).cross(ridges_mat.col(i));
+  }
+  return wrench;
+}
+
 DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::DdpProblem::stateEq(double t,
                                                                              const StateDimVector & x,
                                                                              const InputDimVector & u) const
@@ -155,8 +171,8 @@ DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::InitialParam::toState(d
 }
 
 DdpCentroidal::DdpCentroidal(double mass, double horizon_dt, int horizon_steps, const WeightParam & weight_param)
-    : ddp_problem_(std::make_shared<DdpProblem>(horizon_dt, mass, weight_param)),
-      ddp_solver_(std::make_shared<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>>(ddp_problem_))
+: ddp_problem_(std::make_shared<DdpProblem>(horizon_dt, mass, weight_param)),
+  ddp_solver_(std::make_shared<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>>(ddp_problem_))
 {
   ddp_solver_->config().horizon_steps = horizon_steps;
 }
