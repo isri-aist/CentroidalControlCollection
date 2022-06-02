@@ -334,19 +334,14 @@ public:
       \param horizon_steps number of steps in horizon
       \param weight_param objective weight parameter
    */
-  DdpCentroidal(double mass, double horizon_dt, int horizon_steps, const WeightParam & weight_param = WeightParam())
-  : ddp_problem_(std::make_shared<DdpProblem>(horizon_dt, mass, weight_param)),
-    ddp_solver_(std::make_shared<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>>(ddp_problem_))
-  {
-    ddp_solver_->config().horizon_steps = horizon_steps;
-  }
+  DdpCentroidal(double mass, double horizon_dt, int horizon_steps, const WeightParam & weight_param = WeightParam());
 
   /** \brief Plan one step.
       \param motion_param_func function of motion parameter
       \param ref_data_func function of reference data
       \param initial_param initial parameter
       \param current_time current time (i.e., start time of horizon) [sec]
-      \returns planned force scales
+      \returns planned force scale
    */
   Eigen::VectorXd planOnce(const std::function<MotionParam(double)> & motion_param_func,
                            const std::function<RefData(double)> & ref_data_func,

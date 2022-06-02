@@ -154,6 +154,13 @@ DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::InitialParam::toState(d
   return state;
 }
 
+DdpCentroidal::DdpCentroidal(double mass, double horizon_dt, int horizon_steps, const WeightParam & weight_param)
+    : ddp_problem_(std::make_shared<DdpProblem>(horizon_dt, mass, weight_param)),
+      ddp_solver_(std::make_shared<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>>(ddp_problem_))
+{
+  ddp_solver_->config().horizon_steps = horizon_steps;
+}
+
 Eigen::VectorXd DdpCentroidal::planOnce(const std::function<MotionParam(double)> & motion_param_func,
                                         const std::function<RefData(double)> & ref_data_func,
                                         const InitialParam & initial_param,
