@@ -199,7 +199,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>State-space model. </p>
 <p>Dynamics is expressed by the following equation. </p><p class="formulaDsp">
-\begin{align*} \boldsymbol{\dot{P}} &amp;= \sum_i \boldsymbol{f}_i - m \boldsymbol{g} \\ \boldsymbol{\dot{L}} &amp;= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \end{align*}
+\begin{align*} \boldsymbol{\dot{P}} &amp;= \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\ \boldsymbol{\dot{L}} &amp;= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \end{align*}
 </p>
 <p> \(\boldsymbol{c}\), \(\boldsymbol{P}\), and \(\boldsymbol{L}\) are CoM, linear momentum, and angular momentum, respectively. \(\boldsymbol{p}_i\), \(\lambda_i\), and \(\boldsymbol{\rho}_i\) are position, force scale, and ridge vector of i-th contact vertex ridge, respectively.</p>
 <p>This can be represented as a linear time-variant system as follows. </p><p class="formulaDsp">
