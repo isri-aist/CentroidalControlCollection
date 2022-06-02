@@ -22,7 +22,7 @@ public:
   using _StateSpaceModel = StateSpaceModel<state_dim_, Eigen::Dynamic, Eigen::Dynamic>;
 
   /** \brief Type of state vector. */
-  using StateDimVector = Eigen::Matrix<double, state_dim_, 1>;
+  using StateDimVector = _StateSpaceModel::StateDimVector;
 
 public:
   /** \brief Initial parameter.
