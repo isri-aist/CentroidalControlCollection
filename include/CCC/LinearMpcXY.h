@@ -168,7 +168,7 @@ public:
 
       Dynamics is expressed by the following equation.
       \f{align*}{
-      \boldsymbol{\dot{P}} &= \sum_i \boldsymbol{f}_i - m \boldsymbol{g} \\
+      \boldsymbol{\dot{P}} &= \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\
       \boldsymbol{\dot{L}} &= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i
       \f}
       \f$\boldsymbol{c}\f$, \f$\boldsymbol{P}\f$, and \f$\boldsymbol{L}\f$ are CoM, linear momentum, and angular
