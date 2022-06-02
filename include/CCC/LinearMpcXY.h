@@ -44,8 +44,12 @@ public:
     //! Total z force [N]
     double total_force_z;
 
-    //! List of contact vertex and force direction (i.e., friction pyramid ridge)
-    std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> vertex_ridge_list;
+    /** \brief List of contact vertex and force direction (i.e., friction pyramid ridge)
+
+        Each column represents a pair of vertex and ridge. The first three rows represent vertex and the last three rows
+       represent ridge.
+     */
+    Eigen::Matrix<double, 6, Eigen::Dynamic> vertex_ridge_list;
   };
 
   /** \brief Initial parameter. */

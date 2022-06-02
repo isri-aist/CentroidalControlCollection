@@ -4,8 +4,7 @@
 #include <CCC/LinearMpcXY.h>
 #include <CCC/LinearMpcZ.h>
 
-std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> makeVertexRidgeListFromRect(
-    const std::array<Eigen::Vector2d, 2> & rect_min_max)
+Eigen::Matrix<double, 6, Eigen::Dynamic> makeVertexRidgeListFromRect(const std::array<Eigen::Vector2d, 2> & rect_min_max)
 {
   std::vector<Eigen::Vector3d> vertex_list(4);
   vertex_list[0] << rect_min_max[0], 0.0;
@@ -21,12 +20,14 @@ std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> makeVertexRidgeListFrom
     ridge_list[i].normalize();
   }
 
-  std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>> vertex_ridge_list;
+  Eigen::Matrix<double, 6, Eigen::Dynamic> vertex_ridge_list(6, vertex_list.size() * ridge_list.size());
+  int col_idx = 0;
   for(const auto & vertex : vertex_list)
   {
     for(const auto & ridge : ridge_list)
     {
-      vertex_ridge_list.emplace_back(vertex, ridge);
+      vertex_ridge_list.col(col_idx) << vertex, ridge;
+      col_idx++;
     }
   }
 
