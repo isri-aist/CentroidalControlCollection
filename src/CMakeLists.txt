@@ -9,6 +9,7 @@ add_library(CCC
   SingularPreviewControlZmp.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
+  DdpCentroidal.cpp
   )
 target_include_directories(CCC PUBLIC
   ${PROJECT_SOURCE_DIR}/include
