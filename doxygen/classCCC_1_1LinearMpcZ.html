@@ -110,9 +110,9 @@ Public Types</h2></td></tr>
 <tr class="memitem:aa0b4f799120b619f7ebca5fc67ff2c94"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#aa0b4f799120b619f7ebca5fc67ff2c94">_StateSpaceModel</a> = <a class="el" href="classCCC_1_1StateSpaceModel.html">StateSpaceModel</a>&lt; <a class="el" href="classCCC_1_1LinearMpcZ.html#a6d0a23963ff20d0dc57f47ac76211c49">state_dim_</a>, Eigen::Dynamic, Eigen::Dynamic &gt;</td></tr>
 <tr class="memdesc:aa0b4f799120b619f7ebca5fc67ff2c94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of state-space model.  <a href="#aa0b4f799120b619f7ebca5fc67ff2c94">More...</a><br /></td></tr>
 <tr class="separator:aa0b4f799120b619f7ebca5fc67ff2c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b79213a58fcb001831609f491c0fead"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#a5b79213a58fcb001831609f491c0fead">StateDimVector</a> = Eigen::Matrix&lt; double, <a class="el" href="classCCC_1_1LinearMpcZ.html#a6d0a23963ff20d0dc57f47ac76211c49">state_dim_</a>, 1 &gt;</td></tr>
-<tr class="memdesc:a5b79213a58fcb001831609f491c0fead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of state vector.  <a href="#a5b79213a58fcb001831609f491c0fead">More...</a><br /></td></tr>
-<tr class="separator:a5b79213a58fcb001831609f491c0fead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad734fd1a1b32676261a65b7e1ad68fff"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#ad734fd1a1b32676261a65b7e1ad68fff">StateDimVector</a> = <a class="el" href="classCCC_1_1StateSpaceModel.html#a391066481de5abd35141ee992890ec60">_StateSpaceModel::StateDimVector</a></td></tr>
+<tr class="memdesc:ad734fd1a1b32676261a65b7e1ad68fff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of state vector.  <a href="#ad734fd1a1b32676261a65b7e1ad68fff">More...</a><br /></td></tr>
+<tr class="separator:ad734fd1a1b32676261a65b7e1ad68fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a457c4ffc9efe6f0d5cd6386b0447e5bb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#a457c4ffc9efe6f0d5cd6386b0447e5bb">InitialParam</a> = Eigen::Vector2d</td></tr>
 <tr class="memdesc:a457c4ffc9efe6f0d5cd6386b0447e5bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial parameter.  <a href="#a457c4ffc9efe6f0d5cd6386b0447e5bb">More...</a><br /></td></tr>
 <tr class="separator:a457c4ffc9efe6f0d5cd6386b0447e5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,7 +167,7 @@ Static Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a328cf92c713f5bb8d9f3f87690b7562e"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#a328cf92c713f5bb8d9f3f87690b7562e">procOnce</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classCCC_1_1LinearMpcZ.html#aa0b4f799120b619f7ebca5fc67ff2c94">_StateSpaceModel</a> &gt;&gt; &amp;model_list, const <a class="el" href="classCCC_1_1LinearMpcZ.html#a5b79213a58fcb001831609f491c0fead">StateDimVector</a> &amp;current_x, const Eigen::VectorXd &amp;ref_pos_seq, const <a class="el" href="structCCC_1_1LinearMpcZ_1_1WeightParam.html">WeightParam</a> &amp;weight_param)</td></tr>
+<tr class="memitem:a328cf92c713f5bb8d9f3f87690b7562e"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcZ.html#a328cf92c713f5bb8d9f3f87690b7562e">procOnce</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classCCC_1_1LinearMpcZ.html#aa0b4f799120b619f7ebca5fc67ff2c94">_StateSpaceModel</a> &gt;&gt; &amp;model_list, const <a class="el" href="classCCC_1_1LinearMpcZ.html#ad734fd1a1b32676261a65b7e1ad68fff">StateDimVector</a> &amp;current_x, const Eigen::VectorXd &amp;ref_pos_seq, const <a class="el" href="structCCC_1_1LinearMpcZ_1_1WeightParam.html">WeightParam</a> &amp;weight_param)</td></tr>
 <tr class="memdesc:a328cf92c713f5bb8d9f3f87690b7562e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process one step.  <a href="#a328cf92c713f5bb8d9f3f87690b7562e">More...</a><br /></td></tr>
 <tr class="separator:a328cf92c713f5bb8d9f3f87690b7562e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -219,14 +219,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5b79213a58fcb001831609f491c0fead"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b79213a58fcb001831609f491c0fead">&#9670;&nbsp;</a></span>StateDimVector</h2>
+<a id="ad734fd1a1b32676261a65b7e1ad68fff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad734fd1a1b32676261a65b7e1ad68fff">&#9670;&nbsp;</a></span>StateDimVector</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classCCC_1_1LinearMpcZ.html#a5b79213a58fcb001831609f491c0fead">CCC::LinearMpcZ::StateDimVector</a> =  Eigen::Matrix&lt;double, <a class="el" href="classCCC_1_1LinearMpcZ.html#a6d0a23963ff20d0dc57f47ac76211c49">state_dim_</a>, 1&gt;</td>
+          <td class="memname">using <a class="el" href="classCCC_1_1LinearMpcZ.html#ad734fd1a1b32676261a65b7e1ad68fff">CCC::LinearMpcZ::StateDimVector</a> =  <a class="el" href="classCCC_1_1StateSpaceModel.html#a391066481de5abd35141ee992890ec60">_StateSpaceModel::StateDimVector</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -499,7 +499,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classCCC_1_1LinearMpcZ.html#a5b79213a58fcb001831609f491c0fead">StateDimVector</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classCCC_1_1LinearMpcZ.html#ad734fd1a1b32676261a65b7e1ad68fff">StateDimVector</a> &amp;&#160;</td>
           <td class="paramname"><em>current_x</em>, </td>
         </tr>
         <tr>
