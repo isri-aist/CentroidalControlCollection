@@ -240,6 +240,10 @@ public:
   */
   inline std::array<Eigen::Vector2d, 2> zmpLimits(double t) const
   {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    t += epsilon_t;
+
     const auto & footstance = std::prev(ref_footstance_list_.upper_bound(t))->second;
     std::array<Eigen::Vector2d, 2> zmp_limits;
     zmp_limits = footstance.supportRegion();
@@ -254,6 +258,10 @@ public:
   */
   inline CCC::DcmTracking::RefData makeDcmTrackingRefData(double current_time, int horizon_duration = 5.0) const
   {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    current_time += epsilon_t;
+
     CCC::DcmTracking::RefData ref_data;
     ref_data.current_zmp = std::prev(ref_zmp_list_.upper_bound(current_time))->second;
     for(auto time_zmp_it = ref_zmp_list_.upper_bound(current_time);
@@ -269,6 +277,10 @@ public:
   */
   inline CCC::FootGuidedControl::RefData makeFootGuidedControlRefData(double current_time) const
   {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    current_time += epsilon_t;
+
     double constant_zmp_duration = 1.0; // [sec]
     double footsteps_concat_duration_thre = 0.1; // [sec]
     double horizon_margin = 1e-3; // [sec]
@@ -342,6 +354,10 @@ public:
   */
   inline CCC::LinearMpcZmp::RefData makeLinearMpcZmpRefData(double t) const
   {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    t += epsilon_t;
+
     CCC::LinearMpcZmp::RefData ref_data;
     ref_data.zmp_limits = zmpLimits(t);
     return ref_data;
@@ -352,6 +368,10 @@ public:
   */
   inline CCC::IntrinsicallyStableMpc::RefData makeIntrinsicallyStableMpcRefData(double t) const
   {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    t += epsilon_t;
+
     CCC::IntrinsicallyStableMpc::RefData ref_data;
     ref_data.zmp = refZmp(t);
     ref_data.zmp_limits = zmpLimits(t);
