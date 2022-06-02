@@ -160,7 +160,47 @@ public:
     }
   };
 
-  /** \brief State-space model. */
+  /** \brief State-space model.
+
+      Dynamics is expressed by the following equation.
+      \f{align*}{
+      \boldsymbol{\dot{P}} &= \sum_i \boldsymbol{f}_i - m \boldsymbol{g} \\
+      \boldsymbol{\dot{L}} &= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i
+      \f}
+      \f$\boldsymbol{c}\f$, \f$\boldsymbol{P}\f$, and \f$\boldsymbol{L}\f$ are CoM, linear momentum, and angular
+     momentum, respectively. \f$\boldsymbol{p}_i\f$, \f$\lambda_i\f$, and \f$\boldsymbol{\rho}_i\f$ are position, force
+     scale, and ridge vector of i-th contact vertex ridge, respectively.
+
+      This can be represented as a linear time-variant system as follows.
+      \f{align*}{
+      \boldsymbol{\dot{x}} &=
+      \begin{bmatrix}
+        0 & 1 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & - \dfrac{f_z}{m} & 0 & 0 & 0 \\
+        \dfrac{f_z}{m} & 0 & 0 & 0 & 0 & 0
+      \end{bmatrix}
+      \boldsymbol{x} +
+      \begin{bmatrix}
+        \cdots & 0 & \cdots \\
+        \cdots & \rho_{i,x} & \cdots \\
+        \cdots & 0 & \cdots \\
+        \cdots & \rho_{i,y} & \cdots \\
+        \cdots & - (p_{i,z} - c_z) \rho_{i,y} + p_{i,y} \rho_{i,z} & \cdots \\
+        \cdots & (p_{i,z} - c_z) \rho_{i,x} - p_{i,x} \rho_{i,z} & \cdots
+      \end{bmatrix} \boldsymbol{u}
+      \f}
+      We assume that vertical moton (i.e., CoM height \f$c_z\f$ and total vertical contact force \f$f_z\f$) is
+     pre-defined.
+
+      State, control input, and output are expressed as follows.
+      \f{align*}{
+      \boldsymbol{x} = \begin{bmatrix} m c_x \\ P_x \\ m c_y \\ P_y \\ L_x \\ L_y \end{bmatrix},
+      \boldsymbol{u} = \begin{bmatrix} \vdots \\ \lambda_i \\ \vdots \end{bmatrix}
+      \f}
+   */
   class Model : public _StateSpaceModel
   {
   public:
@@ -262,7 +302,7 @@ public:
   //! QP coefficients
   QpSolverCollection::QpCoeff qp_coeff_;
 
-  //! Min/max z-component force [N]
+  //! Min/max ridge force [N]
   std::pair<double, double> force_range_;
 
 protected:

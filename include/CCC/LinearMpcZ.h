@@ -68,10 +68,10 @@ public:
 
       Dynamics is expressed by the following equation.
       \f{align*}{
-      P_z &= m \dot{p}_z \\
+      P_z &= m \dot{c}_z \\
       \dot{P}_z &= f_z - m g
       \f}
-      \f$p_z\f$, \f$P_z\f$, and \f$f_z\f$ are CoM height, vertical linear momentum, and vertical contact force,
+      \f$c_z\f$, \f$P_z\f$, and \f$f_z\f$ are CoM height, vertical linear momentum, and vertical contact force,
      respectively.
 
       This can be represented as a linear time-invariant system as follows.
@@ -86,8 +86,8 @@ public:
 
       State, control input, and output are expressed as follows.
       \f{align*}{
-      \boldsymbol{x} = \begin{bmatrix} \int P_z dt \\ P_z \end{bmatrix},
-      u = f_z, y = p_z
+      \boldsymbol{x} = \begin{bmatrix} m c_z \\ P_z \end{bmatrix},
+      u = f_z, y = c_z
       \f}
    */
   class ModelContactPhase : public _StateSpaceModel
@@ -103,10 +103,10 @@ public:
 
       Dynamics is expressed by the following equation.
       \f{align*}{
-      P_z &= m \dot{p}_z \\
+      P_z &= m \dot{c}_z \\
       \dot{P}_z &= - m g
       \f}
-      \f$p_z\f$ and \f$P_z\f$ are CoM height and vertical linear momentum, respectively.
+      \f$c_z\f$ and \f$P_z\f$ are CoM height and vertical linear momentum, respectively.
 
       This can be represented as a linear time-invariant system as follows.
       \f{align*}{
@@ -119,8 +119,8 @@ public:
 
       State, control input, and output are expressed as follows.
       \f{align*}{
-      \boldsymbol{x} = \begin{bmatrix} \int P_z dt \\ P_z \end{bmatrix},
-      u = \emptyset, y = p_z
+      \boldsymbol{x} = \begin{bmatrix} m c_z \\ P_z \end{bmatrix},
+      u = \emptyset, y = c_z
       \f}
    */
   class ModelNoncontactPhase : public _StateSpaceModel
@@ -136,10 +136,10 @@ public:
 
       Dynamics is expressed by the following equation.
       \f{align*}{
-      P_z &= m \dot{p}_z \\
+      P_z &= m \dot{c}_z \\
       \dot{P}_z &= f_z - m g
       \f}
-      \f$p_z\f$, \f$P_z\f$, and \f$f_z\f$ are CoM height, vertical linear momentum, and vertical contact force,
+      \f$c_z\f$, \f$P_z\f$, and \f$f_z\f$ are CoM height, vertical linear momentum, and vertical contact force,
      respectively.
 
       This can be represented as a linear time-invariant system as follows.
@@ -156,8 +156,8 @@ public:
 
       State, control input, and output are expressed as follows.
       \f{align*}{
-      \boldsymbol{x} = \begin{bmatrix} p_z \\ \dot{p}_z \\ \ddot{p}_z \end{bmatrix},
-      u = f_z, y = p_z
+      \boldsymbol{x} = \begin{bmatrix} c_z \\ \dot{c}_z \\ \ddot{c}_z \end{bmatrix},
+      u = f_z, y = c_z
       \f}
    */
   class SimModel : public StateSpaceModel<state_dim_, 1, 3>
