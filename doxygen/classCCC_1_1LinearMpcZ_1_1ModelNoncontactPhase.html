@@ -189,8 +189,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>State-space model for non-contact phase. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcZ_8h_source.html#l00078">78</a> of file <a class="el" href="LinearMpcZ_8h_source.html">LinearMpcZ.h</a>.</p>
+<p>Dynamics is expressed by the following equation. </p><p class="formulaDsp">
+\begin{align*} P_z &amp;= m \dot{p}_z \\ \dot{P}_z &amp;= - m g \end{align*}
+</p>
+<p> \(p_z\) and \(P_z\) are CoM height and vertical linear momentum, respectively.</p>
+<p>This can be represented as a linear time-invariant system as follows. </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{\dot{x}} &amp;= \begin{bmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{bmatrix} \boldsymbol{x} + \begin{bmatrix} 0 \\ - m g \end{bmatrix} \\ y &amp;= \begin{bmatrix} \dfrac{1}{m} &amp; 0 \end{bmatrix} \boldsymbol{x} \end{align*}
+</p>
+<p>State, control input, and output are expressed as follows. </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{x} = \begin{bmatrix} \int P_z dt \\ P_z \end{bmatrix}, u = \emptyset, y = p_z \end{align*}
+</p>
+ 
+<p class="definition">Definition at line <a class="el" href="LinearMpcZ_8h_source.html#l00126">126</a> of file <a class="el" href="LinearMpcZ_8h_source.html">LinearMpcZ.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abcfb8167acbdbc0ce244997f2f473cec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abcfb8167acbdbc0ce244997f2f473cec">&#9670;&nbsp;</a></span>ModelNoncontactPhase()</h2>

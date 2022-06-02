@@ -189,8 +189,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>State-space model for contact phase. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcZ_8h_source.html#l00068">68</a> of file <a class="el" href="LinearMpcZ_8h_source.html">LinearMpcZ.h</a>.</p>
+<p>Dynamics is expressed by the following equation. </p><p class="formulaDsp">
+\begin{align*} P_z &amp;= m \dot{p}_z \\ \dot{P}_z &amp;= f_z - m g \end{align*}
+</p>
+<p> \(p_z\), \(P_z\), and \(f_z\) are CoM height, vertical linear momentum, and vertical contact force, respectively.</p>
+<p>This can be represented as a linear time-invariant system as follows. </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{\dot{x}} &amp;= \begin{bmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{bmatrix} \boldsymbol{x} + \begin{bmatrix} 0 \\ 1 \end{bmatrix} u + \begin{bmatrix} 0 \\ - m g \end{bmatrix} \\ y &amp;= \begin{bmatrix} \dfrac{1}{m} &amp; 0 \end{bmatrix} \boldsymbol{x} \end{align*}
+</p>
+<p>State, control input, and output are expressed as follows. </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{x} = \begin{bmatrix} \int P_z dt \\ P_z \end{bmatrix}, u = f_z, y = p_z \end{align*}
+</p>
+ 
+<p class="definition">Definition at line <a class="el" href="LinearMpcZ_8h_source.html#l00093">93</a> of file <a class="el" href="LinearMpcZ_8h_source.html">LinearMpcZ.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a91939e30233e8d2538847117ae92c3d5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a91939e30233e8d2538847117ae92c3d5">&#9670;&nbsp;</a></span>ModelContactPhase()</h2>
