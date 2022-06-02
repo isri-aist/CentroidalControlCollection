@@ -64,7 +64,32 @@ public:
     }
   };
 
-  /** \brief State-space model for contact phase. */
+  /** \brief State-space model for contact phase.
+
+      Dynamics is expressed by the following equation.
+      \f{align*}{
+      P_z &= m \dot{p}_z \\
+      \dot{P}_z &= f_z - m g
+      \f}
+      \f$p_z\f$, \f$P_z\f$, and \f$f_z\f$ are CoM height, vertical linear momentum, and vertical contact force,
+     respectively.
+
+      This can be represented as a linear time-invariant system as follows.
+      \f{align*}{
+      \boldsymbol{\dot{x}} &=
+      \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix}
+      \boldsymbol{x} +
+      \begin{bmatrix} 0 \\ 1 \end{bmatrix} u +
+      \begin{bmatrix} 0 \\ - m g \end{bmatrix} \\
+      y &= \begin{bmatrix} \dfrac{1}{m} & 0 \end{bmatrix} \boldsymbol{x}
+      \f}
+
+      State, control input, and output are expressed as follows.
+      \f{align*}{
+      \boldsymbol{x} = \begin{bmatrix} \int P_z dt \\ P_z \end{bmatrix},
+      u = f_z, y = p_z
+      \f}
+   */
   class ModelContactPhase : public _StateSpaceModel
   {
   public:
@@ -74,7 +99,30 @@ public:
     ModelContactPhase(double mass);
   };
 
-  /** \brief State-space model for non-contact phase. */
+  /** \brief State-space model for non-contact phase.
+
+      Dynamics is expressed by the following equation.
+      \f{align*}{
+      P_z &= m \dot{p}_z \\
+      \dot{P}_z &= - m g
+      \f}
+      \f$p_z\f$ and \f$P_z\f$ are CoM height and vertical linear momentum, respectively.
+
+      This can be represented as a linear time-invariant system as follows.
+      \f{align*}{
+      \boldsymbol{\dot{x}} &=
+      \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix}
+      \boldsymbol{x} +
+      \begin{bmatrix} 0 \\ - m g \end{bmatrix} \\
+      y &= \begin{bmatrix} \dfrac{1}{m} & 0 \end{bmatrix} \boldsymbol{x}
+      \f}
+
+      State, control input, and output are expressed as follows.
+      \f{align*}{
+      \boldsymbol{x} = \begin{bmatrix} \int P_z dt \\ P_z \end{bmatrix},
+      u = \emptyset, y = p_z
+      \f}
+   */
   class ModelNoncontactPhase : public _StateSpaceModel
   {
   public:
