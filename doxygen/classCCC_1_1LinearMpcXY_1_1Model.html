@@ -198,8 +198,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>State-space model. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00164">164</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p>Dynamics is expressed by the following equation. </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{\dot{P}} &amp;= \sum_i \boldsymbol{f}_i - m \boldsymbol{g} \\ \boldsymbol{\dot{L}} &amp;= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \end{align*}
+</p>
+<p> \(\boldsymbol{c}\), \(\boldsymbol{P}\), and \(\boldsymbol{L}\) are CoM, linear momentum, and angular momentum, respectively. \(\boldsymbol{p}_i\), \(\lambda_i\), and \(\boldsymbol{\rho}_i\) are position, force scale, and ridge vector of i-th contact vertex ridge, respectively.</p>
+<p>This can be represented as a linear time-variant system as follows. </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{\dot{x}} &amp;= \begin{bmatrix} 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; - \dfrac{f_z}{m} &amp; 0 &amp; 0 &amp; 0 \\ \dfrac{f_z}{m} &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix} \boldsymbol{x} + \begin{bmatrix} \cdots &amp; 0 &amp; \cdots \\ \cdots &amp; \rho_{i,x} &amp; \cdots \\ \cdots &amp; 0 &amp; \cdots \\ \cdots &amp; \rho_{i,y} &amp; \cdots \\ \cdots &amp; - (p_{i,z} - c_z) \rho_{i,y} + p_{i,y} \rho_{i,z} &amp; \cdots \\ \cdots &amp; (p_{i,z} - c_z) \rho_{i,x} - p_{i,x} \rho_{i,z} &amp; \cdots \end{bmatrix} \boldsymbol{u} \end{align*}
+</p>
+<p> We assume that vertical moton (i.e., CoM height \(c_z\) and total vertical contact force \(f_z\)) is pre-defined.</p>
+<p>State, control input, and output are expressed as follows. </p><p class="formulaDsp">
+\begin{align*} \boldsymbol{x} = \begin{bmatrix} m c_x \\ P_x \\ m c_y \\ P_y \\ L_x \\ L_y \end{bmatrix}, \boldsymbol{u} = \begin{bmatrix} \vdots \\ \lambda_i \\ \vdots \end{bmatrix} \end{align*}
+</p>
+ 
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00204">204</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a06bb18c879d71b9caff71f41d2d95b87"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a06bb18c879d71b9caff71f41d2d95b87">&#9670;&nbsp;</a></span>Model()</h2>
@@ -260,7 +271,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Motion parameter. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00176">176</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00216">216</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
