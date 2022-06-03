@@ -163,6 +163,113 @@ TEST(TestDdpCentroidal, Test1)
             << "  plot \"" << file_path << "\" u 1:21 w lp # computation_time\n";
 }
 
+TEST(TestDdpCentroidal, CheckDerivatives)
+{
+  constexpr double deriv_eps = 1e-6;
+
+  double horizon_dt = 0.03; // [sec]
+  double mass = 100.0; // [Kg]
+  CCC::DdpCentroidal::WeightParam weight_param;
+  auto ddp_problem = std::make_shared<CCC::DdpCentroidal::DdpProblem>(horizon_dt, mass, weight_param);
+
+  std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t) {
+    CCC::DdpCentroidal::MotionParam motion_param;
+    motion_param.vertex_ridge_list =
+        makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)});
+    return motion_param;
+  };
+  std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double t) {
+    CCC::DdpCentroidal::RefData ref_data;
+    ref_data.pos << 0.1, -0.2, 1.0; // [m]
+    return ref_data;
+  };
+  ddp_problem->setMotionParamFunc(motion_param_func);
+  ddp_problem->setRefDataFunc(ref_data_func);
+
+  double t = 0;
+  int state_dim = ddp_problem->stateDim();
+  int input_dim = ddp_problem->inputDim(t);
+  CCC::DdpCentroidal::DdpProblem::StateDimVector x;
+  x << 1.0, -2.0, 3.0, -4.0, 5.0, -6.0, 7.0, -8.0, 9.0;
+  CCC::DdpCentroidal::DdpProblem::InputDimVector u(input_dim);
+  u << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0;
+
+  // Check state_eq_deriv
+  {
+    CCC::DdpCentroidal::DdpProblem::StateStateDimMatrix state_eq_deriv_x_analytical;
+    CCC::DdpCentroidal::DdpProblem::StateInputDimMatrix state_eq_deriv_u_analytical(state_dim, input_dim);
+    ddp_problem->calcStateEqDeriv(t, x, u, state_eq_deriv_x_analytical, state_eq_deriv_u_analytical);
+
+    CCC::DdpCentroidal::DdpProblem::StateStateDimMatrix state_eq_deriv_x_numerical;
+    CCC::DdpCentroidal::DdpProblem::StateInputDimMatrix state_eq_deriv_u_numerical(state_dim, input_dim);
+    for(int i = 0; i < state_dim; i++)
+    {
+      state_eq_deriv_x_numerical.col(i) =
+          (ddp_problem->stateEq(t, x + deriv_eps * CCC::DdpCentroidal::DdpProblem::StateDimVector::Unit(i), u)
+           - ddp_problem->stateEq(t, x - deriv_eps * CCC::DdpCentroidal::DdpProblem::StateDimVector::Unit(i), u))
+          / (2 * deriv_eps);
+    }
+    for(int i = 0; i < input_dim; i++)
+    {
+      state_eq_deriv_u_numerical.col(i) =
+          (ddp_problem->stateEq(t, x,
+                                u + deriv_eps * CCC::DdpCentroidal::DdpProblem::InputDimVector::Unit(input_dim, i))
+           - ddp_problem->stateEq(t, x,
+                                  u - deriv_eps * CCC::DdpCentroidal::DdpProblem::InputDimVector::Unit(input_dim, i)))
+          / (2 * deriv_eps);
+    }
+
+    EXPECT_LT((state_eq_deriv_x_analytical - state_eq_deriv_x_numerical).norm(), 1e-6);
+    EXPECT_LT((state_eq_deriv_u_analytical - state_eq_deriv_u_numerical).norm(), 1e-6);
+  }
+
+  // Check running_cost_deriv
+  {
+    CCC::DdpCentroidal::DdpProblem::StateDimVector running_cost_deriv_x_analytical;
+    CCC::DdpCentroidal::DdpProblem::InputDimVector running_cost_deriv_u_analytical(input_dim);
+    ddp_problem->calcRunningCostDeriv(t, x, u, running_cost_deriv_x_analytical, running_cost_deriv_u_analytical);
+
+    CCC::DdpCentroidal::DdpProblem::StateDimVector running_cost_deriv_x_numerical;
+    CCC::DdpCentroidal::DdpProblem::InputDimVector running_cost_deriv_u_numerical(input_dim);
+    for(int i = 0; i < state_dim; i++)
+    {
+      running_cost_deriv_x_numerical[i] =
+          (ddp_problem->runningCost(t, x + deriv_eps * CCC::DdpCentroidal::DdpProblem::StateDimVector::Unit(i), u)
+           - ddp_problem->runningCost(t, x - deriv_eps * CCC::DdpCentroidal::DdpProblem::StateDimVector::Unit(i), u))
+          / (2 * deriv_eps);
+    }
+    for(int i = 0; i < input_dim; i++)
+    {
+      running_cost_deriv_u_numerical[i] =
+          (ddp_problem->runningCost(t, x,
+                                    u + deriv_eps * CCC::DdpCentroidal::DdpProblem::InputDimVector::Unit(input_dim, i))
+           - ddp_problem->runningCost(
+               t, x, u - deriv_eps * CCC::DdpCentroidal::DdpProblem::InputDimVector::Unit(input_dim, i)))
+          / (2 * deriv_eps);
+    }
+
+    EXPECT_LT((running_cost_deriv_x_analytical - running_cost_deriv_x_numerical).norm(), 1e-6);
+    EXPECT_LT((running_cost_deriv_u_analytical - running_cost_deriv_u_numerical).norm(), 1e-6);
+  }
+
+  // Check terminal_cost_deriv
+  {
+    CCC::DdpCentroidal::DdpProblem::StateDimVector terminal_cost_deriv_x_analytical;
+    ddp_problem->calcTerminalCostDeriv(t, x, terminal_cost_deriv_x_analytical);
+
+    CCC::DdpCentroidal::DdpProblem::StateDimVector terminal_cost_deriv_x_numerical;
+    for(int i = 0; i < state_dim; i++)
+    {
+      terminal_cost_deriv_x_numerical[i] =
+          (ddp_problem->terminalCost(t, x + deriv_eps * CCC::DdpCentroidal::DdpProblem::StateDimVector::Unit(i))
+           - ddp_problem->terminalCost(t, x - deriv_eps * CCC::DdpCentroidal::DdpProblem::StateDimVector::Unit(i)))
+          / (2 * deriv_eps);
+    }
+
+    EXPECT_LT((terminal_cost_deriv_x_analytical - terminal_cost_deriv_x_numerical).norm(), 1e-6);
+  }
+}
+
 int main(int argc, char ** argv)
 {
   testing::InitGoogleTest(&argc, argv);
