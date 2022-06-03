@@ -25,7 +25,6 @@ TEST(TestDdpCentroidal, Test1)
   // Setup DDP
   std::vector<double> computation_duration_list;
   CCC::DdpCentroidal ddp(mass, horizon_dt, horizon_steps);
-  ddp.ddp_solver_->config().max_iter = 3;
 
   // Setup contact
   std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t) {
@@ -105,6 +104,7 @@ TEST(TestDdpCentroidal, Test1)
       }
     }
     Eigen::VectorXd planned_force_scales = ddp.planOnce(motion_param_func, ref_data_func, initial_param, t);
+    ddp.ddp_solver_->config().max_iter = 3; // Set max_iter from second simulation iteration
     computation_duration_list.push_back(
         1e3
         * std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::system_clock::now() - start_time)
