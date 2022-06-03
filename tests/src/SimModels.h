@@ -5,6 +5,7 @@
 #include <memory>
 
 #include <CCC/Constants.h>
+#include <CCC/EigenTypes.h>
 #include <CCC/StateSpaceModel.h>
 
 /** \brief State-space model of one-dimensional CoM-ZMP dynamics with ZMP input. */
@@ -200,6 +201,95 @@ public:
 
   //! Vertical motion model
   std::shared_ptr<VerticalSimModel> z_model_;
+
+  //! Simulation state
+  State state_;
+};
+
+/** \brief Simulation of centroidal dynamics. */
+class CentroidalSim : public CCC::StateSpaceModel<9, 6, 0>
+{
+public:
+  /** \brief Simulation state. */
+  struct State
+  {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+    //! CoM position [m]
+    Eigen::Vector3d pos = Eigen::Vector3d::Zero();
+
+    //! CoM velocity [m/s]
+    Eigen::Vector3d vel = Eigen::Vector3d::Zero();
+
+    //! Angular momentum [kg m^2/s]
+    Eigen::Vector3d angular_momentum = Eigen::Vector3d::Zero();
+
+    /** \brief Constructor. */
+    State() {}
+
+    /** \brief Constructor.
+        \param state_vec state of state-space model
+     */
+    State(const StateDimVector & state_vec)
+    {
+      pos << state_vec.segment<3>(0);
+      vel << state_vec.segment<3>(3);
+      angular_momentum << state_vec.segment<3>(6);
+    }
+
+    /** \brief Get state of state-space model. */
+    inline StateDimVector toState() const
+    {
+      StateDimVector state_vec;
+      state_vec << pos, vel, angular_momentum;
+      return state_vec;
+    }
+  };
+
+  /** \brief Simulation input.
+
+      Simulation input is wrench only (in order of force, moment).
+   */
+  using Input = Eigen::Vector6d;
+
+public:
+  /** \brief Constructor.
+      \param mass robot mass [Kg]
+      \param sim_dt simulation timestep [sec]
+  */
+  CentroidalSim(double mass, double sim_dt) : sim_dt_(sim_dt)
+  {
+    A_.block<3, 3>(0, 3).diagonal().setConstant(1.0);
+
+    B_.block<3, 3>(3, 0).diagonal().setConstant(1.0 / mass);
+    B_.block<3, 3>(6, 3).diagonal().setConstant(1.0);
+
+    E_.segment<3>(3).z() = -1 * CCC::constants::g;
+
+    calcDiscMatrix(sim_dt_);
+  }
+
+  /** \brief Update.
+      \param input simulation input (wrench in order of force, moment)
+
+      Moment is represented around CoM.
+  */
+  void update(const Input & input)
+  {
+    state_ = State(stateEqDisc(state_.toState(), input));
+  }
+
+  /** \brief Add disturbance
+      \param impulse_per_mass impulse per mass [m/s]
+  */
+  void addDisturb(const Eigen::Vector3d & impulse_per_mass)
+  {
+    state_.vel += impulse_per_mass;
+  }
+
+public:
+  //! Simulation timestep [sec]
+  double sim_dt_ = 0;
 
   //! Simulation state
   State state_;

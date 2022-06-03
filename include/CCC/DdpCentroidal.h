@@ -28,7 +28,7 @@ public:
 
     /** \brief Calculate total wrench.
         \param force_scales force scales
-        \param moment_origin origin of moment
+        \param moment_origin moment origin
         \returns wrench (in order of force, moment)
     */
     Eigen::Vector6d calcTotalWrench(const Eigen::VectorXd & force_scales,
@@ -316,7 +316,7 @@ public:
     //! CoM position [m]
     Eigen::Vector3d pos = Eigen::Vector3d::Zero();
 
-    //! CoM linear velocity [m/s]
+    //! CoM velocity [m/s]
     Eigen::Vector3d vel = Eigen::Vector3d::Zero();
 
     //! Angular momentum [kg m^2/s]

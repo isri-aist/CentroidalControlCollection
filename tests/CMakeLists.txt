@@ -11,6 +11,7 @@ set(CCC_gtest_list
   TestSingularPreviewControlZmp
   TestLinearMpcZ
   TestLinearMpcXY
+  TestDdpCentroidal
   )
 
 foreach(NAME IN LISTS CCC_gtest_list)
