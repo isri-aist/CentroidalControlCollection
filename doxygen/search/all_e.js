@@ -1,7 +1,7 @@
 var searchData=
 [
   ['p_5f',['P_',['../classCCC_1_1IntrinsicallyStableMpc1d.html#a67a1ff7d53d07fdfab557aa9ee694d39',1,'CCC::IntrinsicallyStableMpc1d::P_()'],['../classCCC_1_1PreviewControl.html#aba962a100c243b95aa33421e243c9f25',1,'CCC::PreviewControl::P_()']]],
-  ['planloop',['planLoop',['../classCCC_1_1DdpCentroidal.html#a3ca7f93ab364bd79f8f46f95e3386a48',1,'CCC::DdpCentroidal::planLoop()'],['../classCCC_1_1LinearMpcXY.html#aecf58fb3c1f7fd9a585255261b2b55d4',1,'CCC::LinearMpcXY::planLoop()'],['../classCCC_1_1LinearMpcZ.html#a892c86534f97a5bd06b1bbc6ff8bc3e9',1,'CCC::LinearMpcZ::planLoop()']]],
+  ['planloop',['planLoop',['../classCCC_1_1DdpCentroidal.html#a0f64a9cf4a5b5fe791e9eb287948801e',1,'CCC::DdpCentroidal::planLoop()'],['../classCCC_1_1LinearMpcXY.html#aecf58fb3c1f7fd9a585255261b2b55d4',1,'CCC::LinearMpcXY::planLoop()'],['../classCCC_1_1LinearMpcZ.html#a892c86534f97a5bd06b1bbc6ff8bc3e9',1,'CCC::LinearMpcZ::planLoop()']]],
   ['planned_5facc',['planned_acc',['../structCCC_1_1MotionDataBase.html#a227f6a1a6c8795a253c9bb8df8b95c88',1,'CCC::MotionDataBase']]],
   ['planned_5fangular_5fmomentum',['planned_angular_momentum',['../structCCC_1_1DdpCentroidal_1_1MotionData.html#ae5d101dc6c5c5a5ecf51b44a44a863e3',1,'CCC::DdpCentroidal::MotionData::planned_angular_momentum()'],['../structCCC_1_1LinearMpcXY_1_1MotionData.html#a41adac5304771888e188b926b080442f',1,'CCC::LinearMpcXY::MotionData::planned_angular_momentum()']]],
   ['planned_5fforce',['planned_force',['../structCCC_1_1MotionDataBase.html#a1ce160dcabc382cb3e6ddd9fffc74117',1,'CCC::MotionDataBase']]],
