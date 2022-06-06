@@ -188,16 +188,16 @@ void DdpCentroidal::SimModel::procOnce(double t,
   const Eigen::Ref<const Eigen::Matrix3Xd> & ridges_mat = motion_param.vertex_ridge_list.bottomRows<3>();
 
   const Eigen::Ref<const Eigen::Vector3d> & pos = x.segment<3>(0);
-  const Eigen::Ref<const Eigen::Vector3d> & vel = x.segment<3>(3);
+  const Eigen::Ref<const Eigen::Vector3d> & linear_momentum = x.segment<3>(3);
   const Eigen::Ref<const Eigen::Vector3d> & angular_momentum = x.segment<3>(6);
 
   // Set next_x
   StateDimVector x_dot;
   Eigen::Ref<Eigen::Vector3d> pos_dot = x_dot.segment<3>(0);
-  Eigen::Ref<Eigen::Vector3d> vel_dot = x_dot.segment<3>(3);
+  Eigen::Ref<Eigen::Vector3d> linear_momentum_dot = x_dot.segment<3>(3);
   Eigen::Ref<Eigen::Vector3d> angular_momentum_dot = x_dot.segment<3>(6);
-  pos_dot = vel;
-  vel_dot = ridges_mat * u / mass_ - Eigen::Vector3d(0, 0, constants::g);
+  pos_dot = linear_momentum / mass_;
+  linear_momentum_dot = ridges_mat * u - mass_ * Eigen::Vector3d(0, 0, constants::g);
   angular_momentum_dot.setZero();
   for(int i = 0; i < u.size(); i++)
   {
@@ -211,8 +211,8 @@ void DdpCentroidal::SimModel::procOnce(double t,
   Eigen::Ref<Eigen::Vector3d> acc_output = y.segment<3>(6);
   Eigen::Ref<Eigen::Vector3d> angular_momentum_output = y.segment<3>(9);
   pos_output = pos;
-  vel_output = vel;
-  acc_output = vel_dot;
+  vel_output = linear_momentum / mass_;
+  acc_output = linear_momentum_dot / mass_;
   angular_momentum_output = angular_momentum;
 }
 
@@ -267,21 +267,21 @@ void DdpCentroidal::planLoop(const std::function<MotionParam(double)> & motion_p
     const auto & sim_model = std::make_shared<SimModel>(ddp_problem_->mass_, motion_param_func, sim_dt);
 
     // Calculate optimal force
-    InitialParam initial_param(current_x, ddp_problem_->mass_);
-    initial_param.u_list = ddp_solver_->controlData().u_list;
-    if(!initial_param.u_list.empty())
+    InitialParam current_initial_param(current_x, ddp_problem_->mass_);
+    current_initial_param.u_list = ddp_solver_->controlData().u_list;
+    if(!current_initial_param.u_list.empty())
     {
       for(int i = 0; i < ddp_solver_->config().horizon_steps; i++)
       {
         double t = current_t + i * ddp_problem_->dt();
         int input_dim = ddp_problem_->inputDim(t);
-        if(initial_param.u_list[i].size() != input_dim)
+        if(current_initial_param.u_list[i].size() != input_dim)
         {
-          initial_param.u_list[i].setZero(input_dim);
+          current_initial_param.u_list[i].setZero(input_dim);
         }
       }
     }
-    const Eigen::VectorXd & current_u = planOnce(motion_param_func, ref_data_func, initial_param, current_t);
+    const Eigen::VectorXd & current_u = planOnce(motion_param_func, ref_data_func, current_initial_param, current_t);
     ddp_solver_->config().max_iter = ddp_max_iter; // Set max_iter from second simulation iteration
 
     // Save current data
