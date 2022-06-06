@@ -446,15 +446,13 @@ public:
       \param sim_dt discretization timestep for simulation [sec]
       \param ddp_max_iter DDP max iteration for the second and subsequent loop iterations (for the first loop iteration,
      the currently set DDP max iteration is used)
-      \param weight_param objective weight parameter
   */
   void planLoop(const std::function<MotionParam(double)> & motion_param_func,
                 const std::function<RefData(double)> & ref_data_func,
                 const InitialParam & initial_param,
                 const std::pair<double, double> & motion_time_range,
                 double sim_dt,
-                int ddp_max_iter = 1,
-                const WeightParam & weight_param = WeightParam());
+                int ddp_max_iter = 1);
 
   /** \brief Dump motion data sequence by planLoop().
       \param file_path output file path

@@ -254,8 +254,7 @@ void DdpCentroidal::planLoop(const std::function<MotionParam(double)> & motion_p
                              const InitialParam & initial_param,
                              const std::pair<double, double> & motion_time_range,
                              double sim_dt,
-                             int ddp_max_iter,
-                             const WeightParam & weight_param)
+                             int ddp_max_iter)
 {
   int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
 
