@@ -2,7 +2,7 @@ var searchData=
 [
   ['p_5f',['P_',['../classCCC_1_1IntrinsicallyStableMpc1d.html#a67a1ff7d53d07fdfab557aa9ee694d39',1,'CCC::IntrinsicallyStableMpc1d::P_()'],['../classCCC_1_1PreviewControl.html#aba962a100c243b95aa33421e243c9f25',1,'CCC::PreviewControl::P_()']]],
   ['planned_5facc',['planned_acc',['../structCCC_1_1MotionDataBase.html#a227f6a1a6c8795a253c9bb8df8b95c88',1,'CCC::MotionDataBase']]],
-  ['planned_5fangular_5fmomentum',['planned_angular_momentum',['../structCCC_1_1LinearMpcXY_1_1MotionData.html#a41adac5304771888e188b926b080442f',1,'CCC::LinearMpcXY::MotionData']]],
+  ['planned_5fangular_5fmomentum',['planned_angular_momentum',['../structCCC_1_1DdpCentroidal_1_1MotionData.html#ae5d101dc6c5c5a5ecf51b44a44a863e3',1,'CCC::DdpCentroidal::MotionData::planned_angular_momentum()'],['../structCCC_1_1LinearMpcXY_1_1MotionData.html#a41adac5304771888e188b926b080442f',1,'CCC::LinearMpcXY::MotionData::planned_angular_momentum()']]],
   ['planned_5fforce',['planned_force',['../structCCC_1_1MotionDataBase.html#a1ce160dcabc382cb3e6ddd9fffc74117',1,'CCC::MotionDataBase']]],
   ['planned_5fpos',['planned_pos',['../structCCC_1_1MotionDataBase.html#a34ea819ffc4b5356b2b82804e264a8bb',1,'CCC::MotionDataBase']]],
   ['planned_5fvel',['planned_vel',['../structCCC_1_1MotionDataBase.html#a316b856d12a56570c333713eeae9b0f9',1,'CCC::MotionDataBase']]],

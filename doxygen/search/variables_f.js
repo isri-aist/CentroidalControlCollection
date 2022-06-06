@@ -1,7 +1,7 @@
 var searchData=
 [
   ['ref_5facc',['ref_acc',['../structCCC_1_1MotionDataBase.html#a3efebb3d7ddc4db948f52079b392d04f',1,'CCC::MotionDataBase']]],
-  ['ref_5fangular_5fmomentum',['ref_angular_momentum',['../structCCC_1_1LinearMpcXY_1_1MotionData.html#afbe7564b1d37888f385880bee7385770',1,'CCC::LinearMpcXY::MotionData']]],
+  ['ref_5fangular_5fmomentum',['ref_angular_momentum',['../structCCC_1_1DdpCentroidal_1_1MotionData.html#a1baf6aaad1c7ffd8b39158207700b73f',1,'CCC::DdpCentroidal::MotionData::ref_angular_momentum()'],['../structCCC_1_1LinearMpcXY_1_1MotionData.html#afbe7564b1d37888f385880bee7385770',1,'CCC::LinearMpcXY::MotionData::ref_angular_momentum()']]],
   ['ref_5fdata_5ffunc_5f',['ref_data_func_',['../classCCC_1_1DdpCentroidal_1_1DdpProblem.html#a8f5efa4052f4ea4a98093da20db26a23',1,'CCC::DdpCentroidal::DdpProblem::ref_data_func_()'],['../classCCC_1_1DdpZmp_1_1DdpProblem.html#a6931897ade2a2d934d04493856ae4d2f',1,'CCC::DdpZmp::DdpProblem::ref_data_func_()']]],
   ['ref_5fdata_5fseq_5fx_5f',['ref_data_seq_x_',['../classCCC_1_1IntrinsicallyStableMpc.html#ac76b49a4222586809822ddacd1e6fd1b',1,'CCC::IntrinsicallyStableMpc::ref_data_seq_x_()'],['../classCCC_1_1LinearMpcZmp.html#a6a0a306296be429e33db336b2cf9e3dd',1,'CCC::LinearMpcZmp::ref_data_seq_x_()']]],
   ['ref_5fdata_5fseq_5fy_5f',['ref_data_seq_y_',['../classCCC_1_1IntrinsicallyStableMpc.html#a897f7a83fe9ab275d980bc1cbd16aa9b',1,'CCC::IntrinsicallyStableMpc::ref_data_seq_y_()'],['../classCCC_1_1LinearMpcZmp.html#ac98b3d31a0d7dff7b232c5895f51545a',1,'CCC::LinearMpcZmp::ref_data_seq_y_()']]],
