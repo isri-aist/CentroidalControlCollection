@@ -12,7 +12,7 @@
 #include "ContactManager.h"
 #include "SimModels.h"
 
-TEST(TestDdpCentroidal, Test1)
+TEST(TestDdpCentroidal, PlanOnce)
 {
   double horizon_dt = 0.03; // [sec]
   double horizon_duration = 3.0; // [sec]
@@ -171,6 +171,84 @@ TEST(TestDdpCentroidal, Test1)
             << "  plot \"" << file_path << "\" u 1:16 w lp # force_z\n"
             << "  plot \"" << file_path << "\" u 1:20 w lp # ddp_iter\n"
             << "  plot \"" << file_path << "\" u 1:21 w lp # computation_time\n";
+}
+
+TEST(TestDdpCentroidal, PlanLoop)
+{
+  double horizon_dt = 0.03; // [sec]
+  double horizon_duration = 3.0; // [sec]
+  int horizon_steps = static_cast<int>(horizon_duration / horizon_dt);
+  double sim_dt = 0.005; // [sec]
+  double mass = 100.0; // [kg]
+
+  // Setup DDP
+  CCC::DdpCentroidal::WeightParam weight_param;
+  weight_param.running_pos << 1.0, 1.0, 10.0;
+  weight_param.terminal_pos << 1.0, 1.0, 10.0;
+  CCC::DdpCentroidal ddp(mass, horizon_dt, horizon_steps, weight_param);
+  ddp.ddp_solver_->config().initial_lambda = 1e-6;
+  ddp.ddp_solver_->config().lambda_min = 1e-8;
+  ddp.ddp_solver_->config().lambda_thre = 1e-7;
+
+  // Setup contact
+  std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t) {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    t += epsilon_t;
+
+    CCC::DdpCentroidal::MotionParam motion_param;
+    if(t < 1.4)
+    {
+      motion_param.vertex_ridge_list =
+          makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)});
+    }
+    else if(t < 1.6)
+    {
+      motion_param.vertex_ridge_list.setZero(6, 0);
+    }
+    else
+    {
+      motion_param.vertex_ridge_list =
+          makeVertexRidgeListFromRect({Eigen::Vector2d(0.4, -0.1), Eigen::Vector2d(0.6, 0.1)});
+    }
+    return motion_param;
+  };
+  std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double t) {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    t += epsilon_t;
+
+    CCC::DdpCentroidal::RefData ref_data;
+    if(t < 1.4)
+    {
+      ref_data.pos << 0.0, 0.0, 1.0; // [m]
+    }
+    else if(t < 1.6)
+    {
+      ref_data.pos << 0.25, 0.0, 1.2; // [m]
+    }
+    else
+    {
+      ref_data.pos << 0.5, 0.0, 1.0; // [m]
+    }
+    return ref_data;
+  };
+  CCC::DdpCentroidal::InitialParam initial_param;
+  initial_param.pos << 0.0, 0.0, 1.0; // [m]
+  std::pair<double, double> motion_time_range(0.0, 3.0); // ([sec], [sec])
+
+  // Plan
+  ddp.planLoop(motion_param_func, ref_data_func, initial_param, motion_time_range, sim_dt);
+
+  // Dump
+  ddp.dumpMotionDataSeq("/tmp/TestDdpCentroidal_PlanLoop.txt", true);
+
+  // Final check
+  const auto & motion_data_final = ddp.motionDataSeq().rbegin()->second;
+  const auto & ref_data = ref_data_func(motion_time_range.second);
+  EXPECT_LT((motion_data_final.planned_pos - ref_data.pos).norm(), 0.1); // [m]
+  EXPECT_LT(motion_data_final.planned_vel.norm(), 0.1); // [m/s]
+  EXPECT_LT(motion_data_final.planned_angular_momentum.norm(), 0.01); // [kg m^2/s]
 }
 
 TEST(TestDdpCentroidal, CheckDerivatives)
