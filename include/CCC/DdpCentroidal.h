@@ -7,6 +7,7 @@
 #include <nmpc_ddp/DDPSolver.h>
 
 #include <CCC/EigenTypes.h>
+#include <CCC/MotionData.h>
 
 namespace CCC
 {
@@ -88,6 +89,29 @@ public:
       running_angular_momentum(_running_angular_momentum), running_force(_running_force), terminal_pos(_terminal_pos),
       terminal_linear_momentum(_terminal_linear_momentum), terminal_angular_momentum(_terminal_angular_momentum)
     {
+    }
+  };
+
+  /** \brief Motion data. */
+  struct MotionData : MotionDataBase<Eigen::Vector3d, Eigen::Vector3d, Eigen::VectorXd>
+  {
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+    //! Reference angular momentum [kg m^2/s]
+    Eigen::Vector3d ref_angular_momentum;
+
+    //! Planned angular momentum [kg m^2/s]
+    Eigen::Vector3d planned_angular_momentum;
+
+    /** \brief Dump data.
+        \tparam StreamType stream type
+     */
+    template<class StreamType>
+    void dump(StreamType & ofs) const
+    {
+      ofs << time << " " << ref_pos.transpose() << " " << ref_vel.transpose() << " " << ref_angular_momentum.transpose()
+          << " " << planned_pos.transpose() << " " << planned_vel.transpose() << " " << planned_acc.transpose() << " "
+          << planned_angular_momentum.transpose() << " " << planned_force.transpose() << std::endl;
     }
   };
 
@@ -329,10 +353,66 @@ public:
     */
     std::vector<DdpProblem::InputDimVector> u_list = {};
 
+    /** \brief Constructor. */
+    InitialParam() {}
+
+    /** \brief Constructor.
+        \param state state of DDP problem
+        \param mass robot mass [kg]
+    */
+    InitialParam(const DdpProblem::StateDimVector & state, double mass);
+
     /** \brief Get state of DDP problem.
         \param mass robot mass [kg]
      */
     DdpProblem::StateDimVector toState(double mass) const;
+  };
+
+  /** \brief State-space model for simulation. */
+  class SimModel
+  {
+  public:
+    /** \brief Type of state vector. */
+    using StateDimVector = DdpProblem::StateDimVector;
+
+    /** \brief Type of input vector. */
+    using InputDimVector = DdpProblem::InputDimVector;
+
+    /** \brief Type of output vector. */
+    using OutputDimVector = Eigen::Matrix<double, 12, 1>;
+
+  public:
+    /** \brief Constructor.
+        \param mass robot mass [kg]
+        \param motion_param_func function of motion parameter
+        \param dt discretization timestep [sec]
+     */
+    SimModel(double mass, const std::function<MotionParam(double)> & motion_param_func, double dt)
+    : mass_(mass), motion_param_func_(motion_param_func), dt_(dt)
+    {
+    }
+
+    /** \brief Calculate next state and observation output.
+        \param x current state
+        \param u current input
+        \param next_x next state
+        \param y current output
+    */
+    void procOnce(double t,
+                  const StateDimVector & x,
+                  const InputDimVector & u,
+                  Eigen::Ref<StateDimVector> next_x,
+                  Eigen::Ref<OutputDimVector> y) const;
+
+  public:
+    //! Robot mass [Kg]
+    double mass_ = 0;
+
+    //! Function of motion parameter
+    std::function<MotionParam(double)> motion_param_func_;
+
+    //! Discretization timestep [sec]
+    double dt_ = 0;
   };
 
 public:
@@ -358,11 +438,45 @@ public:
                            const InitialParam & initial_param,
                            double current_time);
 
+  /** \brief Plan with loop.
+      \param motion_param_func function of motion parameter
+      \param ref_data_func function of reference data
+      \param initial_param initial parameter
+      \param motion_time_range start and end time of motion ([sec], [sec])
+      \param sim_dt discretization timestep for simulation [sec]
+      \param ddp_max_iter DDP max iteration for the second and subsequent loop iterations (for the first loop iteration,
+     the currently set DDP max iteration is used)
+      \param weight_param objective weight parameter
+  */
+  void planLoop(const std::function<MotionParam(double)> & motion_param_func,
+                const std::function<RefData(double)> & ref_data_func,
+                const InitialParam & initial_param,
+                const std::pair<double, double> & motion_time_range,
+                double sim_dt,
+                int ddp_max_iter = 1,
+                const WeightParam & weight_param = WeightParam());
+
+  /** \brief Dump motion data sequence by planLoop().
+      \param file_path output file path
+      \param print_command whether to print the plot commands
+   */
+  void dumpMotionDataSeq(const std::string & file_path, bool print_command = true) const;
+
+  /** \brief Get motion data sequence. */
+  inline const std::map<double, MotionData> & motionDataSeq() const
+  {
+    return motion_data_seq_;
+  }
+
 public:
   //! DDP problem
   std::shared_ptr<DdpProblem> ddp_problem_;
 
   //! DDP solver
   std::shared_ptr<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>> ddp_solver_;
+
+protected:
+  //! Motion data sequence
+  std::map<double, MotionData> motion_data_seq_;
 };
 } // namespace CCC
