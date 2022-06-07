@@ -43,7 +43,7 @@ $ catkin build centroidal_control_collection -DCMAKE_BUILD_TYPE=RelWithDebInfo -
 ## Examples
 Make sure that it is built with `--catkin-make-args tests` option.
 
-### Bipedal methods
+### Methods based on bipedal dynamics
 The CoM and ZMP trajectories are planned according to the ZMP reference trajectory and the ZMP region boundaries as inputs, which are determined from a given footstep sequence (i.e., the position and timing of the foot landings). The CoM velocity is jumped by emulating a disturbance during motion.
 
 #### [PreviewControlZmp](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1PreviewControlZmp.html)
@@ -126,3 +126,26 @@ $ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method
 ```
 
 You will get a plot like [this one](https://www.dropbox.com/s/t2h9qu5tzfon4mq/plotTestZmpBasedMethodResultsAll.pdf?dl=0) that shows all the methods in one sheet.
+
+### Methods based on centroidal dynamics
+Centroidal trajectories (i.e., CoM and linear/angular momentum trajectories) are planned from the contact sequence.
+
+#### [LinearMpcZ](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1LinearMpcZ.html)
+
+```bash
+$ rosrun centroidal_control_collection TestLinearMpcZ
+```
+
+#### [LinearMpcXY](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1LinearMpcXY.html)
+- H Audren, et al. Model preview control in multi-contact motion-application to a humanoid robot. IROS, 2014.
+- 長阪憲一郎, et al. 接触拘束を考慮可能なマルチコンタクト対応スタビライザと一般化逆動力学による人型ロボットの全身制御. ロボティクスシンポジア予稿集, 2012.
+
+```bash
+$ rosrun centroidal_control_collection TestLinearMpcXY
+```
+
+#### [DdpCentroidal](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DdpCentroidal.html)
+
+```bash
+$ rosrun centroidal_control_collection TestDdpCentroidal --gtest_filter=*.PlanOnce
+```
