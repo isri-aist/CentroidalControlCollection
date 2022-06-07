@@ -473,6 +473,9 @@ public:
   //! DDP solver
   std::shared_ptr<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>> ddp_solver_;
 
+  //! Force scale limits (i.e., limits of \f$\lambda_i\f$ in the order of lower, upper)
+  std::array<double, 2> force_scale_limits_ = {0.0, 1e6};
+
 protected:
   //! Motion data sequence
   std::map<double, MotionData> motion_data_seq_;

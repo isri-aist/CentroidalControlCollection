@@ -220,7 +220,15 @@ DdpCentroidal::DdpCentroidal(double mass, double horizon_dt, int horizon_steps, 
 : ddp_problem_(std::make_shared<DdpProblem>(horizon_dt, mass, weight_param)),
   ddp_solver_(std::make_shared<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>>(ddp_problem_))
 {
+  ddp_solver_->config().with_input_constraint = true;
   ddp_solver_->config().horizon_steps = horizon_steps;
+  ddp_solver_->setInputLimitsFunc([this](double t) -> std::array<Eigen::VectorXd, 2> {
+    std::array<Eigen::VectorXd, 2> limits;
+    int input_dim = ddp_problem_->inputDim(t);
+    limits[0].setConstant(input_dim, force_scale_limits_[0]);
+    limits[1].setConstant(input_dim, force_scale_limits_[1]);
+    return limits;
+  });
 }
 
 Eigen::VectorXd DdpCentroidal::planOnce(const std::function<MotionParam(double)> & motion_param_func,
