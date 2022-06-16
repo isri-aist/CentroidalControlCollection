@@ -96,7 +96,7 @@ void DdpCentroidal::DdpProblem::calcStateEqDeriv(double t,
   state_eq_deriv_x.block<3, 3>(0, 3).diagonal().setConstant(1 / mass_);
   state_eq_deriv_x.block<3, 3>(6, 0) = crossMat(ridges_mat * u);
   state_eq_deriv_x *= dt_;
-  state_eq_deriv_x += StateStateDimMatrix::Identity();
+  state_eq_deriv_x.diagonal().array() += 1.0;
 
   state_eq_deriv_u.setZero();
   state_eq_deriv_u.middleRows<3>(3) = ridges_mat;
