@@ -1,3 +1,4 @@
 <map id="CCC::LinearMpcZ::ModelNoncontactPhase" name="CCC::LinearMpcZ::ModelNoncontactPhase">
-<area shape="rect" id="node2" href="$classCCC_1_1StateSpaceModel.html" title="State&#45;space model. " alt="" coords="61,5,203,32"/>
+<area shape="rect" id="node1" title="State&#45;space model for non&#45;contact phase." alt="" coords="5,80,260,121"/>
+<area shape="rect" id="node2" href="$classCCC_1_1StateSpaceModel.html" title="State&#45;space model." alt="" coords="61,5,204,32"/>
 </map>

@@ -1,6 +1,14 @@
 <map id="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/LinearMpcXY.h" name="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/LinearMpcXY.h">
-<area shape="rect" id="node4" href="$EigenTypes_8h.html" title="CCC/EigenTypes.h" alt="" coords="304,131,444,158"/>
-<area shape="rect" id="node6" href="$MotionData_8h.html" title="CCC/MotionData.h" alt="" coords="468,131,608,158"/>
-<area shape="rect" id="node7" href="$VariantSequentialExtension_8h.html" title="CCC/VariantSequentialExtension.h" alt="" coords="633,131,878,158"/>
-<area shape="rect" id="node10" href="$StateSpaceModel_8h.html" title="CCC/StateSpaceModel.h" alt="" coords="819,213,996,240"/>
+<area shape="rect" id="node1" title=" " alt="" coords="224,5,521,76"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,131,92,158"/>
+<area shape="rect" id="node3" title=" " alt="" coords="117,124,279,165"/>
+<area shape="rect" id="node4" href="$EigenTypes_8h.html" title=" " alt="" coords="303,131,442,158"/>
+<area shape="rect" id="node6" href="$MotionData_8h.html" title=" " alt="" coords="466,131,607,158"/>
+<area shape="rect" id="node7" href="$VariantSequentialExtension_8h.html" title=" " alt="" coords="631,131,877,158"/>
+<area shape="rect" id="node5" title=" " alt="" coords="327,213,419,240"/>
+<area shape="rect" id="node8" title=" " alt="" coords="611,213,691,240"/>
+<area shape="rect" id="node9" title=" " alt="" coords="715,213,793,240"/>
+<area shape="rect" id="node10" href="$StateSpaceModel_8h.html" title=" " alt="" coords="817,213,995,240"/>
+<area shape="rect" id="node11" title=" " alt="" coords="769,295,872,322"/>
+<area shape="rect" id="node12" title=" " alt="" coords="897,288,1086,329"/>
 </map>

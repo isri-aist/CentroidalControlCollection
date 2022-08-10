@@ -1,3 +1,4 @@
 <map id="CCC::IntrinsicallyStableMpc1d" name="CCC::IntrinsicallyStableMpc1d">
-<area shape="rect" id="node2" href="$structCCC_1_1IntrinsicallyStableMpc1d_1_1WeightParam.html" title="Weight parameter. " alt="" coords="5,5,180,47"/>
+<area shape="rect" id="node1" title="QP&#45;based MPC with stability constraint for one&#45;dimensional CoM&#45;ZMP model." alt="" coords="5,109,180,151"/>
+<area shape="rect" id="node2" href="$structCCC_1_1IntrinsicallyStableMpc1d_1_1WeightParam.html" title="Weight parameter." alt="" coords="5,5,180,47"/>
 </map>
