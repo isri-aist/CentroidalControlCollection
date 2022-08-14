@@ -46,7 +46,7 @@ TEST(TestDdpZmp, Test1)
       Footstep(Foot::Right, Eigen::Vector2d(0.6, -0.1), 7.0, transit_duration, swing_duration));
   std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [&](double t) {
     CCC::DdpZmp::RefData ref_data;
-    ref_data.zmp = footstep_manager.refZmp(t);
+    ref_data.zmp << footstep_manager.refZmp(t), 0.0;
     ref_data.com_z = ref_com_height;
     return ref_data;
   };
@@ -99,12 +99,12 @@ TEST(TestDdpZmp, Test1)
     Eigen::Vector2d capture_point =
         (initial_param.pos + std::sqrt(sim.state_.pos().z() / CCC::constants::g) * initial_param.vel).head<2>();
     ofs << t << " " << sim.state_.pos().transpose() << " " << planned_data.zmp.transpose() << " "
-        << planned_data.force_z << " " << ref_data.zmp.transpose() << " " << ref_com_height << " "
+        << planned_data.force_z << " " << ref_data.zmp.head<2>().transpose() << " " << ref_com_height << " "
         << capture_point.transpose() << " " << ddp.ddp_solver_->traceDataList().back().iter << " "
         << computation_duration_list.back() << std::endl;
 
     // Check
-    EXPECT_LT((planned_data.zmp - ref_data.zmp).norm(), 0.1); // [m]
+    EXPECT_LT((planned_data.zmp - ref_data.zmp.head<2>()).norm(), 0.1); // [m]
     EXPECT_LT(std::abs(sim.state_.pos().z() - ref_com_height), 0.1); // [m]
 
     // Simulate
@@ -127,9 +127,9 @@ TEST(TestDdpZmp, Test1)
 
   // Final check
   const auto & ref_data = ref_data_func(t);
-  EXPECT_LT((planned_data.zmp - ref_data.zmp).norm(), 1e-2);
+  EXPECT_LT((planned_data.zmp - ref_data.zmp.head<2>()).norm(), 1e-2);
   EXPECT_LT(std::abs(sim.state_.pos().z() - ref_com_height), 1e-2);
-  EXPECT_LT((sim.state_.pos().head<2>() - ref_data.zmp).norm(), 1e-2);
+  EXPECT_LT((sim.state_.pos().head<2>() - ref_data.zmp.head<2>()).norm(), 1e-2);
   EXPECT_LT(sim.state_.vel().norm(), 1e-2);
 
   Eigen::Map<Eigen::VectorXd> computation_duration_vec(computation_duration_list.data(),
@@ -160,7 +160,7 @@ TEST(TestDdpZmp, CheckDerivatives)
 
   std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [](double t) {
     CCC::DdpZmp::RefData ref_data;
-    ref_data.zmp << 0.1, -0.2; // [m]
+    ref_data.zmp << 0.1, -0.2, 0.0; // [m]
     ref_data.com_z = 1.0; // [m]
     return ref_data;
   };

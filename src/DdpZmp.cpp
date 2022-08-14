@@ -20,7 +20,7 @@ double DdpZmp::DdpProblem::runningCost(double t, const StateDimVector & x, const
   const auto & ref_data = ref_data_func_(t);
 
   return weight_param_.running_com_pos_z * 0.5 * std::pow(x[4] - ref_data.com_z, 2)
-         + weight_param_.running_zmp * 0.5 * (u.head<2>() - ref_data.zmp).squaredNorm()
+         + weight_param_.running_zmp * 0.5 * (u.head<2>() - ref_data.zmp.head<2>()).squaredNorm()
          + weight_param_.running_force_z * 0.5 * std::pow(u[2] - mass_ * constants::g, 2);
 }
 
@@ -33,7 +33,7 @@ double DdpZmp::DdpProblem::terminalCost(double t, const StateDimVector & x) cons
   Eigen::Vector3d com_vel;
   com_vel << x[1], x[3], x[5];
 
-  return weight_param_.terminal_com_pos_xy * 0.5 * (com_pos_xy - ref_data.zmp).squaredNorm()
+  return weight_param_.terminal_com_pos_xy * 0.5 * (com_pos_xy - ref_data.zmp.head<2>()).squaredNorm()
          + weight_param_.terminal_com_pos_z * 0.5 * std::pow(x[4] - ref_data.com_z, 2)
          + weight_param_.terminal_com_vel * 0.5 * com_vel.squaredNorm();
 }
@@ -75,7 +75,7 @@ void DdpZmp::DdpProblem::calcRunningCostDeriv(double t,
   running_cost_deriv_x.setZero();
   running_cost_deriv_x[4] = weight_param_.running_com_pos_z * (x[4] - ref_data.com_z);
 
-  running_cost_deriv_u << weight_param_.running_zmp * (u.head<2>() - ref_data.zmp),
+  running_cost_deriv_u << weight_param_.running_zmp * (u.head<2>() - ref_data.zmp.head<2>()),
       weight_param_.running_force_z * (u[2] - mass_ * constants::g);
 }
 
@@ -93,7 +93,7 @@ void DdpZmp::DdpProblem::calcRunningCostDeriv(double t,
   running_cost_deriv_x.setZero();
   running_cost_deriv_x[4] = weight_param_.running_com_pos_z * (x[4] - ref_data.com_z);
 
-  running_cost_deriv_u << weight_param_.running_zmp * (u.head<2>() - ref_data.zmp),
+  running_cost_deriv_u << weight_param_.running_zmp * (u.head<2>() - ref_data.zmp.head<2>()),
       weight_param_.running_force_z * (u[2] - mass_ * constants::g);
 
   running_cost_deriv_xx.setZero();

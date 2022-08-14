@@ -23,7 +23,7 @@ public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     //! ZMP [m]
-    Eigen::Vector2d zmp = Eigen::Vector2d::Zero();
+    Eigen::Vector3d zmp = Eigen::Vector3d::Zero();
 
     //! CoM z position [m]
     double com_z = 0;
