@@ -156,11 +156,11 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>DDP problem of CoM-ZMP model. </p>
 <p>Dynamics is expressed by the following equation. </p><p class="formulaDsp">
-\begin{align*} \begin{bmatrix} \ddot{c}_x \\ \ddot{c}_y \\ \ddot{c}_z \end{bmatrix} = \begin{bmatrix} \dfrac{(c_x - z_x) f_z}{m c_z} \\ \dfrac{(c_y - z_y) f_z}{m c_z} \\ \dfrac{f_z}{m} - g \end{bmatrix} \end{align*}
+\begin{align*} \begin{bmatrix} \ddot{c}_x \\ \ddot{c}_y \\ \ddot{c}_z \end{bmatrix} = \begin{bmatrix} \dfrac{(c_x - z_x) f_z}{m (c_z - z_z)} \\ \dfrac{(c_y - z_y) f_z}{m (c_z - z_z)} \\ \dfrac{f_z}{m} - g \end{bmatrix} \end{align*}
 </p>
 <p> \(\boldsymbol{c}\) and \(\boldsymbol{z}\) are CoM and ZMP.</p>
 <p>State and control input are expressed by the following equations. </p><p class="formulaDsp">
-\begin{align*} \boldsymbol{x} = \begin{bmatrix} c_x \\ \dot{c}_x \\ c_y \\ \dot{c}_y \\ c_z \\ \dot{c}_z \end{bmatrix}, \boldsymbol{u} = \begin{bmatrix} p_x \\ p_y \\ f_z \end{bmatrix} \end{align*}
+\begin{align*} \boldsymbol{x} = \begin{bmatrix} c_x \\ \dot{c}_x \\ c_y \\ \dot{c}_y \\ c_z \\ \dot{c}_z \end{bmatrix}, \boldsymbol{u} = \begin{bmatrix} z_x \\ z_y \\ f_z \end{bmatrix} \end{align*}
 </p>
  
 <p class="definition">Definition at line <a class="el" href="DdpZmp_8h_source.html#l00103">103</a> of file <a class="el" href="DdpZmp_8h_source.html">DdpZmp.h</a>.</p>
