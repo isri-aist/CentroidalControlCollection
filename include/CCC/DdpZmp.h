@@ -97,7 +97,7 @@ public:
       State and control input are expressed by the following equations.
       \f{align*}{
       \boldsymbol{x} = \begin{bmatrix} c_x \\ \dot{c}_x \\ c_y \\ \dot{c}_y \\ c_z \\ \dot{c}_z \end{bmatrix},
-      \boldsymbol{u} = \begin{bmatrix} p_x \\ p_y \\ f_z \end{bmatrix}
+      \boldsymbol{u} = \begin{bmatrix} z_x \\ z_y \\ f_z \end{bmatrix}
       \f}
    */
   class DdpProblem : public nmpc_ddp::DDPProblem<6, 3>
