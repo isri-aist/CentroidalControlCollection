@@ -89,7 +89,7 @@ public:
       \f{align*}{
       \begin{bmatrix} \ddot{c}_x \\ \ddot{c}_y \\ \ddot{c}_z \end{bmatrix} =
       \begin{bmatrix}
-      \dfrac{(c_x - z_x) f_z}{m c_z} \\ \dfrac{(c_y - z_y) f_z}{m c_z} \\ \dfrac{f_z}{m} - g
+      \dfrac{(c_x - z_x) f_z}{m (c_z - z_z)} \\ \dfrac{(c_y - z_y) f_z}{m (c_z - z_z)} \\ \dfrac{f_z}{m} - g
       \end{bmatrix}
       \f}
       \f$\boldsymbol{c}\f$ and \f$\boldsymbol{z}\f$ are CoM and ZMP.

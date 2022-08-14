@@ -160,7 +160,7 @@ TEST(TestDdpZmp, CheckDerivatives)
 
   std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [](double t) {
     CCC::DdpZmp::RefData ref_data;
-    ref_data.zmp << 0.1, -0.2, 0.0; // [m]
+    ref_data.zmp << 0.1, -0.2, 0.3; // [m]
     ref_data.com_z = 1.0; // [m]
     return ref_data;
   };

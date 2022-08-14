@@ -9,9 +9,11 @@ DdpZmp::DdpProblem::StateDimVector DdpZmp::DdpProblem::stateEq(double t,
                                                                const StateDimVector & x,
                                                                const InputDimVector & u) const
 {
+  const auto & ref_data = ref_data_func_(t);
+
   StateDimVector x_dot;
-  x_dot << x[1], (x[0] - u[0]) * u[2] / (mass_ * x[4]), x[3], (x[2] - u[1]) * u[2] / (mass_ * x[4]), x[5],
-      u[2] / mass_ - constants::g;
+  x_dot << x[1], (x[0] - u[0]) * u[2] / (mass_ * (x[4] - ref_data.zmp.z())), x[3],
+      (x[2] - u[1]) * u[2] / (mass_ * (x[4] - ref_data.zmp.z())), x[5], u[2] / mass_ - constants::g;
   return x + dt_ * x_dot;
 }
 
@@ -44,22 +46,24 @@ void DdpZmp::DdpProblem::calcStateEqDeriv(double t,
                                           Eigen::Ref<StateStateDimMatrix> state_eq_deriv_x,
                                           Eigen::Ref<StateInputDimMatrix> state_eq_deriv_u) const
 {
+  const auto & ref_data = ref_data_func_(t);
+
   state_eq_deriv_x.setZero();
   state_eq_deriv_x(0, 1) = 1;
-  state_eq_deriv_x(1, 0) = u[2] / (mass_ * x[4]);
-  state_eq_deriv_x(1, 4) = -1 * (x[0] - u[0]) * u[2] / (mass_ * std::pow(x[4], 2));
+  state_eq_deriv_x(1, 0) = u[2] / (mass_ * (x[4] - ref_data.zmp.z()));
+  state_eq_deriv_x(1, 4) = -1 * (x[0] - u[0]) * u[2] / (mass_ * std::pow(x[4] - ref_data.zmp.z(), 2));
   state_eq_deriv_x(2, 3) = 1;
-  state_eq_deriv_x(3, 2) = u[2] / (mass_ * x[4]);
-  state_eq_deriv_x(3, 4) = -1 * (x[2] - u[1]) * u[2] / (mass_ * std::pow(x[4], 2));
+  state_eq_deriv_x(3, 2) = u[2] / (mass_ * (x[4] - ref_data.zmp.z()));
+  state_eq_deriv_x(3, 4) = -1 * (x[2] - u[1]) * u[2] / (mass_ * std::pow(x[4] - ref_data.zmp.z(), 2));
   state_eq_deriv_x(4, 5) = 1;
   state_eq_deriv_x *= dt_;
   state_eq_deriv_x.diagonal().array() += 1.0;
 
   state_eq_deriv_u.setZero();
-  state_eq_deriv_u(1, 0) = -1 * u[2] / (mass_ * x[4]);
-  state_eq_deriv_u(1, 2) = (x[0] - u[0]) / (mass_ * x[4]);
-  state_eq_deriv_u(3, 1) = -1 * u[2] / (mass_ * x[4]);
-  state_eq_deriv_u(3, 2) = (x[2] - u[1]) / (mass_ * x[4]);
+  state_eq_deriv_u(1, 0) = -1 * u[2] / (mass_ * (x[4] - ref_data.zmp.z()));
+  state_eq_deriv_u(1, 2) = (x[0] - u[0]) / (mass_ * (x[4] - ref_data.zmp.z()));
+  state_eq_deriv_u(3, 1) = -1 * u[2] / (mass_ * (x[4] - ref_data.zmp.z()));
+  state_eq_deriv_u(3, 2) = (x[2] - u[1]) / (mass_ * (x[4] - ref_data.zmp.z()));
   state_eq_deriv_u(5, 2) = 1 / mass_;
   state_eq_deriv_u *= dt_;
 }
