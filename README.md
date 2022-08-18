@@ -149,3 +149,6 @@ $ rosrun centroidal_control_collection TestLinearMpcXY
 ```bash
 $ rosrun centroidal_control_collection TestDdpCentroidal --gtest_filter=*.PlanOnce
 ```
+
+## Integration into controller
+Some of the methods implemented in this library are available in the humanoid controller [BaselineWalkingController](https://github.com/isri-aist/BaselineWalkingController).
