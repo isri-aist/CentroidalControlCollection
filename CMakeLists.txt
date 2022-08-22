@@ -4,7 +4,6 @@ project(centroidal_control_collection)
 add_compile_options(-std=c++17)
 
 find_package(catkin REQUIRED COMPONENTS
-  message_generation
   roscpp
   qp_solver_collection
   nmpc_ddp
