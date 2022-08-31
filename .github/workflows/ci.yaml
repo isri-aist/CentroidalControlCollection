@@ -32,8 +32,6 @@ jobs:
         os: [ubuntu-20.04, ubuntu-18.04]
         build-type: [Debug, RelWithDebInfo]
     runs-on: ${{ matrix.os }}
-    env:
-      ROS_DISTRO: melodic
     steps:
       - name: Set ROS version
         run: |
