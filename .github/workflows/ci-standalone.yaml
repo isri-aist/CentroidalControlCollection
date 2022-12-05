@@ -32,7 +32,7 @@ jobs:
           apt-mirrors:
             mc-rtc:
               cloudsmith: mc-rtc/head
-          apt: cmake libqsolvercollection-dev libnmpc-dev
+          apt: cmake libqpsolvercollection-dev libnmpc-dev
     - name: Install GTest
       if: matrix.os == 'ubuntu-18.04'
       uses: jrl-umi3218/github-actions/install-dependencies@master
