@@ -66,7 +66,7 @@ namespace CCC
    following papers uses it.
       - H Audren, et al. Model preview control in multi-contact motion-application to a humanoid robot. IROS, 2014.
 */
-template<int StateDim, template<class> class ListType = std::vector>
+template<int StateDim, template<class, class...> class ListType = std::vector>
 class VariantSequentialExtension
 {
 public:

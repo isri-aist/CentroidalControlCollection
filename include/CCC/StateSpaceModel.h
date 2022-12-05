@@ -175,8 +175,8 @@ public:
         Eigen::MatrixXd ABZero(state_dim_ + input_dim_, state_dim_ + input_dim_);
         ABZero << dt_ * A_, dt_ * B_, Eigen::MatrixXd::Zero(input_dim_, state_dim_ + input_dim_);
         Eigen::MatrixXd ABZeroExp = ABZero.exp();
-        Ad_ = ABZeroExp.template block(0, 0, state_dim_, state_dim_);
-        Bd_ = ABZeroExp.template block(0, state_dim_, state_dim_, input_dim_);
+        Ad_ = ABZeroExp.block(0, 0, state_dim_, state_dim_);
+        Bd_ = ABZeroExp.block(0, state_dim_, state_dim_, input_dim_);
         Ed_.setZero(state_dim_);
       }
       else
@@ -185,9 +185,9 @@ public:
         Eigen::MatrixXd ABEZero(state_dim_ + input_dim_ + 1, state_dim_ + input_dim_ + 1);
         ABEZero << dt_ * A_, dt_ * B_, dt_ * E_, Eigen::MatrixXd::Zero(input_dim_ + 1, state_dim_ + input_dim_ + 1);
         Eigen::MatrixXd ABEZeroExp = ABEZero.exp();
-        Ad_ = ABEZeroExp.template block(0, 0, state_dim_, state_dim_);
-        Bd_ = ABEZeroExp.template block(0, state_dim_, state_dim_, input_dim_);
-        Ed_ = ABEZeroExp.template block(0, state_dim_ + input_dim_, state_dim_, 1);
+        Ad_ = ABEZeroExp.block(0, 0, state_dim_, state_dim_);
+        Bd_ = ABEZeroExp.block(0, state_dim_, state_dim_, input_dim_);
+        Ed_ = ABEZeroExp.block(0, state_dim_ + input_dim_, state_dim_, 1);
       }
     }
     else

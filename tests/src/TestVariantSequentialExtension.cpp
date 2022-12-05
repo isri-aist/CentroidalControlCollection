@@ -48,7 +48,7 @@ public:
   }
 };
 
-template<template<class> class ListType>
+template<template<class, class...> class ListType>
 Eigen::VectorXd calcStateSeq(const CCC::VariantSequentialExtension<state_dim, ListType> & seq_ext,
                              const Eigen::VectorXd & u_seq,
                              const Eigen::Matrix<double, state_dim, 1> & x_initial,
@@ -65,7 +65,7 @@ Eigen::VectorXd calcStateSeq(const CCC::VariantSequentialExtension<state_dim, Li
     current_x = seq_ext.model_list_[i]->stateEqDisc(current_x, u_seq.segment(accum_input_dim, current_input_dim));
     if(extend_for_output)
     {
-      x_seq_iter.template segment(accum_output_dim, current_output_dim) = seq_ext.model_list_[i]->observEq(current_x);
+      x_seq_iter.segment(accum_output_dim, current_output_dim) = seq_ext.model_list_[i]->observEq(current_x);
     }
     else
     {
@@ -77,7 +77,7 @@ Eigen::VectorXd calcStateSeq(const CCC::VariantSequentialExtension<state_dim, Li
   return x_seq_iter;
 }
 
-template<template<class> class ListType>
+template<template<class, class...> class ListType>
 void printStateSeq(const CCC::VariantSequentialExtension<state_dim, ListType> & seq_ext,
                    Eigen::VectorXd x_seq_ext, // Pass by value for Eigen::Map
                    Eigen::VectorXd x_seq_iter,
