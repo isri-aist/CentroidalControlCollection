@@ -13,7 +13,8 @@ add_library(CCC
   )
 if(DEFINED CATKIN_DEVEL_PREFIX)
   target_include_directories(CCC PUBLIC
-    ${PROJECT_SOURCE_DIR}/include
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
     ${catkin_INCLUDE_DIRS}
     )
   target_link_libraries(CCC PUBLIC
