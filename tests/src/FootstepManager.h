@@ -9,12 +9,11 @@
 
 #include <Eigen/Core>
 
-#include <ros/console.h>
-
 #include <CCC/DcmTracking.h>
 #include <CCC/FootGuidedControl.h>
 #include <CCC/IntrinsicallyStableMpc.h>
 #include <CCC/LinearMpcZmp.h>
+#include <CCC/streams.h>
 
 /** \brief Foot. */
 enum class Foot
@@ -88,7 +87,7 @@ struct Footstance : public std::unordered_map<Foot, Eigen::Vector2d>
   {
     if(this->size() == 0)
     {
-      ROS_WARN("[Footstance::midPos] The number of contacts is zero.");
+      CCC_WARN_STREAM("[Footstance::midPos] The number of contacts is zero.");
       return Eigen::Vector2d::Zero();
     }
     else if(this->size() == 1)
@@ -107,7 +106,7 @@ struct Footstance : public std::unordered_map<Foot, Eigen::Vector2d>
     std::array<Eigen::Vector2d, 2> region_min_max;
     if(this->size() == 0)
     {
-      ROS_WARN("[Footstance::supportRegion] The number of contacts is zero.");
+      CCC_WARN_STREAM("[Footstance::supportRegion] The number of contacts is zero.");
       region_min_max[0] = Eigen::Vector2d::Zero();
       region_min_max[1] = Eigen::Vector2d::Zero();
     }

@@ -4,9 +4,8 @@
 
 #include <memory>
 
-#include <ros/console.h>
-
 #include <CCC/StateSpaceModel.h>
+#include <CCC/streams.h>
 
 namespace CCC
 {
@@ -134,7 +133,7 @@ protected:
       }
       else if(i == iterMax - 1)
       {
-        ROS_WARN_STREAM("[PreviewControl] Solution of Riccati equation did not converged: " << relNorm << " > "
+        CCC_WARN_STREAM("[PreviewControl] Solution of Riccati equation did not converged: " << relNorm << " > "
                                                                                             << relNormThre);
       }
 
