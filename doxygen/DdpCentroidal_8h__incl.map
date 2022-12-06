@@ -1,8 +1,8 @@
 <map id="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/DdpCentroidal.h" name="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/DdpCentroidal.h">
-<area shape="rect" id="node1" title=" " alt="" coords="167,5,464,76"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,124,113,151"/>
-<area shape="rect" id="node3" title=" " alt="" coords="137,124,312,151"/>
-<area shape="rect" id="node4" href="$EigenTypes_8h.html" title=" " alt="" coords="337,124,475,151"/>
-<area shape="rect" id="node6" href="$MotionData_8h.html" title=" " alt="" coords="499,124,641,151"/>
-<area shape="rect" id="node5" title=" " alt="" coords="360,199,452,225"/>
+<area shape="rect" id="node1" title=" " alt="" coords="205,5,502,76"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,124,179,151"/>
+<area shape="rect" id="node3" href="$EigenTypes_8h.html" title=" " alt="" coords="203,124,341,151"/>
+<area shape="rect" id="node5" href="$MotionData_8h.html" title=" " alt="" coords="365,124,507,151"/>
+<area shape="rect" id="node6" title=" " alt="" coords="531,124,581,151"/>
+<area shape="rect" id="node4" title=" " alt="" coords="226,199,318,225"/>
 </map>

@@ -1,8 +1,9 @@
 <map id="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/PreviewControl.h" name="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/PreviewControl.h">
-<area shape="rect" id="node1" title=" " alt="" coords="13,5,310,76"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,124,83,151"/>
-<area shape="rect" id="node3" title=" " alt="" coords="107,124,215,151"/>
-<area shape="rect" id="node4" href="$StateSpaceModel_8h.html" title=" " alt="" coords="240,124,419,151"/>
-<area shape="rect" id="node5" title=" " alt="" coords="193,206,295,233"/>
-<area shape="rect" id="node6" title=" " alt="" coords="320,199,509,240"/>
+<area shape="rect" id="node1" title=" " alt="" coords="79,5,376,76"/>
+<area shape="rect" id="node2" title=" " alt="" coords="37,124,114,151"/>
+<area shape="rect" id="node3" href="$StateSpaceModel_8h.html" title=" " alt="" coords="138,124,317,151"/>
+<area shape="rect" id="node6" href="$streams_8h.html" title=" " alt="" coords="341,124,460,151"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,206,108,233"/>
+<area shape="rect" id="node5" title=" " alt="" coords="133,199,322,240"/>
+<area shape="rect" id="node7" title=" " alt="" coords="347,206,455,233"/>
 </map>
