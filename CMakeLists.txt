@@ -15,6 +15,7 @@ include(cmake/base.cmake)
 project(centroidal_control_collection LANGUAGES CXX)
 
 if(DEFINED CATKIN_DEVEL_PREFIX)
+  set(DOXYGEN_HTML_OUTPUT html)
   find_package(catkin REQUIRED COMPONENTS
     roscpp
     qp_solver_collection
@@ -31,6 +32,7 @@ if(DEFINED CATKIN_DEVEL_PREFIX)
     LIBRARIES CCC
     )
 else()
+  set(DOXYGEN_HTML_OUTPUT doxygen-html)
   set(CATKIN_ENABLE_TESTING OFF)
   option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
   add_project_dependency(qp_solver_collection REQUIRED)
