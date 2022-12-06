@@ -4,12 +4,11 @@
 
 #include <Eigen/Core>
 
-#include <ros/console.h>
-
 /** \brief Make list of vertex and ridge from rectangle support region.
     \param rect_min_max min/max vertices of rectangle support region
 */
-Eigen::Matrix<double, 6, Eigen::Dynamic> makeVertexRidgeListFromRect(const std::array<Eigen::Vector2d, 2> & rect_min_max)
+inline Eigen::Matrix<double, 6, Eigen::Dynamic> makeVertexRidgeListFromRect(
+    const std::array<Eigen::Vector2d, 2> & rect_min_max)
 {
   std::vector<Eigen::Vector3d> vertex_list(4);
   vertex_list[0] << rect_min_max[0], 0.0;

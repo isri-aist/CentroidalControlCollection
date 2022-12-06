@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <ros/console.h>
-
 #include <nmpc_ddp/DDPSolver.h>
 
 namespace CCC

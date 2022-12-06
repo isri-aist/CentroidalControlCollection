@@ -1,0 +1,24 @@
+Source: centroidalcontrolcollection
+Priority: optional
+Maintainer: Pierre Gergondet <pierre.gergondet+ppa@gmail.com>
+Standards-Version: 3.9.5
+Section: libs
+Homepage: https://github.com/isri-aist/CentroidalControlCollection
+Build-Depends: debhelper (>= 9),
+               pkg-config,
+               cmake,
+               doxygen,
+               graphviz,
+               libqpsolvercollection-dev,
+               libnmpc-dev,
+               libgtest-dev
+
+Package: libcentroidalcontrolcollection-dev
+Section: libdevel
+Architecture: any
+Depends: cmake,
+         libqpsolvercollection-dev,
+         libnmpc-dev,
+         ${shlibs:Depends},
+         ${misc:Depends}
+Description: Collection of centroidal control for legged robots

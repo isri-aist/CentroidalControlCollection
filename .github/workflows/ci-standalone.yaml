@@ -1,0 +1,48 @@
+name: CI of CentroidalControlCollection
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-18.04]
+        build-type: [Debug, RelWithDebInfo]
+        compiler: [gcc, clang]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - name: Install dependencies
+      uses: jrl-umi3218/github-actions/install-dependencies@master
+      with:
+        compiler: ${{ matrix.compiler }}
+        build-type: ${{ matrix.build-type }}
+        ubuntu: |
+          apt-mirrors:
+            mc-rtc:
+              cloudsmith: mc-rtc/head
+          apt: cmake libqpsolvercollection-dev libnmpc-dev libgtest-dev
+    - name: Install GTest
+      if: matrix.os == 'ubuntu-18.04'
+      uses: jrl-umi3218/github-actions/install-dependencies@master
+      with:
+        build-type: ${{ matrix.build-type }}
+        github: |
+          - path: google/googletest
+            ref: release-1.12.1
+    - name: Build and test
+      uses: jrl-umi3218/github-actions/build-cmake-project@master
+      with:
+        compiler: ${{ matrix.compiler }}
+        build-type: ${{ matrix.build-type }}

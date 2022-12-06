@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include <ros/console.h>
-
 #include <nmpc_ddp/DDPSolver.h>
 
 #include <CCC/EigenTypes.h>
 #include <CCC/MotionData.h>
+
+#include <map>
 
 namespace CCC
 {
