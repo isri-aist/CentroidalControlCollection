@@ -13,18 +13,19 @@ add_library(CCC
   )
 if(DEFINED CATKIN_DEVEL_PREFIX)
   target_include_directories(CCC PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
     ${catkin_INCLUDE_DIRS}
-    )
+  )
   target_link_libraries(CCC PUBLIC
     ${catkin_LIBRARIES}
-    )
+  )
 else()
   target_link_libraries(CCC PUBLIC qp_solver_collection::QpSolverCollection nmpc_ddp::nmpc_ddp)
-  target_include_directories(CCC PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
   target_compile_definitions(CCC PUBLIC CCC_STANDALONE)
 endif()
+target_include_directories(CCC PUBLIC
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 target_compile_features(CCC PUBLIC cxx_std_17)
 
 if(BUILD_SHARED_LIBS)
