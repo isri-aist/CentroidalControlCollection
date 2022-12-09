@@ -135,7 +135,7 @@ jobs:
           git remote set-url origin "https://mmurooka:${{ secrets.CI_TOKEN }}@github.com/isri-aist/CentroidalControlCollection"
           git fetch --depth=1 origin gh-pages:gh-pages
           git checkout --quiet gh-pages
-          rm -rf doxygen/
+          rm -rf doxygen/ cmake/
           cp -r ${GITHUB_WORKSPACE}/catkin_ws/build/centroidal_control_collection/doc/html/ doxygen
           git add doxygen
           git_status=`git status -s`
