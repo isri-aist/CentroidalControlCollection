@@ -11,7 +11,7 @@ on:
     paths-ignore:
     - doc/**
     - README.md
-    - ".github/workflows/ci.yaml"
+    - ".github/workflows/ci-catkin.yaml"
     - ".github/workflows/ci-standalone.yaml"
     branches:
     - "**"
