@@ -13,7 +13,7 @@
 #include <CCC/FootGuidedControl.h>
 #include <CCC/IntrinsicallyStableMpc.h>
 #include <CCC/LinearMpcZmp.h>
-#include <CCC/streams.h>
+#include <CCC/console.h>
 
 /** \brief Foot. */
 enum class Foot

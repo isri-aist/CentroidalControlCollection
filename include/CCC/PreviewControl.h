@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <CCC/StateSpaceModel.h>
-#include <CCC/streams.h>
+#include <CCC/console.h>
 
 namespace CCC
 {
