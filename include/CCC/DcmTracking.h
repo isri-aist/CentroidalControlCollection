@@ -49,7 +49,7 @@ public:
       \param feedback_gain feedback gain to calculate ZMP
    */
   DcmTracking(double com_height, double feedback_gain = 2.0)
-  : omega_(std::sqrt(constants::g / com_height)), feedback_gain_(feedback_gain)
+  : feedback_gain_(feedback_gain), omega_(std::sqrt(constants::g / com_height))
   {
   }
 

@@ -41,7 +41,7 @@ Eigen::VectorXd LinearMpcXY::WeightParam::outputWeight(size_t seq_len) const
 }
 
 LinearMpcXY::Model::Model(double mass, const MotionParam & motion_param, int output_dim)
-: StateSpaceModel(LinearMpcXY::state_dim_, motion_param.vertex_ridge_list.cols(), output_dim),
+: StateSpaceModel(LinearMpcXY::state_dim_, static_cast<int>(motion_param.vertex_ridge_list.cols()), output_dim),
   motion_param_(motion_param)
 {
   A_(0, 1) = 1;
@@ -49,7 +49,7 @@ LinearMpcXY::Model::Model(double mass, const MotionParam & motion_param, int out
   A_(4, 2) = -1 * motion_param_.total_force_z / mass;
   A_(5, 0) = motion_param_.total_force_z / mass;
 
-  for(size_t i = 0; i < motion_param_.vertex_ridge_list.cols(); i++)
+  for(int i = 0; i < motion_param_.vertex_ridge_list.cols(); i++)
   {
     const Eigen::Ref<const Eigen::Vector3d> & vertex = motion_param_.vertex_ridge_list.col(i).head<3>();
     const Eigen::Ref<const Eigen::Vector3d> & ridge = motion_param_.vertex_ridge_list.col(i).tail<3>();
@@ -68,7 +68,7 @@ LinearMpcXY::SimModel::SimModel(double mass, const MotionParam & motion_param) :
   C_(6, 4) = 1;
   C_(7, 5) = 1;
 
-  for(size_t i = 0; i < motion_param_.vertex_ridge_list.cols(); i++)
+  for(int i = 0; i < motion_param_.vertex_ridge_list.cols(); i++)
   {
     const Eigen::Ref<const Eigen::Vector3d> & ridge = motion_param_.vertex_ridge_list.col(i).tail<3>();
     D_(2, i) = ridge.x() / mass;
@@ -174,7 +174,6 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
                                       const WeightParam & weight_param)
 {
   // Calculate sequential extension
-  int horizon_steps = model_list.size();
   VariantSequentialExtension<state_dim_> seq_ext(model_list, false);
 
   // Setup QP coefficients
@@ -214,7 +213,7 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
       continue;
     }
 
-    for(size_t i = 0; i < model->inputDim(); i++)
+    for(int i = 0; i < model->inputDim(); i++)
     {
       const Eigen::Ref<const Eigen::Vector3d> & ridge = model->motion_param_.vertex_ridge_list.col(i).tail<3>();
       qp_coeff_.eq_mat_(accum_eq_dim, accum_input_dim + i) = ridge.z();

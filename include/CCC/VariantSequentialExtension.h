@@ -127,7 +127,7 @@ protected:
 
     // Set total dimension
     size_t seq_len = model_list_.size();
-    total_state_dim_ = seq_len * StateDim;
+    total_state_dim_ = static_cast<int>(seq_len) * StateDim;
     total_input_dim_ = 0;
     total_output_dim_ = 0;
     for(const auto & model : model_list_)

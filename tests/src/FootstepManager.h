@@ -67,9 +67,10 @@ struct Footstep
            double _transit_start_time,
            double transit_duration,
            double swing_duration)
-  : transit_start_time(_transit_start_time), swing_start_time(_transit_start_time + 0.5 * transit_duration),
+  : foot(_foot), pos(_pos), transit_start_time(_transit_start_time),
+    swing_start_time(_transit_start_time + 0.5 * transit_duration),
     swing_end_time(_transit_start_time + 0.5 * transit_duration + swing_duration),
-    transit_end_time(_transit_start_time + transit_duration + swing_duration), foot(_foot), pos(_pos)
+    transit_end_time(_transit_start_time + transit_duration + swing_duration)
   {
   }
 };

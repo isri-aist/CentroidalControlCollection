@@ -34,7 +34,9 @@ Eigen::Matrix<double, 6, Eigen::Dynamic> makeVertexRidgeListFromRect(const std::
   return vertex_ridge_list;
 }
 
-int main(int argc, char ** argv)
+int main(int, // argc
+         char ** // argv
+)
 {
   double mass = 100.0; // [kg]
   double sim_dt = 0.03; // [sec]
@@ -50,7 +52,8 @@ int main(int argc, char ** argv)
     std::function<bool(double)> contact_func = [jump_start_t, jump_end_t](double t) {
       return !(jump_start_t < t && t < jump_end_t);
     };
-    std::function<double(double)> ref_pos_func = [ref_com_z](double t) { return ref_com_z; }; // [m]
+    std::function<double(double)> ref_pos_func = [ref_com_z](double // t
+                                                 ) { return ref_com_z; }; // [m]
     CCC::LinearMpcZ::InitialParam initial_pos_vel(ref_com_z, 0.0); // ([m], [m/s])
     double horizon_dt = 0.03; // [sec]
     double horizon_duration = 3.0; // [sec]

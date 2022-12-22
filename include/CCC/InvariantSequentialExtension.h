@@ -116,7 +116,7 @@ protected:
     B_seq_.setZero(seq_len_ * StateDim, seq_len_ * InputDim);
     E_seq_.setZero(seq_len_ * StateDim);
 
-    for(size_t i = 0; i < seq_len_; i++)
+    for(int i = 0; i < seq_len_; i++)
     {
       // Setq A_seq_
       if(i == 0)
@@ -130,7 +130,7 @@ protected:
       }
 
       // Setq B_seq_
-      for(size_t j = 0; j < seq_len_ - i; j++)
+      for(int j = 0; j < seq_len_ - i; j++)
       {
         if(j == 0)
         {
@@ -168,7 +168,7 @@ protected:
     {
       // Set C_seq
       Eigen::MatrixXd C_seq = Eigen::MatrixXd::Zero(seq_len_ * OutputDim, seq_len_ * StateDim);
-      for(size_t i = 0; i < seq_len_; i++)
+      for(int i = 0; i < seq_len_; i++)
       {
         C_seq.template block<OutputDim, StateDim>(i * OutputDim, i * StateDim) = model_->C_;
       }

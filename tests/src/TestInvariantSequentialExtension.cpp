@@ -33,7 +33,7 @@ Eigen::VectorXd calcStateSeq(const CCC::InvariantSequentialExtension<state_dim, 
 {
   Eigen::VectorXd x_seq_iter(extend_for_output ? seq_ext.totalOutputDim() : seq_ext.totalStateDim());
   Eigen::Matrix<double, state_dim, 1> current_x = x_initial;
-  for(size_t i = 0; i < seq_ext.seq_len_; i++)
+  for(int i = 0; i < seq_ext.seq_len_; i++)
   {
     current_x = seq_ext.model_->stateEqDisc(current_x, u_seq.segment<input_dim>(i * input_dim));
     if(extend_for_output)
@@ -65,7 +65,7 @@ template<class ModelType>
 void testInvariantSequentialExtension(bool extend_for_output, bool debug = false)
 {
   // Setup model
-  size_t seq_len = 5;
+  int seq_len = 5;
   double dt = 1e-2;
   const auto & model = std::make_shared<ModelType>();
   model->calcDiscMatrix(dt);

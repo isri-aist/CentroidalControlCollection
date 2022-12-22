@@ -62,7 +62,7 @@ double IntrinsicallyStableMpc1d::planOnce(const std::function<RefData(double)> &
 
 double IntrinsicallyStableMpc1d::procOnce(const std::vector<RefData> & ref_data_seq,
                                           const InitialParam & initial_param,
-                                          double current_time,
+                                          double, // current_time
                                           double control_dt)
 {
   std::array<double, 2> current_zmp_limits;

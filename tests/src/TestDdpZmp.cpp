@@ -158,7 +158,8 @@ TEST(TestDdpZmp, CheckDerivatives)
   CCC::DdpZmp::WeightParam weight_param;
   auto ddp_problem = std::make_shared<CCC::DdpZmp::DdpProblem>(horizon_dt, mass, weight_param);
 
-  std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [](double t) {
+  std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [](double // t
+                                                              ) {
     CCC::DdpZmp::RefData ref_data;
     ref_data.zmp << 0.1, -0.2, 0.3; // [m]
     ref_data.com_z = 1.0; // [m]
