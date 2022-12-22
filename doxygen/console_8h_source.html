@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>centroidal_control_collection: /home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/streams.h Source File</title>
+<title>centroidal_control_collection: /home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/console.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,10 +73,10 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">streams.h</div>  </div>
+<div class="title">console.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="streams_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<a href="console_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifdef CCC_STANDALONE</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#  include &lt;iostream&gt;</span></div>
@@ -85,9 +85,9 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#  define CCC_INFO_STREAM(x) std::cout &lt;&lt; x &lt;&lt; &quot;\n&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#  include &lt;ros/console.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="streams_8h.html#a52144f96cae1c5539e46295aab89a54f">   10</a></span>&#160;<span class="preprocessor">#  define CCC_ERROR_STREAM ROS_ERROR_STREAM</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="streams_8h.html#a17deedb755a166dd2faa797cf82dc662">   11</a></span>&#160;<span class="preprocessor">#  define CCC_WARN_STREAM ROS_WARN_STREAM</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="streams_8h.html#a7c49def3a1e325957e1b58ca70b4dfa1">   12</a></span>&#160;<span class="preprocessor">#  define CCC_INFO_STREAM ROS_INFO_STREAM</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="console_8h.html#a52144f96cae1c5539e46295aab89a54f">   10</a></span>&#160;<span class="preprocessor">#  define CCC_ERROR_STREAM ROS_ERROR_STREAM</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="console_8h.html#a17deedb755a166dd2faa797cf82dc662">   11</a></span>&#160;<span class="preprocessor">#  define CCC_WARN_STREAM ROS_WARN_STREAM</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="console_8h.html#a7c49def3a1e325957e1b58ca70b4dfa1">   12</a></span>&#160;<span class="preprocessor">#  define CCC_INFO_STREAM ROS_INFO_STREAM</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

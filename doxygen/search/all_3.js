@@ -10,15 +10,16 @@ var searchData=
   ['calctotalwrench_16',['calcTotalWrench',['../structCCC_1_1DdpCentroidal_1_1MotionParam.html#a41e93c15bf5b8cc3b116eb2701d905b1',1,'CCC::DdpCentroidal::MotionParam']]],
   ['capture_5fpoint_17',['capture_point',['../structCCC_1_1IntrinsicallyStableMpc1d_1_1InitialParam.html#aab05173f77d0d4d3883d6d854b898710',1,'CCC::IntrinsicallyStableMpc1d::InitialParam::capture_point()'],['../structCCC_1_1IntrinsicallyStableMpc_1_1InitialParam.html#a7ef7f4e94863f4120111b5ee81a37b98',1,'CCC::IntrinsicallyStableMpc::InitialParam::capture_point()']]],
   ['ccc_18',['CCC',['../namespaceCCC.html',1,'']]],
-  ['ccc_5ferror_5fstream_19',['CCC_ERROR_STREAM',['../streams_8h.html#a52144f96cae1c5539e46295aab89a54f',1,'streams.h']]],
-  ['ccc_5finfo_5fstream_20',['CCC_INFO_STREAM',['../streams_8h.html#a7c49def3a1e325957e1b58ca70b4dfa1',1,'streams.h']]],
-  ['ccc_5fwarn_5fstream_21',['CCC_WARN_STREAM',['../streams_8h.html#a17deedb755a166dd2faa797cf82dc662',1,'streams.h']]],
+  ['ccc_5ferror_5fstream_19',['CCC_ERROR_STREAM',['../console_8h.html#a52144f96cae1c5539e46295aab89a54f',1,'console.h']]],
+  ['ccc_5finfo_5fstream_20',['CCC_INFO_STREAM',['../console_8h.html#a7c49def3a1e325957e1b58ca70b4dfa1',1,'console.h']]],
+  ['ccc_5fwarn_5fstream_21',['CCC_WARN_STREAM',['../console_8h.html#a17deedb755a166dd2faa797cf82dc662',1,'console.h']]],
   ['com_5fjerk_22',['com_jerk',['../structCCC_1_1PreviewControlZmp1d_1_1WeightParam.html#a34141be401bb9cda2f1504baf280d47a',1,'CCC::PreviewControlZmp1d::WeightParam']]],
   ['com_5fz_23',['com_z',['../structCCC_1_1DdpZmp_1_1RefData.html#a898dc4279152c649a8e91360ca144baa',1,'CCC::DdpZmp::RefData::com_z()'],['../structCCC_1_1LinearMpcXY_1_1MotionParam.html#adc8fa47723dd81a795f567dbf25ebc70',1,'CCC::LinearMpcXY::MotionParam::com_z()']]],
   ['commonmodels_2eh_24',['CommonModels.h',['../CommonModels_8h.html',1,'']]],
   ['comzmpmodeljerkinput_25',['ComZmpModelJerkInput',['../classCCC_1_1ComZmpModelJerkInput.html',1,'CCC::ComZmpModelJerkInput'],['../classCCC_1_1ComZmpModelJerkInput.html#a1065720d8ecb366e66714739e04ac292',1,'CCC::ComZmpModelJerkInput::ComZmpModelJerkInput()']]],
-  ['constants_26',['constants',['../namespaceCCC_1_1constants.html',1,'CCC']]],
-  ['constants_2eh_27',['Constants.h',['../Constants_8h.html',1,'']]],
-  ['contact_28',['contact',['../structCCC_1_1LinearMpcZ_1_1MotionData.html#a931ea735faadd354dd0e3f09bf57b5a2',1,'CCC::LinearMpcZ::MotionData']]],
-  ['current_5fzmp_29',['current_zmp',['../structCCC_1_1DcmTracking_1_1RefData.html#a1bac9e05508defbed237e58b34da2cf2',1,'CCC::DcmTracking::RefData']]]
+  ['console_2eh_26',['console.h',['../console_8h.html',1,'']]],
+  ['constants_27',['constants',['../namespaceCCC_1_1constants.html',1,'CCC']]],
+  ['constants_2eh_28',['Constants.h',['../Constants_8h.html',1,'']]],
+  ['contact_29',['contact',['../structCCC_1_1LinearMpcZ_1_1MotionData.html#a931ea735faadd354dd0e3f09bf57b5a2',1,'CCC::LinearMpcZ::MotionData']]],
+  ['current_5fzmp_30',['current_zmp',['../structCCC_1_1DcmTracking_1_1RefData.html#a1bac9e05508defbed237e58b34da2cf2',1,'CCC::DcmTracking::RefData']]]
 ];
