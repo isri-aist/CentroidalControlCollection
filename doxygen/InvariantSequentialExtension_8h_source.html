@@ -136,7 +136,7 @@ $(function() {
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#ad35d92729b5fa7a66043a4ea4d9922e1">B_seq_</a>.setZero(<a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a> * StateDim, <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a> * InputDim);</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a53cbc94851184636e2d5fa7d1d15663f">E_seq_</a>.setZero(<a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a> * StateDim);</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a>; i++)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a>; i++)</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    {</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      <span class="comment">// Setq A_seq_</span></div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <span class="keywordflow">if</span>(i == 0)</div>
@@ -150,7 +150,7 @@ $(function() {
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      }</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      <span class="comment">// Setq B_seq_</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> j = 0; j &lt; <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a> - i; j++)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a> - i; j++)</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      {</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">if</span>(j == 0)</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        {</div>
@@ -188,7 +188,7 @@ $(function() {
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    {</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      <span class="comment">// Set C_seq</span></div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      Eigen::MatrixXd C_seq = Eigen::MatrixXd::Zero(<a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a> * OutputDim, <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a> * StateDim);</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a>; i++)</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a0b66ada328e323763b68c89569d95aef">seq_len_</a>; i++)</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      {</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        C_seq.template block&lt;OutputDim, StateDim&gt;(i * OutputDim, i * StateDim) = <a class="code" href="classCCC_1_1InvariantSequentialExtension.html#a62cdbd4a786b6f5afda2a030bb15e5ab">model_</a>-&gt;C_;</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      }</div>

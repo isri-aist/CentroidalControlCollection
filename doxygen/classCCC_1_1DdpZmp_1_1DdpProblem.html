@@ -125,9 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa41bf0f198f29a99c314aa0fb101acfc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpZmp_1_1DdpProblem.html#aa41bf0f198f29a99c314aa0fb101acfc">calcStateEqDeriv</a> (double t, const StateDimVector &amp;x, const InputDimVector &amp;u, Eigen::Ref&lt; StateStateDimMatrix &gt; state_eq_deriv_x, Eigen::Ref&lt; StateInputDimMatrix &gt; state_eq_deriv_u) const override</td></tr>
 <tr class="memdesc:aa41bf0f198f29a99c314aa0fb101acfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order derivatives of discrete state equation.  <a href="classCCC_1_1DdpZmp_1_1DdpProblem.html#aa41bf0f198f29a99c314aa0fb101acfc">More...</a><br /></td></tr>
 <tr class="separator:aa41bf0f198f29a99c314aa0fb101acfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3985b6b77f9997c79dad57fb82f1af08"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpZmp_1_1DdpProblem.html#a3985b6b77f9997c79dad57fb82f1af08">calcStateEqDeriv</a> (double t, const StateDimVector &amp;x, const InputDimVector &amp;u, Eigen::Ref&lt; StateStateDimMatrix &gt; state_eq_deriv_x, Eigen::Ref&lt; StateInputDimMatrix &gt; state_eq_deriv_u, std::vector&lt; StateStateDimMatrix &gt; &amp;state_eq_deriv_xx, std::vector&lt; InputInputDimMatrix &gt; &amp;state_eq_deriv_uu, std::vector&lt; StateInputDimMatrix &gt; &amp;state_eq_deriv_xu) const override</td></tr>
-<tr class="memdesc:a3985b6b77f9997c79dad57fb82f1af08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order and second-order derivatives of discrete state equation.  <a href="classCCC_1_1DdpZmp_1_1DdpProblem.html#a3985b6b77f9997c79dad57fb82f1af08">More...</a><br /></td></tr>
-<tr class="separator:a3985b6b77f9997c79dad57fb82f1af08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8203d07224a25a3c5ed5cd24a30a279f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpZmp_1_1DdpProblem.html#a8203d07224a25a3c5ed5cd24a30a279f">calcStateEqDeriv</a> (double, const StateDimVector &amp;, const InputDimVector &amp;, Eigen::Ref&lt; StateStateDimMatrix &gt;, Eigen::Ref&lt; StateInputDimMatrix &gt;, std::vector&lt; StateStateDimMatrix &gt; &amp;, std::vector&lt; InputInputDimMatrix &gt; &amp;, std::vector&lt; StateInputDimMatrix &gt; &amp;) const override</td></tr>
+<tr class="memdesc:a8203d07224a25a3c5ed5cd24a30a279f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order and second-order derivatives of discrete state equation.  <a href="classCCC_1_1DdpZmp_1_1DdpProblem.html#a8203d07224a25a3c5ed5cd24a30a279f">More...</a><br /></td></tr>
+<tr class="separator:a8203d07224a25a3c5ed5cd24a30a279f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a206eb6672d8d0bd6b68d4f5036008d2f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpZmp_1_1DdpProblem.html#a206eb6672d8d0bd6b68d4f5036008d2f">calcRunningCostDeriv</a> (double t, const StateDimVector &amp;x, const InputDimVector &amp;u, Eigen::Ref&lt; StateDimVector &gt; running_cost_deriv_x, Eigen::Ref&lt; InputDimVector &gt; running_cost_deriv_u) const override</td></tr>
 <tr class="memdesc:a206eb6672d8d0bd6b68d4f5036008d2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order derivatives of running cost.  <a href="classCCC_1_1DdpZmp_1_1DdpProblem.html#a206eb6672d8d0bd6b68d4f5036008d2f">More...</a><br /></td></tr>
 <tr class="separator:a206eb6672d8d0bd6b68d4f5036008d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -439,8 +439,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3985b6b77f9997c79dad57fb82f1af08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3985b6b77f9997c79dad57fb82f1af08">&#9670;&nbsp;</a></span>calcStateEqDeriv() <span class="overload">[2/2]</span></h2>
+<a id="a8203d07224a25a3c5ed5cd24a30a279f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8203d07224a25a3c5ed5cd24a30a279f">&#9670;&nbsp;</a></span>calcStateEqDeriv() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -452,49 +452,49 @@ Protected Attributes</h2></td></tr>
           <td class="memname">virtual void CCC::DdpZmp::DdpProblem::calcStateEqDeriv </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>t</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const StateDimVector &amp;&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const InputDimVector &amp;&#160;</td>
-          <td class="paramname"><em>u</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Eigen::Ref&lt; StateStateDimMatrix &gt;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_x</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Eigen::Ref&lt; StateInputDimMatrix &gt;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_u</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; StateStateDimMatrix &gt; &amp;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_xx</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; InputInputDimMatrix &gt; &amp;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_uu</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; StateInputDimMatrix &gt; &amp;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_xu</em>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -850,7 +850,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Robot mass [Kg]. </p>
 
-<p class="definition">Definition at line <a class="el" href="DdpZmp_8h_source.html#l00236">236</a> of file <a class="el" href="DdpZmp_8h_source.html">DdpZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DdpZmp_8h_source.html#l00237">237</a> of file <a class="el" href="DdpZmp_8h_source.html">DdpZmp.h</a>.</p>
 
 </div>
 </div>
@@ -876,7 +876,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Function of reference data. </p>
 
-<p class="definition">Definition at line <a class="el" href="DdpZmp_8h_source.html#l00242">242</a> of file <a class="el" href="DdpZmp_8h_source.html">DdpZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DdpZmp_8h_source.html#l00243">243</a> of file <a class="el" href="DdpZmp_8h_source.html">DdpZmp.h</a>.</p>
 
 </div>
 </div>
@@ -902,7 +902,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Weight parameter. </p>
 
-<p class="definition">Definition at line <a class="el" href="DdpZmp_8h_source.html#l00239">239</a> of file <a class="el" href="DdpZmp_8h_source.html">DdpZmp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DdpZmp_8h_source.html#l00240">240</a> of file <a class="el" href="DdpZmp_8h_source.html">DdpZmp.h</a>.</p>
 
 </div>
 </div>
