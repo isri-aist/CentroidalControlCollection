@@ -260,13 +260,15 @@ TEST(TestDdpCentroidal, CheckDerivatives)
   CCC::DdpCentroidal::WeightParam weight_param;
   auto ddp_problem = std::make_shared<CCC::DdpCentroidal::DdpProblem>(horizon_dt, mass, weight_param);
 
-  std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t) {
+  std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double // t
+                                                                             ) {
     CCC::DdpCentroidal::MotionParam motion_param;
     motion_param.vertex_ridge_list =
         makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)});
     return motion_param;
   };
-  std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double t) {
+  std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double // t
+                                                                     ) {
     CCC::DdpCentroidal::RefData ref_data;
     ref_data.pos << 0.1, -0.2, 1.0; // [m]
     return ref_data;

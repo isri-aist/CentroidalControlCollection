@@ -42,7 +42,6 @@ DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::DdpProblem::stateEq(dou
 
   const Eigen::Ref<const Eigen::Vector3d> & pos = x.segment<3>(0);
   const Eigen::Ref<const Eigen::Vector3d> & linear_momentum = x.segment<3>(3);
-  const Eigen::Ref<const Eigen::Vector3d> & angular_momentum = x.segment<3>(6);
 
   StateDimVector x_dot;
   Eigen::Ref<Eigen::Vector3d> pos_dot = x_dot.segment<3>(0);
@@ -89,8 +88,6 @@ void DdpCentroidal::DdpProblem::calcStateEqDeriv(double t,
   const Eigen::Ref<const Eigen::Matrix3Xd> & ridges_mat = motion_param.vertex_ridge_list.bottomRows<3>();
 
   const Eigen::Ref<const Eigen::Vector3d> & pos = x.segment<3>(0);
-  const Eigen::Ref<const Eigen::Vector3d> & linear_momentum = x.segment<3>(3);
-  const Eigen::Ref<const Eigen::Vector3d> & angular_momentum = x.segment<3>(6);
 
   state_eq_deriv_x.setZero();
   state_eq_deriv_x.block<3, 3>(0, 3).diagonal().setConstant(1 / mass_);
