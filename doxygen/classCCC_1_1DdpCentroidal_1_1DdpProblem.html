@@ -132,9 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a42771cb9a802c653e6c56300b8cb6d9f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#a42771cb9a802c653e6c56300b8cb6d9f">calcStateEqDeriv</a> (double t, const StateDimVector &amp;x, const InputDimVector &amp;u, Eigen::Ref&lt; StateStateDimMatrix &gt; state_eq_deriv_x, Eigen::Ref&lt; StateInputDimMatrix &gt; state_eq_deriv_u) const override</td></tr>
 <tr class="memdesc:a42771cb9a802c653e6c56300b8cb6d9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order derivatives of discrete state equation.  <a href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#a42771cb9a802c653e6c56300b8cb6d9f">More...</a><br /></td></tr>
 <tr class="separator:a42771cb9a802c653e6c56300b8cb6d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3d69c8d8717f5deef4d9c24d683905b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#ad3d69c8d8717f5deef4d9c24d683905b">calcStateEqDeriv</a> (double t, const StateDimVector &amp;x, const InputDimVector &amp;u, Eigen::Ref&lt; StateStateDimMatrix &gt; state_eq_deriv_x, Eigen::Ref&lt; StateInputDimMatrix &gt; state_eq_deriv_u, std::vector&lt; StateStateDimMatrix &gt; &amp;state_eq_deriv_xx, std::vector&lt; InputInputDimMatrix &gt; &amp;state_eq_deriv_uu, std::vector&lt; StateInputDimMatrix &gt; &amp;state_eq_deriv_xu) const override</td></tr>
-<tr class="memdesc:ad3d69c8d8717f5deef4d9c24d683905b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order and second-order derivatives of discrete state equation.  <a href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#ad3d69c8d8717f5deef4d9c24d683905b">More...</a><br /></td></tr>
-<tr class="separator:ad3d69c8d8717f5deef4d9c24d683905b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa86b018f76ebae8d8df805335fe0b20d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#aa86b018f76ebae8d8df805335fe0b20d">calcStateEqDeriv</a> (double, const StateDimVector &amp;, const InputDimVector &amp;, Eigen::Ref&lt; StateStateDimMatrix &gt;, Eigen::Ref&lt; StateInputDimMatrix &gt;, std::vector&lt; StateStateDimMatrix &gt; &amp;, std::vector&lt; InputInputDimMatrix &gt; &amp;, std::vector&lt; StateInputDimMatrix &gt; &amp;) const override</td></tr>
+<tr class="memdesc:aa86b018f76ebae8d8df805335fe0b20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order and second-order derivatives of discrete state equation.  <a href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#aa86b018f76ebae8d8df805335fe0b20d">More...</a><br /></td></tr>
+<tr class="separator:aa86b018f76ebae8d8df805335fe0b20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab91194a4c78ae89622d10d3421b1cc99"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#ab91194a4c78ae89622d10d3421b1cc99">calcRunningCostDeriv</a> (double t, const StateDimVector &amp;x, const InputDimVector &amp;u, Eigen::Ref&lt; StateDimVector &gt; running_cost_deriv_x, Eigen::Ref&lt; InputDimVector &gt; running_cost_deriv_u) const override</td></tr>
 <tr class="memdesc:ab91194a4c78ae89622d10d3421b1cc99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate first-order derivatives of running cost.  <a href="classCCC_1_1DdpCentroidal_1_1DdpProblem.html#ab91194a4c78ae89622d10d3421b1cc99">More...</a><br /></td></tr>
 <tr class="separator:ab91194a4c78ae89622d10d3421b1cc99"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -449,8 +449,8 @@ Protected Attributes</h2></td></tr>
  
 </div>
 </div>
-<a id="ad3d69c8d8717f5deef4d9c24d683905b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3d69c8d8717f5deef4d9c24d683905b">&#9670;&nbsp;</a></span>calcStateEqDeriv() <span class="overload">[2/2]</span></h2>
+<a id="aa86b018f76ebae8d8df805335fe0b20d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa86b018f76ebae8d8df805335fe0b20d">&#9670;&nbsp;</a></span>calcStateEqDeriv() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -462,49 +462,49 @@ Protected Attributes</h2></td></tr>
           <td class="memname">virtual void CCC::DdpCentroidal::DdpProblem::calcStateEqDeriv </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>t</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const StateDimVector &amp;&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const InputDimVector &amp;&#160;</td>
-          <td class="paramname"><em>u</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Eigen::Ref&lt; StateStateDimMatrix &gt;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_x</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Eigen::Ref&lt; StateInputDimMatrix &gt;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_u</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; StateStateDimMatrix &gt; &amp;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_xx</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; InputInputDimMatrix &gt; &amp;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_uu</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; StateInputDimMatrix &gt; &amp;&#160;</td>
-          <td class="paramname"><em>state_eq_deriv_xu</em>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -937,7 +937,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Robot mass [Kg]. </p>
 
-<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00322">322</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00323">323</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
 
 </div>
 </div>
@@ -963,7 +963,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Function of motion parameter. </p>
 
-<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00329">329</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00330">330</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
 
 </div>
 </div>
@@ -989,7 +989,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Function of reference data. </p>
 
-<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00332">332</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00333">333</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
 
 </div>
 </div>
@@ -1015,7 +1015,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Weight parameter. </p>
 
-<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00326">326</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DdpCentroidal_8h_source.html#l00327">327</a> of file <a class="el" href="DdpCentroidal_8h_source.html">DdpCentroidal.h</a>.</p>
 
 </div>
 </div>
