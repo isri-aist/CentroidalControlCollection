@@ -206,8 +206,14 @@ public:
   State state_;
 };
 
-/** \brief Simulation of centroidal dynamics. */
-class CentroidalSim : public CCC::StateSpaceModel<9, 6, 0>
+/** \brief Simulation of centroidal dynamics.
+
+    The following approximations are made for rotational motion.
+    - The diagonal elements of the moment of inertia are constant, and the off-diagonal elements are zero.
+    - Angular velocity and the derivatives of Euler angle are considered the same.
+    - Ignore the nonlinear term of angular momentum.
+ */
+class CentroidalSim : public CCC::StateSpaceModel<18, 6, 0>
 {
 public:
   /** \brief Simulation state. */
@@ -215,14 +221,14 @@ public:
   {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-    //! CoM position [m]
-    Eigen::Vector3d pos = Eigen::Vector3d::Zero();
+    //! CoM position [m] and base link orientation [rad]
+    Eigen::Vector6d pos = Eigen::Vector6d::Zero();
 
-    //! CoM velocity [m/s]
-    Eigen::Vector3d vel = Eigen::Vector3d::Zero();
+    //! CoM velocity [m/s] and base link angular velocity [rad/s]
+    Eigen::Vector6d vel = Eigen::Vector6d::Zero();
 
-    //! Angular momentum [kg m^2/s]
-    Eigen::Vector3d angular_momentum = Eigen::Vector3d::Zero();
+    //! Linear momentum [kg m/s] and angular momentum [kg m^2/s]
+    Eigen::Vector6d momentum = Eigen::Vector6d::Zero();
 
     /** \brief Constructor. */
     State() {}
@@ -232,16 +238,16 @@ public:
      */
     State(const StateDimVector & state_vec)
     {
-      pos << state_vec.segment<3>(0);
-      vel << state_vec.segment<3>(3);
-      angular_momentum << state_vec.segment<3>(6);
+      pos << state_vec.segment<6>(0);
+      vel << state_vec.segment<6>(6);
+      momentum << state_vec.segment<6>(12);
     }
 
     /** \brief Get state of state-space model. */
     inline StateDimVector toState() const
     {
       StateDimVector state_vec;
-      state_vec << pos, vel, angular_momentum;
+      state_vec << pos, vel, momentum;
       return state_vec;
     }
   };
@@ -255,16 +261,19 @@ public:
 public:
   /** \brief Constructor.
       \param mass robot mass [Kg]
+      \param moment_of_inertia moment of inertia of robot [kg m^2]
       \param sim_dt simulation timestep [sec]
   */
-  CentroidalSim(double mass, double sim_dt) : sim_dt_(sim_dt)
+  CentroidalSim(double mass, const Eigen::Vector3d & moment_of_inertia, double sim_dt) : sim_dt_(sim_dt)
   {
-    A_.block<3, 3>(0, 3).diagonal().setConstant(1.0);
+    A_.block<6, 6>(0, 6).diagonal().setConstant(1.0);
 
-    B_.block<3, 3>(3, 0).diagonal().setConstant(1.0 / mass);
-    B_.block<3, 3>(6, 3).diagonal().setConstant(1.0);
+    B_.block<3, 3>(6, 0).diagonal().setConstant(1.0 / mass);
+    B_.block<3, 3>(9, 3).diagonal() = moment_of_inertia.cwiseInverse();
+    B_.block<6, 6>(12, 0).diagonal().setConstant(1.0);
 
-    E_.segment<3>(3).z() = -1 * CCC::constants::g;
+    E_.segment<3>(6).z() = -1 * CCC::constants::g;
+    E_.segment<3>(12).z() = -1 * mass * CCC::constants::g;
 
     calcDiscMatrix(sim_dt_);
   }
@@ -280,9 +289,9 @@ public:
   }
 
   /** \brief Add disturbance
-      \param impulse_per_mass impulse per mass [m/s]
+      \param impulse_per_mass linear and angular impulse per mass [m/s], [m^2/s]
   */
-  void addDisturb(const Eigen::Vector3d & impulse_per_mass)
+  void addDisturb(const Eigen::Vector6d & impulse_per_mass)
   {
     state_.vel += impulse_per_mass;
   }

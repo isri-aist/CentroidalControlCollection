@@ -19,8 +19,10 @@ TEST(TestDdpCentroidal, PlanOnce)
   int horizon_steps = static_cast<int>(horizon_duration / horizon_dt);
   double sim_dt = 0.005; // [sec]
   double mass = 100.0; // [kg]
+  Eigen::Vector3d moment_of_inertia = Eigen::Vector3d(40.0, 20.0, 10.0); // [kg m^2]
   std::vector<double> disturb_time_list = {1.0}; // [sec]
-  Eigen::Vector3d disturb_impulse_per_mass = Eigen::Vector3d(0.05, 0.05, 0.0); // [m/s]
+  Eigen::Vector6d disturb_impulse_per_mass; // [m/s], [m^2/s]
+  disturb_impulse_per_mass << 0.05, 0.05, 0.0, 0.0, 0.0, 0.0;
 
   // Setup DDP
   std::vector<double> computation_duration_list;
@@ -74,8 +76,8 @@ TEST(TestDdpCentroidal, PlanOnce)
   };
 
   // Setup simulation
-  CentroidalSim sim(mass, sim_dt);
-  sim.state_.pos << 0.0, 0.0, 1.0;
+  CentroidalSim sim(mass, moment_of_inertia, sim_dt);
+  sim.state_.pos.z() = 1.0;
 
   // Setup dump file
   std::string file_path = "/tmp/TestDdpCentroidal.txt";
@@ -94,9 +96,9 @@ TEST(TestDdpCentroidal, PlanOnce)
     // Plan
     auto start_time = std::chrono::system_clock::now();
     CCC::DdpCentroidal::InitialParam initial_param;
-    initial_param.pos = sim.state_.pos;
-    initial_param.vel = sim.state_.vel;
-    initial_param.angular_momentum = sim.state_.angular_momentum;
+    initial_param.pos = sim.state_.pos.head<3>();
+    initial_param.vel = sim.state_.vel.head<3>();
+    initial_param.angular_momentum = sim.state_.momentum.tail<3>();
     initial_param.u_list = ddp.ddp_solver_->controlData().u_list;
     if(!initial_param.u_list.empty())
     {
@@ -120,16 +122,16 @@ TEST(TestDdpCentroidal, PlanOnce)
     // Dump
     const auto & motion_param = motion_param_func(t);
     const auto & ref_data = ref_data_func(t);
-    const auto & planned_total_wrench = motion_param.calcTotalWrench(planned_force_scales, sim.state_.pos);
-    ofs << t << " " << sim.state_.pos.transpose() << " " << ref_data.pos.transpose() << " "
-        << sim.state_.vel.transpose() << " " << sim.state_.angular_momentum.transpose() << " "
+    const auto & planned_total_wrench = motion_param.calcTotalWrench(planned_force_scales, sim.state_.pos.head<3>());
+    ofs << t << " " << sim.state_.pos.head<3>().transpose() << " " << ref_data.pos.transpose() << " "
+        << sim.state_.vel.head<3>().transpose() << " " << sim.state_.momentum.tail<3>().transpose() << " "
         << planned_total_wrench.transpose() << " " << ddp.ddp_solver_->traceDataList().back().iter << " "
         << computation_duration_list.back() << std::endl;
 
     // Check
-    EXPECT_LT((sim.state_.pos - ref_data.pos).norm(), 2.0); // [m]
-    EXPECT_LT(sim.state_.vel.norm(), 2.0); // [m/s]
-    EXPECT_LT(sim.state_.angular_momentum.norm(), 1.0); // [kg m^2/s]
+    EXPECT_LT((sim.state_.pos.head<3>() - ref_data.pos).norm(), 2.0); // [m]
+    EXPECT_LT(sim.state_.vel.head<3>().norm(), 2.0); // [m/s]
+    EXPECT_LT(sim.state_.momentum.tail<3>().norm(), 1.0); // [kg m^2/s]
 
     // Simulate
     t += sim_dt;
@@ -148,9 +150,9 @@ TEST(TestDdpCentroidal, PlanOnce)
 
   // Final check
   const auto & ref_data = ref_data_func(t);
-  EXPECT_LT((sim.state_.pos - ref_data.pos).norm(), 0.1); // [m]
-  EXPECT_LT(sim.state_.vel.norm(), 0.1); // [m/s]
-  EXPECT_LT(sim.state_.angular_momentum.norm(), 0.01); // [kg m^2/s]
+  EXPECT_LT((sim.state_.pos.head<3>() - ref_data.pos).norm(), 0.1); // [m]
+  EXPECT_LT(sim.state_.vel.head<3>().norm(), 0.1); // [m/s]
+  EXPECT_LT(sim.state_.momentum.tail<3>().norm(), 0.01); // [kg m^2/s]
 
   Eigen::Map<Eigen::VectorXd> computation_duration_vec(computation_duration_list.data(),
                                                        computation_duration_list.size());
