@@ -219,6 +219,9 @@ DdpCentroidal::DdpCentroidal(double mass, double horizon_dt, int horizon_steps, 
 {
   ddp_solver_->config().with_input_constraint = true;
   ddp_solver_->config().horizon_steps = horizon_steps;
+  ddp_solver_->config().initial_lambda = 1e-6;
+  ddp_solver_->config().lambda_min = 1e-8;
+  ddp_solver_->config().lambda_thre = 1e-7;
   ddp_solver_->setInputLimitsFunc([this](double t) -> std::array<Eigen::VectorXd, 2> {
     std::array<Eigen::VectorXd, 2> limits;
     int input_dim = ddp_problem_->inputDim(t);
