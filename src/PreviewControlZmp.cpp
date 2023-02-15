@@ -30,7 +30,7 @@ double PreviewControlZmp1d::planOnce(const std::function<double(double)> & ref_z
 
 double PreviewControlZmp1d::procOnce(const Eigen::VectorXd & ref_zmp_seq,
                                      const InitialParam & initial_param,
-                                     double current_time,
+                                     double, // current_time
                                      double control_dt) const
 {
   // Calculate CoM jerk
