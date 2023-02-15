@@ -28,9 +28,6 @@ TEST(TestDdpCentroidal, PlanOnce)
   weight_param.running_pos << 1.0, 1.0, 10.0;
   weight_param.terminal_pos << 1.0, 1.0, 10.0;
   CCC::DdpCentroidal ddp(mass, horizon_dt, horizon_steps, weight_param);
-  ddp.ddp_solver_->config().initial_lambda = 1e-6;
-  ddp.ddp_solver_->config().lambda_min = 1e-8;
-  ddp.ddp_solver_->config().lambda_thre = 1e-7;
 
   // Setup contact
   std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t) {
