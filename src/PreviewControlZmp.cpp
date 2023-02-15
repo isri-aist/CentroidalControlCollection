@@ -21,7 +21,7 @@ double PreviewControlZmp1d::planOnce(const std::function<double(double)> & ref_z
   Eigen::VectorXd ref_zmp_seq(horizon_steps_);
   for(int i = 0; i < horizon_steps_; i++)
   {
-    double t = current_time + i * horizon_dt_;
+    double t = current_time + (i + 1) * horizon_dt_;
     ref_zmp_seq[i] = ref_zmp_func(t);
   }
 
@@ -57,7 +57,7 @@ Eigen::Vector2d PreviewControlZmp::planOnce(const std::function<Eigen::Vector2d(
   Eigen::Matrix2Xd ref_zmp_seq(2, preview_control_1d_->horizon_steps_);
   for(int i = 0; i < preview_control_1d_->horizon_steps_; i++)
   {
-    double t = current_time + i * preview_control_1d_->horizon_dt_;
+    double t = current_time + (i + 1) * preview_control_1d_->horizon_dt_;
     ref_zmp_seq.col(i) = ref_zmp_func(t);
   }
 
