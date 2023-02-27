@@ -31,6 +31,10 @@ jobs:
       matrix:
         os: [ubuntu-20.04, ubuntu-18.04]
         build-type: [Debug, RelWithDebInfo]
+        mc-rtc-version: [head, stable]
+        exclude:
+          - build-type: Debug
+            mc-rtc-version: stable
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set ROS version
@@ -51,6 +55,12 @@ jobs:
           wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
           sudo apt-get update -qq
           sudo apt-get install -qq ros-${ROS_DISTRO}-ros-base ${PYTHON_PACKAGE_PREFIX}-catkin-tools ${PYTHON_PACKAGE_PREFIX}-rosdep doxygen graphviz
+      - name: Install mc_rtc
+        run: |
+          set -e
+          set -x
+          curl -1sLf 'https://dl.cloudsmith.io/public/mc-rtc/${{ matrix.mc-rtc-version }}/setup.deb.sh' | sudo -E bash
+          sudo apt-get install -qq libmc-rtc-dev libeigen-qld-dev
       - name: Setup catkin workspace
         run: |
           mkdir -p ${GITHUB_WORKSPACE}/catkin_ws/src/
@@ -71,6 +81,12 @@ jobs:
           repository: isri-aist/QpSolverCollection
           submodules: recursive
           path: catkin_ws/src/QpSolverCollection
+      - name: Checkout ForceControlCollection
+        uses: actions/checkout@v2
+        with:
+          repository: isri-aist/ForceControlCollection
+          submodules: recursive
+          path: catkin_ws/src/ForceControlCollection
       - name: Checkout NMPC
         uses: actions/checkout@v2
         with:
@@ -88,22 +104,6 @@ jobs:
           sudo rosdep init
           rosdep update
           rosdep install -y -r --from-paths src --ignore-src
-      #### [Start] Install QP solvers ####
-      - name: Checkout eigen-qld
-        uses: actions/checkout@v2
-        with:
-          repository: jrl-umi3218/eigen-qld
-          submodules: recursive
-          path: eigen-qld
-      - name: Install eigen-qld
-        run: |
-          set -x
-          set -e
-          cd ${GITHUB_WORKSPACE}/eigen-qld
-          mkdir build && cd build
-          cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DBUILD_TESTING=OFF -DPYTHON_BINDING=OFF -DINSTALL_DOCUMENTATION=OFF
-          make && sudo make install
-      #### [End] Install QP solvers ####
       - name: Catkin build
         run: |
           set -e
@@ -125,7 +125,7 @@ jobs:
           catkin_test_results --verbose --all build
       - name: Upload documentation
         # Only run for one configuration and on origin master branch
-        if: matrix.os == 'ubuntu-20.04' && matrix.build-type == 'RelWithDebInfo' && github.repository_owner == 'isri-aist' && github.ref == 'refs/heads/master'
+        if: matrix.os == 'ubuntu-20.04' && matrix.build-type == 'RelWithDebInfo' && matrix.mc-rtc-version == 'head' && github.repository_owner == 'isri-aist' && github.ref == 'refs/heads/master'
         run: |
           set -e
           set -x

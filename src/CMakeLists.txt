@@ -19,7 +19,11 @@ if(DEFINED CATKIN_DEVEL_PREFIX)
     ${catkin_LIBRARIES}
   )
 else()
-  target_link_libraries(CCC PUBLIC qp_solver_collection::QpSolverCollection nmpc_ddp::nmpc_ddp)
+  target_link_libraries(CCC PUBLIC
+    qp_solver_collection::QpSolverCollection
+    force_control_collection::ForceColl
+    nmpc_ddp::nmpc_ddp
+  )
   target_compile_definitions(CCC PUBLIC CCC_STANDALONE)
 endif()
 target_include_directories(CCC PUBLIC

@@ -13,18 +13,37 @@ Collection of centroidal control for legged robots
 
 ### Dependencies
 This package depends on
+- [mc_rtc](https://jrl-umi3218.github.io/mc_rtc)
+
+This package also depends on the following packages. However, manual installation is unnecessary when this package is installed using `wstool` as described in [Installation procedure](#installation-procedure).
 - [QpSolverCollection](https://github.com/isri-aist/QpSolverCollection)
+- [ForceControlCollection](https://github.com/isri-aist/ForceControlCollection)
 - [NMPC](https://github.com/isri-aist/NMPC)
 
-### Installation procedure
-It is assumed that ROS is installed.
+### Preparation
+1. (Skip if ROS is already installed.) Install ROS. See [here](http://wiki.ros.org/ROS/Installation) for details.
+```bash
+$ export ROS_DISTRO=melodic
+$ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+$ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+$ sudo apt-get update
+$ sudo apt-get install ros-${ROS_DISTRO}-ros-base python-catkin-tools python-rosdep
+```
 
+2. (Skip if mc_rtc is already installed.) Install mc_rtc. See [here](https://jrl-umi3218.github.io/mc_rtc/tutorials/introduction/installation-guide.html) for details.
+```bash
+$ curl -1sLf 'https://dl.cloudsmith.io/public/mc-rtc/stable/setup.deb.sh' | sudo -E bash
+$ sudo apt-get install libmc-rtc-dev mc-rtc-utils ros-${ROS_DISTRO}-mc-rtc-plugin ros-${ROS_DISTRO}-mc-rtc-rviz-panel libeigen-qld-dev
+```
+
+### Installation procedure
 1. Setup catkin workspace.
 ```bash
 $ mkdir -p ~/ros/ws_ccc/src
 $ cd ~/ros/ws_ccc
 $ wstool init src
 $ wstool set -t src isri-aist/QpSolverCollection git@github.com:isri-aist/QpSolverCollection.git --git -y
+$ wstool set -t src isri-aist/ForceControlCollection git@github.com:isri-aist/ForceControlCollection.git --git -y
 $ wstool set -t src isri-aist/NMPC git@github.com:isri-aist/NMPC.git --git -y
 $ wstool set -t src isri-aist/CentroidalControlCollection git@github.com:isri-aist/CentroidalControlCollection.git --git -y
 $ wstool update -t src

@@ -19,6 +19,7 @@ if(DEFINED CATKIN_DEVEL_PREFIX)
   find_package(catkin REQUIRED COMPONENTS
     roscpp
     qp_solver_collection
+    force_control_collection
     nmpc_ddp
     )
 
@@ -26,6 +27,7 @@ if(DEFINED CATKIN_DEVEL_PREFIX)
     CATKIN_DEPENDS
     roscpp
     qp_solver_collection
+    force_control_collection
     nmpc_ddp
     DEPENDS EIGEN3
     INCLUDE_DIRS include
@@ -36,6 +38,7 @@ else()
   set(CATKIN_ENABLE_TESTING OFF)
   option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
   add_project_dependency(qp_solver_collection REQUIRED)
+  add_project_dependency(force_control_collection REQUIRED)
   add_project_dependency(nmpc_ddp REQUIRED)
 endif()
 
