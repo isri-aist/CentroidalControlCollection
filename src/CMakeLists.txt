@@ -9,6 +9,7 @@ add_library(CCC
   SingularPreviewControlZmp.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
+  PreviewControlCentroidal.cpp
   DdpCentroidal.cpp
   )
 if(DEFINED CATKIN_DEVEL_PREFIX)

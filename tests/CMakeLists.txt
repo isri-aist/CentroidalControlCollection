@@ -26,6 +26,7 @@ set(CCC_gtest_list
   TestSingularPreviewControlZmp
   TestLinearMpcZ
   TestLinearMpcXY
+  TestPreviewControlCentroidal
   TestDdpCentroidal
   )
 
