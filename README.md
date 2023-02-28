@@ -164,6 +164,13 @@ $ rosrun centroidal_control_collection TestLinearMpcZ
 $ rosrun centroidal_control_collection TestLinearMpcXY
 ```
 
+#### [PreviewControlCentroidal](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1PreviewControlCentroidal.html)
+- M Murooka, et al. Centroidal trajectory generation and stabilization based on preview control for humanoid multi-contact motion. RA-Letters, 2022.
+
+```bash
+$ rosrun centroidal_control_collection TestPreviewControlCentroidal
+```
+
 #### [DdpCentroidal](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DdpCentroidal.html)
 
 ```bash
