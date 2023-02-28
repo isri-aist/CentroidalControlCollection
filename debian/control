@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 9),
                doxygen,
                graphviz,
                libqpsolvercollection-dev,
-               libforcecontrolcollection-dev
+               libforcecontrolcollection-dev,
                libnmpc-dev,
                libmc-rtc-dev,
                libgtest-dev
@@ -20,7 +20,7 @@ Section: libdevel
 Architecture: any
 Depends: cmake,
          libqpsolvercollection-dev,
-         libforcecontrolcollection-dev
+         libforcecontrolcollection-dev,
          libnmpc-dev,
          libmc-rtc-dev,
          ${shlibs:Depends},
