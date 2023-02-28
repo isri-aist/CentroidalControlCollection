@@ -82,16 +82,32 @@ $(function() {
 </ul>
 <h2>Dependencies</h2>
 <p>This package depends on</p><ul>
+<li><a href="https://jrl-umi3218.github.io/mc_rtc">mc_rtc</a></li>
+</ul>
+<p>This package also depends on the following packages. However, manual installation is unnecessary when this package is installed using <code>wstool</code> as described in <a href="#installation-procedure">Installation procedure</a>.</p><ul>
 <li><a href="https://github.com/isri-aist/QpSolverCollection">QpSolverCollection</a></li>
+<li><a href="https://github.com/isri-aist/ForceControlCollection">ForceControlCollection</a></li>
 <li><a href="https://github.com/isri-aist/NMPC">NMPC</a></li>
 </ul>
+<h2>Preparation</h2>
+<ol type="1">
+<li>(Skip if ROS is already installed.) Install ROS. See <a href="http://wiki.ros.org/ROS/Installation">here</a> for details. <div class="fragment"><div class="line">$ export ROS_DISTRO=melodic</div>
+<div class="line">$ sudo sh -c &#39;echo &quot;deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main&quot; &gt; /etc/apt/sources.list.d/ros-latest.list&#39;</div>
+<div class="line">$ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -</div>
+<div class="line">$ sudo apt-get update</div>
+<div class="line">$ sudo apt-get install ros-${ROS_DISTRO}-ros-base python-catkin-tools python-rosdep</div>
+</div><!-- fragment --></li>
+<li>(Skip if mc_rtc is already installed.) Install mc_rtc. See <a href="https://jrl-umi3218.github.io/mc_rtc/tutorials/introduction/installation-guide.html">here</a> for details. <div class="fragment"><div class="line">$ curl -1sLf &#39;https://dl.cloudsmith.io/public/mc-rtc/stable/setup.deb.sh&#39; | sudo -E bash</div>
+<div class="line">$ sudo apt-get install libmc-rtc-dev mc-rtc-utils ros-${ROS_DISTRO}-mc-rtc-plugin ros-${ROS_DISTRO}-mc-rtc-rviz-panel libeigen-qld-dev</div>
+</div><!-- fragment --></li>
+</ol>
 <h2>Installation procedure</h2>
-<p>It is assumed that ROS is installed.</p>
 <ol type="1">
 <li>Setup catkin workspace. <div class="fragment"><div class="line">$ mkdir -p ~/ros/ws_ccc/src</div>
 <div class="line">$ cd ~/ros/ws_ccc</div>
 <div class="line">$ wstool init src</div>
 <div class="line">$ wstool set -t src isri-aist/QpSolverCollection git@github.com:isri-aist/QpSolverCollection.git --git -y</div>
+<div class="line">$ wstool set -t src isri-aist/ForceControlCollection git@github.com:isri-aist/ForceControlCollection.git --git -y</div>
 <div class="line">$ wstool set -t src isri-aist/NMPC git@github.com:isri-aist/NMPC.git --git -y</div>
 <div class="line">$ wstool set -t src isri-aist/CentroidalControlCollection git@github.com:isri-aist/CentroidalControlCollection.git --git -y</div>
 <div class="line">$ wstool update -t src</div>
@@ -192,6 +208,11 @@ SingularPreviewControlZmp</div></div>
 <li>長阪憲一郎, et al. 接触拘束を考慮可能なマルチコンタクト対応スタビライザと一般化逆動力学による人型ロボットの全身制御. ロボティクスシンポジア予稿集, 2012.</li>
 </ul>
 <div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestLinearMpcXY</div>
+</div><!-- fragment --><h3><a href="https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1PreviewControlCentroidal.html">PreviewControlCentroidal</a></h3>
+<ul>
+<li>M Murooka, et al. Centroidal trajectory generation and stabilization based on preview control for humanoid multi-contact motion. RA-Letters, 2022.</li>
+</ul>
+<div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestPreviewControlCentroidal</div>
 </div><!-- fragment --><h3><a href="https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DdpCentroidal.html">DdpCentroidal</a></h3>
 <div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestDdpCentroidal --gtest_filter=*.PlanOnce</div>
 </div><!-- fragment --><h1>Integration into controller</h1>

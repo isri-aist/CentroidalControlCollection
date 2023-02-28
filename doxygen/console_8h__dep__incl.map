@@ -1,5 +1,6 @@
 <map id="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/console.h" name="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/console.h">
-<area shape="rect" id="node1" title=" " alt="" coords="14,5,311,76"/>
-<area shape="rect" id="node2" href="$PreviewControl_8h.html" title=" " alt="" coords="14,124,311,195"/>
-<area shape="rect" id="node3" href="$PreviewControlZmp_8h.html" title=" " alt="" coords="5,243,320,313"/>
+<area shape="rect" id="node1" title=" " alt="" coords="211,5,508,76"/>
+<area shape="rect" id="node2" href="$PreviewControl_8h.html" title=" " alt="" coords="211,124,508,195"/>
+<area shape="rect" id="node3" href="$PreviewControlCentroidal_8h.html" title=" " alt="" coords="5,243,356,313"/>
+<area shape="rect" id="node4" href="$PreviewControlZmp_8h.html" title=" " alt="" coords="381,243,695,313"/>
 </map>
