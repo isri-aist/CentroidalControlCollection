@@ -16,6 +16,10 @@ project(centroidal_control_collection LANGUAGES CXX)
 
 if(DEFINED CATKIN_DEVEL_PREFIX)
   set(DOXYGEN_HTML_OUTPUT html)
+
+  # mc_rtc
+  add_project_dependency(mc_rtc REQUIRED)
+
   find_package(catkin REQUIRED COMPONENTS
     roscpp
     qp_solver_collection

@@ -17,7 +17,7 @@ if(DEFINED CATKIN_DEVEL_PREFIX)
     ${catkin_INCLUDE_DIRS}
   )
   target_link_libraries(CCC PUBLIC
-    ${catkin_LIBRARIES}
+    ${catkin_LIBRARIES} mc_rtc::mc_rtc_utils mc_rtc::mc_rtc_gui
   )
 else()
   target_link_libraries(CCC PUBLIC
