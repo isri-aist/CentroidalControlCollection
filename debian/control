@@ -10,7 +10,9 @@ Build-Depends: debhelper (>= 9),
                doxygen,
                graphviz,
                libqpsolvercollection-dev,
+               libforcecontrolcollection-dev
                libnmpc-dev,
+               libmc-rtc-dev,
                libgtest-dev
 
 Package: libcentroidalcontrolcollection-dev
@@ -18,7 +20,9 @@ Section: libdevel
 Architecture: any
 Depends: cmake,
          libqpsolvercollection-dev,
+         libforcecontrolcollection-dev
          libnmpc-dev,
+         libmc-rtc-dev,
          ${shlibs:Depends},
          ${misc:Depends}
 Description: Collection of centroidal control for legged robots
