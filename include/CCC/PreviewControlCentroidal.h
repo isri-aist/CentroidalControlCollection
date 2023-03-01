@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <SpaceVecAlg/SpaceVecAlg>
+
 #include <mc_rtc/Configuration.h>
 
 #include <CCC/EigenTypes.h>
@@ -145,37 +147,31 @@ public:
     std::vector<std::shared_ptr<ForceColl::Contact>> contact_list;
   };
 
-  /** \brief Reference data.
-
-      The first three elements are position components and the latter three are orientation components.
-   */
+  /** \brief Reference data. */
   struct RefData
   {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     //! CoM position [m] and base link orientation [rad]
-    Eigen::Vector6d pos = Eigen::Vector6d::Zero();
+    sva::MotionVecd pos = sva::MotionVecd::Zero();
 
     //! Force [N] and moment [Nm]
-    Eigen::Vector6d wrench = Eigen::Vector6d::Zero();
+    sva::ForceVecd wrench = sva::ForceVecd::Zero();
   };
 
-  /** \brief Initial parameter.
-
-      The first three elements are position components and the latter three are orientation components.
-   */
+  /** \brief Initial parameter. */
   struct InitialParam
   {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     //! CoM position [m] and base link orientation [rad]
-    Eigen::Vector6d pos = Eigen::Vector6d::Zero();
+    sva::MotionVecd pos = sva::MotionVecd::Zero();
 
     //! CoM velocity [m/s] and base link angular velocity [rad/s]
-    Eigen::Vector6d vel = Eigen::Vector6d::Zero();
+    sva::MotionVecd vel = sva::MotionVecd::Zero();
 
     //! CoM acceleration [m/s^2] and base link angular acceleration [rad/s^2]
-    Eigen::Vector6d acc = Eigen::Vector6d::Zero();
+    sva::MotionVecd acc = sva::MotionVecd::Zero();
 
     /** \brief Convert to PreviewControlCentroidal1d::InitialParam.
         \param idx component index
@@ -189,13 +185,13 @@ public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     //! Position weight
-    Eigen::Vector6d pos;
+    sva::MotionVecd pos;
 
     //! Wrench weight
-    Eigen::Vector6d wrench;
+    sva::ForceVecd wrench;
 
     //! Jerk weight
-    Eigen::Vector6d jerk;
+    sva::MotionVecd jerk;
 
     //! Configuration of wrench distribution
     mc_rtc::Configuration wrench_dist_config;
@@ -206,9 +202,12 @@ public:
         \param _jerk jerk weight
         \param _wrench_dist_config configuration of wrench distribution
      */
-    WeightParam(const Eigen::Vector6d & _pos = (Eigen::Vector6d() << 2e2, 2e2, 2e2, 1e2, 1e2, 1e2).finished(),
-                const Eigen::Vector6d & _wrench = (Eigen::Vector6d() << 5e-4, 5e-4, 5e-4, 5e-3, 5e-3, 5e-3).finished(),
-                const Eigen::Vector6d & _jerk = Eigen::Vector6d::Constant(1e-8),
+    WeightParam(const sva::MotionVecd & _pos = sva::MotionVecd(Eigen::Vector3d(1e2, 1e2, 1e2),
+                                                               Eigen::Vector3d(2e2, 2e2, 2e2)),
+                const sva::ForceVecd & _wrench = sva::ForceVecd(Eigen::Vector3d(5e-3, 5e-3, 5e-3),
+                                                                Eigen::Vector3d(5e-4, 5e-4, 5e-4)),
+                const sva::MotionVecd & _jerk = sva::MotionVecd(Eigen::Vector3d::Constant(1e-8),
+                                                                Eigen::Vector3d::Constant(1e-8)),
                 const mc_rtc::Configuration & _wrench_dist_config = {})
     : pos(_pos), wrench(_wrench), jerk(_jerk), wrench_dist_config(_wrench_dist_config)
     {
@@ -242,14 +241,17 @@ public:
       \param control_dt control timestep used to calculate the planned wrench (if omitted, horizon_dt is used)
       \returns planned wrench
    */
-  Eigen::Vector6d planOnce(const MotionParam & motion_param,
-                           const std::function<RefData(double)> & ref_data_func,
-                           const InitialParam & initial_param,
-                           double current_time,
-                           double control_dt = -1) const;
+  sva::ForceVecd planOnce(const MotionParam & motion_param,
+                          const std::function<RefData(double)> & ref_data_func,
+                          const InitialParam & initial_param,
+                          double current_time,
+                          double control_dt = -1) const;
 
 public:
-  //! One-dimensional preview control
+  /** \brief List of one-dimensional preview control
+
+      The first three elements are for orientation components and the latter three are for position components.
+   */
   std::array<std::shared_ptr<PreviewControlCentroidal1d>, 6> preview_control_1d_;
 
   //! Configuration of wrench distribution

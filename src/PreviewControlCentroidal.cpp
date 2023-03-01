@@ -47,12 +47,28 @@ double PreviewControlCentroidal1d::procOnce(const Eigen::VectorXd & ref_output_s
 
 PreviewControlCentroidal1d::InitialParam PreviewControlCentroidal::InitialParam::toInitialParam1d(int idx) const
 {
-  return PreviewControlCentroidal1d::InitialParam(pos[idx], vel[idx], acc[idx]);
+  if(idx < 3)
+  {
+    return PreviewControlCentroidal1d::InitialParam(pos.angular()[idx], vel.angular()[idx], acc.angular()[idx]);
+  }
+  else
+  {
+    return PreviewControlCentroidal1d::InitialParam(pos.linear()[idx - 3], vel.linear()[idx - 3],
+                                                    acc.linear()[idx - 3]);
+  }
 }
 
 PreviewControlCentroidal1d::WeightParam PreviewControlCentroidal::WeightParam::toWeightParam1d(int idx) const
 {
-  return PreviewControlCentroidal1d::WeightParam(pos[idx], wrench[idx], jerk[idx]);
+  if(idx < 3)
+  {
+    return PreviewControlCentroidal1d::WeightParam(pos.angular()[idx], wrench.moment()[idx], jerk.angular()[idx]);
+  }
+  else
+  {
+    return PreviewControlCentroidal1d::WeightParam(pos.linear()[idx - 3], wrench.force()[idx - 3],
+                                                   jerk.linear()[idx - 3]);
+  }
 }
 
 PreviewControlCentroidal::PreviewControlCentroidal(double mass,
@@ -64,7 +80,7 @@ PreviewControlCentroidal::PreviewControlCentroidal(double mass,
 {
   for(int i = 0; i < 6; i++)
   {
-    double inertia_param = (i < 3 ? mass_ : moment_of_inertia[i - 3]);
+    double inertia_param = (i < 3 ? moment_of_inertia[i] : mass_);
     preview_control_1d_[i] = std::make_shared<PreviewControlCentroidal1d>(inertia_param, horizon_duration, horizon_dt,
                                                                           weight_param.toWeightParam1d(i));
   }
@@ -72,11 +88,11 @@ PreviewControlCentroidal::PreviewControlCentroidal(double mass,
   wrench_dist_config_ = weight_param.wrench_dist_config;
 }
 
-Eigen::Vector6d PreviewControlCentroidal::planOnce(const MotionParam & motion_param,
-                                                   const std::function<RefData(double)> & ref_data_func,
-                                                   const InitialParam & initial_param,
-                                                   double current_time,
-                                                   double control_dt) const
+sva::ForceVecd PreviewControlCentroidal::planOnce(const MotionParam & motion_param,
+                                                  const std::function<RefData(double)> & ref_data_func,
+                                                  const InitialParam & initial_param,
+                                                  double current_time,
+                                                  double control_dt) const
 {
   int horizon_steps = preview_control_1d_[0]->horizon_steps_;
   double horizon_dt = preview_control_1d_[0]->horizon_dt_;
@@ -87,24 +103,28 @@ Eigen::Vector6d PreviewControlCentroidal::planOnce(const MotionParam & motion_pa
   {
     double t = current_time + (i + 1) * horizon_dt;
     const auto & ref_data = ref_data_func(t);
-    ref_output_seq.col(2 * i) = ref_data.pos;
-    ref_output_seq.col(2 * i + 1) = ref_data.wrench;
+    ref_output_seq.col(2 * i) = ref_data.pos.vector();
+    ref_output_seq.col(2 * i + 1) = ref_data.wrench.vector();
   }
 
   // Run preview control
-  Eigen::Vector6d planned_wrench;
+  sva::ForceVecd planned_wrench;
   for(int i = 0; i < 6; i++)
   {
-    planned_wrench[i] = preview_control_1d_[i]->procOnce(ref_output_seq.row(i).transpose(),
-                                                         initial_param.toInitialParam1d(i), current_time, control_dt);
+    double wrench = preview_control_1d_[i]->procOnce(ref_output_seq.row(i).transpose(),
+                                                     initial_param.toInitialParam1d(i), current_time, control_dt);
+    if(i < 3)
+    {
+      planned_wrench.moment()[i] = wrench;
+    }
+    else
+    {
+      planned_wrench.force()[i - 3] = wrench;
+    }
   }
+  planned_wrench.force().z() += mass_ * constants::g;
 
   // Project wrench
-  sva::ForceVecd wrench_without_gravity = sva::ForceVecd(planned_wrench.tail<3>(), planned_wrench.head<3>());
-  wrench_without_gravity.force() += Eigen::Vector3d(0, 0, mass_ * constants::g);
   auto wrench_dist = std::make_shared<ForceColl::WrenchDistribution>(motion_param.contact_list, wrench_dist_config_);
-  wrench_dist->run(wrench_without_gravity, initial_param.pos.head<3>());
-
-  return (Eigen::Vector6d() << wrench_dist->resultTotalWrench_.force(), wrench_dist->resultTotalWrench_.moment())
-      .finished();
+  return wrench_dist->run(planned_wrench, initial_param.pos.linear());
 }
