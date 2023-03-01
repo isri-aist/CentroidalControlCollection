@@ -102,12 +102,7 @@ Eigen::Vector6d PreviewControlCentroidal::planOnce(const MotionParam & motion_pa
   // Project wrench
   sva::ForceVecd wrench_without_gravity = sva::ForceVecd(planned_wrench.tail<3>(), planned_wrench.head<3>());
   wrench_without_gravity.force() += Eigen::Vector3d(0, 0, mass_ * constants::g);
-  std::unordered_map<size_t, std::shared_ptr<ForceColl::Contact>> contact_map;
-  for(size_t i = 0; i < motion_param.contact_list.size(); i++)
-  {
-    contact_map.emplace(i, motion_param.contact_list[i]);
-  }
-  auto wrench_dist = std::make_shared<ForceColl::WrenchDistribution<size_t>>(contact_map, wrench_dist_config_);
+  auto wrench_dist = std::make_shared<ForceColl::WrenchDistribution>(motion_param.contact_list, wrench_dist_config_);
   wrench_dist->run(wrench_without_gravity, initial_param.pos.head<3>());
 
   return (Eigen::Vector6d() << wrench_dist->resultTotalWrench_.force(), wrench_dist->resultTotalWrench_.moment())
