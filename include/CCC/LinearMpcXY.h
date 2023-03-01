@@ -6,7 +6,6 @@
 
 #include <qp_solver_collection/QpSolverCollection.h>
 
-#include <CCC/EigenTypes.h>
 #include <CCC/VariantSequentialExtension.h>
 
 namespace CCC

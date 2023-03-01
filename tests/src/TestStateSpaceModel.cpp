@@ -4,8 +4,12 @@
 
 #include <iostream>
 
-#include <CCC/EigenTypes.h>
 #include <CCC/StateSpaceModel.h>
+
+namespace Eigen
+{
+using Vector1d = Matrix<double, 1, 1>;
+}
 
 class ModelFixed1 : public CCC::StateSpaceModel<3, 1, 1>
 {

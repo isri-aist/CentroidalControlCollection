@@ -6,8 +6,6 @@
 
 #include <nmpc_ddp/DDPSolver.h>
 
-#include <CCC/EigenTypes.h>
-
 namespace ForceColl
 {
 class Contact;

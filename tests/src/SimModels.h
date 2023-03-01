@@ -5,7 +5,6 @@
 #include <SpaceVecAlg/SpaceVecAlg>
 
 #include <CCC/Constants.h>
-#include <CCC/EigenTypes.h>
 #include <CCC/StateSpaceModel.h>
 
 /** \brief State-space model of one-dimensional CoM-ZMP dynamics with ZMP input. */

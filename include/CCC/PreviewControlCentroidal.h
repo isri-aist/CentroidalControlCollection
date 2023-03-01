@@ -6,7 +6,6 @@
 
 #include <mc_rtc/Configuration.h>
 
-#include <CCC/EigenTypes.h>
 #include <CCC/PreviewControl.h>
 
 namespace ForceColl
