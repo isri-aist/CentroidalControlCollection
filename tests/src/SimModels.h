@@ -13,8 +13,9 @@ class ComZmpSimModel1d : public CCC::StateSpaceModel<2, 1, 0>
 public:
   /** \brief Constructor.
       \param com_height height of robot CoM [m]
+      \param sim_dt simulation timestep [sec]
   */
-  ComZmpSimModel1d(double com_height)
+  ComZmpSimModel1d(double com_height, double sim_dt)
   {
     double omega2 = CCC::constants::g / com_height;
 
@@ -22,7 +23,21 @@ public:
     A_(1, 0) = omega2;
 
     B_(1, 0) = -1 * omega2;
+
+    calcDiscMatrix(sim_dt);
   }
+
+  /** \brief Update.
+      \param input simulation input (ZMP)
+  */
+  void update(double input)
+  {
+    state_ = stateEqDisc(state_, (InputDimVector() << input).finished());
+  }
+
+public:
+  //! Simulation state
+  StateDimVector state_ = StateDimVector::Zero();
 };
 
 /** \brief State-space model of vertical motion dynamics with force input. */
@@ -31,15 +46,30 @@ class VerticalSimModel : public CCC::StateSpaceModel<2, 1, 0>
 public:
   /** \brief Constructor.
       \param mass robot mass [Kg]
+      \param sim_dt simulation timestep [sec]
   */
-  VerticalSimModel(double mass)
+  VerticalSimModel(double mass, double sim_dt)
   {
     A_(0, 1) = 1;
 
     B_(1, 0) = 1 / mass;
 
     E_(1) = -1 * CCC::constants::g;
+
+    calcDiscMatrix(sim_dt);
   }
+
+  /** \brief Update.
+      \param input simulation input (force)
+  */
+  void update(double input)
+  {
+    state_ = stateEqDisc(state_, (InputDimVector() << input).finished());
+  }
+
+public:
+  //! Simulation state
+  StateDimVector state_ = StateDimVector::Zero();
 };
 
 /** \brief Simulation of two-dimensional CoM-ZMP dynamics with ZMP input. */
@@ -78,21 +108,15 @@ public:
       \param com_height height of robot CoM [m]
       \param sim_dt simulation timestep [sec]
   */
-  ComZmpSim2d(double com_height, double sim_dt) : model_(std::make_shared<ComZmpSimModel1d>(com_height))
-  {
-    model_->calcDiscMatrix(sim_dt);
-  }
+  ComZmpSim2d(double com_height, double sim_dt) : model_(std::make_shared<ComZmpSimModel1d>(com_height, sim_dt)) {}
 
   /** \brief Update.
       \param input simulation input (ZMP)
   */
   void update(const Input & input)
   {
-    ComZmpSimModel1d::InputDimVector input_1d;
-    input_1d << input.x();
-    state_.x = model_->stateEqDisc(state_.x, input_1d);
-    input_1d << input.y();
-    state_.y = model_->stateEqDisc(state_.y, input_1d);
+    state_.x = model_->stateEqDisc(state_.x, (ComZmpSimModel1d::InputDimVector() << input.x()).finished());
+    state_.y = model_->stateEqDisc(state_.y, (ComZmpSimModel1d::InputDimVector() << input.y()).finished());
   }
 
   /** \brief Add disturbance
@@ -160,9 +184,8 @@ public:
       \param mass robot mass [Kg]
       \param sim_dt simulation timestep [sec]
   */
-  ComZmpSim3d(double mass, double sim_dt) : sim_dt_(sim_dt), z_model_(std::make_shared<VerticalSimModel>(mass))
+  ComZmpSim3d(double mass, double sim_dt) : sim_dt_(sim_dt), z_model_(std::make_shared<VerticalSimModel>(mass, sim_dt))
   {
-    z_model_->calcDiscMatrix(sim_dt_);
   }
 
   /** \brief Update.
@@ -170,16 +193,11 @@ public:
   */
   void update(const Input & input)
   {
-    xy_model_ = std::make_shared<ComZmpSimModel1d>(state_.z[0]);
-    xy_model_->calcDiscMatrix(sim_dt_);
+    xy_model_ = std::make_shared<ComZmpSimModel1d>(state_.z[0], sim_dt_);
 
-    ComZmpSimModel1d::InputDimVector input_1d;
-    input_1d << input.zmp.x();
-    state_.x = xy_model_->stateEqDisc(state_.x, input_1d);
-    input_1d << input.zmp.y();
-    state_.y = xy_model_->stateEqDisc(state_.y, input_1d);
-    input_1d << input.force_z;
-    state_.z = z_model_->stateEqDisc(state_.z, input_1d);
+    state_.x = xy_model_->stateEqDisc(state_.x, (ComZmpSimModel1d::InputDimVector() << input.zmp.x()).finished());
+    state_.y = xy_model_->stateEqDisc(state_.y, (ComZmpSimModel1d::InputDimVector() << input.zmp.y()).finished());
+    state_.z = z_model_->stateEqDisc(state_.z, (VerticalSimModel::InputDimVector() << input.force_z).finished());
   }
 
   /** \brief Add disturbance
