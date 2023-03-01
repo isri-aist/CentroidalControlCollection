@@ -6,7 +6,6 @@
 
 #include <qp_solver_collection/QpSolverCollection.h>
 
-#include <CCC/MotionData.h>
 #include <CCC/VariantSequentialExtension.h>
 
 namespace CCC
@@ -45,23 +44,6 @@ public:
         \param _force force weight
      */
     WeightParam(double _pos = 1.0, double _force = 1e-7) : pos(_pos), force(_force) {}
-  };
-
-  /** \brief Motion data. */
-  struct MotionData : MotionDataBase<double, double, double>
-  {
-    //! Contact/non-contact phase (true for contact phase)
-    bool contact = false;
-
-    /** \brief Dump data.
-        \tparam StreamType stream type
-     */
-    template<class StreamType>
-    void dump(StreamType & ofs) const
-    {
-      ofs << time << " " << contact << " " << ref_pos << " " << planned_pos << " " << planned_vel << " " << planned_acc
-          << " " << planned_force << std::endl;
-    }
   };
 
   /** \brief State-space model for contact phase.
@@ -195,36 +177,6 @@ public:
                            const std::pair<double, double> & horizon_time_range,
                            const WeightParam & weight_param = WeightParam());
 
-  /** \brief Plan with loop.
-      \param contact_func function of contact/non-contact phases (returns true for contact phase)
-      \param ref_pos_func function of reference position [m]
-      \param initial_param initial parameter
-      \param motion_time_range start and end time of motion ([sec], [sec])
-      \param horizon_duration horizon duration [sec]
-      \param sim_dt discretization timestep for simulation [sec]
-      \param weight_param objective weight parameter
-      \returns planned force sequence
-  */
-  void planLoop(const std::function<bool(double)> & contact_func,
-                const std::function<double(double)> & ref_pos_func,
-                const InitialParam & initial_param,
-                const std::pair<double, double> & motion_time_range,
-                double horizon_duration,
-                double sim_dt,
-                const WeightParam & weight_param = WeightParam());
-
-  /** \brief Dump motion data sequence by planLoop().
-      \param file_path output file path
-      \param print_command whether to print the plot commands
-   */
-  void dumpMotionDataSeq(const std::string & file_path, bool print_command = true) const;
-
-  /** \brief Get motion data sequence. */
-  inline const std::map<double, MotionData> & motionDataSeq() const
-  {
-    return motion_data_seq_;
-  }
-
 protected:
   /** \brief Process one step. */
   Eigen::VectorXd procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
@@ -253,9 +205,5 @@ public:
 
   //! Min/max z-component force [N]
   std::pair<double, double> force_range_;
-
-protected:
-  //! Motion data sequence
-  std::map<double, MotionData> motion_data_seq_;
 };
 } // namespace CCC

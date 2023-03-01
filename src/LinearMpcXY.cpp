@@ -104,70 +104,6 @@ Eigen::VectorXd LinearMpcXY::planOnce(const std::function<MotionParam(double)> &
   return procOnce(model_list, initial_param.toState(mass_), ref_output_seq, weight_param);
 }
 
-void LinearMpcXY::planLoop(const std::function<MotionParam(double)> & motion_param_func,
-                           const std::function<RefData(double)> & ref_data_func,
-                           const InitialParam & initial_param,
-                           const std::pair<double, double> & motion_time_range,
-                           double horizon_duration,
-                           double sim_dt,
-                           const WeightParam & weight_param)
-{
-  int seq_len = static_cast<int>((motion_time_range.second - motion_time_range.first) / sim_dt);
-  int horizon_steps = static_cast<int>(horizon_duration / horizon_dt_);
-
-  // Loop
-  double current_t = motion_time_range.first;
-  StateDimVector current_x = initial_param.toState(mass_);
-  for(int i = 0; i < seq_len; i++)
-  {
-    // Set model_list and ref_output_seq
-    std::vector<std::shared_ptr<_StateSpaceModel>> model_list(horizon_steps);
-    Eigen::VectorXd ref_output_seq(horizon_steps * RefData::outputDim());
-    const auto & current_motion_param = motion_param_func(current_t);
-    const auto & current_ref_data = ref_data_func(current_t);
-    for(int i = 0; i < horizon_steps; i++)
-    {
-      double t = current_t + i * horizon_dt_;
-      const auto & motion_param = (i == 0 ? current_motion_param : motion_param_func(t));
-      const auto & ref_data = (i == 0 ? current_ref_data : ref_data_func(t));
-
-      model_list[i] = std::make_shared<Model>(mass_, motion_param);
-      model_list[i]->calcDiscMatrix(horizon_dt_);
-
-      ref_output_seq.segment<RefData::outputDim()>(i * RefData::outputDim()) = ref_data.toOutput(mass_);
-    }
-    const auto & current_model = model_list[0];
-
-    // Set sim_model
-    const auto & sim_model = std::make_shared<SimModel>(mass_, current_motion_param);
-    sim_model->calcDiscMatrix(sim_dt);
-
-    // Calculate optimal force
-    const Eigen::VectorXd & opt_force_seq = procOnce(model_list, current_x, ref_output_seq, weight_param);
-
-    // Save current data
-    Eigen::VectorXd current_u(current_model->inputDim());
-    current_u << opt_force_seq.head(current_model->inputDim());
-    const auto & current_sim_output = sim_model->observEq(current_x, current_u);
-    MotionData current_motion_data;
-    current_motion_data.time = current_t;
-    current_motion_data.ref_pos = current_ref_data.pos;
-    current_motion_data.ref_vel = current_ref_data.vel;
-    current_motion_data.ref_acc << 0.0, 0.0;
-    current_motion_data.ref_angular_momentum = current_ref_data.angular_momentum;
-    current_motion_data.planned_pos << current_sim_output[0], current_sim_output[3];
-    current_motion_data.planned_vel << current_sim_output[1], current_sim_output[4];
-    current_motion_data.planned_acc << current_sim_output[2], current_sim_output[5];
-    current_motion_data.planned_force = current_u;
-    current_motion_data.planned_angular_momentum = current_sim_output.tail<2>();
-    motion_data_seq_.emplace(current_t, current_motion_data);
-
-    // Simulate one step
-    current_t += sim_dt;
-    current_x = sim_model->stateEqDisc(current_x, current_u);
-  }
-}
-
 Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
                                       const StateDimVector & current_x,
                                       const Eigen::VectorXd & ref_output_seq,
@@ -228,27 +164,4 @@ Eigen::VectorXd LinearMpcXY::procOnce(const std::vector<std::shared_ptr<_StateSp
 
   // Solve QP
   return qp_solver_->solve(qp_coeff_);
-}
-
-void LinearMpcXY::dumpMotionDataSeq(const std::string & file_path, bool print_command) const
-{
-  std::ofstream ofs(file_path);
-  ofs << "time ref_pos_x ref_pos_y ref_vel_x ref_vel_y ref_angular_momentum_x ref_angular_momentum_y planned_pos_x "
-         "planned_pos_y planned_vel_x planned_vel_y planned_acc_x planned_acc_y planned_angular_momentum_x "
-         "planned_angular_momentum_y planned_force"
-      << std::endl;
-  for(const auto & motion_data_kv : motion_data_seq_)
-  {
-    motion_data_kv.second.dump(ofs);
-  }
-  if(print_command)
-  {
-    std::cout << "Run the following commands in gnuplot:\n"
-              << "  set key autotitle columnhead\n"
-              << "  set key noenhanced\n"
-              << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:8 w lp # pos_x\n"
-              << "  plot \"" << file_path << "\" u 1:3 w lp, \"\" u 1:9 w lp # pos_y\n"
-              << "  plot \"" << file_path << "\" u 1:6 w lp, \"\" u 1:14 w lp # momentum_x\n"
-              << "  plot \"" << file_path << "\" u 1:7 w lp, \"\" u 1:15 w lp # momentum_y\n";
-  }
 }
