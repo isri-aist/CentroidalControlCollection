@@ -120,32 +120,33 @@ public:
   /** \brief Constructor.
       \param mass robot mass [kg]
       \param horizon_dt discretization timestep in horizon [sec]
+      \param horizon_steps number of steps in horizon
+      \param weight_param objective weight parameter
       \param qp_solver_type QP solver type
   */
   LinearMpcZ(double mass,
              double horizon_dt,
+             int horizon_steps,
+             const WeightParam & weight_param = WeightParam(),
              QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any);
 
   /** \brief Plan one step.
       \param contact_func function of contact/non-contact phases (returns true for contact phase)
       \param ref_pos_func function of reference position [m]
       \param initial_param initial parameter
-      \param horizon_time_range start and end time of horizon ([sec], [sec])
-      \param weight_param objective weight parameter
-      \returns planned force sequence
+      \param current_time current time (i.e., start time of horizon) [sec]
+      \returns planned force
   */
-  Eigen::VectorXd planOnce(const std::function<bool(double)> & contact_func,
-                           const std::function<double(double)> & ref_pos_func,
-                           const InitialParam & initial_param,
-                           const std::pair<double, double> & horizon_time_range,
-                           const WeightParam & weight_param = WeightParam());
+  double planOnce(const std::function<bool(double)> & contact_func,
+                  const std::function<double(double)> & ref_pos_func,
+                  const InitialParam & initial_param,
+                  double current_time);
 
 protected:
   /** \brief Process one step. */
-  Eigen::VectorXd procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
-                           const StateDimVector & current_x,
-                           const Eigen::VectorXd & ref_pos_seq,
-                           const WeightParam & weight_param);
+  double procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
+                  const StateDimVector & current_x,
+                  const Eigen::VectorXd & ref_pos_seq);
 
 public:
   //! Robot mass [kg]
@@ -153,6 +154,12 @@ public:
 
   //! Discretization timestep in horizon [sec]
   double horizon_dt_ = 0;
+
+  //! Number of steps in horizon
+  int horizon_steps_ = 0;
+
+  //! Objective weight parameter
+  WeightParam weight_param_;
 
   //! State-space model for contact phase
   std::shared_ptr<_StateSpaceModel> model_contact_;

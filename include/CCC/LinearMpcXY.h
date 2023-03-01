@@ -4,9 +4,16 @@
 
 #include <functional>
 
+#include <SpaceVecAlg/SpaceVecAlg>
+
 #include <qp_solver_collection/QpSolverCollection.h>
 
 #include <CCC/VariantSequentialExtension.h>
+
+namespace ForceColl
+{
+class Contact;
+}
 
 namespace CCC
 {
@@ -42,12 +49,8 @@ public:
     //! Total z force [N]
     double total_force_z;
 
-    /** \brief List of contact vertex and force direction (i.e., friction pyramid ridge)
-
-        Each column represents a pair of vertex and ridge. The first three rows represent vertex and the last three rows
-       represent ridge.
-     */
-    Eigen::Matrix<double, 6, Eigen::Dynamic> vertex_ridge_list;
+    /** \brief Contact list. */
+    std::vector<std::shared_ptr<ForceColl::Contact>> contact_list;
   };
 
   /** \brief Initial parameter. */
@@ -67,7 +70,7 @@ public:
     /** \brief Get state of state-space model.
         \param mass robot mass [kg]
      */
-    Eigen::Vector6d toState(double mass) const;
+    StateDimVector toState(double mass) const;
   };
 
   /** \brief Reference data. */
@@ -93,7 +96,7 @@ public:
     /** \brief Get reference output of state-space model.
         \param mass robot mass [kg]
      */
-    Eigen::Vector6d toOutput(double mass) const;
+    StateDimVector toOutput(double mass) const;
   };
 
   /** \brief Weight parameter. */
@@ -201,32 +204,33 @@ public:
   /** \brief Constructor.
       \param mass robot mass [kg]
       \param horizon_dt discretization timestep in horizon [sec]
+      \param horizon_steps number of steps in horizon
+      \param weight_param objective weight parameter
       \param qp_solver_type QP solver type
   */
   LinearMpcXY(double mass,
               double horizon_dt,
+              int horizon_steps,
+              const WeightParam & weight_param = WeightParam(),
               QpSolverCollection::QpSolverType qp_solver_type = QpSolverCollection::QpSolverType::Any);
 
   /** \brief Plan one step.
       \param motion_param_func function of motion parameter
       \param ref_data_func function of reference data
       \param initial_param initial parameter
-      \param horizon_time_range start and end time of horizon ([sec], [sec])
-      \param weight_param objective weight parameter
-      \returns planned force sequence
+      \param current_time current time (i.e., start time of horizon) [sec]
+      \returns planned force scales
   */
   Eigen::VectorXd planOnce(const std::function<MotionParam(double)> & motion_param_func,
                            const std::function<RefData(double)> & ref_data_func,
                            const InitialParam & initial_param,
-                           const std::pair<double, double> & horizon_time_range,
-                           const WeightParam & weight_param = WeightParam());
+                           double current_time);
 
 protected:
   /** \brief Process one step. */
   Eigen::VectorXd procOnce(const std::vector<std::shared_ptr<_StateSpaceModel>> & model_list,
                            const StateDimVector & current_x,
-                           const Eigen::VectorXd & ref_output_seq,
-                           const WeightParam & weight_param);
+                           const Eigen::VectorXd & ref_output_seq);
 
 public:
   //! Robot mass [kg]
@@ -234,6 +238,12 @@ public:
 
   //! Discretization timestep in horizon [sec]
   double horizon_dt_ = 0;
+
+  //! Number of steps in horizon
+  int horizon_steps_ = 0;
+
+  //! Objective weight parameter
+  WeightParam weight_param_;
 
   //! QP solver
   std::shared_ptr<QpSolverCollection::QpSolver> qp_solver_;

@@ -75,7 +75,7 @@ TEST(TestDdpCentroidal, PlanOnce)
 
   // Setup simulation
   CentroidalSim sim(mass, moment_of_inertia, sim_dt);
-  sim.state_.pos.linear().z() = 1.0;
+  sim.state_.pos.linear() = ref_data_func(0.0).pos;
 
   // Setup dump file
   std::string file_path = "/tmp/TestDdpCentroidal.txt";
