@@ -45,7 +45,7 @@ DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::DdpProblem::stateEq(dou
   pos_dot = linear_momentum / mass_;
   linear_momentum_dot = -1 * mass_ * Eigen::Vector3d(0, 0, constants::g);
   angular_momentum_dot.setZero();
-  int ridgeIdx = 0;
+  int ridge_idx = 0;
   for(const auto & contact : motion_param.contact_list)
   {
     for(const auto & vertex_with_ridge : contact->vertexWithRidgeList_)
@@ -53,9 +53,9 @@ DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::DdpProblem::stateEq(dou
       const auto & vertex = vertex_with_ridge.vertex;
       for(const auto & ridge : vertex_with_ridge.ridgeList)
       {
-        linear_momentum_dot += u[ridgeIdx] * ridge;
-        angular_momentum_dot += u[ridgeIdx] * (vertex - pos).cross(ridge);
-        ridgeIdx++;
+        linear_momentum_dot += u[ridge_idx] * ridge;
+        angular_momentum_dot += u[ridge_idx] * (vertex - pos).cross(ridge);
+        ridge_idx++;
       }
     }
   }
@@ -97,7 +97,7 @@ void DdpCentroidal::DdpProblem::calcStateEqDeriv(double t,
 
   state_eq_deriv_u.setZero();
 
-  int ridgeIdx = 0;
+  int ridge_idx = 0;
   Eigen::Vector3d totalForce = Eigen::Vector3d::Zero();
   for(const auto & contact : motion_param.contact_list)
   {
@@ -106,10 +106,10 @@ void DdpCentroidal::DdpProblem::calcStateEqDeriv(double t,
       const auto & vertex = vertex_with_ridge.vertex;
       for(const auto & ridge : vertex_with_ridge.ridgeList)
       {
-        totalForce += u[ridgeIdx] * ridge;
-        state_eq_deriv_u.middleRows<3>(3).col(ridgeIdx) = ridge;
-        state_eq_deriv_u.middleRows<3>(6).col(ridgeIdx) = (vertex - pos).cross(ridge);
-        ridgeIdx++;
+        totalForce += u[ridge_idx] * ridge;
+        state_eq_deriv_u.middleRows<3>(3).col(ridge_idx) = ridge;
+        state_eq_deriv_u.middleRows<3>(6).col(ridge_idx) = (vertex - pos).cross(ridge);
+        ridge_idx++;
       }
     }
   }
