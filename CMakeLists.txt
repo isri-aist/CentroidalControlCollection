@@ -48,8 +48,6 @@ endif()
 
 add_subdirectory(src)
 
-add_subdirectory(samples)
-
 if(BUILD_TESTING OR CATKIN_ENABLE_TESTING)
   add_subdirectory(tests)
 endif()
