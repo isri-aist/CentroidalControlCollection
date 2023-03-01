@@ -24,20 +24,8 @@ public:
   {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-    /** \brief List of contact vertex and force direction (i.e., friction pyramid ridge)
-
-        Each column represents a pair of vertex and ridge. The first three rows represent vertex and the last three rows
-       represent ridge.
-     */
-    Eigen::Matrix<double, 6, Eigen::Dynamic> vertex_ridge_list;
-
-    /** \brief Calculate total wrench.
-        \param force_scales force scales
-        \param moment_origin moment origin
-        \returns wrench (in order of force, moment)
-    */
-    Eigen::Vector6d calcTotalWrench(const Eigen::VectorXd & force_scales,
-                                    const Eigen::Vector3d & moment_origin = Eigen::Vector3d::Zero()) const;
+    /** \brief Contact list. */
+    std::vector<std::shared_ptr<ForceColl::Contact>> contact_list;
   };
 
   /** \brief Reference data. */
@@ -136,11 +124,7 @@ public:
     /** \brief Gets the input dimension.
         \param t time
     */
-    virtual inline int inputDim(double t) const override
-    {
-      const MotionParam & motion_param = motion_param_func_(t);
-      return static_cast<int>(motion_param.vertex_ridge_list.cols());
-    }
+    virtual int inputDim(double t) const override;
 
     /** \brief Calculate discrete state equation.
         \param t time [sec]

@@ -21,8 +21,8 @@ TEST(TestDdpCentroidal, PlanOnce)
   double mass = 100.0; // [kg]
   Eigen::Vector3d moment_of_inertia = Eigen::Vector3d(40.0, 20.0, 10.0); // [kg m^2]
   std::vector<double> disturb_time_list = {1.0}; // [sec]
-  Eigen::Vector6d disturb_impulse_per_mass; // [m/s], [m^2/s]
-  disturb_impulse_per_mass << 0.05, 0.05, 0.0, 0.0, 0.0, 0.0;
+  sva::ForceVecd disturb_impulse_per_mass =
+      sva::ForceVecd(Eigen::Vector3d::Zero(), Eigen::Vector3d(0.05, 0.05, 0.0)); // [m/s], [m^2/s]
 
   // Setup DDP
   std::vector<double> computation_duration_list;
@@ -40,17 +40,15 @@ TEST(TestDdpCentroidal, PlanOnce)
     CCC::DdpCentroidal::MotionParam motion_param;
     if(t < 1.4)
     {
-      motion_param.vertex_ridge_list =
-          makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)});
+      motion_param.contact_list.push_back(
+          makeContactFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)}));
     }
     else if(t < 1.6)
     {
-      motion_param.vertex_ridge_list.setZero(6, 0);
     }
     else
     {
-      motion_param.vertex_ridge_list =
-          makeVertexRidgeListFromRect({Eigen::Vector2d(0.4, -0.1), Eigen::Vector2d(0.6, 0.1)});
+      motion_param.contact_list.push_back(makeContactFromRect({Eigen::Vector2d(0.4, -0.1), Eigen::Vector2d(0.6, 0.1)}));
     }
     return motion_param;
   };
@@ -77,14 +75,14 @@ TEST(TestDdpCentroidal, PlanOnce)
 
   // Setup simulation
   CentroidalSim sim(mass, moment_of_inertia, sim_dt);
-  sim.state_.pos.z() = 1.0;
+  sim.state_.pos.linear().z() = 1.0;
 
   // Setup dump file
   std::string file_path = "/tmp/TestDdpCentroidal.txt";
   std::ofstream ofs(file_path);
   ofs << "time planned_com_pos_x planned_com_pos_y planned_com_pos_z ref_com_pos_x ref_com_pos_y ref_com_pos_z "
          "planned_com_vel_x planned_com_vel_y planned_com_vel_z planned_angular_momentum_x planned_angular_momentum_y "
-         "planned_angular_momentum_z wrench_fx wrench_fy wrench_fz wrench_nx wrench_ny wrench_nz ddp_iter "
+         "planned_angular_momentum_z wrench_nx wrench_ny wrench_nz wrench_fx wrench_fy wrench_fz ddp_iter "
          "computation_time"
       << std::endl;
 
@@ -96,9 +94,9 @@ TEST(TestDdpCentroidal, PlanOnce)
     // Plan
     auto start_time = std::chrono::system_clock::now();
     CCC::DdpCentroidal::InitialParam initial_param;
-    initial_param.pos = sim.state_.pos.head<3>();
-    initial_param.vel = sim.state_.vel.head<3>();
-    initial_param.angular_momentum = sim.state_.momentum.tail<3>();
+    initial_param.pos = sim.state_.pos.linear();
+    initial_param.vel = sim.state_.vel.linear();
+    initial_param.angular_momentum = sim.state_.momentum.moment();
     initial_param.u_list = ddp.ddp_solver_->controlData().u_list;
     if(!initial_param.u_list.empty())
     {
@@ -122,20 +120,21 @@ TEST(TestDdpCentroidal, PlanOnce)
     // Dump
     const auto & motion_param = motion_param_func(t);
     const auto & ref_data = ref_data_func(t);
-    const auto & planned_total_wrench = motion_param.calcTotalWrench(planned_force_scales, sim.state_.pos.head<3>());
-    ofs << t << " " << sim.state_.pos.head<3>().transpose() << " " << ref_data.pos.transpose() << " "
-        << sim.state_.vel.head<3>().transpose() << " " << sim.state_.momentum.tail<3>().transpose() << " "
-        << planned_total_wrench.transpose() << " " << ddp.ddp_solver_->traceDataList().back().iter << " "
+    const auto & planned_total_wrench =
+        ForceColl::calcTotalWrench(motion_param.contact_list, planned_force_scales, sim.state_.pos.linear());
+    ofs << t << " " << sim.state_.pos.linear().transpose() << " " << ref_data.pos.transpose() << " "
+        << sim.state_.vel.linear().transpose() << " " << sim.state_.momentum.moment().transpose() << " "
+        << planned_total_wrench.vector().transpose() << " " << ddp.ddp_solver_->traceDataList().back().iter << " "
         << computation_duration_list.back() << std::endl;
 
     // Check
-    EXPECT_LT((sim.state_.pos.head<3>() - ref_data.pos).norm(), 2.0); // [m]
-    EXPECT_LT(sim.state_.vel.head<3>().norm(), 2.0); // [m/s]
-    EXPECT_LT(sim.state_.momentum.tail<3>().norm(), 1.0); // [kg m^2/s]
+    EXPECT_LT((sim.state_.pos.linear() - ref_data.pos).norm(), 2.0); // [m]
+    EXPECT_LT(sim.state_.vel.linear().norm(), 2.0); // [m/s]
+    EXPECT_LT(sim.state_.momentum.moment().norm(), 1.0); // [kg m^2/s]
 
     // Simulate
     t += sim_dt;
-    sim.update(planned_total_wrench);
+    sim.update(CentroidalSim::Input(planned_total_wrench));
 
     // Add disturbance
     for(double disturb_time : disturb_time_list)
@@ -150,9 +149,9 @@ TEST(TestDdpCentroidal, PlanOnce)
 
   // Final check
   const auto & ref_data = ref_data_func(t);
-  EXPECT_LT((sim.state_.pos.head<3>() - ref_data.pos).norm(), 0.1); // [m]
-  EXPECT_LT(sim.state_.vel.head<3>().norm(), 0.1); // [m/s]
-  EXPECT_LT(sim.state_.momentum.tail<3>().norm(), 0.01); // [kg m^2/s]
+  EXPECT_LT((sim.state_.pos.linear() - ref_data.pos).norm(), 0.1); // [m]
+  EXPECT_LT(sim.state_.vel.linear().norm(), 0.1); // [m/s]
+  EXPECT_LT(sim.state_.momentum.moment().norm(), 0.01); // [kg m^2/s]
 
   Eigen::Map<Eigen::VectorXd> computation_duration_vec(computation_duration_list.data(),
                                                        computation_duration_list.size());
@@ -167,87 +166,9 @@ TEST(TestDdpCentroidal, PlanOnce)
             << "  plot \"" << file_path << "\" u 1:2 w lp, \"\" u 1:5 w l lw 2 # pos_x\n"
             << "  plot \"" << file_path << "\" u 1:4 w lp, \"\" u 1:7 w l lw 2 # pos_z\n"
             << "  plot \"" << file_path << "\" u 1:12 w lp # angular_momentum_y\n"
-            << "  plot \"" << file_path << "\" u 1:16 w lp # force_z\n"
+            << "  plot \"" << file_path << "\" u 1:19 w lp # force_z\n"
             << "  plot \"" << file_path << "\" u 1:20 w lp # ddp_iter\n"
             << "  plot \"" << file_path << "\" u 1:21 w lp # computation_time\n";
-}
-
-TEST(TestDdpCentroidal, PlanLoop)
-{
-  double horizon_dt = 0.03; // [sec]
-  double horizon_duration = 3.0; // [sec]
-  int horizon_steps = static_cast<int>(horizon_duration / horizon_dt);
-  double sim_dt = 0.005; // [sec]
-  double mass = 100.0; // [kg]
-
-  // Setup DDP
-  CCC::DdpCentroidal::WeightParam weight_param;
-  weight_param.running_pos << 1.0, 1.0, 10.0;
-  weight_param.terminal_pos << 1.0, 1.0, 10.0;
-  CCC::DdpCentroidal ddp(mass, horizon_dt, horizon_steps, weight_param);
-  ddp.ddp_solver_->config().initial_lambda = 1e-6;
-  ddp.ddp_solver_->config().lambda_min = 1e-8;
-  ddp.ddp_solver_->config().lambda_thre = 1e-7;
-
-  // Setup contact
-  std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t) {
-    // Add small values to avoid numerical instability at inequality bounds
-    constexpr double epsilon_t = 1e-6;
-    t += epsilon_t;
-
-    CCC::DdpCentroidal::MotionParam motion_param;
-    if(t < 1.4)
-    {
-      motion_param.vertex_ridge_list =
-          makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)});
-    }
-    else if(t < 1.6)
-    {
-      motion_param.vertex_ridge_list.setZero(6, 0);
-    }
-    else
-    {
-      motion_param.vertex_ridge_list =
-          makeVertexRidgeListFromRect({Eigen::Vector2d(0.4, -0.1), Eigen::Vector2d(0.6, 0.1)});
-    }
-    return motion_param;
-  };
-  std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double t) {
-    // Add small values to avoid numerical instability at inequality bounds
-    constexpr double epsilon_t = 1e-6;
-    t += epsilon_t;
-
-    CCC::DdpCentroidal::RefData ref_data;
-    if(t < 1.4)
-    {
-      ref_data.pos << 0.0, 0.0, 1.0; // [m]
-    }
-    else if(t < 1.6)
-    {
-      ref_data.pos << 0.25, 0.0, 1.2; // [m]
-    }
-    else
-    {
-      ref_data.pos << 0.5, 0.0, 1.0; // [m]
-    }
-    return ref_data;
-  };
-  CCC::DdpCentroidal::InitialParam initial_param;
-  initial_param.pos << 0.0, 0.0, 1.0; // [m]
-  std::pair<double, double> motion_time_range(0.0, 3.0); // ([sec], [sec])
-
-  // Plan
-  ddp.planLoop(motion_param_func, ref_data_func, initial_param, motion_time_range, sim_dt);
-
-  // Dump
-  ddp.dumpMotionDataSeq("/tmp/TestDdpCentroidal_PlanLoop.txt", true);
-
-  // Final check
-  const auto & motion_data_final = ddp.motionDataSeq().rbegin()->second;
-  const auto & ref_data = ref_data_func(motion_time_range.second);
-  EXPECT_LT((motion_data_final.planned_pos - ref_data.pos).norm(), 0.1); // [m]
-  EXPECT_LT(motion_data_final.planned_vel.norm(), 0.1); // [m/s]
-  EXPECT_LT(motion_data_final.planned_angular_momentum.norm(), 0.01); // [kg m^2/s]
 }
 
 TEST(TestDdpCentroidal, CheckDerivatives)
@@ -262,8 +183,7 @@ TEST(TestDdpCentroidal, CheckDerivatives)
   std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double // t
                                                                              ) {
     CCC::DdpCentroidal::MotionParam motion_param;
-    motion_param.vertex_ridge_list =
-        makeVertexRidgeListFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)});
+    motion_param.contact_list.push_back(makeContactFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)}));
     return motion_param;
   };
   std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double // t

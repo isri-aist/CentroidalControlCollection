@@ -1,5 +1,7 @@
 /* Author: Masaki Murooka */
 
+#include <ForceColl/Contact.h>
+
 #include <CCC/Constants.h>
 #include <CCC/DdpCentroidal.h>
 
@@ -16,20 +18,15 @@ Eigen::Matrix3d crossMat(const Eigen::Vector3d & vec)
 }
 } // namespace
 
-Eigen::Vector6d DdpCentroidal::MotionParam::calcTotalWrench(const Eigen::VectorXd & force_scales,
-                                                            const Eigen::Vector3d & moment_origin) const
+int DdpCentroidal::DdpProblem::inputDim(double t) const
 {
-  const Eigen::Ref<const Eigen::Matrix3Xd> & vertices_mat = vertex_ridge_list.topRows<3>();
-  const Eigen::Ref<const Eigen::Matrix3Xd> & ridges_mat = vertex_ridge_list.bottomRows<3>();
-
-  Eigen::Vector6d wrench;
-  wrench.head<3>() = ridges_mat * force_scales;
-  wrench.tail<3>().setZero();
-  for(int i = 0; i < force_scales.size(); i++)
+  const MotionParam & motion_param = motion_param_func_(t);
+  int input_dim = 0;
+  for(const auto & contact : motion_param.contact_list)
   {
-    wrench.tail<3>() += force_scales[i] * (vertices_mat.col(i) - moment_origin).cross(ridges_mat.col(i));
+    input_dim += contact->ridgeNum();
   }
-  return wrench;
+  return input_dim;
 }
 
 DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::DdpProblem::stateEq(double t,
@@ -37,8 +34,6 @@ DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::DdpProblem::stateEq(dou
                                                                              const InputDimVector & u) const
 {
   const MotionParam & motion_param = motion_param_func_(t);
-  const Eigen::Ref<const Eigen::Matrix3Xd> & vertices_mat = motion_param.vertex_ridge_list.topRows<3>();
-  const Eigen::Ref<const Eigen::Matrix3Xd> & ridges_mat = motion_param.vertex_ridge_list.bottomRows<3>();
 
   const Eigen::Ref<const Eigen::Vector3d> & pos = x.segment<3>(0);
   const Eigen::Ref<const Eigen::Vector3d> & linear_momentum = x.segment<3>(3);
@@ -48,11 +43,21 @@ DdpCentroidal::DdpProblem::StateDimVector DdpCentroidal::DdpProblem::stateEq(dou
   Eigen::Ref<Eigen::Vector3d> linear_momentum_dot = x_dot.segment<3>(3);
   Eigen::Ref<Eigen::Vector3d> angular_momentum_dot = x_dot.segment<3>(6);
   pos_dot = linear_momentum / mass_;
-  linear_momentum_dot = ridges_mat * u - mass_ * Eigen::Vector3d(0, 0, constants::g);
+  linear_momentum_dot = -1 * mass_ * Eigen::Vector3d(0, 0, constants::g);
   angular_momentum_dot.setZero();
-  for(int i = 0; i < u.size(); i++)
+  int ridgeIdx = 0;
+  for(const auto & contact : motion_param.contact_list)
   {
-    angular_momentum_dot += u[i] * (vertices_mat.col(i) - pos).cross(ridges_mat.col(i));
+    for(const auto & vertex_with_ridge : contact->vertexWithRidgeList_)
+    {
+      const auto & vertex = vertex_with_ridge.vertex;
+      for(const auto & ridge : vertex_with_ridge.ridgeList)
+      {
+        linear_momentum_dot += u[ridgeIdx] * ridge;
+        angular_momentum_dot += u[ridgeIdx] * (vertex - pos).cross(ridge);
+        ridgeIdx++;
+      }
+    }
   }
 
   return x + dt_ * x_dot;
@@ -84,23 +89,34 @@ void DdpCentroidal::DdpProblem::calcStateEqDeriv(double t,
                                                  Eigen::Ref<StateInputDimMatrix> state_eq_deriv_u) const
 {
   const MotionParam & motion_param = motion_param_func_(t);
-  const Eigen::Ref<const Eigen::Matrix3Xd> & vertices_mat = motion_param.vertex_ridge_list.topRows<3>();
-  const Eigen::Ref<const Eigen::Matrix3Xd> & ridges_mat = motion_param.vertex_ridge_list.bottomRows<3>();
 
   const Eigen::Ref<const Eigen::Vector3d> & pos = x.segment<3>(0);
 
   state_eq_deriv_x.setZero();
   state_eq_deriv_x.block<3, 3>(0, 3).diagonal().setConstant(1 / mass_);
-  state_eq_deriv_x.block<3, 3>(6, 0) = crossMat(ridges_mat * u);
-  state_eq_deriv_x *= dt_;
-  state_eq_deriv_x.diagonal().array() += 1.0;
 
   state_eq_deriv_u.setZero();
-  state_eq_deriv_u.middleRows<3>(3) = ridges_mat;
-  for(int i = 0; i < u.size(); i++)
+
+  int ridgeIdx = 0;
+  Eigen::Vector3d totalForce = Eigen::Vector3d::Zero();
+  for(const auto & contact : motion_param.contact_list)
   {
-    state_eq_deriv_u.middleRows<3>(6).col(i) = (vertices_mat.col(i) - pos).cross(ridges_mat.col(i));
+    for(const auto & vertex_with_ridge : contact->vertexWithRidgeList_)
+    {
+      const auto & vertex = vertex_with_ridge.vertex;
+      for(const auto & ridge : vertex_with_ridge.ridgeList)
+      {
+        totalForce += u[ridgeIdx] * ridge;
+        state_eq_deriv_u.middleRows<3>(3).col(ridgeIdx) = ridge;
+        state_eq_deriv_u.middleRows<3>(6).col(ridgeIdx) = (vertex - pos).cross(ridge);
+        ridgeIdx++;
+      }
+    }
   }
+  state_eq_deriv_x.block<3, 3>(6, 0) = crossMat(totalForce);
+
+  state_eq_deriv_x *= dt_;
+  state_eq_deriv_x.diagonal().array() += 1.0;
   state_eq_deriv_u *= dt_;
 }
 
