@@ -22,7 +22,7 @@ double SingularPreviewControlZmp1d::planOnce(const std::function<double(double)>
 
 double SingularPreviewControlZmp1d::procOnce(const Eigen::VectorXd & ref_zmp_seq,
                                              const InitialParam & initial_param,
-                                             double current_time,
+                                             double, // current_time
                                              double control_dt) const
 {
   // Calculate feedback term
@@ -37,7 +37,7 @@ double SingularPreviewControlZmp1d::procOnce(const Eigen::VectorXd & ref_zmp_seq
   // Calculate feedforward term
   // Equation (27) in the paper
   double S0 = ref_zmp_seq[ref_zmp_seq.size() - 1] * (1 + omega_ * horizon_dt_) / (omega_ * horizon_dt_);
-  for(int i = ref_zmp_seq.size() - 2; i >= 1; i--)
+  for(int i = static_cast<int>(ref_zmp_seq.size()) - 2; i >= 1; i--)
   {
     // Equation (25) in the paper
     S0 = ref_zmp_seq[i] + S0 / (1 + omega_ * horizon_dt_);
