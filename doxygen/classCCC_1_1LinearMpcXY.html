@@ -79,7 +79,6 @@ $(function() {
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classCCC_1_1LinearMpcXY-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">CCC::LinearMpcXY Class Reference</div>  </div>
@@ -90,6 +89,15 @@ $(function() {
  <a href="classCCC_1_1LinearMpcXY.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for CCC::LinearMpcXY:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCCC_1_1LinearMpcXY__coll__graph.png" border="0" usemap="#CCC_1_1LinearMpcXY_coll__map" alt="Collaboration graph"/></div>
+<map name="CCC_1_1LinearMpcXY_coll__map" id="CCC_1_1LinearMpcXY_coll__map">
+<area shape="rect" title="Linear MPC of translational and rotational x,y&#45;component motion considering predefined z&#45;component mo..." alt="" coords="31,109,172,136"/>
+<area shape="rect" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html" title="Weight parameter." alt="" coords="5,5,197,47"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -99,17 +107,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY_1_1Model.html">Model</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">State-space model.  <a href="classCCC_1_1LinearMpcXY_1_1Model.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionData.html">MotionData</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motion data.  <a href="structCCC_1_1LinearMpcXY_1_1MotionData.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionParam.html">MotionParam</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motion parameter.  <a href="structCCC_1_1LinearMpcXY_1_1MotionParam.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCCC_1_1LinearMpcXY_1_1RefData.html">RefData</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference data.  <a href="structCCC_1_1LinearMpcXY_1_1RefData.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY_1_1SimModel.html">SimModel</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">State-space model for simulation.  <a href="classCCC_1_1LinearMpcXY_1_1SimModel.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weight parameter.  <a href="structCCC_1_1LinearMpcXY_1_1WeightParam.html#details">More...</a><br /></td></tr>
@@ -126,21 +128,12 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a74a8273a8d741149a267a6f79426ffa3"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a74a8273a8d741149a267a6f79426ffa3">LinearMpcXY</a> (double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type=QpSolverCollection::QpSolverType::Any)</td></tr>
-<tr class="memdesc:a74a8273a8d741149a267a6f79426ffa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCCC_1_1LinearMpcXY.html#a74a8273a8d741149a267a6f79426ffa3">More...</a><br /></td></tr>
-<tr class="separator:a74a8273a8d741149a267a6f79426ffa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71f88acf7251362c2b9d847d0170e5ee"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a71f88acf7251362c2b9d847d0170e5ee">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionParam.html">MotionParam</a>(double)&gt; &amp;motion_param_func, const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1LinearMpcXY_1_1InitialParam.html">InitialParam</a> &amp;initial_param, const std::pair&lt; double, double &gt; &amp;horizon_time_range, const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a>())</td></tr>
-<tr class="memdesc:a71f88acf7251362c2b9d847d0170e5ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="classCCC_1_1LinearMpcXY.html#a71f88acf7251362c2b9d847d0170e5ee">More...</a><br /></td></tr>
-<tr class="separator:a71f88acf7251362c2b9d847d0170e5ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecf58fb3c1f7fd9a585255261b2b55d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#aecf58fb3c1f7fd9a585255261b2b55d4">planLoop</a> (const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionParam.html">MotionParam</a>(double)&gt; &amp;motion_param_func, const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1LinearMpcXY_1_1InitialParam.html">InitialParam</a> &amp;initial_param, const std::pair&lt; double, double &gt; &amp;motion_time_range, double horizon_duration, double sim_dt, const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a>())</td></tr>
-<tr class="memdesc:aecf58fb3c1f7fd9a585255261b2b55d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan with loop.  <a href="classCCC_1_1LinearMpcXY.html#aecf58fb3c1f7fd9a585255261b2b55d4">More...</a><br /></td></tr>
-<tr class="separator:aecf58fb3c1f7fd9a585255261b2b55d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54a94ece04bbf69fc7c9cc93a35906a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a54a94ece04bbf69fc7c9cc93a35906a6">dumpMotionDataSeq</a> (const std::string &amp;file_path, bool print_command=true) const</td></tr>
-<tr class="memdesc:a54a94ece04bbf69fc7c9cc93a35906a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump motion data sequence by <a class="el" href="classCCC_1_1LinearMpcXY.html#aecf58fb3c1f7fd9a585255261b2b55d4" title="Plan with loop.">planLoop()</a>.  <a href="classCCC_1_1LinearMpcXY.html#a54a94ece04bbf69fc7c9cc93a35906a6">More...</a><br /></td></tr>
-<tr class="separator:a54a94ece04bbf69fc7c9cc93a35906a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a924c0bed34c1704db2846924eb84c0eb"><td class="memItemLeft" align="right" valign="top">const std::map&lt; double, <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionData.html">MotionData</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a924c0bed34c1704db2846924eb84c0eb">motionDataSeq</a> () const</td></tr>
-<tr class="memdesc:a924c0bed34c1704db2846924eb84c0eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get motion data sequence.  <a href="classCCC_1_1LinearMpcXY.html#a924c0bed34c1704db2846924eb84c0eb">More...</a><br /></td></tr>
-<tr class="separator:a924c0bed34c1704db2846924eb84c0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e491d55287c4dbb3f1955a4f02c7d49"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a0e491d55287c4dbb3f1955a4f02c7d49">LinearMpcXY</a> (double mass, double horizon_dt, int horizon_steps, const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a>(), QpSolverCollection::QpSolverType qp_solver_type=QpSolverCollection::QpSolverType::Any)</td></tr>
+<tr class="memdesc:a0e491d55287c4dbb3f1955a4f02c7d49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCCC_1_1LinearMpcXY.html#a0e491d55287c4dbb3f1955a4f02c7d49">More...</a><br /></td></tr>
+<tr class="separator:a0e491d55287c4dbb3f1955a4f02c7d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78100ce04e21ba1e1de859c95be69c16"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a78100ce04e21ba1e1de859c95be69c16">planOnce</a> (const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionParam.html">MotionParam</a>(double)&gt; &amp;motion_param_func, const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1LinearMpcXY_1_1InitialParam.html">InitialParam</a> &amp;initial_param, double current_time)</td></tr>
+<tr class="memdesc:a78100ce04e21ba1e1de859c95be69c16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="classCCC_1_1LinearMpcXY.html#a78100ce04e21ba1e1de859c95be69c16">More...</a><br /></td></tr>
+<tr class="separator:a78100ce04e21ba1e1de859c95be69c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -150,6 +143,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a7cc84ac347c778bb06dce384d589972c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a7cc84ac347c778bb06dce384d589972c">horizon_dt_</a> = 0</td></tr>
 <tr class="memdesc:a7cc84ac347c778bb06dce384d589972c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Discretization timestep in horizon [sec].  <a href="classCCC_1_1LinearMpcXY.html#a7cc84ac347c778bb06dce384d589972c">More...</a><br /></td></tr>
 <tr class="separator:a7cc84ac347c778bb06dce384d589972c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db454a24781ae3f31aa3257bed690bc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a1db454a24781ae3f31aa3257bed690bc">horizon_steps_</a> = 0</td></tr>
+<tr class="memdesc:a1db454a24781ae3f31aa3257bed690bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of steps in horizon.  <a href="classCCC_1_1LinearMpcXY.html#a1db454a24781ae3f31aa3257bed690bc">More...</a><br /></td></tr>
+<tr class="separator:a1db454a24781ae3f31aa3257bed690bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37384a1a6100cdffc01c649efe2be897"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a37384a1a6100cdffc01c649efe2be897">weight_param_</a></td></tr>
+<tr class="memdesc:a37384a1a6100cdffc01c649efe2be897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Objective weight parameter.  <a href="classCCC_1_1LinearMpcXY.html#a37384a1a6100cdffc01c649efe2be897">More...</a><br /></td></tr>
+<tr class="separator:a37384a1a6100cdffc01c649efe2be897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41c5c1b8c91c71f3e10a28ebf699ea4a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; QpSolverCollection::QpSolver &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a41c5c1b8c91c71f3e10a28ebf699ea4a">qp_solver_</a></td></tr>
 <tr class="memdesc:a41c5c1b8c91c71f3e10a28ebf699ea4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">QP solver.  <a href="classCCC_1_1LinearMpcXY.html#a41c5c1b8c91c71f3e10a28ebf699ea4a">More...</a><br /></td></tr>
 <tr class="separator:a41c5c1b8c91c71f3e10a28ebf699ea4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,15 +167,9 @@ Static Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:aa70765a8ccce3398ef0a9c5adab084a8"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#aa70765a8ccce3398ef0a9c5adab084a8">procOnce</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classCCC_1_1LinearMpcXY.html#a795d346d808cc480251751e3b004cb1a">_StateSpaceModel</a> &gt;&gt; &amp;model_list, const <a class="el" href="classCCC_1_1LinearMpcXY.html#a9556e152086bc55042ce3ce641894fb0">StateDimVector</a> &amp;current_x, const Eigen::VectorXd &amp;ref_output_seq, const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;weight_param)</td></tr>
-<tr class="memdesc:aa70765a8ccce3398ef0a9c5adab084a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process one step.  <a href="classCCC_1_1LinearMpcXY.html#aa70765a8ccce3398ef0a9c5adab084a8">More...</a><br /></td></tr>
-<tr class="separator:aa70765a8ccce3398ef0a9c5adab084a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a12255177575f1d2ead420e6256745422"><td class="memItemLeft" align="right" valign="top">std::map&lt; double, <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionData.html">MotionData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#a12255177575f1d2ead420e6256745422">motion_data_seq_</a></td></tr>
-<tr class="memdesc:a12255177575f1d2ead420e6256745422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motion data sequence.  <a href="classCCC_1_1LinearMpcXY.html#a12255177575f1d2ead420e6256745422">More...</a><br /></td></tr>
-<tr class="separator:a12255177575f1d2ead420e6256745422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6320201588d216b1bc366dc524d2337"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1LinearMpcXY.html#ae6320201588d216b1bc366dc524d2337">procOnce</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classCCC_1_1LinearMpcXY.html#a795d346d808cc480251751e3b004cb1a">_StateSpaceModel</a> &gt;&gt; &amp;model_list, const <a class="el" href="classCCC_1_1LinearMpcXY.html#a9556e152086bc55042ce3ce641894fb0">StateDimVector</a> &amp;current_x, const Eigen::VectorXd &amp;ref_output_seq)</td></tr>
+<tr class="memdesc:ae6320201588d216b1bc366dc524d2337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process one step.  <a href="classCCC_1_1LinearMpcXY.html#ae6320201588d216b1bc366dc524d2337">More...</a><br /></td></tr>
+<tr class="separator:ae6320201588d216b1bc366dc524d2337"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Linear MPC of translational and rotational x,y-component motion considering predefined z-component motion. </p>
@@ -185,7 +178,7 @@ Protected Attributes</h2></td></tr>
 <li>長阪憲一郎, et al. 接触拘束を考慮可能なマルチコンタクト対応スタビライザと一般化逆動力学による人型ロボットの全身制御. ロボティクスシンポジア予稿集, 2012. </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00023">23</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00028">28</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a795d346d808cc480251751e3b004cb1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a795d346d808cc480251751e3b004cb1a">&#9670;&nbsp;</a></span>_StateSpaceModel</h2>
@@ -201,7 +194,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Type of state-space model. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00030">30</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00035">35</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
@@ -219,13 +212,13 @@ Protected Attributes</h2></td></tr>
 
 <p>Type of state vector. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00033">33</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00038">38</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a74a8273a8d741149a267a6f79426ffa3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74a8273a8d741149a267a6f79426ffa3">&#9670;&nbsp;</a></span>LinearMpcXY()</h2>
+<a id="a0e491d55287c4dbb3f1955a4f02c7d49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e491d55287c4dbb3f1955a4f02c7d49">&#9670;&nbsp;</a></span>LinearMpcXY()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,6 +234,18 @@ Protected Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>horizon_dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>horizon_steps</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;&#160;</td>
+          <td class="paramname"><em>weight_param</em> = <code><a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a>()</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -261,6 +266,8 @@ Protected Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">mass</td><td>robot mass [kg] </td></tr>
     <tr><td class="paramname">horizon_dt</td><td>discretization timestep in horizon [sec] </td></tr>
+    <tr><td class="paramname">horizon_steps</td><td>number of steps in horizon </td></tr>
+    <tr><td class="paramname">weight_param</td><td>objective weight parameter </td></tr>
     <tr><td class="paramname">qp_solver_type</td><td>QP solver type </td></tr>
   </table>
   </dd>
@@ -269,146 +276,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a54a94ece04bbf69fc7c9cc93a35906a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54a94ece04bbf69fc7c9cc93a35906a6">&#9670;&nbsp;</a></span>dumpMotionDataSeq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCC::LinearMpcXY::dumpMotionDataSeq </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>file_path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>print_command</em> = <code>true</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Dump motion data sequence by <a class="el" href="classCCC_1_1LinearMpcXY.html#aecf58fb3c1f7fd9a585255261b2b55d4" title="Plan with loop.">planLoop()</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">file_path</td><td>output file path </td></tr>
-    <tr><td class="paramname">print_command</td><td>whether to print the plot commands </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a924c0bed34c1704db2846924eb84c0eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a924c0bed34c1704db2846924eb84c0eb">&#9670;&nbsp;</a></span>motionDataSeq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::map&lt;double, <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionData.html">MotionData</a>&gt;&amp; CCC::LinearMpcXY::motionDataSeq </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get motion data sequence. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00284">284</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
-
-</div>
-</div>
-<a id="aecf58fb3c1f7fd9a585255261b2b55d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecf58fb3c1f7fd9a585255261b2b55d4">&#9670;&nbsp;</a></span>planLoop()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCC::LinearMpcXY::planLoop </td>
-          <td>(</td>
-          <td class="paramtype">const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionParam.html">MotionParam</a>(double)&gt; &amp;&#160;</td>
-          <td class="paramname"><em>motion_param_func</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::function&lt; <a class="el" href="structCCC_1_1LinearMpcXY_1_1RefData.html">RefData</a>(double)&gt; &amp;&#160;</td>
-          <td class="paramname"><em>ref_data_func</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structCCC_1_1LinearMpcXY_1_1InitialParam.html">InitialParam</a> &amp;&#160;</td>
-          <td class="paramname"><em>initial_param</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::pair&lt; double, double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>motion_time_range</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>horizon_duration</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>sim_dt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;&#160;</td>
-          <td class="paramname"><em>weight_param</em> = <code><a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a>()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Plan with loop. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">motion_param_func</td><td>function of motion parameter </td></tr>
-    <tr><td class="paramname">ref_data_func</td><td>function of reference data </td></tr>
-    <tr><td class="paramname">initial_param</td><td>initial parameter </td></tr>
-    <tr><td class="paramname">motion_time_range</td><td>start and end time of motion ([sec], [sec]) </td></tr>
-    <tr><td class="paramname">horizon_duration</td><td>horizon duration [sec] </td></tr>
-    <tr><td class="paramname">sim_dt</td><td>discretization timestep for simulation [sec] </td></tr>
-    <tr><td class="paramname">weight_param</td><td>objective weight parameter </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a71f88acf7251362c2b9d847d0170e5ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71f88acf7251362c2b9d847d0170e5ee">&#9670;&nbsp;</a></span>planOnce()</h2>
+<a id="a78100ce04e21ba1e1de859c95be69c16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78100ce04e21ba1e1de859c95be69c16">&#9670;&nbsp;</a></span>planOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -434,14 +303,8 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::pair&lt; double, double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>horizon_time_range</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;&#160;</td>
-          <td class="paramname"><em>weight_param</em> = <code><a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a>()</code>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>current_time</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -457,17 +320,16 @@ Protected Attributes</h2></td></tr>
     <tr><td class="paramname">motion_param_func</td><td>function of motion parameter </td></tr>
     <tr><td class="paramname">ref_data_func</td><td>function of reference data </td></tr>
     <tr><td class="paramname">initial_param</td><td>initial parameter </td></tr>
-    <tr><td class="paramname">horizon_time_range</td><td>start and end time of horizon ([sec], [sec]) </td></tr>
-    <tr><td class="paramname">weight_param</td><td>objective weight parameter </td></tr>
+    <tr><td class="paramname">current_time</td><td>current time (i.e., start time of horizon) [sec] </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>planned force sequence </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>planned force scales </dd></dl>
 
 </div>
 </div>
-<a id="aa70765a8ccce3398ef0a9c5adab084a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa70765a8ccce3398ef0a9c5adab084a8">&#9670;&nbsp;</a></span>procOnce()</h2>
+<a id="ae6320201588d216b1bc366dc524d2337"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6320201588d216b1bc366dc524d2337">&#9670;&nbsp;</a></span>procOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -491,13 +353,7 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>ref_output_seq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> &amp;&#160;</td>
-          <td class="paramname"><em>weight_param</em>&#160;</td>
+          <td class="paramname"><em>ref_output_seq</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -531,7 +387,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Min/max ridge force [N]. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00310">310</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00255">255</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
@@ -549,7 +405,25 @@ Protected Attributes</h2></td></tr>
 
 <p>Discretization timestep in horizon [sec]. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00301">301</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00240">240</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+
+</div>
+</div>
+<a id="a1db454a24781ae3f31aa3257bed690bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1db454a24781ae3f31aa3257bed690bc">&#9670;&nbsp;</a></span>horizon_steps_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CCC::LinearMpcXY::horizon_steps_ = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of steps in horizon. </p>
+
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00243">243</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
@@ -567,33 +441,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Robot mass [kg]. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00298">298</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
-
-</div>
-</div>
-<a id="a12255177575f1d2ead420e6256745422"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12255177575f1d2ead420e6256745422">&#9670;&nbsp;</a></span>motion_data_seq_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::map&lt;double, <a class="el" href="structCCC_1_1LinearMpcXY_1_1MotionData.html">MotionData</a>&gt; CCC::LinearMpcXY::motion_data_seq_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Motion data sequence. </p>
-
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00314">314</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00237">237</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
@@ -611,7 +459,7 @@ Protected Attributes</h2></td></tr>
 
 <p>QP coefficients. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00307">307</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00252">252</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
@@ -629,7 +477,7 @@ Protected Attributes</h2></td></tr>
 
 <p>QP solver. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00304">304</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00249">249</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>
@@ -655,7 +503,25 @@ Protected Attributes</h2></td></tr>
 
 <p>State dimension. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00027">27</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00032">32</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
+
+</div>
+</div>
+<a id="a37384a1a6100cdffc01c649efe2be897"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37384a1a6100cdffc01c649efe2be897">&#9670;&nbsp;</a></span>weight_param_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structCCC_1_1LinearMpcXY_1_1WeightParam.html">WeightParam</a> CCC::LinearMpcXY::weight_param_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Objective weight parameter. </p>
+
+<p class="definition">Definition at line <a class="el" href="LinearMpcXY_8h_source.html#l00246">246</a> of file <a class="el" href="LinearMpcXY_8h_source.html">LinearMpcXY.h</a>.</p>
 
 </div>
 </div>

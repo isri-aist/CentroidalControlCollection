@@ -108,14 +108,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fd18eb087333108e2c69f06bec64955"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlCentroidal.html#a2fd18eb087333108e2c69f06bec64955">PreviewControlCentroidal</a> (double mass, const Eigen::Vector3d &amp;moment_of_inertia, double horizon_duration, double horizon_dt, const <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1WeightParam.html">WeightParam</a> &amp;weight_param=<a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1WeightParam.html">WeightParam</a>())</td></tr>
 <tr class="memdesc:a2fd18eb087333108e2c69f06bec64955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classCCC_1_1PreviewControlCentroidal.html#a2fd18eb087333108e2c69f06bec64955">More...</a><br /></td></tr>
 <tr class="separator:a2fd18eb087333108e2c69f06bec64955"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab83352e01ece05ffafc9fc9fc2621efd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceEigen.html#acdb6a5c038a9c26a61b0187b696b2630">Eigen::Vector6d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlCentroidal.html#ab83352e01ece05ffafc9fc9fc2621efd">planOnce</a> (const <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1MotionParam.html">MotionParam</a> &amp;motion_param, const std::function&lt; <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1InitialParam.html">InitialParam</a> &amp;initial_param, double current_time, double control_dt=-1) const</td></tr>
-<tr class="memdesc:ab83352e01ece05ffafc9fc9fc2621efd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="classCCC_1_1PreviewControlCentroidal.html#ab83352e01ece05ffafc9fc9fc2621efd">More...</a><br /></td></tr>
-<tr class="separator:ab83352e01ece05ffafc9fc9fc2621efd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ede3326007ba7952d80ec1e7126111"><td class="memItemLeft" align="right" valign="top">sva::ForceVecd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlCentroidal.html#a62ede3326007ba7952d80ec1e7126111">planOnce</a> (const <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1MotionParam.html">MotionParam</a> &amp;motion_param, const std::function&lt; <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1RefData.html">RefData</a>(double)&gt; &amp;ref_data_func, const <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1InitialParam.html">InitialParam</a> &amp;initial_param, double current_time, double control_dt=-1) const</td></tr>
+<tr class="memdesc:a62ede3326007ba7952d80ec1e7126111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plan one step.  <a href="classCCC_1_1PreviewControlCentroidal.html#a62ede3326007ba7952d80ec1e7126111">More...</a><br /></td></tr>
+<tr class="separator:a62ede3326007ba7952d80ec1e7126111"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a262afd2c1a7bae6f7cfcedc82fddb743"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::shared_ptr&lt; <a class="el" href="classCCC_1_1PreviewControlCentroidal1d.html">PreviewControlCentroidal1d</a> &gt;, 6 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlCentroidal.html#a262afd2c1a7bae6f7cfcedc82fddb743">preview_control_1d_</a></td></tr>
-<tr class="memdesc:a262afd2c1a7bae6f7cfcedc82fddb743"><td class="mdescLeft">&#160;</td><td class="mdescRight">One-dimensional preview control.  <a href="classCCC_1_1PreviewControlCentroidal.html#a262afd2c1a7bae6f7cfcedc82fddb743">More...</a><br /></td></tr>
+<tr class="memdesc:a262afd2c1a7bae6f7cfcedc82fddb743"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of one-dimensional preview control.  <a href="classCCC_1_1PreviewControlCentroidal.html#a262afd2c1a7bae6f7cfcedc82fddb743">More...</a><br /></td></tr>
 <tr class="separator:a262afd2c1a7bae6f7cfcedc82fddb743"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada368d530e549cdf7ccfc48e9438ef13"><td class="memItemLeft" align="right" valign="top">mc_rtc::Configuration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCC_1_1PreviewControlCentroidal.html#ada368d530e549cdf7ccfc48e9438ef13">wrench_dist_config_</a></td></tr>
 <tr class="memdesc:ada368d530e549cdf7ccfc48e9438ef13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration of wrench distribution.  <a href="classCCC_1_1PreviewControlCentroidal.html#ada368d530e549cdf7ccfc48e9438ef13">More...</a><br /></td></tr>
@@ -133,7 +133,7 @@ Protected Attributes</h2></td></tr>
 <li>M Murooka, et al. Centroidal trajectory generation and stabilization based on preview control for humanoid multi-contact motion. RA-Letters, 2022. </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00136">136</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00137">137</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2fd18eb087333108e2c69f06bec64955"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2fd18eb087333108e2c69f06bec64955">&#9670;&nbsp;</a></span>PreviewControlCentroidal()</h2>
@@ -194,14 +194,14 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab83352e01ece05ffafc9fc9fc2621efd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab83352e01ece05ffafc9fc9fc2621efd">&#9670;&nbsp;</a></span>planOnce()</h2>
+<a id="a62ede3326007ba7952d80ec1e7126111"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62ede3326007ba7952d80ec1e7126111">&#9670;&nbsp;</a></span>planOnce()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceEigen.html#acdb6a5c038a9c26a61b0187b696b2630">Eigen::Vector6d</a> CCC::PreviewControlCentroidal::planOnce </td>
+          <td class="memname">sva::ForceVecd CCC::PreviewControlCentroidal::planOnce </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structCCC_1_1PreviewControlCentroidal_1_1MotionParam.html">MotionParam</a> &amp;&#160;</td>
           <td class="paramname"><em>motion_param</em>, </td>
@@ -276,7 +276,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Mass [kg]. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00260">260</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00261">261</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
 
 </div>
 </div>
@@ -292,9 +292,10 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>One-dimensional preview control. </p>
+<p>List of one-dimensional preview control. </p>
+<p>The first three elements are for orientation components and the latter three are for position components. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00253">253</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00254">254</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +313,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Configuration of wrench distribution. </p>
 
-<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00256">256</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PreviewControlCentroidal_8h_source.html#l00257">257</a> of file <a class="el" href="PreviewControlCentroidal_8h_source.html">PreviewControlCentroidal.h</a>.</p>
 
 </div>
 </div>

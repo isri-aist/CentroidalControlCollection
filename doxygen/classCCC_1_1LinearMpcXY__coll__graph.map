@@ -1,0 +1,4 @@
+<map id="CCC::LinearMpcXY" name="CCC::LinearMpcXY">
+<area shape="rect" id="node1" title="Linear MPC of translational and rotational x,y&#45;component motion considering predefined z&#45;component mo..." alt="" coords="31,109,172,136"/>
+<area shape="rect" id="node2" href="$structCCC_1_1LinearMpcXY_1_1WeightParam.html" title="Weight parameter." alt="" coords="5,5,197,47"/>
+</map>

@@ -1,12 +1,11 @@
 <map id="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/LinearMpcZ.h" name="/home/runner/work/CentroidalControlCollection/CentroidalControlCollection/catkin_ws/src/CentroidalControlCollection/include/CCC/LinearMpcZ.h">
-<area shape="rect" id="node1" title=" " alt="" coords="137,5,435,76"/>
+<area shape="rect" id="node1" title=" " alt="" coords="49,5,347,76"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,131,92,158"/>
 <area shape="rect" id="node3" title=" " alt="" coords="117,124,279,165"/>
-<area shape="rect" id="node4" href="$MotionData_8h.html" title=" " alt="" coords="303,131,445,158"/>
-<area shape="rect" id="node5" href="$VariantSequentialExtension_8h.html" title=" " alt="" coords="469,131,713,158"/>
-<area shape="rect" id="node6" title=" " alt="" coords="449,213,529,240"/>
-<area shape="rect" id="node7" title=" " alt="" coords="553,213,630,240"/>
-<area shape="rect" id="node8" href="$StateSpaceModel_8h.html" title=" " alt="" coords="654,213,833,240"/>
-<area shape="rect" id="node9" title=" " alt="" coords="607,295,709,322"/>
-<area shape="rect" id="node10" title=" " alt="" coords="734,288,923,329"/>
+<area shape="rect" id="node4" href="$VariantSequentialExtension_8h.html" title=" " alt="" coords="304,131,548,158"/>
+<area shape="rect" id="node5" title=" " alt="" coords="283,213,363,240"/>
+<area shape="rect" id="node6" title=" " alt="" coords="387,213,465,240"/>
+<area shape="rect" id="node7" href="$StateSpaceModel_8h.html" title=" " alt="" coords="489,213,667,240"/>
+<area shape="rect" id="node8" title=" " alt="" coords="441,295,544,322"/>
+<area shape="rect" id="node9" title=" " alt="" coords="569,288,758,329"/>
 </map>
