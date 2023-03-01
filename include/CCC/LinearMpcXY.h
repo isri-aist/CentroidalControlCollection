@@ -195,17 +195,6 @@ public:
     MotionParam motion_param_;
   };
 
-  /** \brief State-space model for simulation. */
-  class SimModel : public Model
-  {
-  public:
-    /** \brief Constructor.
-        \param mass robot mass [kg]
-        \param motion_param motion parameter
-     */
-    SimModel(double mass, const MotionParam & motion_param);
-  };
-
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 

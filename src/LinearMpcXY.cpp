@@ -59,23 +59,6 @@ LinearMpcXY::Model::Model(double mass, const MotionParam & motion_param, int out
   }
 }
 
-LinearMpcXY::SimModel::SimModel(double mass, const MotionParam & motion_param) : Model(mass, motion_param, 8)
-{
-  C_(0, 0) = 1 / mass;
-  C_(1, 1) = 1 / mass;
-  C_(3, 2) = 1 / mass;
-  C_(4, 3) = 1 / mass;
-  C_(6, 4) = 1;
-  C_(7, 5) = 1;
-
-  for(int i = 0; i < motion_param_.vertex_ridge_list.cols(); i++)
-  {
-    const Eigen::Ref<const Eigen::Vector3d> & ridge = motion_param_.vertex_ridge_list.col(i).tail<3>();
-    D_(2, i) = ridge.x() / mass;
-    D_(5, i) = ridge.y() / mass;
-  }
-}
-
 LinearMpcXY::LinearMpcXY(double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type)
 : mass_(mass), horizon_dt_(horizon_dt), force_range_(3.0, 3.0 * mass * constants::g)
 {

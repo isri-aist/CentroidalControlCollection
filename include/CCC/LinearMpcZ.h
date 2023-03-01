@@ -114,43 +114,6 @@ public:
     ModelNoncontactPhase(double mass);
   };
 
-  /** \brief State-space model for simulation.
-
-      Dynamics is expressed by the following equation.
-      \f{align*}{
-      P_z &= m \dot{c}_z \\
-      \dot{P}_z &= f_z - m g
-      \f}
-      \f$c_z\f$, \f$P_z\f$, and \f$f_z\f$ are CoM height, vertical linear momentum, and vertical contact force,
-     respectively.
-
-      This can be represented as a linear time-invariant system as follows.
-      \f{align*}{
-      \boldsymbol{\dot{x}} &=
-      \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix}
-      \boldsymbol{x} +
-      \begin{bmatrix} 0 \\ 1 \end{bmatrix} u +
-      \begin{bmatrix} 0 \\ - m g \end{bmatrix} \\
-      y &= \begin{bmatrix} \dfrac{1}{m} & 0 \\ 0 & \dfrac{1}{m} \\ 0 & 0 \end{bmatrix} \boldsymbol{x} +
-      \begin{bmatrix} 0 \\ 0 \\ \dfrac{1}{m} \end{bmatrix} \boldsymbol{u} +
-      \begin{bmatrix} 0 \\ 0 \\ - g \end{bmatrix}
-      \f}
-
-      State, control input, and output are expressed as follows.
-      \f{align*}{
-      \boldsymbol{x} = \begin{bmatrix} c_z \\ \dot{c}_z \\ \ddot{c}_z \end{bmatrix},
-      u = f_z, y = c_z
-      \f}
-   */
-  class SimModel : public StateSpaceModel<state_dim_, 1, 3>
-  {
-  public:
-    /** \brief Constructor.
-        \param mass robot mass [kg]
-    */
-    SimModel(double mass);
-  };
-
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 

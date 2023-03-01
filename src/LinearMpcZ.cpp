@@ -27,21 +27,6 @@ LinearMpcZ::ModelNoncontactPhase::ModelNoncontactPhase(double mass) : StateSpace
   E_ << 0, -1 * mass * constants::g;
 }
 
-LinearMpcZ::SimModel::SimModel(double mass)
-{
-  A_ << 0, 1, 0, 0;
-
-  B_ << 0, 1;
-
-  C_ << 1 / mass, 0, 0, 1 / mass, 0, 0;
-
-  D_ << 0, 0, 1 / mass;
-
-  E_ << 0, -1 * mass * constants::g;
-
-  F_ << 0, 0, -1 * constants::g;
-}
-
 LinearMpcZ::LinearMpcZ(double mass, double horizon_dt, QpSolverCollection::QpSolverType qp_solver_type)
 : mass_(mass), horizon_dt_(horizon_dt), force_range_(10.0, 10.0 * mass * constants::g)
 {
