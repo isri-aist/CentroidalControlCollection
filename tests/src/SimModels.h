@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <memory>
+#include <SpaceVecAlg/SpaceVecAlg>
 
 #include <CCC/Constants.h>
 #include <CCC/EigenTypes.h>
@@ -222,13 +222,13 @@ public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     //! CoM position [m] and base link orientation [rad]
-    Eigen::Vector6d pos = Eigen::Vector6d::Zero();
+    sva::MotionVecd pos = sva::MotionVecd::Zero();
 
     //! CoM velocity [m/s] and base link angular velocity [rad/s]
-    Eigen::Vector6d vel = Eigen::Vector6d::Zero();
+    sva::MotionVecd vel = sva::MotionVecd::Zero();
 
     //! Linear momentum [kg m/s] and angular momentum [kg m^2/s]
-    Eigen::Vector6d momentum = Eigen::Vector6d::Zero();
+    sva::ForceVecd momentum = sva::ForceVecd::Zero();
 
     /** \brief Constructor. */
     State() {}
@@ -238,25 +238,42 @@ public:
      */
     State(const StateDimVector & state_vec)
     {
-      pos << state_vec.segment<6>(0);
-      vel << state_vec.segment<6>(6);
-      momentum << state_vec.segment<6>(12);
+      pos = sva::MotionVecd(state_vec.segment<3>(3), state_vec.segment<3>(0));
+      vel = sva::MotionVecd(state_vec.segment<3>(9), state_vec.segment<3>(6));
+      momentum = sva::ForceVecd(state_vec.segment<3>(15), state_vec.segment<3>(12));
     }
 
     /** \brief Get state of state-space model. */
     inline StateDimVector toState() const
     {
       StateDimVector state_vec;
-      state_vec << pos, vel, momentum;
+      state_vec << pos.linear(), pos.angular(), vel.linear(), vel.angular(), momentum.force(), momentum.moment();
       return state_vec;
     }
   };
 
   /** \brief Simulation input.
 
-      Simulation input is wrench only (in order of force, moment).
+      Simulation input is wrench only.
    */
-  using Input = Eigen::Vector6d;
+  struct Input : public sva::ForceVecd
+  {
+    /** \brief Constructor. */
+    Input() {}
+
+    /** \brief Constructor.
+        \param wrench input wrench
+     */
+    Input(const sva::ForceVecd & wrench) : sva::ForceVecd(wrench) {}
+
+    /** \brief Get input of state-space model. */
+    inline InputDimVector toInput() const
+    {
+      InputDimVector input_vec;
+      input_vec << force(), moment();
+      return input_vec;
+    }
+  };
 
 public:
   /** \brief Constructor.
@@ -279,21 +296,22 @@ public:
   }
 
   /** \brief Update.
-      \param input simulation input (wrench in order of force, moment)
+      \param input simulation input
 
       Moment is represented around CoM.
   */
   void update(const Input & input)
   {
-    state_ = State(stateEqDisc(state_.toState(), input));
+    state_ = State(stateEqDisc(state_.toState(), input.toInput()));
   }
 
   /** \brief Add disturbance
       \param impulse_per_mass linear and angular impulse per mass [m/s], [m^2/s]
   */
-  void addDisturb(const Eigen::Vector6d & impulse_per_mass)
+  void addDisturb(const sva::ForceVecd & impulse_per_mass)
   {
-    state_.vel += impulse_per_mass;
+    state_.vel.linear() += impulse_per_mass.force();
+    state_.vel.angular() += impulse_per_mass.moment();
   }
 
 public:
