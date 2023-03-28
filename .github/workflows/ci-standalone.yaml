@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-18.04]
+        os: [ubuntu-20.04]
         build-type: [Debug, RelWithDebInfo]
         compiler: [gcc, clang]
     runs-on: ${{ matrix.os }}
@@ -33,14 +33,6 @@ jobs:
             mc-rtc:
               cloudsmith: mc-rtc/head
           apt: cmake libqpsolvercollection-dev libforcecontrolcollection-dev libnmpc-dev libmc-rtc-dev libgtest-dev
-    - name: Install GTest
-      if: matrix.os == 'ubuntu-18.04'
-      uses: jrl-umi3218/github-actions/install-dependencies@master
-      with:
-        build-type: ${{ matrix.build-type }}
-        github: |
-          - path: google/googletest
-            ref: release-1.12.1
     - name: Build and test
       uses: jrl-umi3218/github-actions/build-cmake-project@master
       with:
