@@ -1,5 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,42,109,69"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,78,109,105"/>
 <area shape="rect" id="node2" href="$classCCC_1_1DdpCentroidal_1_1DdpProblem.html" title="DDP problem of centroidal model." alt="" coords="183,5,333,47"/>
-<area shape="rect" id="node3" href="$classCCC_1_1DdpZmp_1_1DdpProblem.html" title="DDP problem of CoM&#45;ZMP model." alt="" coords="157,71,359,98"/>
+<area shape="rect" id="node3" href="$classCCC_1_1DdpSingleRigidBody_1_1DdpProblem.html" title="DDP problem of centroidal model with single rigid&#45;body dynamics (SRBD) approximation." alt="" coords="163,71,353,112"/>
+<area shape="rect" id="node4" href="$classCCC_1_1DdpZmp_1_1DdpProblem.html" title="DDP problem of CoM&#45;ZMP model." alt="" coords="157,137,359,163"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="CCC::DdpSingleRigidBody::DdpProblem" name="CCC::DdpSingleRigidBody::DdpProblem">
+<area shape="rect" id="node1" title="DDP problem of centroidal model with single rigid&#45;body dynamics (SRBD) approximation." alt="" coords="104,109,293,151"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,184,47"/>
+<area shape="rect" id="node3" href="$structCCC_1_1DdpSingleRigidBody_1_1WeightParam.html" title="Weight parameter." alt="" coords="208,5,397,47"/>
+</map>
