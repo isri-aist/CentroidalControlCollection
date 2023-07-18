@@ -31,6 +31,7 @@ set(CCC_gtest_list
   TestLinearMpcXY
   TestPreviewControlCentroidal
   TestDdpCentroidal
+  TestDdpSingleRigidBody
   )
 
 foreach(NAME IN LISTS CCC_gtest_list)
