@@ -85,7 +85,7 @@ DdpSingleRigidBody::DdpProblem::StateDimVector DdpSingleRigidBody::DdpProblem::s
       }
     }
   }
-  inertia_mat.llt().solveInPlace(angular_vel_dot);
+  angular_vel_dot = inertia_mat.llt().solve(angular_vel_dot);
 
   return x + dt_ * x_dot;
 }
@@ -158,7 +158,7 @@ void DdpSingleRigidBody::DdpProblem::calcStateEqDeriv(double t,
       I12 * w1 + I22 * w2 + 2 * I23 * w3 - I33 * w2, -I11 * w3 + 2 * I13 * w1 + I23 * w2 + I33 * w3,
       -I12 * w3 + I23 * w1, -I11 * w1 - I12 * w2 - 2 * I13 * w3 + I33 * w1,
       I11 * w2 - 2 * I12 * w1 - I22 * w2 - I23 * w3, I11 * w1 + 2 * I12 * w2 + I13 * w3 - I22 * w1, I13 * w2 - I23 * w1;
-  llt.solveInPlace(state_eq_deriv_x.block<3, 3>(9, 9));
+  state_eq_deriv_x.block<3, 3>(9, 9) = llt.solve(state_eq_deriv_x.block<3, 3>(9, 9));
 
   int ridge_idx = 0;
   Eigen::Vector3d totalForce = Eigen::Vector3d::Zero();
@@ -177,7 +177,7 @@ void DdpSingleRigidBody::DdpProblem::calcStateEqDeriv(double t,
     }
   }
   state_eq_deriv_x.block<3, 3>(9, 0) = llt.solve(crossMat(totalForce));
-  llt.solveInPlace(state_eq_deriv_u.middleRows<3>(9));
+  state_eq_deriv_u.middleRows<3>(9) = llt.solve(state_eq_deriv_u.middleRows<3>(9));
 
   state_eq_deriv_x *= dt_;
   state_eq_deriv_x.diagonal().array() += 1.0;
