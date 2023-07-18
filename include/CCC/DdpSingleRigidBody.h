@@ -11,8 +11,14 @@ class Contact;
 
 namespace CCC
 {
-/** \brief Differential dynamic programming (DDP) for centroidal model. */
-class DdpCentroidal
+/** \brief Differential dynamic programming (DDP) for centroidal model
+           with single rigid-body dynamics (SRBD) approximation.
+
+    Base link orientation is expressed in ZYX Euler angles.
+
+    \todo Support other Euler angles
+*/
+class DdpSingleRigidBody
 {
 public:
   /** \brief Motion parameter. */
@@ -22,6 +28,9 @@ public:
 
     /** \brief Contact list. */
     std::vector<std::shared_ptr<ForceColl::Contact>> contact_list;
+
+    /** \brief Inertia matrix [kg m^2]. */
+    Eigen::Matrix3d inertia_mat = Eigen::Matrix3d::Identity();
   };
 
   /** \brief Reference data. */
@@ -31,6 +40,9 @@ public:
 
     //! CoM position [m]
     Eigen::Vector3d pos = Eigen::Vector3d::Zero();
+
+    //! Base link orientation [rad]
+    Eigen::Vector3d ori = Eigen::Vector3d::Zero();
   };
 
   /** \brief Weight parameter. */
@@ -39,11 +51,14 @@ public:
     //! CoM position weight in running cost
     Eigen::Vector3d running_pos;
 
-    //! Linear momentum weight in running cost
-    Eigen::Vector3d running_linear_momentum;
+    //! Base link orientation weight in running cost
+    Eigen::Vector3d running_ori;
 
-    //! Angular momentum weight in running cost
-    Eigen::Vector3d running_angular_momentum;
+    //! Linear velocity weight in running cost
+    Eigen::Vector3d running_linear_vel;
+
+    //! Angular velocity weight in running cost
+    Eigen::Vector3d running_angular_vel;
 
     //! Force weight in running cost
     double running_force;
@@ -51,40 +66,48 @@ public:
     //! CoM position weight in terminal cost
     Eigen::Vector3d terminal_pos;
 
-    //! Linear momentum weight in terminal cost
-    Eigen::Vector3d terminal_linear_momentum;
+    //! Base link orientation weight in terminal cost
+    Eigen::Vector3d terminal_ori;
 
-    //! Angular momentum weight in terminal cost
-    Eigen::Vector3d terminal_angular_momentum;
+    //! Linear velocity weight in terminal cost
+    Eigen::Vector3d terminal_linear_vel;
+
+    //! Angular velocity weight in terminal cost
+    Eigen::Vector3d terminal_angular_vel;
 
     /** \brief Constructor.
         \param _running_pos CoM position weight in running cost
-        \param _running_linear_momentum linear momentum weight in running cost
-        \param _running_angular_momentum angular momentum weight in running cost
+        \param _running_ori base link orientation weight in running cost
+        \param _running_linear_vel linear velocity weight in running cost
+        \param _running_angular_vel angular velocity weight in running cost
         \param _running_force force weight in running cost
         \param _terminal_pos CoM position weight in terminal cost
-        \param _terminal_linear_momentum linear momentum weight in terminal cost
-        \param _terminal_angular_momentum angular momentum weight in terminal cost
+        \param _terminal_ori base link orientation weight in terminal cost
+        \param _terminal_linear_vel linear velocity weight in terminal cost
+        \param _terminal_angular_vel angular velocity weight in terminal cost
      */
     WeightParam(const Eigen::Vector3d & _running_pos = Eigen::Vector3d::Constant(1.0),
-                const Eigen::Vector3d & _running_linear_momentum = Eigen::Vector3d::Constant(0.0),
-                const Eigen::Vector3d & _running_angular_momentum = Eigen::Vector3d::Constant(1.0),
+                const Eigen::Vector3d & _running_ori = Eigen::Vector3d::Constant(1.0),
+                const Eigen::Vector3d & _running_linear_vel = Eigen::Vector3d::Constant(0.01),
+                const Eigen::Vector3d & _running_angular_vel = Eigen::Vector3d::Constant(0.01),
                 double _running_force = 1e-6,
                 const Eigen::Vector3d & _terminal_pos = Eigen::Vector3d::Constant(1.0),
-                const Eigen::Vector3d & _terminal_linear_momentum = Eigen::Vector3d::Constant(0.0),
-                const Eigen::Vector3d & _terminal_angular_momentum = Eigen::Vector3d::Constant(1.0))
-    : running_pos(_running_pos), running_linear_momentum(_running_linear_momentum),
-      running_angular_momentum(_running_angular_momentum), running_force(_running_force), terminal_pos(_terminal_pos),
-      terminal_linear_momentum(_terminal_linear_momentum), terminal_angular_momentum(_terminal_angular_momentum)
+                const Eigen::Vector3d & _terminal_ori = Eigen::Vector3d::Constant(1.0),
+                const Eigen::Vector3d & _terminal_linear_vel = Eigen::Vector3d::Constant(0.01),
+                const Eigen::Vector3d & _terminal_angular_vel = Eigen::Vector3d::Constant(0.01))
+    : running_pos(_running_pos), running_ori(_running_ori), running_linear_vel(_running_linear_vel),
+      running_angular_vel(_running_angular_vel), running_force(_running_force), terminal_pos(_terminal_pos),
+      terminal_ori(_terminal_ori), terminal_linear_vel(_terminal_linear_vel),
+      terminal_angular_vel(_terminal_angular_vel)
     {
     }
   };
 
-  /** \brief DDP problem of centroidal model.
+  /** \brief DDP problem of centroidal model with single rigid-body dynamics (SRBD) approximation.
 
       See #stateEq for the state equation of this problem.
    */
-  class DdpProblem : public nmpc_ddp::DDPProblem<9, Eigen::Dynamic>
+  class DdpProblem : public nmpc_ddp::DDPProblem<12, Eigen::Dynamic>
   {
   public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -95,7 +118,7 @@ public:
         \param weight_param objective weight parameter
     */
     DdpProblem(double horizon_dt, double mass, const WeightParam & weight_param)
-    : nmpc_ddp::DDPProblem<9, Eigen::Dynamic>(horizon_dt), mass_(mass), weight_param_(weight_param)
+    : nmpc_ddp::DDPProblem<12, Eigen::Dynamic>(horizon_dt), mass_(mass), weight_param_(weight_param)
     {
     }
 
@@ -130,28 +153,33 @@ public:
 
         Dynamics is expressed by the following equation.
         \f{align*}{
-        \boldsymbol{\dot{P}} &= \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\
-        \boldsymbol{\dot{L}} &= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i
-        \f}
-        \f$\boldsymbol{c}\f$, \f$\boldsymbol{P}\f$, and \f$\boldsymbol{L}\f$ are CoM, linear momentum, and angular
-       momentum, respectively. \f$\boldsymbol{p}_i\f$, \f$\lambda_i\f$, and \f$\boldsymbol{\rho}_i\f$ are position,
-       force scale, and ridge vector of i-th contact vertex ridge, respectively.
+        m \boldsymbol{\ddot{c}} &= \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\
+        \boldsymbol{\dot{\omega}} + \boldsymbol{\omega} \times \boldsymbol{I} \boldsymbol{\omega} &= \sum_i
+        (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \f}
 
         This can be represented as a nonlinear system as follows.
         \f{align*}{
         \boldsymbol{\dot{x}} &=
         \begin{bmatrix}
-          \dfrac{1}{m} \boldsymbol{P} \\
-          \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\
-          \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i
+          \boldsymbol{v} \\
+          \boldsymbol{K}_{\mathit{Euler}}(\boldsymbol{\alpha}) \, \boldsymbol{\omega} \\
+          \dfrac{1}{m} \sum_i \lambda_i \boldsymbol{\rho}_i - \boldsymbol{g} \\
+          \boldsymbol{I}^{-1} \left( - \boldsymbol{\omega} \times \boldsymbol{I} \boldsymbol{\omega} +
+          \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \right)
         \end{bmatrix}
         \f}
 
         State and control input are expressed by the following equations.
         \f{align*}{
-        \boldsymbol{x} = \begin{bmatrix} \boldsymbol{c} \\ \boldsymbol{P} \\ \boldsymbol{L} \end{bmatrix},
-        \boldsymbol{u} = \begin{bmatrix} \vdots \\ \lambda_i \\ \vdots \end{bmatrix}
-        \f}
+        \boldsymbol{x} = \begin{bmatrix} \boldsymbol{c} \\ \boldsymbol{\alpha} \\ \boldsymbol{v} \\ \boldsymbol{\omega}
+       \end{bmatrix}, \boldsymbol{u} = \begin{bmatrix} \vdots \\ \lambda_i \\ \vdots \end{bmatrix} \f}
+
+        \f$m\f$ and \f$\boldsymbol{I}\f$ are the robot mass and inertia matrix, respectively.
+        \f$\boldsymbol{c}\f$, \f$\boldsymbol{v}\f$, \f$\boldsymbol{\alpha}\f$, and \f$\boldsymbol{\omega}\f$ are
+        CoM position, CoM velocity, base link orientation, and base link angular velocity, respectively.
+        Base link orientation is expressed in Euler angles.
+        \f$\boldsymbol{p}_i\f$, \f$\lambda_i\f$, and \f$\boldsymbol{\rho}_i\f$ are position, force scale, and ridge
+        vector of i-th contact vertex ridge, respectively.
 
         Euler method is used to discretize the system.
         \f{align*}{
@@ -186,17 +214,26 @@ public:
         \f{align*}{
         \frac{\partial \boldsymbol{x}_{k+1}}{\partial \boldsymbol{x}_k} &=
         \begin{bmatrix}
-          \boldsymbol{O} & \dfrac{1}{m} \boldsymbol{I} & \boldsymbol{O} \\
-          \boldsymbol{O} & \boldsymbol{O} & \boldsymbol{O} \\
-          (\sum_i \lambda_i \boldsymbol{\rho}_i) \times & \boldsymbol{O} & \boldsymbol{O}
+          \boldsymbol{O} & \boldsymbol{O} & \boldsymbol{E} & \boldsymbol{O} \\
+          \boldsymbol{O} & \dfrac{\partial \boldsymbol{\dot{\alpha}}}{\partial \boldsymbol{\alpha}} & \boldsymbol{O} &
+          \boldsymbol{K}_{\mathit{Euler}} \\
+          \boldsymbol{O} & \boldsymbol{O} & \boldsymbol{O} & \boldsymbol{O} \\
+          \boldsymbol{I}^{-1} (\sum_i \lambda_i \boldsymbol{\rho}_i) \times & \boldsymbol{O} & \boldsymbol{O} &
+          \dfrac{\partial \boldsymbol{\dot{\omega}}}{\partial \boldsymbol{\omega}}
         \end{bmatrix} \Delta t + \boldsymbol{I} \\
         \frac{\partial \boldsymbol{x}_{k+1}}{\partial \boldsymbol{u}_k} &=
         \begin{bmatrix}
           \cdots & \boldsymbol{O} & \cdots \\
-          \cdots & \boldsymbol{\rho}_i & \cdots \\
-          \cdots & (\boldsymbol{p}_i - \boldsymbol{c}) \times \boldsymbol{\rho}_i & \cdots
+          \cdots & \boldsymbol{O} & \cdots \\
+          \cdots & \dfrac{1}{m} \boldsymbol{\rho}_i & \cdots \\
+          \cdots & \boldsymbol{I}^{-1} (\boldsymbol{p}_i - \boldsymbol{c}) \times \boldsymbol{\rho}_i & \cdots
         \end{bmatrix} \Delta t
         \f}
+
+        \f$\boldsymbol{E}\f$ is the identity matrix.
+        The formulas for \f$\dfrac{\partial \boldsymbol{\dot{\alpha}}}{\partial \boldsymbol{\alpha}}\f$ and
+        \f$\dfrac{\partial \boldsymbol{\dot{\omega}}}{\partial \boldsymbol{\omega}}\f$ are complex,
+        so they were derived using the symbolic mathematics library (SymPy).
     */
     virtual void calcStateEqDeriv(double t,
                                   const StateDimVector & x,
@@ -302,11 +339,14 @@ public:
     //! CoM position [m]
     Eigen::Vector3d pos = Eigen::Vector3d::Zero();
 
-    //! CoM velocity [m/s]
-    Eigen::Vector3d vel = Eigen::Vector3d::Zero();
+    //! Base link orientation [rad]
+    Eigen::Vector3d ori = Eigen::Vector3d::Zero();
 
-    //! Angular momentum [kg m^2/s]
-    Eigen::Vector3d angular_momentum = Eigen::Vector3d::Zero();
+    //! Linear velocity [m/s]
+    Eigen::Vector3d linear_vel = Eigen::Vector3d::Zero();
+
+    //! Angular velocity [rad/s]
+    Eigen::Vector3d angular_vel = Eigen::Vector3d::Zero();
 
     /** \brief Initial guess of input sequence.
 
@@ -320,14 +360,11 @@ public:
 
     /** \brief Constructor.
         \param state state of DDP problem
-        \param mass robot mass [kg]
     */
-    InitialParam(const DdpProblem::StateDimVector & state, double mass);
+    InitialParam(const DdpProblem::StateDimVector & state);
 
-    /** \brief Get state of DDP problem.
-        \param mass robot mass [kg]
-     */
-    DdpProblem::StateDimVector toState(double mass) const;
+    /** \brief Get state of DDP problem. */
+    DdpProblem::StateDimVector toState() const;
   };
 
 public:
@@ -339,7 +376,10 @@ public:
       \param horizon_steps number of steps in horizon
       \param weight_param objective weight parameter
    */
-  DdpCentroidal(double mass, double horizon_dt, int horizon_steps, const WeightParam & weight_param = WeightParam());
+  DdpSingleRigidBody(double mass,
+                     double horizon_dt,
+                     int horizon_steps,
+                     const WeightParam & weight_param = WeightParam());
 
   /** \brief Plan one step.
       \param motion_param_func function of motion parameter
@@ -358,7 +398,7 @@ public:
   std::shared_ptr<DdpProblem> ddp_problem_;
 
   //! DDP solver
-  std::shared_ptr<nmpc_ddp::DDPSolver<9, Eigen::Dynamic>> ddp_solver_;
+  std::shared_ptr<nmpc_ddp::DDPSolver<12, Eigen::Dynamic>> ddp_solver_;
 
   //! Force scale limits (i.e., limits of \f$\lambda_i\f$ in the order of lower, upper)
   std::array<double, 2> force_scale_limits_ = {0.0, 1e6};

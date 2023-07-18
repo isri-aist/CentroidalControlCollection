@@ -11,6 +11,7 @@ add_library(CCC
   LinearMpcXY.cpp
   PreviewControlCentroidal.cpp
   DdpCentroidal.cpp
+  DdpSingleRigidBody.cpp
   )
 if(DEFINED CATKIN_DEVEL_PREFIX)
   target_include_directories(CCC PUBLIC
