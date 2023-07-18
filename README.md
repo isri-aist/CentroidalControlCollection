@@ -177,5 +177,11 @@ $ rosrun centroidal_control_collection TestPreviewControlCentroidal
 $ rosrun centroidal_control_collection TestDdpCentroidal --gtest_filter=*.PlanOnce
 ```
 
+#### [DdpSingleRigidBody](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DdpSingleRigidBody.html)
+
+```bash
+$ rosrun centroidal_control_collection TestDdpSingleRigidBody --gtest_filter=*.PlanOnce
+```
+
 ## Integration into controller
 Some of the methods implemented in this library are available in the humanoid controller [BaselineWalkingController](https://github.com/isri-aist/BaselineWalkingController) and [MultiContactController](https://github.com/isri-aist/MultiContactController).
