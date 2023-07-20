@@ -36,17 +36,20 @@ set(CCC_gtest_list
   TestDdpSingleRigidBody
   )
 
-set(CCC_rostest_list
-  TestSimDdpSingleRigidBody
-  )
-
 foreach(NAME IN LISTS CCC_gtest_list)
   add_CCC_test(${NAME})
 endforeach()
 
-if(DEFINED CATKIN_DEVEL_PREFIX)
-  foreach(NAME IN LISTS CCC_rostest_list)
-    add_rostest_gtest(${NAME} test/${NAME}.test src/${NAME}.cpp)
-    target_link_libraries(${NAME} CCC)
-  endforeach()
+option(ENABLE_PYBULLET_TEST "Enable tests with pybullet simulation" OFF)
+if(ENABLE_PYBULLET_TEST)
+  set(CCC_rostest_list
+    TestSimDdpSingleRigidBody
+  )
+
+  if(DEFINED CATKIN_DEVEL_PREFIX)
+    foreach(NAME IN LISTS CCC_rostest_list)
+      add_rostest_gtest(${NAME} test/${NAME}.test src/${NAME}.cpp)
+      target_link_libraries(${NAME} CCC)
+    endforeach()
+  endif()
 endif()
