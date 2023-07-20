@@ -217,6 +217,10 @@ SingularPreviewControlZmp</div></div>
 <div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestDdpCentroidal --gtest_filter=*.PlanOnce</div>
 </div><!-- fragment --><h3><a href="https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1DdpSingleRigidBody.html">DdpSingleRigidBody</a></h3>
 <div class="fragment"><div class="line">$ rosrun centroidal_control_collection TestDdpSingleRigidBody --gtest_filter=*.PlanOnce</div>
+</div><!-- fragment --><p>If you catkin build with <code>-DENABLE_PYBULLET_TEST=ON</code> option, you can run the test by simulation on the GUI. <code>pybullet</code> is required to be installed. </p><div class="fragment"><div class="line"># In terminal 1</div>
+<div class="line">$ rostest centroidal_control_collection TestSimDdpSingleRigidBody.test -t -r</div>
+<div class="line"># In terminal 2</div>
+<div class="line">$ rosrun rqt_service_caller rqt_service_caller</div>
 </div><!-- fragment --><h1>Integration into controller</h1>
 <p>Some of the methods implemented in this library are available in the humanoid controller <a href="https://github.com/isri-aist/BaselineWalkingController">BaselineWalkingController</a> and <a href="https://github.com/isri-aist/MultiContactController">MultiContactController</a>. </p>
 </div></div><!-- PageDoc -->
