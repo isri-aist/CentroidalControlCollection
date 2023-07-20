@@ -191,5 +191,7 @@ $ rostest centroidal_control_collection TestSimDdpSingleRigidBody.test -t -r
 $ rosrun rqt_service_caller rqt_service_caller
 ```
 
+https://github.com/isri-aist/CentroidalControlCollection/assets/6636600/7f70f728-f76d-49b3-a885-d6e2ab5d8594
+
 ## Integration into controller
 Some of the methods implemented in this library are available in the humanoid controller [BaselineWalkingController](https://github.com/isri-aist/BaselineWalkingController) and [MultiContactController](https://github.com/isri-aist/MultiContactController).
