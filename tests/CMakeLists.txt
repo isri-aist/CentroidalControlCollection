@@ -1,5 +1,3 @@
-find_package(rostest REQUIRED)
-
 if(NOT DEFINED CATKIN_DEVEL_PREFIX)
   find_package(GTest REQUIRED)
   include(GoogleTest)
@@ -42,6 +40,8 @@ endforeach()
 
 option(ENABLE_PYBULLET_TEST "Enable tests with pybullet simulation" OFF)
 if(ENABLE_PYBULLET_TEST)
+  find_package(rostest REQUIRED)
+
   set(CCC_rostest_list
     TestSimDdpSingleRigidBody
   )
