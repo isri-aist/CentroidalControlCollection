@@ -1,0 +1,8 @@
+<launch>
+  <test test-name="test_sim_ddp_srb"
+        pkg="centroidal_control_collection" type="TestSimDdpSingleRigidBody" name="test_sim_ddp_srb"
+        time-limit="600.0" />
+
+  <node pkg="centroidal_control_collection" type="simSingleRigidBody.py" name="sim_srb"
+        output="screen" />
+</launch>

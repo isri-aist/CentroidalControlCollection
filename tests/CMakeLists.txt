@@ -1,3 +1,5 @@
+find_package(rostest REQUIRED)
+
 if(NOT DEFINED CATKIN_DEVEL_PREFIX)
   find_package(GTest REQUIRED)
   include(GoogleTest)
@@ -34,6 +36,17 @@ set(CCC_gtest_list
   TestDdpSingleRigidBody
   )
 
+set(CCC_rostest_list
+  TestSimDdpSingleRigidBody
+  )
+
 foreach(NAME IN LISTS CCC_gtest_list)
   add_CCC_test(${NAME})
 endforeach()
+
+if(DEFINED CATKIN_DEVEL_PREFIX)
+  foreach(NAME IN LISTS CCC_rostest_list)
+    add_rostest_gtest(${NAME} test/${NAME}.test src/${NAME}.cpp)
+    target_link_libraries(${NAME} CCC)
+  endforeach()
+endif()

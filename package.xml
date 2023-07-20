@@ -20,6 +20,7 @@
   <build_depend>eigen</build_depend>
 
   <test_depend>rosunit</test_depend>
+  <test_depend>rostest</test_depend>
 
   <doc_depend>doxygen</doc_depend>
   <doc_depend>graphviz</doc_depend>
