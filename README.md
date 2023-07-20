@@ -183,5 +183,13 @@ $ rosrun centroidal_control_collection TestDdpCentroidal --gtest_filter=*.PlanOn
 $ rosrun centroidal_control_collection TestDdpSingleRigidBody --gtest_filter=*.PlanOnce
 ```
 
+If you catkin build with `-DENABLE_PYBULLET_TEST=ON` option, you can run the test by simulation on the GUI. `pybullet` is required to be installed.
+```bash
+# In terminal 1
+$ rostest centroidal_control_collection TestSimDdpSingleRigidBody.test -t -r
+# In terminal 2
+$ rosrun rqt_service_caller rqt_service_caller
+```
+
 ## Integration into controller
 Some of the methods implemented in this library are available in the humanoid controller [BaselineWalkingController](https://github.com/isri-aist/BaselineWalkingController) and [MultiContactController](https://github.com/isri-aist/MultiContactController).
