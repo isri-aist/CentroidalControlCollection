@@ -860,7 +860,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>next state \(\boldsymbol{x}_{k+1}\)</dd></dl>
 <p>Dynamics is expressed by the following equation. </p><p class="formulaDsp">
-\begin{align*} m \boldsymbol{\ddot{c}} &amp;= \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\ \boldsymbol{\dot{\omega}} + \boldsymbol{\omega} \times \boldsymbol{I} \boldsymbol{\omega} &amp;= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \end{align*}
+\begin{align*} m \boldsymbol{\ddot{c}} &amp;= \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\ \boldsymbol{I} \boldsymbol{\dot{\omega}} + \boldsymbol{\omega} \times \boldsymbol{I} \boldsymbol{\omega} &amp;= \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \end{align*}
 </p>
 <p>This can be represented as a nonlinear system as follows. </p><p class="formulaDsp">
 \begin{align*} \boldsymbol{\dot{x}} &amp;= \begin{bmatrix} \boldsymbol{v} \\ \boldsymbol{K}_{\mathit{Euler}}(\boldsymbol{\alpha}) \, \boldsymbol{\omega} \\ \dfrac{1}{m} \sum_i \lambda_i \boldsymbol{\rho}_i - \boldsymbol{g} \\ \boldsymbol{I}^{-1} \left( - \boldsymbol{\omega} \times \boldsymbol{I} \boldsymbol{\omega} + \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \right) \end{bmatrix} \end{align*}
