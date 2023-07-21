@@ -154,8 +154,8 @@ public:
         Dynamics is expressed by the following equation.
         \f{align*}{
         m \boldsymbol{\ddot{c}} &= \sum_i \lambda_i \boldsymbol{\rho}_i - m \boldsymbol{g} \\
-        \boldsymbol{\dot{\omega}} + \boldsymbol{\omega} \times \boldsymbol{I} \boldsymbol{\omega} &= \sum_i
-        (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \f}
+        \boldsymbol{I} \boldsymbol{\dot{\omega}} + \boldsymbol{\omega} \times \boldsymbol{I} \boldsymbol{\omega} &=
+        \sum_i (\boldsymbol{p}_i - \boldsymbol{c}) \times \lambda_i \boldsymbol{\rho}_i \f}
 
         This can be represented as a nonlinear system as follows.
         \f{align*}{
