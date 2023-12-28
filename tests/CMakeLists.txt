@@ -27,6 +27,7 @@ set(CCC_gtest_list
   TestLinearMpcZmp
   TestIntrinsicallyStableMpc
   TestSingularPreviewControlZmp
+  TestStepMpc
   TestLinearMpcZ
   TestLinearMpcXY
   TestPreviewControlCentroidal

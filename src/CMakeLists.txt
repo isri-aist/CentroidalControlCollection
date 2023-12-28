@@ -7,6 +7,7 @@ add_library(CCC
   LinearMpcZmp.cpp
   IntrinsicallyStableMpc.cpp
   SingularPreviewControlZmp.cpp
+  StepMpc.cpp
   LinearMpcZ.cpp
   LinearMpcXY.cpp
   PreviewControlCentroidal.cpp
