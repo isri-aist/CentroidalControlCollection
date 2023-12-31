@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['linearmpcxy_215',['LinearMpcXY',['../classCCC_1_1LinearMpcXY.html',1,'CCC']]],
-  ['linearmpcz_216',['LinearMpcZ',['../classCCC_1_1LinearMpcZ.html',1,'CCC']]],
-  ['linearmpczmp_217',['LinearMpcZmp',['../classCCC_1_1LinearMpcZmp.html',1,'CCC']]],
-  ['linearmpczmp1d_218',['LinearMpcZmp1d',['../classCCC_1_1LinearMpcZmp1d.html',1,'CCC']]]
+  ['initialparam_227',['InitialParam',['../structCCC_1_1IntrinsicallyStableMpc_1_1InitialParam.html',1,'CCC::IntrinsicallyStableMpc::InitialParam'],['../structCCC_1_1SingularPreviewControlZmp1d_1_1InitialParam.html',1,'CCC::SingularPreviewControlZmp1d::InitialParam'],['../structCCC_1_1SingularPreviewControlZmp_1_1InitialParam.html',1,'CCC::SingularPreviewControlZmp::InitialParam'],['../structCCC_1_1LinearMpcXY_1_1InitialParam.html',1,'CCC::LinearMpcXY::InitialParam'],['../structCCC_1_1DdpCentroidal_1_1InitialParam.html',1,'CCC::DdpCentroidal::InitialParam'],['../structCCC_1_1StepMpc_1_1InitialParam.html',1,'CCC::StepMpc::InitialParam'],['../structCCC_1_1DdpZmp_1_1InitialParam.html',1,'CCC::DdpZmp::InitialParam'],['../structCCC_1_1LinearMpcZmp_1_1InitialParam.html',1,'CCC::LinearMpcZmp::InitialParam'],['../structCCC_1_1DdpSingleRigidBody_1_1InitialParam.html',1,'CCC::DdpSingleRigidBody::InitialParam'],['../structCCC_1_1IntrinsicallyStableMpc1d_1_1InitialParam.html',1,'CCC::IntrinsicallyStableMpc1d::InitialParam'],['../structCCC_1_1PreviewControlCentroidal_1_1InitialParam.html',1,'CCC::PreviewControlCentroidal::InitialParam'],['../structCCC_1_1PreviewControlZmp_1_1InitialParam.html',1,'CCC::PreviewControlZmp::InitialParam']]],
+  ['intrinsicallystablempc_228',['IntrinsicallyStableMpc',['../classCCC_1_1IntrinsicallyStableMpc.html',1,'CCC']]],
+  ['intrinsicallystablempc1d_229',['IntrinsicallyStableMpc1d',['../classCCC_1_1IntrinsicallyStableMpc1d.html',1,'CCC']]],
+  ['invariantsequentialextension_230',['InvariantSequentialExtension',['../classCCC_1_1InvariantSequentialExtension.html',1,'CCC']]]
 ];

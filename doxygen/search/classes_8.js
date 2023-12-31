@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['singularpreviewcontrolzmp_232',['SingularPreviewControlZmp',['../classCCC_1_1SingularPreviewControlZmp.html',1,'CCC']]],
-  ['singularpreviewcontrolzmp1d_233',['SingularPreviewControlZmp1d',['../classCCC_1_1SingularPreviewControlZmp1d.html',1,'CCC']]],
-  ['statespacemodel_234',['StateSpaceModel',['../classCCC_1_1StateSpaceModel.html',1,'CCC']]],
-  ['statespacemodel_3c_203_2c_201_2c_201_20_3e_235',['StateSpaceModel&lt; 3, 1, 1 &gt;',['../classCCC_1_1StateSpaceModel.html',1,'CCC']]],
-  ['statespacemodel_3c_203_2c_201_2c_202_20_3e_236',['StateSpaceModel&lt; 3, 1, 2 &gt;',['../classCCC_1_1StateSpaceModel.html',1,'CCC']]]
+  ['refdata_247',['RefData',['../structCCC_1_1StepMpc_1_1RefData.html',1,'CCC::StepMpc::RefData'],['../structCCC_1_1DdpZmp_1_1RefData.html',1,'CCC::DdpZmp::RefData'],['../structCCC_1_1LinearMpcZmp_1_1RefData.html',1,'CCC::LinearMpcZmp::RefData'],['../structCCC_1_1LinearMpcXY_1_1RefData.html',1,'CCC::LinearMpcXY::RefData'],['../structCCC_1_1IntrinsicallyStableMpc_1_1RefData.html',1,'CCC::IntrinsicallyStableMpc::RefData'],['../structCCC_1_1StepMpc1d_1_1RefData.html',1,'CCC::StepMpc1d::RefData'],['../structCCC_1_1DdpCentroidal_1_1RefData.html',1,'CCC::DdpCentroidal::RefData'],['../structCCC_1_1LinearMpcZmp1d_1_1RefData.html',1,'CCC::LinearMpcZmp1d::RefData'],['../structCCC_1_1FootGuidedControl1d_1_1RefData.html',1,'CCC::FootGuidedControl1d::RefData'],['../structCCC_1_1DdpSingleRigidBody_1_1RefData.html',1,'CCC::DdpSingleRigidBody::RefData'],['../structCCC_1_1FootGuidedControl_1_1RefData.html',1,'CCC::FootGuidedControl::RefData'],['../structCCC_1_1IntrinsicallyStableMpc1d_1_1RefData.html',1,'CCC::IntrinsicallyStableMpc1d::RefData'],['../structCCC_1_1PreviewControlCentroidal_1_1RefData.html',1,'CCC::PreviewControlCentroidal::RefData'],['../structCCC_1_1DcmTracking_1_1RefData.html',1,'CCC::DcmTracking::RefData']]]
 ];

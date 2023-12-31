@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['planneddata_223',['PlannedData',['../structCCC_1_1DdpZmp_1_1PlannedData.html',1,'CCC::DdpZmp']]],
-  ['previewcontrol_224',['PreviewControl',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
-  ['previewcontrol_3c_203_2c_201_2c_201_20_3e_225',['PreviewControl&lt; 3, 1, 1 &gt;',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
-  ['previewcontrol_3c_203_2c_201_2c_202_20_3e_226',['PreviewControl&lt; 3, 1, 2 &gt;',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
-  ['previewcontrolcentroidal_227',['PreviewControlCentroidal',['../classCCC_1_1PreviewControlCentroidal.html',1,'CCC']]],
-  ['previewcontrolcentroidal1d_228',['PreviewControlCentroidal1d',['../classCCC_1_1PreviewControlCentroidal1d.html',1,'CCC']]],
-  ['previewcontrolzmp_229',['PreviewControlZmp',['../classCCC_1_1PreviewControlZmp.html',1,'CCC']]],
-  ['previewcontrolzmp1d_230',['PreviewControlZmp1d',['../classCCC_1_1PreviewControlZmp1d.html',1,'CCC']]]
+  ['model_235',['Model',['../classCCC_1_1LinearMpcXY_1_1Model.html',1,'CCC::LinearMpcXY']]],
+  ['modelcontactphase_236',['ModelContactPhase',['../classCCC_1_1LinearMpcZ_1_1ModelContactPhase.html',1,'CCC::LinearMpcZ']]],
+  ['modelnoncontactphase_237',['ModelNoncontactPhase',['../classCCC_1_1LinearMpcZ_1_1ModelNoncontactPhase.html',1,'CCC::LinearMpcZ']]],
+  ['motionparam_238',['MotionParam',['../structCCC_1_1LinearMpcXY_1_1MotionParam.html',1,'CCC::LinearMpcXY::MotionParam'],['../structCCC_1_1DdpCentroidal_1_1MotionParam.html',1,'CCC::DdpCentroidal::MotionParam'],['../structCCC_1_1DdpSingleRigidBody_1_1MotionParam.html',1,'CCC::DdpSingleRigidBody::MotionParam'],['../structCCC_1_1PreviewControlCentroidal_1_1MotionParam.html',1,'CCC::PreviewControlCentroidal::MotionParam']]]
 ];

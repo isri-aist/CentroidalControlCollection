@@ -1,4 +1,11 @@
 var searchData=
 [
-  ['refdata_231',['RefData',['../structCCC_1_1LinearMpcZmp1d_1_1RefData.html',1,'CCC::LinearMpcZmp1d::RefData'],['../structCCC_1_1IntrinsicallyStableMpc_1_1RefData.html',1,'CCC::IntrinsicallyStableMpc::RefData'],['../structCCC_1_1PreviewControlCentroidal_1_1RefData.html',1,'CCC::PreviewControlCentroidal::RefData'],['../structCCC_1_1DdpCentroidal_1_1RefData.html',1,'CCC::DdpCentroidal::RefData'],['../structCCC_1_1DcmTracking_1_1RefData.html',1,'CCC::DcmTracking::RefData'],['../structCCC_1_1DdpZmp_1_1RefData.html',1,'CCC::DdpZmp::RefData'],['../structCCC_1_1LinearMpcZmp_1_1RefData.html',1,'CCC::LinearMpcZmp::RefData'],['../structCCC_1_1FootGuidedControl1d_1_1RefData.html',1,'CCC::FootGuidedControl1d::RefData'],['../structCCC_1_1DdpSingleRigidBody_1_1RefData.html',1,'CCC::DdpSingleRigidBody::RefData'],['../structCCC_1_1LinearMpcXY_1_1RefData.html',1,'CCC::LinearMpcXY::RefData'],['../structCCC_1_1FootGuidedControl_1_1RefData.html',1,'CCC::FootGuidedControl::RefData'],['../structCCC_1_1IntrinsicallyStableMpc1d_1_1RefData.html',1,'CCC::IntrinsicallyStableMpc1d::RefData']]]
+  ['planneddata_239',['PlannedData',['../structCCC_1_1StepMpc_1_1PlannedData.html',1,'CCC::StepMpc::PlannedData'],['../structCCC_1_1DdpZmp_1_1PlannedData.html',1,'CCC::DdpZmp::PlannedData'],['../structCCC_1_1StepMpc1d_1_1PlannedData.html',1,'CCC::StepMpc1d::PlannedData']]],
+  ['previewcontrol_240',['PreviewControl',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
+  ['previewcontrol_3c_203_2c_201_2c_201_20_3e_241',['PreviewControl&lt; 3, 1, 1 &gt;',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
+  ['previewcontrol_3c_203_2c_201_2c_202_20_3e_242',['PreviewControl&lt; 3, 1, 2 &gt;',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
+  ['previewcontrolcentroidal_243',['PreviewControlCentroidal',['../classCCC_1_1PreviewControlCentroidal.html',1,'CCC']]],
+  ['previewcontrolcentroidal1d_244',['PreviewControlCentroidal1d',['../classCCC_1_1PreviewControlCentroidal1d.html',1,'CCC']]],
+  ['previewcontrolzmp_245',['PreviewControlZmp',['../classCCC_1_1PreviewControlZmp.html',1,'CCC']]],
+  ['previewcontrolzmp1d_246',['PreviewControlZmp1d',['../classCCC_1_1PreviewControlZmp1d.html',1,'CCC']]]
 ];

@@ -1,0 +1,4 @@
+<map id="CCC::StepMpc1d" name="CCC::StepMpc1d">
+<area shape="rect" id="node1" title="Linear MPC based on one&#45;dimensional discrete dynamics on step switching." alt="" coords="52,95,181,121"/>
+<area shape="rect" id="node2" href="$structCCC_1_1StepMpc1d_1_1WeightParam.html" title="Weight parameter." alt="" coords="5,5,228,32"/>
+</map>

@@ -3,10 +3,11 @@
 <area shape="rect" id="node2" href="$CommonModels_8h.html" title=" " alt="" coords="406,124,703,195"/>
 <area shape="rect" id="node5" href="$InvariantSequentialExtension_8h.html" title=" " alt="" coords="5,124,381,195"/>
 <area shape="rect" id="node6" href="$PreviewControl_8h.html" title=" " alt="" coords="727,124,1025,195"/>
-<area shape="rect" id="node8" href="$VariantSequentialExtension_8h.html" title=" " alt="" coords="1063,124,1427,195"/>
-<area shape="rect" id="node3" href="$LinearMpcZmp_8h.html" title=" " alt="" coords="53,243,350,313"/>
-<area shape="rect" id="node4" href="$PreviewControlZmp_8h.html" title=" " alt="" coords="383,243,697,313"/>
-<area shape="rect" id="node7" href="$PreviewControlCentroidal_8h.html" title=" " alt="" coords="722,243,1073,313"/>
-<area shape="rect" id="node9" href="$LinearMpcXY_8h.html" title=" " alt="" coords="1097,243,1394,313"/>
-<area shape="rect" id="node10" href="$LinearMpcZ_8h.html" title=" " alt="" coords="1418,243,1715,313"/>
+<area shape="rect" id="node8" href="$VariantSequentialExtension_8h.html" title=" " alt="" coords="1209,124,1573,195"/>
+<area shape="rect" id="node3" href="$LinearMpcZmp_8h.html" title=" " alt="" coords="59,243,357,313"/>
+<area shape="rect" id="node4" href="$PreviewControlZmp_8h.html" title=" " alt="" coords="389,243,704,313"/>
+<area shape="rect" id="node7" href="$PreviewControlCentroidal_8h.html" title=" " alt="" coords="729,243,1079,313"/>
+<area shape="rect" id="node9" href="$LinearMpcXY_8h.html" title=" " alt="" coords="1103,243,1401,313"/>
+<area shape="rect" id="node10" href="$LinearMpcZ_8h.html" title=" " alt="" coords="1425,243,1722,313"/>
+<area shape="rect" id="node11" href="$StepMpc_8h.html" title=" " alt="" coords="1746,243,2043,313"/>
 </map>
