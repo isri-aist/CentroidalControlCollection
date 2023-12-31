@@ -107,6 +107,16 @@ $ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method
 
 ![FootGuidedControl](doc/images/FootGuidedControl.png)
 
+#### [StepMpc](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1StepMpc.html)
+- S Xin, et al. Online relative footstep optimization for legged robots dynamic walking using discrete-time model predictive control. IROS, 2019.
+
+```bash
+$ rosrun centroidal_control_collection TestStepMpc
+$ rosrun centroidal_control_collection plotTestZmpBasedMethodResults.py --method StepMpc
+```
+
+![StepMpc](doc/images/StepMpc.png)
+
 #### [LinearMpcZmp](https://isri-aist.github.io/CentroidalControlCollection/doxygen/classCCC_1_1LinearMpcZmp.html)
 - PB Wieber. Trajectory Free Linear Model Predictive Control for Stable Walking in the Presence of Strong Perturbations. Humanoids, 2006.
 
