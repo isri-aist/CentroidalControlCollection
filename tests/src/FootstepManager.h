@@ -13,6 +13,7 @@
 #include <CCC/FootGuidedControl.h>
 #include <CCC/IntrinsicallyStableMpc.h>
 #include <CCC/LinearMpcZmp.h>
+#include <CCC/StepMpc.h>
 #include <CCC/console.h>
 
 /** \brief Foot. */
@@ -375,6 +376,74 @@ public:
     CCC::IntrinsicallyStableMpc::RefData ref_data;
     ref_data.zmp = refZmp(t);
     ref_data.zmp_limits = zmpLimits(t);
+    return ref_data;
+  }
+
+  /** \brief Make StepMpc::RefData instance.
+      \param current_time current time
+  */
+  inline CCC::StepMpc::RefData makeStepMpcRefData(double current_time) const
+  {
+    // Add small values to avoid numerical instability at inequality bounds
+    constexpr double epsilon_t = 1e-6;
+    current_time -= epsilon_t;
+
+    CCC::StepMpc::RefData ref_data;
+    constexpr double constant_zmp_duration = 0.2; // [sec]
+    constexpr double horizon_duration = 3.0; // [sec]
+    if(footstep_list_.size() == 0)
+    {
+      CCC::StepMpc::RefData::Element element;
+      element.is_single_support = false;
+      element.zmp = footstance_.midPos();
+      element.end_time = current_time + constant_zmp_duration;
+      ref_data.element_list.push_back(element);
+    }
+    else
+    {
+      Footstance tmp_footstance = footstance_;
+      if(current_time < footstep_list_.front().swing_start_time)
+      {
+        CCC::StepMpc::RefData::Element element;
+        element.is_single_support = false;
+        element.zmp = tmp_footstance.midPos();
+        element.end_time = footstep_list_.front().swing_start_time;
+        ref_data.element_list.push_back(element);
+      }
+      for(size_t i = 0; i < footstep_list_.size(); i++)
+      {
+        const auto & footstep = footstep_list_[i];
+        if(i > 0 || current_time < footstep.swing_end_time)
+        {
+          CCC::StepMpc::RefData::Element element;
+          element.is_single_support = true;
+          element.zmp = tmp_footstance.at(opposite(footstep.foot));
+          element.end_time = footstep.swing_end_time;
+          ref_data.element_list.push_back(element);
+
+          tmp_footstance.at(footstep.foot) = footstep.pos;
+        }
+        {
+          CCC::StepMpc::RefData::Element element;
+          element.is_single_support = false;
+          element.zmp = tmp_footstance.midPos();
+          if(i == footstep_list_.size() - 1)
+          {
+            element.end_time = footstep.transit_end_time;
+          }
+          else
+          {
+            element.end_time = footstep_list_[i + 1].swing_start_time;
+          }
+          ref_data.element_list.push_back(element);
+        }
+
+        if(ref_data.element_list.back().end_time > current_time + horizon_duration)
+        {
+          break;
+        }
+      }
+    }
     return ref_data;
   }
 

@@ -100,6 +100,7 @@ if __name__ == "__main__":
         "DdpZmp",
         "DcmTracking",
         "FootGuidedControl",
+        "StepMpc",
         "LinearMpcZmp",
         "IntrinsicallyStableMpc",
         "SingularPreviewControlZmp"
