@@ -2,8 +2,9 @@
 
 #pragma once
 
-#include <CCC/VariantSequentialExtension.h>
 #include <optional>
+
+#include <CCC/VariantSequentialExtension.h>
 
 namespace CCC
 {
