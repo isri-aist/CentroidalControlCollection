@@ -3,6 +3,7 @@
 #pragma once
 
 #include <CCC/VariantSequentialExtension.h>
+#include <optional>
 
 namespace CCC
 {
