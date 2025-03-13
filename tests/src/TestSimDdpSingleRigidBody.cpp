@@ -48,7 +48,8 @@ public:
     initial_param_.pos = Eigen::Vector3d(0.0, 0.0, 1.0);
 
     // Setup contact
-    std::function<CCC::DdpSingleRigidBody::MotionParam(double)> motion_param_func = [this](double t) {
+    std::function<CCC::DdpSingleRigidBody::MotionParam(double)> motion_param_func = [this](double t)
+    {
       CCC::DdpSingleRigidBody::MotionParam motion_param;
       Eigen::Vector2d contact_pos = Eigen::Vector2d::Zero();
       if(forward_duration_ && (*forward_duration_)[0] <= t && t <= (*forward_duration_)[1])
@@ -63,7 +64,8 @@ public:
       motion_param.inertia_mat.diagonal() = moment_of_inertia_;
       return motion_param;
     };
-    std::function<CCC::DdpSingleRigidBody::RefData(double)> ref_data_func = [this](double t) {
+    std::function<CCC::DdpSingleRigidBody::RefData(double)> ref_data_func = [this](double t)
+    {
       CCC::DdpSingleRigidBody::RefData ref_data;
       ref_data.pos << 0.0, 0.0, 1.0;
       if(forward_duration_ && (*forward_duration_)[0] <= t && t <= (*forward_duration_)[1])
