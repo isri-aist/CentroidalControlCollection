@@ -1,0 +1,139 @@
+name: CI of CentroidalControlCollection (colcon)
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+
+  clang-format:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Install clang-format-14
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -qq install clang-format-14
+      - name: Run clang-format-check
+        run: |
+          ./.clang-format-check.sh
+
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04]
+        build-type: [Debug, RelWithDebInfo]
+        standalone: [standalone, colcon]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set environment variables
+        run: |
+          set -e
+          set -x
+          echo "LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV 
+          if [ "${{ matrix.os }}" == "ubuntu-22.04" ] && \
+             [ "${{ matrix.build-type }}" == "RelWithDebInfo" ] && \
+             [ "${{ matrix.standalone }}" == "colcon" ] &&  \
+             [ "${{ github.repository_owner }}" == "isri-aist" ] && \
+             [ "${{ github.ref }}" == "refs/heads/master" ]
+          then
+            echo "UPLOAD_DOCUMENTATION=true" >> $GITHUB_ENV
+            sudo apt-get install -qq doxygen graphviz
+          else
+            echo "UPLOAD_DOCUMENTATION=false" >> $GITHUB_ENV
+          fi
+      - name: Install ROS2
+        if: matrix.standalone == 'colcon'
+        uses: jrl-umi3218/github-actions/install-dependencies@master
+        with:
+          ros: |
+            apt: ros-base
+      - name: Install Dependencies
+        uses: jrl-umi3218/github-actions/install-dependencies@master
+        with:
+          build-type: ${{ matrix.build-type }}
+          ubuntu: |
+            apt-mirrors:
+              mc-rtc:
+                cloudsmith: mc-rtc/head
+            apt: libgtest-dev libeigen-qld-dev libmc-rtc-dev
+
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          path: colcon_ws/src/CentroidalControlCollection
+      - name: Checkout QpSolverCollection
+        uses: actions/checkout@v3
+        with:
+          repository: isri-aist/QpSolverCollection
+          path: colcon_ws/src/QpSolverCollection
+      - name: Checkout ForceControlCollection
+        uses: actions/checkout@v3
+        with:
+          repository: isri-aist/ForceControlCollection
+          path: colcon_ws/src/ForceControlCollection
+      - name: Checkout NMPC
+        uses: actions/checkout@v3
+        with:
+          repository: isri-aist/NMPC
+          submodules: recursive
+          path: colcon_ws/src/NMPC
+      - name: Rosdep install
+        run: |
+          set -e
+          set -x
+          cd ${GITHUB_WORKSPACE}/colcon_ws
+          set +x
+          . install/setup.bash
+          set -x
+          sudo rosdep init
+          rosdep update
+          rosdep install -y -r --from-paths src --ignore-src
+      - name: Colcon build
+        run: |
+          set -e
+          set -x
+          cd ${GITHUB_WORKSPACE}/colcon_ws
+          set +x
+          . install/setup.bash
+          set -x
+          colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=ON
+      - name: Run tests
+        run: |
+          set -e
+          set -x
+          cd ${GITHUB_WORKSPACE}/colcon_ws
+          set +x
+          . install/setup.bash
+          set -x
+          colcon test --merge-install --packages-select centroidal_control_collection
+          colcon test-result --all --verbose
+      - name: Upload documentation
+        # Only run for one configuration and on origin master branch
+        if: matrix.os == 'ubuntu-20.04' && matrix.build-type == 'RelWithDebInfo' && matrix.mc-rtc-version == 'head' && github.repository_owner == 'isri-aist' && github.ref == 'refs/heads/master'
+        run: |
+          set -e
+          set -x
+          cd ${GITHUB_WORKSPACE}/colcon_ws/src/${{ github.repository }}
+          git config --global user.name "Masaki Murooka"
+          git config --global user.email "m-murooka@aist.go.jp"
+          git remote set-url origin "https://mmurooka:${{ secrets.CI_TOKEN }}@github.com/isri-aist/CentroidalControlCollection"
+          git fetch --depth=1 origin gh-pages:gh-pages
+          git checkout --quiet gh-pages
+          rm -rf doxygen/ cmake/
+          cp -r ${GITHUB_WORKSPACE}/colcon_ws/build/centroidal_control_collection/doc/html/ doxygen
+          git add doxygen
+          git_status=`git status -s`
+          if test -n "$git_status"; then
+            git commit --quiet -m "Update Doxygen HTML files from commit ${{ github.sha }}"
+            git push origin gh-pages
+          else
+            echo "Github pages documentation is already up-to-date."
+          fi
