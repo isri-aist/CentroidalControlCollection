@@ -29,7 +29,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04]
         build-type: [Debug, RelWithDebInfo]
-        standalone: [standalone, colcon]
+        standalone: [colcon]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set environment variables
@@ -101,7 +101,7 @@ jobs:
           set -e
           set -x
           cd ${GITHUB_WORKSPACE}/colcon_ws
-          colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=ON
+          colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=${{ env.UPLOAD_DOCUMENTATION }}
       - name: Run tests
         run: |
           set -e
