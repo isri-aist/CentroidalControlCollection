@@ -28,7 +28,8 @@ TEST(TestPreviewControlCentroidal, PlanOnce)
   CCC::PreviewControlCentroidal pc(mass, moment_of_inertia, horizon_duration, horizon_dt);
 
   // Setup contact
-  std::function<CCC::PreviewControlCentroidal::MotionParam(double)> motion_param_func = [](double t) {
+  std::function<CCC::PreviewControlCentroidal::MotionParam(double)> motion_param_func = [](double t)
+  {
     // Add small values to avoid numerical instability at inequality bounds
     constexpr double epsilon_t = 1e-6;
     t += epsilon_t;
@@ -50,7 +51,8 @@ TEST(TestPreviewControlCentroidal, PlanOnce)
     }
     return motion_param;
   };
-  std::function<CCC::PreviewControlCentroidal::RefData(double)> ref_data_func = [](double t) {
+  std::function<CCC::PreviewControlCentroidal::RefData(double)> ref_data_func = [](double t)
+  {
     // Add small values to avoid numerical instability at inequality bounds
     constexpr double epsilon_t = 1e-6;
     t += epsilon_t;
