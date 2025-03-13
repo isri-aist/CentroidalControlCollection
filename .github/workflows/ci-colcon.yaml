@@ -90,10 +90,10 @@ jobs:
           set -e
           set -x
           cd ${GITHUB_WORKSPACE}/colcon_ws
-          set +x
-          . install/setup.bash
-          set -x
-          sudo rosdep init
+          if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]
+          then
+            sudo rosdep init
+          fi
           rosdep update
           rosdep install -y -r --from-paths src --ignore-src
       - name: Colcon build
@@ -101,9 +101,6 @@ jobs:
           set -e
           set -x
           cd ${GITHUB_WORKSPACE}/colcon_ws
-          set +x
-          . install/setup.bash
-          set -x
           colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=ON
       - name: Run tests
         run: |
