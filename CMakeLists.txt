@@ -98,6 +98,6 @@ if(USE_ROS2)
     force_control_collection
     nmpc_ddp
   )
-  ament_export_targets(CCC)
+  ament_export_targets(${PROJECT_NAME})
   ament_package()
 endif() 
