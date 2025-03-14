@@ -17,19 +17,17 @@ option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 
 project(centroidal_control_collection LANGUAGES CXX)
 
+find_package(mc_rtc REQUIRED)
+find_package(qp_solver_collection REQUIRED)
+find_package(force_control_collection REQUIRED)
+find_package(nmpc_ddp REQUIRED)
+
 if(USE_ROS2)
   # mc_rtc
-  find_package(mc_rtc REQUIRED)
-
+  find_package(ament_cmake REQUIRED)
   find_package(rclcpp REQUIRED)
-  find_package(qp_solver_collection REQUIRED)
-  find_package(force_control_collection REQUIRED)
-  find_package(nmpc_ddp REQUIRED)
 else()
-  set(BUILD_TESTING OFF)
-  find_package(qp_solver_collection REQUIRED)
-  find_package(force_control_collection REQUIRED)
-  find_package(nmpc_ddp REQUIRED)
+  option(BUILD_TESTING "Build test" ON)
 endif()
 
 add_subdirectory(src)
