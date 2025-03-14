@@ -67,7 +67,6 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
         with:
-          submodules: recursive
           path: colcon_ws/src/CentroidalControlCollection
       - name: Checkout QpSolverCollection
         uses: actions/checkout@v3
