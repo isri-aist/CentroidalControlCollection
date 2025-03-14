@@ -47,7 +47,6 @@ if(NOT USE_ROS2)
 \@PACKAGE_INIT\@
 
 include(\"\${CMAKE_CURRENT_LIST_DIR}/\@PROJECT_NAME\@Targets.cmake\")
-include(\"\${CMAKE_CURRENT_LIST_DIR}/qp_solver_options.cmake\")
 
 set(\@PROJECT_NAME\@_LIBRARIES \@PROJECT_NAME\@::CCC)
 ")
@@ -78,7 +77,6 @@ set(\@PROJECT_NAME\@_LIBRARIES \@PROJECT_NAME\@::CCC)
   install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    "${QP_SOLVER_OPTIONS_CMAKE_FILE}"
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
     )
 endif()
