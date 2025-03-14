@@ -34,7 +34,8 @@ TEST(TestDdpSingleRigidBody, PlanOnce)
   CCC::DdpSingleRigidBody ddp(mass, horizon_dt, horizon_steps, weight_param);
 
   // Setup contact
-  std::function<CCC::DdpSingleRigidBody::MotionParam(double)> motion_param_func = [moment_of_inertia](double t) {
+  std::function<CCC::DdpSingleRigidBody::MotionParam(double)> motion_param_func = [moment_of_inertia](double t)
+  {
     // Add small values to avoid numerical instability at inequality bounds
     constexpr double epsilon_t = 1e-6;
     t += epsilon_t;
@@ -55,7 +56,8 @@ TEST(TestDdpSingleRigidBody, PlanOnce)
     motion_param.inertia_mat.diagonal() = moment_of_inertia;
     return motion_param;
   };
-  std::function<CCC::DdpSingleRigidBody::RefData(double)> ref_data_func = [](double t) {
+  std::function<CCC::DdpSingleRigidBody::RefData(double)> ref_data_func = [](double t)
+  {
     // Add small values to avoid numerical instability at inequality bounds
     constexpr double epsilon_t = 1e-6;
     t += epsilon_t;
@@ -202,14 +204,16 @@ TEST(TestDdpSingleRigidBody, CheckDerivatives)
   auto ddp_problem = std::make_shared<CCC::DdpSingleRigidBody::DdpProblem>(horizon_dt, mass, weight_param);
 
   std::function<CCC::DdpSingleRigidBody::MotionParam(double)> motion_param_func = [](double // t
-                                                                                  ) {
+                                                                                  )
+  {
     CCC::DdpSingleRigidBody::MotionParam motion_param;
     motion_param.contact_list.push_back(makeContactFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)}));
     motion_param.inertia_mat.diagonal() << 15.0, 10.0, 5.0;
     return motion_param;
   };
   std::function<CCC::DdpSingleRigidBody::RefData(double)> ref_data_func = [](double // t
-                                                                          ) {
+                                                                          )
+  {
     CCC::DdpSingleRigidBody::RefData ref_data;
     ref_data.pos << 0.1, -0.2, 1.0; // [m]
     ref_data.ori << -0.1, 0.2, -0.3; // [rad]

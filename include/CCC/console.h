@@ -6,8 +6,8 @@
 #  define CCC_WARN_STREAM(x) std::cerr << x << "\n"
 #  define CCC_INFO_STREAM(x) std::cout << x << "\n"
 #else
-#  include <ros/console.h>
-#  define CCC_ERROR_STREAM ROS_ERROR_STREAM
-#  define CCC_WARN_STREAM ROS_WARN_STREAM
-#  define CCC_INFO_STREAM ROS_INFO_STREAM
+#  include <rclcpp/rclcpp.hpp>
+#  define CCC_ERROR_STREAM(msg) RCLCPP_ERROR_STREAM(rclcpp::get_logger("CentroidalControlCollection"), msg)
+#  define CCC_WARN_STREAM(msg) RCLCPP_WARN_STREAM(rclcpp::get_logger("CentroidalControlCollection"), msg)
+#  define CCC_INFO_STREAM(msg) RCLCPP_INFO_STREAM(rclcpp::get_logger("CentroidalControlCollection"), msg)
 #endif
