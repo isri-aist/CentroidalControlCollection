@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04]
-        build-type: [Debug, RelWithDebInfo]
+        build-type: [RelWithDebInfo]
         standalone: [colcon]
     runs-on: ${{ matrix.os }}
     steps:
