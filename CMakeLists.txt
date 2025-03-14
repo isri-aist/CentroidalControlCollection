@@ -34,6 +34,55 @@ endif()
 
 add_subdirectory(src)
 
+if(NOT USE_ROS2)
+  install(EXPORT ${PROJECT_NAME}
+    FILE ${PROJECT_NAME}Targets.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    NAMESPACE ${PROJECT_NAME}::
+    )
+
+  # Write initial config cmake file
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/Config.cmake.in"
+"
+\@PACKAGE_INIT\@
+
+include(\"\${CMAKE_CURRENT_LIST_DIR}/\@PROJECT_NAME\@Targets.cmake\")
+include(\"\${CMAKE_CURRENT_LIST_DIR}/qp_solver_options.cmake\")
+
+set(\@PROJECT_NAME\@_LIBRARIES \@PROJECT_NAME\@::CCC)
+")
+
+  include(CMakePackageConfigHelpers)
+  # generate the config file that is includes the exports
+  configure_package_config_file(${CMAKE_CURRENT_BINARY_DIR}/Config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION "lib/cmake/${PROJECT_NAME}"
+    NO_SET_AND_CHECK_MACRO
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    )
+
+  # generate the version file for the config file
+  # Extract version numbers from package.xml
+  file(READ package.xml PACKAGE_XML)
+  string(REGEX MATCH "<version>[0-9]+\\.[0-9]+\\.[0-9]+</version>" DIRTY_VERSION_STRING ${PACKAGE_XML})
+  string(REGEX REPLACE "^<version>([0-9]+)\\.([0-9]+)\\.([0-9]+)</version>$" "\\1" CCC_MAJOR_VERSION "${DIRTY_VERSION_STRING}")
+  string(REGEX REPLACE "^<version>([0-9]+)\\.([0-9]+)\\.([0-9]+)</version>$" "\\2" CCC_MINOR_VERSION "${DIRTY_VERSION_STRING}")
+  string(REGEX REPLACE "^<version>([0-9]+)\\.([0-9]+)\\.([0-9]+)</version>$" "\\3" CCC_PATCH_VERSION "${DIRTY_VERSION_STRING}")
+  write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION "${CCC_MAJOR_VERSION}.${CCC_MINOR_VERSION}.${CCC_PATCH_VERSION}"
+    COMPATIBILITY AnyNewerVersion
+    )
+
+  # install config files
+  install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    "${QP_SOLVER_OPTIONS_CMAKE_FILE}"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    )
+endif()
+
 if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
