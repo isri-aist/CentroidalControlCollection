@@ -10,12 +10,12 @@
   <url>http://ros.org/wiki/centroidal_control_collection</url>
   <author>Masaki Murooka</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
   <depend>qp_solver_collection</depend>
   <depend>force_control_collection</depend>
-  <depend>nmpc_ddp</depend>
+  <depend>NMPC</depend>
 
   <build_depend>eigen</build_depend>
 
