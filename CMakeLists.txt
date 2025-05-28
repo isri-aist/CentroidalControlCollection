@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.10)
 
 set(PROJECT_NAME centroidal_control_collection)
 set(PROJECT_GENERATED_HEADERS_SKIP_DEPRECATED ON)
