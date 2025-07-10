@@ -1,4 +1,4 @@
-add_library(CCC
+add_library(CCC SHARED
   CommonModels.cpp
   PreviewControlZmp.cpp
   DdpZmp.cpp
