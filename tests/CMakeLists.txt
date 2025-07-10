@@ -33,18 +33,19 @@ foreach(NAME IN LISTS CCC_gtest_list)
   add_CCC_test(${NAME})
 endforeach()
 
-option(ENABLE_PYBULLET_TEST "Enable tests with pybullet simulation" OFF)
-# if(ENABLE_PYBULLET_TEST)
-#   find_package(rostest REQUIRED)
+if(ENABLE_PYBULLET_TEST)
+  if(USE_ROS2)
+    find_package(launch_testing_ament_cmake)
+    ament_add_gtest(TestSimDdpSingleRigidBody src/TestSimDdpSingleRigidBody.cpp TIMEOUT 600)
+    ament_target_dependencies(TestSimDdpSingleRigidBody
+      rclcpp
+      std_msgs
+      std_srvs
+    )
 
-#   set(CCC_rostest_list
-#     TestSimDdpSingleRigidBody
-#   )
-
-#   if(USE_ROS2)
-#     foreach(NAME IN LISTS CCC_rostest_list)
-#       add_rostest_gtest(${NAME} test/${NAME}.test src/${NAME}.cpp)
-#       target_link_libraries(${NAME} CCC)
-#     endforeach()
-#   endif()
-# endif()
+    target_link_libraries(TestSimDdpSingleRigidBody CCC)
+    install(TARGETS TestSimDdpSingleRigidBody DESTINATION lib/${PROJECT_NAME})
+    add_launch_test(scripts/simSingleRigidBody.py)
+    install(DIRECTORY scripts DESTINATION share/${PROJECT_NAME}/tests)
+  endif()
+endif()

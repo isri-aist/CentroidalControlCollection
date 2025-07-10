@@ -1,16 +1,41 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import numpy as np
 import pybullet
 import pybullet_data
+import unittest
+import sys
 
-import rospy
-from tf import transformations
+import rclpy
+from tf_transformations import quaternion_from_euler, euler_from_quaternion
 from std_msgs.msg import Float64MultiArray
+import launch
+import launch_testing
+import pytest
+from launch_ros.actions import Node
 
+@pytest.mark.launch_test
+def generate_test_description():
+    test_sim_ddp_srb = Node(
+        package='centroidal_control_collection',
+        executable='TestSimDdpSingleRigidBody',
+        name='test_sim_ddp_srb',
+        output='screen'
+    )
+
+    content = {}
+
+    return (
+        launch.LaunchDescription([
+            test_sim_ddp_srb,
+            launch_testing.actions.ReadyToTest(),
+        ]),
+        content
+    )
 
 class SimSingleRigidBody(object):
     def __init__(self, enable_gui=True):
+        self.node = rclpy.create_node("sim")
         # Instantiate simulator
         if enable_gui:
             pybullet.connect(pybullet.GUI)
@@ -56,8 +81,8 @@ class SimSingleRigidBody(object):
         self.force_line_uid_list = []
 
         # Setup ROS
-        self.state_pub = rospy.Publisher("state", Float64MultiArray, queue_size=1)
-        self.control_sub = rospy.Subscriber("control", Float64MultiArray, self.callback, queue_size=1)
+        self.state_pub = self.node.create_publisher(Float64MultiArray, "state", 1)
+        self.control_sub = self.node.create_subscription(Float64MultiArray, "control", self.callback, 1)
 
     def runOnce(self):
         """"Run simulation step once."""
@@ -106,15 +131,15 @@ class SimSingleRigidBody(object):
     def getState(self):
         """"Get state [c, alpha, v, omega]."""
         c, quat = pybullet.getBasePositionAndOrientation(bodyUniqueId=self.body_uid)
-        alpha = transformations.euler_from_quaternion(quat, axes="rzyx")
+        alpha = euler_from_quaternion(quat, axes="rzyx")
         v, omega = pybullet.getBaseVelocity(bodyUniqueId=self.body_uid)
-        return np.array([c, alpha, v, omega]).flatten()
+        return np.array([c, alpha, v, omega]).flatten().tolist()
 
     def setState(self, state):
         """Set state [c, alpha, v, omega]."""
         pybullet.resetBasePositionAndOrientation(bodyUniqueId=self.body_uid,
                                                  posObj=state[0:3],
-                                                 ornObj=transformations.quaternion_from_euler(*state[3:6], axes="rzyx"))
+                                                 ornObj=quaternion_from_euler(*state[3:6], axes="rzyx"))
         pybullet.resetBaseVelocity(objectUniqueId=self.body_uid,
                                    linearVelocity=state[6:9],
                                    angularVelocity=state[9:12])
@@ -129,7 +154,7 @@ def demo():
     sim = SimSingleRigidBody(True)
 
     t = 0.0 # [sec]
-    rate = rospy.Rate(1.0 / sim.dt)
+    rate = sim.node.create_rate(1.0 / sim.dt)
     while pybullet.isConnected():
         # Run simulation step
         sim.runOnce()
@@ -138,7 +163,10 @@ def demo():
         rate.sleep()
         t += sim.dt
 
+class TestSimSingleRigidBody(unittest.TestCase):
+    def __init__(self, *args):
+        super().__init__(*args)
 
-if __name__ == "__main__":
-    rospy.init_node("sim")
-    demo()
+    def test(self):
+        rclpy.init(args=sys.argv)
+        demo()

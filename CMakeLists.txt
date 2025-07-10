@@ -14,6 +14,7 @@ set(CMAKE_COLOR_DIAGNOSTICS ON)
 option(INSTALL_DOCUMENTATION "Generate and install the documentation" OFF)
 option(USE_ROS2 "Use ROS2" OFF)
 option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
+option(ENABLE_PYBULLET_TEST "Enable tests with pybullet simulation" OFF)
 
 project(centroidal_control_collection LANGUAGES CXX)
 include(GNUInstallDirs) # For CMAKE_INSTALL_LIBDIR
@@ -80,13 +81,12 @@ endif()
 
 if(USE_ROS2)
   ament_export_include_directories(include)
-  ament_export_libraries(CCC)
   ament_export_dependencies(
     rclcpp
     qp_solver_collection
     force_control_collection
     nmpc_ddp
   )
-  ament_export_targets(${PROJECT_NAME})
+  ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
   ament_package()
 endif() 
