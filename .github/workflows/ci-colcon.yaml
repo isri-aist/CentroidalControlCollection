@@ -97,7 +97,6 @@ jobs:
         with:
           build-type: ${{ matrix.build-type }}
           cmake-args: -DUSE_ROS2=ON -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=${{ env.UPLOAD_DOCUMENTATION }}
-          build-packages: centroidal_control_collection
           test-packages: centroidal_control_collection
       - name: Upload documentation
         # Only run for one configuration and on origin master branch
