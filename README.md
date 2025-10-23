@@ -5,7 +5,7 @@ This is the branch for ROS2; use the [ros1](https://github.com/isri-aist/Centroi
 Collection of centroidal control for legged robots
 
 [![CI-standalone](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-standalone.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-standalone.yaml)
-[![CI-colcon](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-catkin.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-colcon.yaml)
+[![CI-colcon](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-colcon.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-colcon.yaml)
 [![Documentation](https://img.shields.io/badge/doxygen-online-brightgreen?logo=read-the-docs&style=flat)](https://isri-aist.github.io/CentroidalControlCollection/)
 
 ## Install
