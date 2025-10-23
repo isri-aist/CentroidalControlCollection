@@ -1,3 +1,5 @@
+**This is the branch for ROS1.**
+
 # [CentroidalControlCollection](https://github.com/isri-aist/CentroidalControlCollection)
 Collection of centroidal control for legged robots
 
