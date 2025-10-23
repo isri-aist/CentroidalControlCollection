@@ -1,8 +1,11 @@
+This is the branch for ROS2; use the [ros1](https://github.com/isri-aist/CentroidalControlCollection/tree/ros1) branch for ROS1.
+
+
 # [CentroidalControlCollection](https://github.com/isri-aist/CentroidalControlCollection)
 Collection of centroidal control for legged robots
 
 [![CI-standalone](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-standalone.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-standalone.yaml)
-[![CI-catkin](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-catkin.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-catkin.yaml)
+[![CI-colcon](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-catkin.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-colcon.yaml)
 [![Documentation](https://img.shields.io/badge/doxygen-online-brightgreen?logo=read-the-docs&style=flat)](https://isri-aist.github.io/CentroidalControlCollection/)
 
 ## Install
@@ -60,11 +63,11 @@ $ rosdep install -y -r --from-paths src --ignore-src
 
 3. Build a package.
 ```bash
-$ colcon build --packages-select centroidal_control_collection --merge-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo 
+$ colcon build --packages-select centroidal_control_collection --merge-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_ROS2=ON
 $ colcon test --merge-install --packages-select centroidal_control_collection # [optional] to compile and run tests 
 ```
 
-## Examples
+## Examples (not yet suppported on Humble)
 Make sure that it is built with `-DBUILD_TESTING=ON` option.
 
 ### Methods based on bipedal dynamics
