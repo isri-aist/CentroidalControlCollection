@@ -26,7 +26,8 @@ TEST(TestLinearMpcXY, Test1)
   CCC::LinearMpcXY mpc(mass, horizon_dt, horizon_steps);
 
   // Setup contact
-  std::function<CCC::LinearMpcXY::MotionParam(double)> motion_param_func = [mass](double t) {
+  std::function<CCC::LinearMpcXY::MotionParam(double)> motion_param_func = [mass](double t)
+  {
     CCC::LinearMpcXY::MotionParam motion_param;
     motion_param.com_z = 1.0; // [m]
     motion_param.total_force_z = mass * CCC::constants::g; // [N]
@@ -54,7 +55,8 @@ TEST(TestLinearMpcXY, Test1)
     motion_param.contact_list.push_back(makeContactFromRect(rect_min_max));
     return motion_param;
   };
-  std::function<CCC::LinearMpcXY::RefData(double)> ref_data_func = [](double t) {
+  std::function<CCC::LinearMpcXY::RefData(double)> ref_data_func = [](double t)
+  {
     CCC::LinearMpcXY::RefData ref_data;
     if(t < 3.0)
     {

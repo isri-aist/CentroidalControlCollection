@@ -44,7 +44,8 @@ TEST(TestDdpZmp, Test1)
       Footstep(Foot::Left, Eigen::Vector2d(0.6, 0.1), 6.0, transit_duration, swing_duration));
   footstep_manager.appendFootstep(
       Footstep(Foot::Right, Eigen::Vector2d(0.6, -0.1), 7.0, transit_duration, swing_duration));
-  std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [&](double t) {
+  std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [&](double t)
+  {
     CCC::DdpZmp::RefData ref_data;
     ref_data.zmp << footstep_manager.refZmp(t), 0.0;
     ref_data.com_z = ref_com_height;
@@ -159,7 +160,8 @@ TEST(TestDdpZmp, CheckDerivatives)
   auto ddp_problem = std::make_shared<CCC::DdpZmp::DdpProblem>(horizon_dt, mass, weight_param);
 
   std::function<CCC::DdpZmp::RefData(double)> ref_data_func = [](double // t
-                                                              ) {
+                                                              )
+  {
     CCC::DdpZmp::RefData ref_data;
     ref_data.zmp << 0.1, -0.2, 0.3; // [m]
     ref_data.com_z = 1.0; // [m]

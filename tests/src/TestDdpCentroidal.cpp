@@ -32,7 +32,8 @@ TEST(TestDdpCentroidal, PlanOnce)
   CCC::DdpCentroidal ddp(mass, horizon_dt, horizon_steps, weight_param);
 
   // Setup contact
-  std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t) {
+  std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double t)
+  {
     // Add small values to avoid numerical instability at inequality bounds
     constexpr double epsilon_t = 1e-6;
     t += epsilon_t;
@@ -52,7 +53,8 @@ TEST(TestDdpCentroidal, PlanOnce)
     }
     return motion_param;
   };
-  std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double t) {
+  std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double t)
+  {
     // Add small values to avoid numerical instability at inequality bounds
     constexpr double epsilon_t = 1e-6;
     t += epsilon_t;
@@ -181,13 +183,15 @@ TEST(TestDdpCentroidal, CheckDerivatives)
   auto ddp_problem = std::make_shared<CCC::DdpCentroidal::DdpProblem>(horizon_dt, mass, weight_param);
 
   std::function<CCC::DdpCentroidal::MotionParam(double)> motion_param_func = [](double // t
-                                                                             ) {
+                                                                             )
+  {
     CCC::DdpCentroidal::MotionParam motion_param;
     motion_param.contact_list.push_back(makeContactFromRect({Eigen::Vector2d(-0.1, -0.1), Eigen::Vector2d(0.1, 0.1)}));
     return motion_param;
   };
   std::function<CCC::DdpCentroidal::RefData(double)> ref_data_func = [](double // t
-                                                                     ) {
+                                                                     )
+  {
     CCC::DdpCentroidal::RefData ref_data;
     ref_data.pos << 0.1, -0.2, 1.0; // [m]
     return ref_data;

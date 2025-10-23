@@ -199,13 +199,15 @@ DdpCentroidal::DdpCentroidal(double mass, double horizon_dt, int horizon_steps, 
   ddp_solver_->config().initial_lambda = 1e-6;
   ddp_solver_->config().lambda_min = 1e-8;
   ddp_solver_->config().lambda_thre = 1e-7;
-  ddp_solver_->setInputLimitsFunc([this](double t) -> std::array<Eigen::VectorXd, 2> {
-    std::array<Eigen::VectorXd, 2> limits;
-    int input_dim = ddp_problem_->inputDim(t);
-    limits[0].setConstant(input_dim, force_scale_limits_[0]);
-    limits[1].setConstant(input_dim, force_scale_limits_[1]);
-    return limits;
-  });
+  ddp_solver_->setInputLimitsFunc(
+      [this](double t) -> std::array<Eigen::VectorXd, 2>
+      {
+        std::array<Eigen::VectorXd, 2> limits;
+        int input_dim = ddp_problem_->inputDim(t);
+        limits[0].setConstant(input_dim, force_scale_limits_[0]);
+        limits[1].setConstant(input_dim, force_scale_limits_[1]);
+        return limits;
+      });
 }
 
 Eigen::VectorXd DdpCentroidal::planOnce(const std::function<MotionParam(double)> & motion_param_func,

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.10)
 
 set(PROJECT_NAME centroidal_control_collection)
 set(PROJECT_GENERATED_HEADERS_SKIP_DEPRECATED ON)
@@ -10,49 +10,83 @@ set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_USE_CMAKE_EXPORT TRUE)
 set(CXX_DISABLE_WERROR ON)
 set(CMAKE_COLOR_DIAGNOSTICS ON)
+
 option(INSTALL_DOCUMENTATION "Generate and install the documentation" OFF)
+option(USE_ROS2 "Use ROS2" OFF)
+option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
+option(ENABLE_PYBULLET_TEST "Enable tests with pybullet simulation" OFF)
 
-include(cmake/base.cmake)
 project(centroidal_control_collection LANGUAGES CXX)
+include(GNUInstallDirs) # For CMAKE_INSTALL_LIBDIR
 
-if(DEFINED CATKIN_DEVEL_PREFIX)
-  set(DOXYGEN_HTML_OUTPUT html)
+find_package(mc_rtc REQUIRED)
+find_package(qp_solver_collection REQUIRED)
+find_package(force_control_collection REQUIRED)
+find_package(nmpc_ddp REQUIRED)
 
+if(USE_ROS2)
   # mc_rtc
-  add_project_dependency(mc_rtc REQUIRED)
-
-  find_package(catkin REQUIRED COMPONENTS
-    roscpp
-    qp_solver_collection
-    force_control_collection
-    nmpc_ddp
-    )
-
-  catkin_package(
-    CATKIN_DEPENDS
-    roscpp
-    qp_solver_collection
-    force_control_collection
-    nmpc_ddp
-    DEPENDS EIGEN3
-    INCLUDE_DIRS include
-    LIBRARIES CCC
-    )
+  find_package(ament_cmake REQUIRED)
+  find_package(rclcpp REQUIRED)
 else()
-  set(DOXYGEN_HTML_OUTPUT doxygen-html)
-  set(CATKIN_ENABLE_TESTING OFF)
-  option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
-  add_project_dependency(qp_solver_collection REQUIRED)
-  add_project_dependency(force_control_collection REQUIRED)
-  add_project_dependency(nmpc_ddp REQUIRED)
+  option(BUILD_TESTING "Build test" ON)
 endif()
 
 add_subdirectory(src)
 
-if(BUILD_TESTING OR CATKIN_ENABLE_TESTING)
+if(NOT USE_ROS2)
+  install(EXPORT ${PROJECT_NAME}
+    FILE ${PROJECT_NAME}Targets.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    NAMESPACE ${PROJECT_NAME}::
+    )
+
+  include(CMakePackageConfigHelpers)
+  # generate the config file that is includes the exports
+  configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+    NO_SET_AND_CHECK_MACRO
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    )
+
+  # generate the version file for the config file
+  # Extract version numbers from package.xml
+  file(READ package.xml PACKAGE_XML)
+  string(REGEX MATCH "<version>[0-9]+\\.[0-9]+\\.[0-9]+</version>" DIRTY_VERSION_STRING ${PACKAGE_XML})
+  string(REGEX REPLACE "^<version>([0-9]+)\\.([0-9]+)\\.([0-9]+)</version>$" "\\1" CCC_MAJOR_VERSION "${DIRTY_VERSION_STRING}")
+  string(REGEX REPLACE "^<version>([0-9]+)\\.([0-9]+)\\.([0-9]+)</version>$" "\\2" CCC_MINOR_VERSION "${DIRTY_VERSION_STRING}")
+  string(REGEX REPLACE "^<version>([0-9]+)\\.([0-9]+)\\.([0-9]+)</version>$" "\\3" CCC_PATCH_VERSION "${DIRTY_VERSION_STRING}")
+  write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION "${CCC_MAJOR_VERSION}.${CCC_MINOR_VERSION}.${CCC_PATCH_VERSION}"
+    COMPATIBILITY AnyNewerVersion
+    )
+
+  # install config files
+  install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    )
+endif()
+
+if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
 if(INSTALL_DOCUMENTATION)
   add_subdirectory(doc)
 endif()
+
+if(USE_ROS2)
+  ament_export_include_directories(include)
+  ament_export_dependencies(
+    rclcpp
+    qp_solver_collection
+    force_control_collection
+    nmpc_ddp
+  )
+  ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
+  ament_package()
+endif() 

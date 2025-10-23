@@ -1,15 +1,18 @@
+This is the branch for ROS2; use the [ros1](https://github.com/isri-aist/CentroidalControlCollection/tree/ros1) branch for ROS1.
+
+
 # [CentroidalControlCollection](https://github.com/isri-aist/CentroidalControlCollection)
 Collection of centroidal control for legged robots
 
 [![CI-standalone](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-standalone.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-standalone.yaml)
-[![CI-catkin](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-catkin.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-catkin.yaml)
+[![CI-colcon](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-catkin.yaml/badge.svg)](https://github.com/isri-aist/CentroidalControlCollection/actions/workflows/ci-colcon.yaml)
 [![Documentation](https://img.shields.io/badge/doxygen-online-brightgreen?logo=read-the-docs&style=flat)](https://isri-aist.github.io/CentroidalControlCollection/)
 
 ## Install
 
 ### Requirements
 - Compiler supporting C++17
-- Tested on `Ubuntu 20.04 / ROS Noetic` and `Ubuntu 18.04 / ROS Melodic`
+- Tested on `Ubuntu 22.04 / ROS Humble`
 
 ### Dependencies
 This package depends on
@@ -21,11 +24,14 @@ This package also depends on the following packages. However, manual installatio
 - [NMPC](https://github.com/isri-aist/NMPC)
 
 ### Preparation
-1. (Skip if ROS is already installed.) Install ROS. See [here](http://wiki.ros.org/ROS/Installation) for details.
+1. (Skip if ROS is already installed.) Install ROS. See [here](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html) for details.
 ```bash
-$ export ROS_DISTRO=melodic
-$ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-$ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+$ export ROS_DISTRO=humble
+$ sudo apt install software-properties-common
+$ sudo add-apt-repository universe
+$ sudo apt update && sudo apt install curl -y
+$ sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 $ sudo apt-get update
 $ sudo apt-get install ros-${ROS_DISTRO}-ros-base python-catkin-tools python-rosdep
 ```
@@ -37,7 +43,7 @@ $ sudo apt-get install libmc-rtc-dev mc-rtc-utils ros-${ROS_DISTRO}-mc-rtc-plugi
 ```
 
 ### Installation procedure
-1. Setup catkin workspace.
+1. Setup colcon workspace.
 ```bash
 $ mkdir -p ~/ros/ws_ccc/src
 $ cd ~/ros/ws_ccc
@@ -57,11 +63,12 @@ $ rosdep install -y -r --from-paths src --ignore-src
 
 3. Build a package.
 ```bash
-$ catkin build centroidal_control_collection -DCMAKE_BUILD_TYPE=RelWithDebInfo --catkin-make-args all tests
+$ colcon build --packages-select centroidal_control_collection --merge-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_ROS2=ON
+$ colcon test --merge-install --packages-select centroidal_control_collection # [optional] to compile and run tests 
 ```
 
-## Examples
-Make sure that it is built with `--catkin-make-args tests` option.
+## Examples (not yet suppported on Humble)
+Make sure that it is built with `-DBUILD_TESTING=ON` option.
 
 ### Methods based on bipedal dynamics
 The CoM and ZMP trajectories are planned according to the ZMP reference trajectory and the ZMP region boundaries as inputs, which are determined from a given footstep sequence (i.e., the position and timing of the foot landings). The CoM velocity is jumped by emulating a disturbance during motion.
