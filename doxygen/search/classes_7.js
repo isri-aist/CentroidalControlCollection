@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['planneddata_239',['PlannedData',['../structCCC_1_1StepMpc_1_1PlannedData.html',1,'CCC::StepMpc::PlannedData'],['../structCCC_1_1DdpZmp_1_1PlannedData.html',1,'CCC::DdpZmp::PlannedData'],['../structCCC_1_1StepMpc1d_1_1PlannedData.html',1,'CCC::StepMpc1d::PlannedData']]],
+  ['planneddata_239',['PlannedData',['../structCCC_1_1DdpZmp_1_1PlannedData.html',1,'CCC::DdpZmp::PlannedData'],['../structCCC_1_1StepMpc1d_1_1PlannedData.html',1,'CCC::StepMpc1d::PlannedData'],['../structCCC_1_1StepMpc_1_1PlannedData.html',1,'CCC::StepMpc::PlannedData']]],
   ['previewcontrol_240',['PreviewControl',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
   ['previewcontrol_3c_203_2c_201_2c_201_20_3e_241',['PreviewControl&lt; 3, 1, 1 &gt;',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
   ['previewcontrol_3c_203_2c_201_2c_202_20_3e_242',['PreviewControl&lt; 3, 1, 2 &gt;',['../classCCC_1_1PreviewControl.html',1,'CCC']]],
