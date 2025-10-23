@@ -64,10 +64,6 @@ jobs:
                 cloudsmith: mc-rtc/head
             apt: libgtest-dev libeigen-qld-dev libmc-rtc-dev
 
-      - name: Checkout repository code
-        uses: actions/checkout@v4
-        with:
-          path: colcon_ws/src/CentroidalControlCollection
       - name: Checkout QpSolverCollection
         uses: actions/checkout@v4
         with:
@@ -100,7 +96,7 @@ jobs:
         uses: jrl-umi3218/github-actions/build-colcon-project@master
         with:
           build-type: ${{ matrix.build-type }}
-          cmake-args: -DUSE_ROS2=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=${{ env.UPLOAD_DOCUMENTATION }}
+          cmake-args: -DUSE_ROS2=ON -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=${{ env.UPLOAD_DOCUMENTATION }}
           build-packages: centroidal_control_collection
           test-packages: centroidal_control_collection
       - name: Upload documentation
