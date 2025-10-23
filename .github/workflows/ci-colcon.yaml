@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install clang-format-14
         run: |
           sudo apt-get -qq update
@@ -65,21 +65,21 @@ jobs:
             apt: libgtest-dev libeigen-qld-dev libmc-rtc-dev
 
       - name: Checkout repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: colcon_ws/src/CentroidalControlCollection
       - name: Checkout QpSolverCollection
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: isri-aist/QpSolverCollection
           path: colcon_ws/src/QpSolverCollection
       - name: Checkout ForceControlCollection
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: isri-aist/ForceControlCollection
           path: colcon_ws/src/ForceControlCollection
       - name: Checkout NMPC
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: isri-aist/NMPC
           submodules: recursive
@@ -96,21 +96,13 @@ jobs:
           rosdep update
           rosdep install -y -r --from-paths src --ignore-src
       - name: Colcon build
-        run: |
-          set -e
-          set -x
-          cd ${GITHUB_WORKSPACE}/colcon_ws
-          colcon build --merge-install --cmake-args -DUSE_ROS2=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=${{ env.UPLOAD_DOCUMENTATION }}
-      - name: Run tests
-        run: |
-          set -e
-          set -x
-          cd ${GITHUB_WORKSPACE}/colcon_ws
-          set +x
-          . install/setup.bash
-          set -x
-          colcon test --merge-install --packages-select centroidal_control_collection
-          colcon test-result --all --verbose
+        if: matrix.standalone == 'colcon'
+        uses: jrl-umi3218/github-actions/build-colcon-project@master
+        with:
+          build-type: ${{ matrix.build-type }}
+          cmake-args: -DUSE_ROS2=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -DENABLE_QLD=ON -DINSTALL_DOCUMENTATION=${{ env.UPLOAD_DOCUMENTATION }}
+          build-packages: centroidal_control_collection
+          test-packages: centroidal_control_collection
       - name: Upload documentation
         # Only run for one configuration and on origin master branch
         if: env.UPLOAD_DOCUMENTATION == 'true'
